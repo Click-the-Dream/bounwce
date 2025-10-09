@@ -2,21 +2,19 @@ import React from "react";
 import Button from "./components/Button";
 import Input from "./components/Input";
 // import { CiUser } from "react-icons/ci";
-import LandingPage from "./LandingPage";
-import CreateAccount from "./BackgroundPage";
-import BackgroundPage from "./BackgroundPage";
+import LandingPage from "./Landing";
+import CreateAccount from "./WelcomePage";
+import BackgroundPage from "./WelcomePage";
+import WelcomePage from "./WelcomePage";
 
 function App() {
-  return (
-    <>
-      {/* <LandingPage />
-       <CreateAccount /> */}
-        <div className="App">
-      <BackgroundPage />
+  return ( 
+    <div className="App">
+      <WelcomePage />
     </div>
-      <Button />
-      <Input />
-    </>
+      // <Button />
+      // <Input />
+  
   );
 }
 

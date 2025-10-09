@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import createpicImg from "./assets/createpic.jpg";
 import Input from "./components/Input";
 
-export default function BackgroundSplit() {
+export default function WelcomePage() {
   const [mode, setMode] = useState("create");
 
   const [form, setForm] = useState({
@@ -41,19 +41,20 @@ export default function BackgroundSplit() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen opacity-100 w-full">
+    <div className="flex  h-screen w-full overflow-hidden">
       {/* LEFT IMAGE */}
-      <div className="w-full md:w-1/2 h-64 md:h-auto">
+      <div className=" relative w-1/2">
         <img
           src={createpicImg}
           alt="Create"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover absolute inset-0"
+          style={{ clipPath: "polygon(0 0, 0 0, 100% 0, 0 400%)" }}
         />
       </div>
 
       {/* RIGHT WHITE FORM */}
       <div className="flex-1 bg-white flex justify-center w-full md:w-1/2">
-        <div className="flex flex-col items-center gap-6 mt-20 md:mt-[250px] px-4 md:px-0">
+        <div className="flex flex-col items-center gap-6  md:mt-[120px] px-4 md:px-0">
           {/* Heading */}
           {mode === "create" ? (
             <div className="text-[#FF4B2B] font-poppins font-medium text-[28.67px]">
