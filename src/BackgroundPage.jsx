@@ -1,7 +1,7 @@
 // src/BackgroundSplit.jsx
 import React, { useState } from "react";
 import createpicImg from "./assets/createpic.jpg";
-import Input from "./components/Input";
+import Input from "./components/common/Input";
 
 export default function BackgroundSplit() {
   const [mode, setMode] = useState("create");

@@ -1,21 +1,23 @@
 import React from "react";
-import Button from "./components/Button";
-import Input from "./components/Input";
-// import { CiUser } from "react-icons/ci";
 import LandingPage from "./LandingPage";
 import CreateAccount from "./BackgroundPage";
 import BackgroundPage from "./BackgroundPage";
+import LoginPage from "./features/auth/LoginPage";
+import CreateAccountPage from "./features/auth/CreateAccountPage";
+import VerifyAccount from "./features/auth/VerifyAccount";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 function App() {
   return (
     <>
-      {/* <LandingPage />
-       <CreateAccount /> */}
-        <div className="App">
-      <BackgroundPage />
-    </div>
-      <Button />
-      <Input />
+      <LandingPage />
+      {/* <CreateAccount />
+      <div className="App">
+        <BackgroundPage />
+      </div>
+      <LoginPage />
+      <CreateAccountPage />
+      <VerifyAccount /> */}
     </>
   );
 }
