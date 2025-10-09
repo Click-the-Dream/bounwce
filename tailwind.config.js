@@ -19,6 +19,11 @@ export default {
         '2xl': '1536px',
         // => @media (min-width: 1536px) { ... }
       } ,
+      colors: {
+        "ash":"#545454",
+        "orange": "#FF4B2B",
+        "lighter-ash": "#EBEBEB",
+      }
     },
   },
   plugins: [],

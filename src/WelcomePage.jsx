@@ -1,10 +1,13 @@
 // src/BackgroundSplit.jsx
 import React, { useState } from "react";
 import createpicImg from "./assets/createpic.jpg";
-import Input from "./components/Input";
+import Input from "./components/common/Input";
+import { useLocation, useNavigate } from "react-router";
 
 export default function WelcomePage() {
   const [mode, setMode] = useState("create");
+
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     fullname: "",
@@ -29,15 +32,13 @@ export default function WelcomePage() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", form);
-    alert("Form submitted! Check console for data.");
+    navigate("/createAccount")
+   
   };
 
   const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login submitted:", loginForm);
-    alert("Login submitted! Check console for data.");
+    //  navigate("/createAccount")
+
   };
 
   return (

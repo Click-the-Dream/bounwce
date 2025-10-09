@@ -1,16 +1,25 @@
 import React from "react";
-import Button from "./components/Button";
-import Input from "./components/Input";
+import { Navigate, BrowserRouter, Routes,Route,Outlet, useLocation } from "react-router-dom";
+
+
 // import { CiUser } from "react-icons/ci";
-import LandingPage from "./Landing";
-import CreateAccount from "./WelcomePage";
-import BackgroundPage from "./WelcomePage";
+
 import WelcomePage from "./WelcomePage";
+import CreateAccountPage from "./features/auth/CreateAccountPage";
+import VerifyAccount from "./features/auth/VerifyAccount";
+import LoginPage from "../src/features/auth/LoginPage"
 
 function App() {
   return ( 
     <div className="App">
-      <WelcomePage />
+      <Routes>
+        <Route path="/" element={ <WelcomePage />} />
+        <Route path="/createAccount" element={ <CreateAccountPage />} />
+        <Route path="/login" element={ <LoginPage />} />
+        <Route path="/verifyAccount" element={ <VerifyAccount />} />
+        {/* <Route path="/" element={ <WelcomePage />} /> */}
+       
+      </Routes>
     </div>
       // <Button />
       // <Input />
