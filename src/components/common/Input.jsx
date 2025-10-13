@@ -10,8 +10,8 @@ const Input = ({
   variant = 'input',
 }) => {
   return (
-    <div className="w-[368px]">
-      <div className="flex items-center gap-2 border border-orange rounded-[20px] px-2 text-[12px] py-2 bg-white relative z-10">
+    <div className="w-full">
+      <div className="flex items-center gap-2 border border-orange rounded-[20px] px-3 sm:px-4 text-[clamp(12px,1vw,14px)] py-2  bg-white relative z-10">
         {icon && <span className="text-orange">{icon}</span>}
 
         {variant === 'select' ? (

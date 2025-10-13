@@ -4,16 +4,23 @@ import Button from '../../components/common/Button'
 import { Link } from 'react-router'
 
 const LoginPage = () => {
+    const handleInput = () => {
+
+    }
   return (
     <div>
-        <div className="space-y-5">
-            <div>
-                <Input placeholder={"xxxxxxxx@gmail.com"} type={"email"} />
-            </div>
-           
-            <div>
-                <Input placeholder={"6 digit OTP code"} type={"number"} />   
-            </div>            
+        <div className="space-y-5">            
+            <Input 
+                placeholder={"xxxxxxxx@gmail.com"} 
+                type={"email"} 
+                value={""}
+                onChange={handleInput}
+            />    
+
+            <Input 
+                placeholder={"6 digit OTP code"} 
+                type={"number"} 
+            />                       
         </div>
 
         <div className='space-y-4 mt-10'>

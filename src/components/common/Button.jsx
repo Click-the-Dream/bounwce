@@ -2,9 +2,9 @@ import React from 'react'
 
 const Button = ({variant = "primary", onClick, text}) => {
     const styles = { 
-        primary: "w-[368px] bg-orange text-white rounded-[16px]",
-        primarySmaller: "w-[178px] bg-orange text-white rounded-[16px]",        
-        secondary: "text-black w-[178px] bg-lighter-ash rounded-[16px]"
+        primary: "w-full max-w-[368px] bg-orange text-white rounded-[16px]",
+        primarySmaller: "w-full max-w-[178px] bg-orange text-white rounded-[16px]",        
+        secondary: "text-black w-full max-w-[178px] bg-lighter-ash rounded-[16px]"
     }
   return (    
     <button 
