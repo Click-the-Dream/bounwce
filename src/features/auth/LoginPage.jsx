@@ -30,7 +30,7 @@ const LoginPage = () => {
        </div>
 
         <div>
-            <Link to="/verifyAccount">
+            <Link to="/">
               <Button text={"Create Account"} />
             </Link>
         </div>

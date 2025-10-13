@@ -13,8 +13,7 @@ function App() {
   return ( 
     <div className="App">
       <Routes>
-        <Route path="/" element={ <WelcomePage />} />
-        <Route path="/createAccount" element={ <CreateAccountPage />} />
+        <Route path="/" element={ <CreateAccountPage /> } />
         <Route path="/login" element={ <LoginPage />} />
         <Route path="/verifyAccount" element={ <VerifyAccount />} />
         {/* <Route path="/" element={ <WelcomePage />} /> */}
