@@ -18,7 +18,7 @@ const CreateAccount = () => {
 
     const { name, email, username, institution, vendor } = useSelector( (state) => state.account);
     const handleSubmit = () => {
-        navigate('/login')
+        navigate('/verifyAccount')
     } 
 
   return (
