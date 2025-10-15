@@ -1,34 +1,31 @@
-import React from "react";
-import { Navigate, BrowserRouter, Routes,Route,Outlet, useLocation } from "react-router-dom";
-
-
-// import { CiUser } from "react-icons/ci";
-
-import AuthLayout from './features/auth/AuthLayout'
-import VerifyAccount from "./features/auth/VerifyAccount";
-import LoginPage from "../src/features/auth/LoginPage"
-import CreateAccount from "./features/auth/CreateAccount";
-import VerifyLogin from "./features/auth/VerifyLogin";
+import React, { Suspense, lazy } from "react";
+import { Navigate, Routes, Route } from "react-router-dom";
+import AuthLayout from "./features/auth/AuthLayout";
+import Fallback from "./components/Fallback";
+// Lazy load the pages
+const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
+const LoginPage = lazy(() => import("./features/auth/LoginPage"));
+const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
+const VerifyLogin = lazy(() => import("./features/auth/VerifyLogin"));
 
 function App() {
-  return ( 
+  return (
     <div className="App">
-      <Routes>
-        <Route element={ <AuthLayout /> }>
-          <Route path="/login" element={ <LoginPage />} />
-          <Route path="/createAccount" element={<CreateAccount />} />
-        </Route>
-    
-      <Route path="/verifyAccount" element={<VerifyAccount />} />
-      <Route path="/verifyLogin" element={<VerifyLogin />} />
-       <Route path="*" element={< Navigate to="/createAccount" replace />} />
-      </Routes>
+      {/* Suspense fallback shows while lazy components load */}
+      <Suspense fallback={<Fallback />}>
+        <Routes>
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<CreateAccount />} />
+          </Route>
+
+          <Route path="/verifyAccount" element={<VerifyAccount />} />
+          <Route path="/verifyLogin" element={<VerifyLogin />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Suspense>
     </div>
-      // <Button />
-      // <Input />
-  
   );
 }
 
 export default App;
-
