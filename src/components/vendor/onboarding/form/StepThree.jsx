@@ -3,7 +3,7 @@ import { FaShieldAlt } from "react-icons/fa";
 
 const StepThree = ({ register, errors }) => {
   return (
-    <div className="space-y-10 text-sm">
+    <div className="space-y-5 md:space-y-10 text-sm">
       <div>
         <label className="block text-xs font-medium mb-2">
           National Identification Number (NIN) *

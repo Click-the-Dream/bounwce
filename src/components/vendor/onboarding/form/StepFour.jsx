@@ -20,7 +20,7 @@ const StepFour = ({ register, errors, setValue, watch }) => {
   const securityQuestion = watch("securityQuestion");
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 pt-2">
       {/* Account details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
         <div>
@@ -73,10 +73,8 @@ const StepFour = ({ register, errors, setValue, watch }) => {
             </p>
           )}
         </div>
-      </div>
 
-      {/* Bank and withdrawal code */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+        {/* Bank and withdrawal code */}
         <div>
           <label className="block font-medium text-gray-700 mb-2">
             Bank Name *
@@ -116,7 +114,7 @@ const StepFour = ({ register, errors, setValue, watch }) => {
                 : "border-gray-300 bg-gray-50"
             }`}
           />
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-[10px] lg:text-xs text-gray-400 mt-1">
             This code will be required for all withdrawal requests
           </p>
           {errors.withdrawalCode && (
@@ -171,7 +169,7 @@ const StepFour = ({ register, errors, setValue, watch }) => {
 
       {/* Info message */}
       <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200 text-xs">
-        <FaLock className="text-gray-400 text-lg mt-0.5" />
+        <FaLock className="flex-shrink-0 text-gray-400 text-lg mt-0.5" />
         <p className="text-gray-600">
           Your payout information is encrypted and secure. Your security
           question and withdrawal code help protect your account.

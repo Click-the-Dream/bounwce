@@ -1,32 +1,11 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
   const navigate = useNavigate();
-  const activeIndex = tabs.findIndex((tab) => tab.path === activePath);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className="relative flex w-full h-full rounded-full bg-[#ECECF033]/30 border border-gray-300 mb-5 p-1 overflow-hidden"
-    >
-      {/* Animated highlight */}
-      {activeIndex !== -1 && (
-        <motion.div
-          layout
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className="absolute h-[80%] bg-orange rounded-[16px] z-0"
-          style={{
-            width: `${100 / tabs.length - 4}%`,
-            left: `calc(${activeIndex * (100 / tabs.length)}% + 2%)`,
-          }}
-        />
-      )}
-
-      {/* Render buttons */}
+    <div className="flex w-full rounded-full bg-[#ECECF033]/30 border border-gray-300 mb-5 p-1">
       {tabs.map((tab, index) => {
         const isActive = tab.path === activePath;
 
@@ -34,33 +13,36 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
           <button
             key={tab.path || index}
             onClick={() => (onChange ? onChange(tab) : navigate(tab.path))}
-            className={`relative z-10 flex-1 py-2 px-2 flex items-center justify-center gap-1 rounded-[16px] text-[12px] font-medium transition-all duration-300 ${
-              isActive ? "text-white" : "text-black"
+            className={`flex-1 min-w-10 py-2 sm:py-3 px-3 sm:px-4 flex items-center justify-center gap-2 rounded-full text-[12px] sm:text-sm font-medium transition-all duration-200 ${
+              isActive
+                ? "bg-orange text-white"
+                : "bg-transparent text-black hover:bg-orange/10"
             }`}
           >
-            {/* Render icon if exists */}
             {tab.icon &&
               (typeof tab.icon === "string" ? (
                 <img
                   src={tab.icon}
                   alt=""
-                  className="w-4 h-4"
+                  className="w-4 h-4 sm:w-5 sm:h-5"
                   style={{
                     filter: isActive
-                      ? "invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)"
+                      ? "invert(100%) brightness(200%)"
                       : "invert(0%)",
                   }}
                 />
               ) : (
-                <span className="w-4 h-4 flex items-center justify-center">
+                <span className="w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
                   {tab.icon}
                 </span>
               ))}
-            {tab.label}
+            <span className={`${tab?.icon ? "hidden md:block" : "block"}`}>
+              {tab.label}
+            </span>
           </button>
         );
       })}
-    </motion.div>
+    </div>
   );
 };
 
