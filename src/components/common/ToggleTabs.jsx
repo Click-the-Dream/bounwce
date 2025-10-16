@@ -33,14 +33,14 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
                   }}
                 />
               ) : (
-                <span className="w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
+                <span className="w-4 h-4 md:w-5 md:h-5 flex items-center justify-center">
                   {tab.icon}
                 </span>
               ))}
 
             {/* Label */}
             <span
-              className={`transition-all duration-200 text-[9px] md:text-xs ${
+              className={`transition-all duration-200 text-[10px] md:text-xs ${
                 // On mobile: show label only if active
                 isActive ? "block " : "hidden md:block "
               }`}
