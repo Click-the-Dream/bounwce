@@ -13,12 +13,13 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
           <button
             key={tab.path || index}
             onClick={() => (onChange ? onChange(tab) : navigate(tab.path))}
-            className={`flex-1 min-w-10 py-2 sm:py-3 px-3 sm:px-4 flex items-center justify-center gap-2 rounded-full text-[12px] sm:text-sm font-medium transition-all duration-200 ${
+            className={`flex-1 min-w-10 py-2 md:py-3 px-3 sm:px-4 flex flex-col md:flex-row items-center justify-center md:gap-2 rounded-full text-[12px] sm:text-sm font-medium transition-all duration-200 ${
               isActive
                 ? "bg-orange text-white"
                 : "bg-transparent text-black hover:bg-orange/10"
             }`}
           >
+            {/* Icon */}
             {tab.icon &&
               (typeof tab.icon === "string" ? (
                 <img
@@ -36,7 +37,14 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
                   {tab.icon}
                 </span>
               ))}
-            <span className={`${tab?.icon ? "hidden md:block" : "block"}`}>
+
+            {/* Label */}
+            <span
+              className={`transition-all duration-200 ${
+                // On mobile: show label only if active
+                isActive ? "block text-[8px]" : "hidden md::block"
+              }`}
+            >
               {tab.label}
             </span>
           </button>
