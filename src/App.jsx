@@ -7,6 +7,7 @@ const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
 const LoginPage = lazy(() => import("./features/auth/LoginPage"));
 const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
 const VerifyLogin = lazy(() => import("./features/auth/VerifyLogin"));
+const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           </Route>
 
           <Route path="/verifyAccount" element={<VerifyAccount />} />
+          <Route path="/vendor_setup" element={<VendorOnboarding />} />
           <Route path="/verifyLogin" element={<VerifyLogin />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
