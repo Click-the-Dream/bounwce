@@ -99,7 +99,7 @@ const StoreForm = ({ currentTab, onNext, onBack }) => {
 
         <button
           type="submit"
-          className="flex gap-2 items-center px-6 py-2 text-white bg-orange/90 hover:bg-orange rounded-md transition-colors"
+          className="ml-auto flex gap-2 items-center px-6 py-2 text-white bg-orange/90 hover:bg-orange rounded-md transition-colors"
         >
           {nextButtonLabel}
           <FaArrowRight className="inline-block ml-2" />

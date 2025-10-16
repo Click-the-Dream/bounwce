@@ -230,18 +230,18 @@ const GettingStarted = ({ currentStep, onNext, onBack }) => {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between items-center mt-8">
+      <div className="flex flex-wrap justify-between gap-2 items-center mt-8 text-sm">
         <button
           type="button"
           onClick={onBack}
-          className="px-4 py-2 text-gray-600 border rounded-lg hover:bg-gray-50"
+          className="flex gap-2 items-center px-4 py-2 text-gray-600 border rounded-lg hover:bg-gray-50"
         >
           <FaArrowLeft className="inline-block mr-2" /> Back
         </button>
-        <div className="flex gap-3">
+        <div className="flex gap-3 ml-auto">
           <button
             type="button"
-            className="px-4 py-2 border bg-black rounded-lg text-white"
+            className="flex gap-2 items-center px-4 py-2 border bg-black rounded-lg text-white"
             onClick={onNext}
           >
             Skip <FaArrowRight className="inline-block ml-2" />
@@ -249,7 +249,7 @@ const GettingStarted = ({ currentStep, onNext, onBack }) => {
           <button
             type="button"
             onClick={onNext}
-            className="px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90"
+            className="flex gap-2 items-center px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90"
           >
             Next <FaArrowRight className="inline-block ml-2" />
           </button>
