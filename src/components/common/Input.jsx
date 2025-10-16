@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
-// eslint-disable-next-line no-unused-vars
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-
-let globalZIndex = 9999; // Tracks the highest z-index used
 
 const Input = React.forwardRef(
   (
@@ -20,38 +17,51 @@ const Input = React.forwardRef(
     },
     ref
   ) => {
-    const [open, setOpen] = useState(false);
-    const [zIndex, setZIndex] = useState(1);
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
-    // Handle select change manually for custom dropdown
-    const handleSelect = (val) => {
-      onChange && onChange({ target: { value: val } });
-      setOpen(false);
+    // Handle dropdown toggle
+    const handleToggle = () => {
+      setIsOpen(!isOpen);
     };
 
-    // When dropdown opens, assign it the highest z-index
-    useEffect(() => {
-      if (open) {
-        globalZIndex += 1;
-        setZIndex(globalZIndex);
-      }
-    }, [open]);
+    // Click outside handler
+    React.useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)
+        ) {
+          setIsOpen(false);
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    // Handle select change
+    const handleSelect = (val) => {
+      onChange?.({ target: { value: val } });
+      setIsOpen(false);
+    };
 
     return (
-      <div className="w-full relative" style={{ zIndex }}>
+      <div className="w-full relative" ref={dropdownRef}>
         {/* Input or custom dropdown container */}
         <div
           className={`flex items-center justify-between gap-2 border ${
             error ? "border-red-400" : "border-orange"
           } rounded-[20px] px-3 sm:px-4 text-[clamp(12px,1vw,14px)] py-[10px] bg-white cursor-pointer relative`}
-          onClick={() => variant === "select" && setOpen((p) => !p)}
+          onClick={() => variant === "select" && handleToggle()}
         >
           {/* Left icon */}
           {icon && <span className="text-gray-400 flex-shrink-0">{icon}</span>}
 
           {/* Text or input */}
           {variant === "select" ? (
-            <div className="flex-1 text-gray-700">
+            <div className="flex-1 text-gray-700 truncate">
               {value ? (
                 options.find((opt) => opt.value === value)?.label || value
               ) : (
@@ -67,7 +77,7 @@ const Input = React.forwardRef(
               value={value}
               placeholder={placeholder}
               onChange={onChange}
-              className="flex-1 bg-transparent focus:outline-none"
+              className="flex-1 bg-transparent focus:outline-none w-full"
               {...rest}
             />
           )}
@@ -75,9 +85,9 @@ const Input = React.forwardRef(
           {/* Right arrow */}
           {variant === "select" && (
             <motion.span
-              animate={{ rotate: open ? 180 : 0 }}
+              animate={{ rotate: isOpen ? 180 : 0 }}
               transition={{ duration: 0.2 }}
-              className="text-gray-400"
+              className="text-gray-400 flex-shrink-0"
             >
               <ChevronDown size={16} />
             </motion.span>
@@ -86,14 +96,13 @@ const Input = React.forwardRef(
 
         {/* Dropdown list */}
         <AnimatePresence>
-          {variant === "select" && open && (
+          {variant === "select" && isOpen && (
             <motion.ul
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
               transition={{ duration: 0.2 }}
-              className="absolute left-0 right-0 mt-1 bg-white border border-orange rounded-[16px] shadow-lg overflow-y-auto max-h-40 cursor-pointer"
-              style={{ zIndex }}
+              className="absolute left-0 right-0 mt-1 bg-white border border-orange rounded-[16px] shadow-lg overflow-y-auto max-h-40 cursor-pointer z-50"
             >
               {options.map((opt, idx) => (
                 <li
@@ -122,5 +131,7 @@ const Input = React.forwardRef(
     );
   }
 );
+
+Input.displayName = "Input";
 
 export default Input;

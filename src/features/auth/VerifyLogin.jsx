@@ -1,8 +1,9 @@
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const VerifyLogin = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full flex flex-col justify-center items-center mx-auto gap-3 flex-1 px-4 sm:px-6 md:px-10 lg:px-12 py-8">
       <div className="text-center">
@@ -22,7 +23,7 @@ const VerifyLogin = () => {
 
       <div className="space-y-4 mt-10 w-full max-w-[368px]">
         <div>
-          <Button text={"Continue"} />
+          <Button text={"Continue"} onClick={() => navigate("/vendor_setup")} />
         </div>
 
         <div className="flex flex-row justify-center items-center gap-4">
@@ -32,9 +33,10 @@ const VerifyLogin = () => {
         </div>
 
         <div>
-          <Link to="/register">
-            <Button text={"Create Account"} />
-          </Link>
+          <Button
+            text={"Create Account"}
+            onClick={() => navigate("/register")}
+          />
         </div>
       </div>
     </div>
