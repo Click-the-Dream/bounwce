@@ -80,15 +80,15 @@ const StoreForm = ({ currentTab, onNext, onBack }) => {
   const nextButtonLabel = isLastTab ? "Continue to Getting Started" : "Next";
 
   return (
-    <form onSubmit={handleNext} className="space-y-6 mt-2">
+    <form onSubmit={handleNext} className="space-y-6 pt-2">
       {renderFields()}
 
-      <div className="flex justify-between pt-6">
+      <div className="flex flex-wrap justify-between gap-2 pt-6 text-sm">
         <button
           type="button"
           onClick={onBack}
           disabled={currentTab === "store"}
-          className={`px-6 py-2 border rounded-md text-gray-700 transition-colors ${
+          className={`flex gap-2 items-center px-6 py-2 border rounded-md text-gray-700 transition-colors ${
             currentTab === "store"
               ? "bg-gray-200 cursor-not-allowed"
               : "bg-gray-50 hover:bg-gray-100"
@@ -99,7 +99,7 @@ const StoreForm = ({ currentTab, onNext, onBack }) => {
 
         <button
           type="submit"
-          className="px-6 py-2 text-white bg-orange/90 hover:bg-orange rounded-md transition-colors"
+          className="flex gap-2 items-center px-6 py-2 text-white bg-orange/90 hover:bg-orange rounded-md transition-colors"
         >
           {nextButtonLabel}
           <FaArrowRight className="inline-block ml-2" />

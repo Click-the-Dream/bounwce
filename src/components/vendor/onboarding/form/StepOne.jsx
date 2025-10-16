@@ -2,7 +2,7 @@ import React from "react";
 
 const StepOne = ({ register, errors }) => {
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm pt-2">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Store Name *
@@ -42,7 +42,7 @@ const StepOne = ({ register, errors }) => {
         )}
       </div>
 
-      <div className="col-span-2">
+      <div className="md:col-span-2">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Store Address *
         </label>
