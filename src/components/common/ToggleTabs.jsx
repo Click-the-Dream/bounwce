@@ -13,9 +13,9 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
           <button
             key={tab.path || index}
             onClick={() => (onChange ? onChange(tab) : navigate(tab.path))}
-            className={`flex-1 min-w-10 py-2 md:py-3 px-3 sm:px-4 flex items-center justify-center gap-[2px] md:gap-2 rounded-full text-[12px] sm:text-sm font-medium transition-all duration-200 ${
+            className={`flex-1 min-w-10 py-2 md:py-3 px-3 sm:px-4 flex flex-col md:flex-row items-center justify-center gap-[2px] md:gap-2 rounded-full text-[12px] sm:text-sm font-medium transition-all duration-200 ${
               isActive
-                ? "bg-orange text-white"
+                ? "bg-orange text-white "
                 : "bg-transparent text-black hover:bg-orange/10"
             }`}
           >
@@ -25,7 +25,7 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
                 <img
                   src={tab.icon}
                   alt=""
-                  className="w-4 h-4 sm:w-5 sm:h-5"
+                  className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
                   style={{
                     filter: isActive
                       ? "invert(100%) brightness(200%)"
@@ -33,7 +33,7 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
                   }}
                 />
               ) : (
-                <span className="w-4 h-4 md:w-5 md:h-5 flex items-center justify-center">
+                <span className="w-4 h-4 md:w-5 md:h-5 flex items-center justify-center flex-shrink-0">
                   {tab.icon}
                 </span>
               ))}
