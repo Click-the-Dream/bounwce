@@ -1,208 +1,328 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { Tag, Upload } from "lucide-react";
 import Dropdown from "../../../common/Dropdown";
+import { GoImage } from "react-icons/go";
+import { FiTrash2 } from "react-icons/fi";
+import { FaRegEdit } from "react-icons/fa";
+import { availabilityOptions, categories } from "../../../../utils/dummies";
 
-const StepTwo = ({ register, errors }) => {
-  const { setValue, watch } = useFormContext();
+const StepTwo = ({ register, errors, trigger, reset }) => {
+  const { setValue, watch, getValues } = useFormContext();
+  const [products, setProducts] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
 
-  const watchedFeatures = watch("features") || [];
+  const handleAddProduct = async () => {
+    const isValid = await trigger([
+      "productName",
+      "category",
+      "description",
+      "price",
+      "stock",
+      "availability",
+    ]);
 
-  // Sample categories data
-  const categories = [
-    { value: "electronics", label: "Electronics" },
-    { value: "clothing", label: "Clothing" },
-    { value: "home", label: "Home & Garden" },
-    { value: "sports", label: "Sports" },
-    { value: "books", label: "Books" },
-  ];
+    const images = watch("images") || [];
+    if (!isValid || images.length === 0) {
+      if (images.length === 0)
+        alert("Please upload at least one product image");
+      return;
+    }
 
-  // Availability options
-  const availabilityOptions = [
-    { value: "in-stock", label: "In Stock" },
-    { value: "out-of-stock", label: "Out of Stock" },
-    { value: "pre-order", label: "Pre-Order" },
-  ];
+    const newProduct = {
+      productName: getValues("productName"),
+      category: getValues("category"),
+      description: getValues("description"),
+      price: getValues("price"),
+      stock: getValues("stock"),
+      availability: getValues("availability"),
+      images,
+    };
 
-  // Feature tags
-  const featureOptions = [
-    "Eco-Friendly",
-    "Premium Quality",
-    "Fast Shipping",
-    "Best Seller",
-    "New Arrival",
-    "Limited Edition",
-  ];
-
-  const handleFeatureToggle = (feature) => {
-    const currentFeatures = watchedFeatures;
-    if (currentFeatures.includes(feature)) {
-      setValue(
-        "features",
-        currentFeatures.filter((f) => f !== feature)
-      );
+    if (editIndex !== null) {
+      // Update existing product
+      const updated = [...products];
+      updated[editIndex] = newProduct;
+      setProducts(updated);
+      setEditIndex(null);
     } else {
-      setValue("features", [...currentFeatures, feature]);
+      // Add new product
+      setProducts((prev) => [newProduct, ...prev]);
+
+      setValue("products", products, { shouldValidate: true });
+    }
+
+    reset({
+      productName: "",
+      category: "",
+      description: "",
+      price: "",
+      stock: "",
+      availability: "",
+      images: [],
+      features: [],
+    });
+  };
+
+  const handleEditProduct = (index) => {
+    const prod = products[index];
+    setValue("productName", prod.productName);
+    setValue("category", prod.category);
+    setValue("description", prod.description);
+    setValue("price", prod.price);
+    setValue("stock", prod.stock);
+    setValue("availability", prod.availability);
+    setValue("images", prod.images);
+    setEditIndex(index);
+  };
+
+  const handleDeleteProduct = (index) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      setProducts((prev) => prev.filter((_, i) => i !== index));
     }
   };
 
   return (
     <div className="space-y-6">
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Product Name */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Enter Product Name *
-          </label>
-          <input
-            {...register("productName", {
-              required: "Product name is required",
-            })}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm ${
-              errors.productName ? "border-red-500" : "bg-gray-50"
-            }`}
-            placeholder="e.g., Wireless Headphones"
-          />
-          {errors.productName && (
-            <p className="text-red-600 mt-1 text-xs">
-              {errors.productName.message}
-            </p>
-          )}
-        </div>
-
-        {/* Category Selection */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Select Category *
-          </label>
-          <Dropdown
-            value={watch("category")}
-            onChange={(e) => setValue("category", e.target.value)}
-            options={categories}
-            placeholder="Choose a category"
-            error={errors.category?.message}
-            borderClass="border-gray-300"
-            bgClass="bg-white"
-            containerClass="text-xs"
-            dropdownClass="border-gray-300"
-            radiusClass="rounded-md"
-          />
-        </div>
-      </section>
-
-      {/* Product Description */}
+      {/* Intro */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Product Description *
-        </label>
-        <div className="relative">
+        <h3 className="text-sm font-medium capitalize mb-2">
+          {products.length === 0
+            ? "Add your first Product"
+            : "Manage your Products"}
+        </h3>
+        <p className="text-xs text-gray-500">
+          {products.length === 0
+            ? "Start with one product to get your store up and running"
+            : "Edit or remove products anytime"}
+        </p>
+      </div>
+
+      {/* Product list display */}
+      {products.length > 0 && (
+        <div>
+          <ul className="gap-4">
+            {products.map((prod, index) => (
+              <li
+                key={index}
+                className="relative border rounded-lg p-4 flex items-start gap-3 bg-[#DFDFDF]/60 mb-2"
+              >
+                {/* Edit/Delete buttons */}
+                <div className="absolute top-2 right-3 flex gap-1">
+                  <button
+                    type="button"
+                    onClick={() => handleEditProduct(index)}
+                    className="p-1 hover:bg-gray-200 rounded-full"
+                    title="Edit"
+                  >
+                    <FaRegEdit size={15} className="text-gray-700" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteProduct(index)}
+                    className="p-1 hover:bg-red-100 rounded-full"
+                    title="Delete"
+                  >
+                    <FiTrash2 size={15} className="text-red-600" />
+                  </button>
+                </div>
+
+                {/* Product info */}
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium text-gray-800">
+                    {prod.productName}{" "}
+                    <span className="inline-block border border-[#9F9F9F] rounded-2xl px-2 text-[10px] text-gray-600 ml-2 capitalize">
+                      {prod?.category}
+                    </span>
+                    <span className="inline-block ml-2 text-[10px] text-gray-100 bg-[#92922e] border-[#9F9F9F] px-3 rounded-2xl">
+                      Draft
+                    </span>
+                  </p>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    {prod?.description}
+                  </p>
+                  <p className="text-xs">
+                    <b>Price:</b> ${prod?.price} <b className="ml-2">Stock:</b>{" "}
+                    {prod?.stock}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Product input form */}
+      <div className="border border-gray-200 rounded-lg p-4 space-y-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Product Name *
+            </label>
+            <input
+              {...register("productName", {
+                required: "Product name is required",
+              })}
+              className={`w-full px-3 py-2 border rounded-md text-sm ${
+                errors.productName ? "border-red-500" : "border-gray-300"
+              }`}
+              placeholder="e.g., Wireless Headphones"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Category *</label>
+            <Dropdown
+              value={watch("category")}
+              onChange={(e) => setValue("category", e.target.value)}
+              options={categories}
+              placeholder="Choose a category"
+              error={errors.category?.message}
+              borderClass="border-gray-300"
+              bgClass="bg-gray-50"
+              containerClass="text-sm"
+              dropdownClass="border-gray-300"
+              radiusClass="rounded-md"
+            />
+          </div>
+        </section>
+
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-medium mb-2">
+            Description *
+          </label>
           <textarea
             {...register("description", {
               required: "Description is required",
-              maxLength: {
-                value: 1000,
-                message: "Description must be less than 1000 characters",
-              },
+              maxLength: { value: 1000, message: "Max 1000 characters" },
             })}
             rows={4}
-            className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none ${
+            className={`w-full px-3 py-2 border rounded-lg text-sm resize-none ${
               errors.description ? "border-red-500" : "border-gray-300"
             }`}
-            placeholder="Describe your products features, materials, sizes, etc."
+            placeholder="Describe your product"
           />
-          <div className="absolute bottom-2 right-2 text-xs text-gray-400">
+          <div className="text-xs text-gray-400 text-right">
             {watch("description")?.length || 0}/1000
           </div>
         </div>
-        {errors.description && (
-          <p className="text-red-500 text-xs ml-2">
-            {errors.description.message}
-          </p>
-        )}
-      </div>
 
-      {/* Features Selection */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Product Features
-        </label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {featureOptions.map((feature) => (
-            <button
-              key={feature}
-              type="button"
-              onClick={() => handleFeatureToggle(feature)}
-              className={`flex items-center justify-center gap-2 px-3 py-2 border rounded-lg text-sm transition-colors ${
-                watchedFeatures.includes(feature)
-                  ? "bg-orange/20 border-orange text-orange"
-                  : "bg-gray-50 border-gray-300 text-gray-700 hover:bg-gray-100"
+        {/* Price / Stock / Availability */}
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Price (USD) *
+            </label>
+            <input
+              type="number"
+              step="0.01"
+              {...register("price", { required: "Price is required" })}
+              className={`w-full px-3 py-2 border rounded-md text-sm ${
+                errors.price ? "border-red-500" : "border-gray-300"
               }`}
-            >
-              <Tag size={14} />
-              {feature}
-            </button>
-          ))}
-        </div>
-      </div>
+              placeholder="e.g., 49.99"
+            />
+          </div>
 
-      {/* Availability */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Select Availability *
-        </label>
-        <Dropdown
-          value={watch("availability")}
-          onChange={(e) => setValue("availability", e.target.value)}
-          options={availabilityOptions}
-          placeholder="Select availability status"
-          error={errors.availability?.message}
-          borderClass="border-gray-300"
-          bgClass="bg-white"
-          containerClass="text-xs"
-          dropdownClass="border-gray-300"
-          radiusClass="rounded-md"
-        />
-      </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Stock Quantity *
+            </label>
+            <input
+              type="number"
+              {...register("stock", { required: "Stock is required" })}
+              className={`w-full px-3 py-2 border rounded-md text-sm ${
+                errors.stock ? "border-red-500" : "border-gray-300"
+              }`}
+              placeholder="e.g., 100"
+            />
+          </div>
 
-      {/* Image Upload */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Product Images
-        </label>
-        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-          <Upload className="mx-auto h-8 w-8 text-gray-400 mb-2" />
-          <p className="text-sm text-gray-600 mb-1">
-            Drag and drop images here, or click to upload
-          </p>
-          <p className="text-xs text-gray-500">
-            Supports JPG, PNG up to 5MB each
-          </p>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            {...register("images")}
-            className="hidden"
-            id="product-images"
-          />
-          <label
-            htmlFor="product-images"
-            className="inline-block mt-3 px-4 py-2 bg-orange text-white text-sm font-medium rounded-lg cursor-pointer hover:bg-orange/90 transition-colors"
-          >
-            Choose Files
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Availability *
+            </label>
+            <Dropdown
+              value={watch("availability")}
+              onChange={(e) => setValue("availability", e.target.value)}
+              options={availabilityOptions}
+              placeholder="Select availability"
+              error={errors.availability?.message}
+              borderClass="border-gray-300"
+              bgClass="bg-gray-50"
+              containerClass="text-sm"
+              dropdownClass="border-gray-300"
+              radiusClass="rounded-md"
+            />
+          </div>
+        </section>
+
+        {/* Images */}
+        <div>
+          <label className="block text-sm font-medium mb-2">
+            Product Images
           </label>
-        </div>
-        {errors.images && (
-          <p className="text-red-500 text-xs ml-2">{errors.images.message}</p>
-        )}
-      </div>
+          <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((slot) => {
+              const images = watch("images") || [];
+              const file = images[slot - 1];
+              const previewUrl = file ? URL.createObjectURL(file) : null;
 
-      <button
-        type="button"
-        className="bg-black text-white text-sm p-3 w-full text-center rounded-lg hover:bg-gray-800 transition-colors"
-      >
-        Add Product
-      </button>
+              return (
+                <div
+                  key={slot}
+                  className={`relative aspect-video border-2 border-dashed rounded-xl flex items-center justify-center cursor-pointer ${
+                    errors.images
+                      ? "border-red-500"
+                      : "border-gray-300 hover:border-orange-400"
+                  }`}
+                >
+                  <input
+                    type="file"
+                    {...register("images")}
+                    accept="image/*"
+                    className="hidden"
+                    id={`image-upload-${slot}`}
+                    onChange={(e) => {
+                      const files = e.target.files;
+                      if (files?.length > 0) {
+                        const updated = [...(images || [])];
+                        updated[slot - 1] = files[0];
+                        setValue("images", updated);
+                      }
+                    }}
+                  />
+                  <label
+                    htmlFor={`image-upload-${slot}`}
+                    className="flex flex-col items-center justify-center h-full w-full text-gray-400 hover:text-gray-600"
+                  >
+                    {previewUrl ? (
+                      <img
+                        src={previewUrl}
+                        alt="Preview"
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    ) : (
+                      <>
+                        <GoImage size={26} />
+                        <span className="text-[11px] mt-1">Upload</span>
+                      </>
+                    )}
+                  </label>
+                </div>
+              );
+            })}
+          </section>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleAddProduct}
+          className="bg-black text-white text-sm p-3 w-full rounded-lg hover:bg-gray-800 transition-colors"
+        >
+          {editIndex !== null ? "Update Product" : "Add Product"}
+        </button>
+      </div>
     </div>
   );
 };
