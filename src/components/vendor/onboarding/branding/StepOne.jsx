@@ -10,13 +10,16 @@ const StepOne = ({ register, errors }) => {
       <div className="mb-6">
         <label className="block text-sm mb-1">Store Logo (Optional)</label>
 
-        <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-orange/50 transition-colors">
+        <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center transition-colors">
           <input
             id="storeLogo"
             type="file"
-            {...register("storeLogo")}
+            {...register("storeLogo", {
+              required: "Store logo is required",
+            })}
             accept="image/png, image/jpeg"
             className="hidden"
+            required
           />
           <label
             htmlFor="storeLogo"
@@ -28,19 +31,28 @@ const StepOne = ({ register, errors }) => {
           <p className="text-[9px] text-gray-400 mt-2">
             PNG, JPG up to 5MB. Recommended: 200x200px
           </p>
+
+          {errors.storeLogo && (
+            <p className="text-xs text-red-500 mt-1">
+              {errors.storeLogo.message}
+            </p>
+          )}
         </div>
       </div>
 
       {/* Banner */}
       <div className="mb-6">
         <label className="block text-sm mb-1">Store Banner (Optional)</label>
-        <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-orange/50 transition-colors">
+        <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center transition-colors">
           <input
             id="storeBanner"
             type="file"
-            {...register("storeBanner")}
+            {...register("storeBanner", {
+              required: "Store banner is required",
+            })}
             accept="image/png, image/jpeg"
             className="hidden"
+            required
           />
           <label
             htmlFor="storeBanner"
@@ -52,21 +64,36 @@ const StepOne = ({ register, errors }) => {
           <p className="text-[9px] text-gray-400 mt-2">
             PNG, JPG up to 5MB. Recommended: 200x200px
           </p>
+          {errors.storeBanner && (
+            <p className="text-xs text-red-500 mt-1">
+              {errors.storeBanner.message}
+            </p>
+          )}
         </div>
       </div>
 
       {/* Description */}
-      <div>
-        <label className="block text-sm mb-1">
-          Store Description (Optional)
-        </label>
-        <textarea
-          {...register("storeDescription")}
-          rows="3"
-          placeholder="Tell your customers what you sell and what makes you special..."
-          className="w-full border border-gray-300 rounded-xl p-3 text-sm focus:ring-1 focus:ring-orange resize-none"
-        />
-      </div>
+      <textarea
+        {...register("storeDescription", {
+          required: "Store description is required",
+          minLength: {
+            value: 10,
+            message: "Description must be at least 10 characters long",
+          },
+        })}
+        rows="3"
+        placeholder="Tell your customers what you sell and what makes you special..."
+        className={`w-full border rounded-xl p-3 text-sm focus:ring-1 resize-none ${
+          errors.storeDescription
+            ? "border-red-500 focus:ring-red-500"
+            : "border-gray-300 focus:ring-orange"
+        }`}
+      />
+      {errors.storeDescription && (
+        <p className="text-xs text-red-500 mt-1">
+          {errors.storeDescription.message}
+        </p>
+      )}
     </div>
   );
 };

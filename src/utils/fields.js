@@ -6,12 +6,14 @@ export const brandingSteps = [
     key: "branding",
     label: "Branding",
     desc: "Business details & verification",
+    fields: ["storeDescription", "storeLogo", "storeBanner"],
   },
   {
     icon: BsBox,
     key: "products",
     label: "Products",
     desc: "Add your first product or service",
+    fields: ["productName", "productPrice"],
   },
   {
     icon: BsTruck,

@@ -15,7 +15,7 @@ const ProgressStep = ({ currentStep }) => {
         <div className="w-full flex items-center gap-2 justify-between mb-4">
           <h3 className="text-sm font-medium ">Setup Progress</h3>
           <div
-            className={`flex-1 h-[2px] mx-2 bg-gray-300 transition-colors duration-300`}
+            className={`blobk md:hidden flex-1 h-[2px] mx-2 bg-gray-300 transition-colors duration-300`}
           ></div>
           <span className="text-sm font-medium text-gray-600">
             Step {currentStep} of {steps.length}
