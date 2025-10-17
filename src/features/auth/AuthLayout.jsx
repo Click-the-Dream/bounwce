@@ -91,13 +91,15 @@ const AuthLayout = () => {
             </motion.p>
           )}
 
-          <ToggleTabs
-            tabs={[
-              { label: "Login", path: "/login" },
-              { label: "Create Account", path: "/register" },
-            ]}
-            activePath={location.pathname}
-          />
+          <div className="max-w-[368px] h-[42px]">
+            <ToggleTabs
+              tabs={[
+                { label: "Login", path: "/login" },
+                { label: "Create Account", path: "/register" },
+              ]}
+              activePath={location.pathname}
+            />
+          </div>
 
           <motion.div
             key={`content-${location.pathname}`}

@@ -54,3 +54,17 @@ export const UNIVERSITIES = [
   { label: "Osun State University", value: "Osun State University" },
   { label: "Nile University of Nigeria", value: "Nile University of Nigeria" },
 ];
+
+export const categories = [
+  { value: "electronics", label: "Electronics" },
+  { value: "clothing", label: "Clothing" },
+  { value: "home", label: "Home & Garden" },
+  { value: "sports", label: "Sports" },
+  { value: "books", label: "Books" },
+];
+
+export const availabilityOptions = [
+  { value: "in-stock", label: "In Stock" },
+  { value: "out-of-stock", label: "Out of Stock" },
+  { value: "pre-order", label: "Pre-Order" },
+];
