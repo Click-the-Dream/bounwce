@@ -7,7 +7,7 @@ import userImage from '../../../../assets/createpic.jpg'
 
 const VendorHeader = () => {
   return (
-    <header className='bg-white shadow px-[7rem] py-5 flex justify-between gap-2'>
+    <header className='bg-white shadow px-[1rem] md:px-[3rem] lg:px-[7rem] py-5 flex justify-between gap-2'>
         <div className='flex gap-3 items-center'>
             <div>
                 <img 
@@ -17,7 +17,7 @@ const VendorHeader = () => {
                 />
             </div>
 
-            <div>
+            <div className='hidden md:block'>
                 <div className='flex gap-1 items-center'>
                     <TbHome />
                     <p className='text-[10px]'><span>Origami Store</span> - Dashboard</p> 
@@ -28,9 +28,9 @@ const VendorHeader = () => {
 
         <div className='flex gap-2'>
             <button className='flex items-center gap-2 px-[5px] border-[2px] rounded-md'>
-                <TbHome className='w-[12px] h-[12px]'/>
-                <p className='text-[12px]'>View Store</p>
-                <FaArrowUpRightFromSquare size={10}/>
+                <TbHome size={15}/>
+                <p className='text-[12px] hidden md:block'>View Store</p>
+                <FaArrowUpRightFromSquare size={12} className='hidden md:block'/>
             </button>
 
             <button className='relative border-[2px] p-2 flex items-center rounded-md'>
