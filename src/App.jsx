@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { Navigate, Routes, Route} from "react-router-dom";
 import AuthLayout from "./features/auth/AuthLayout";
 import Fallback from "./components/Fallback";
+import VendorRouter from "./features/vendorDashboard/VendorRouter";
 // Lazy load the pages
 const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
 const LoginPage = lazy(() => import("./features/auth/LoginPage"));
@@ -24,7 +25,7 @@ function App() {
 
             <Route path="/verifyAccount" element={<VerifyAccount />} />
             <Route path="/verifyLogin" element={<VerifyLogin />} />
-            <Route path="/vendor_dashboard" element={<VendorLayout />} />
+            {VendorRouter}
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </Suspense>
