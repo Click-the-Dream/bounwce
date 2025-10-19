@@ -30,6 +30,7 @@ function App() {
           <Route path="/email_verification" element={<VerifyAccount />} />
           <Route path="/vendor_setup" element={<VendorOnboarding />} />
           <Route path="/verifyLogin" element={<VerifyLogin />} />
+          {VendorRouter}
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Suspense>
