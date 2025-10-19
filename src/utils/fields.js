@@ -13,13 +13,14 @@ export const brandingSteps = [
     key: "products",
     label: "Products",
     desc: "Add your first product or service",
-    fields: ["productName", "productPrice"],
+    fields: ["products"],
   },
   {
     icon: BsTruck,
     key: "shipping",
     label: "Shipping",
     desc: "Set up delivery options",
+    fields: ["shipping"],
   },
   {
     icon: IoRocketOutline,
