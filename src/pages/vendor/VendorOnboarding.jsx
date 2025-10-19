@@ -4,11 +4,12 @@ import ProgressSteps from "../../components/vendor/onboarding/ProgressStep";
 import StoreSetup from "../../components/vendor/onboarding/StoreSetup";
 import StoreForm from "../../components/vendor/onboarding/StoreForm";
 import GettingStarted from "../../components/vendor/onboarding/GettingStarted";
+import OnboardingSuccess from "../../components/vendor/onboarding/OnboardingSuccess";
 
 const tabOrder = ["store", "contact", "verification", "payout"];
 
 const VendorOnboarding = () => {
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(3);
   const [currentTab, setCurrentTab] = useState("store");
   const [completedTabs, setCompletedTabs] = useState([]); // track completed tabs
 
@@ -109,6 +110,7 @@ const VendorOnboarding = () => {
               onBack={() => setCurrentStep(2)}
             />
           )}
+          {currentStep === 4 && <OnboardingSuccess />}
         </FormProvider>
       </div>
     </div>
