@@ -139,7 +139,7 @@ const OnboardingSuccess = () => {
       </div>
 
       {/* Footer Buttons */}
-      <div className="flex flex-wrap justify-between items-center gap-3 mt-8">
+      <div className="flex flex-wrap justify-between items-center gap-3 mt-8 text-sm">
         <button
           type="button"
           className="flex items-center gap-2 px-4 py-2 border rounded-lg text-gray-600 hover:bg-gray-50"
@@ -147,12 +147,12 @@ const OnboardingSuccess = () => {
           <FaArrowLeft /> Back
         </button>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="ml-auto flex flex-wrap gap-3">
           <button className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-900">
             <Store className="w-4 h-4" /> View My Store
           </button>
           <button
-            onClick={() => navigate("/vendor/dashboard")}
+            onClick={() => navigate("/vendor")}
             className="flex items-center gap-2 px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90"
           >
             <LayoutDashboard className="w-4 h-4" /> Go to Dashboard
