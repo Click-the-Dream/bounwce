@@ -57,10 +57,10 @@ const BrandingFooter = ({ currentIndex }) => {
                   key={step.key}
                   className={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-300 ${
                     isCompleted
-                      ? "bg-blue-50 border border-blue-200"
+                      ? "bg-[#E4FFEC]"
                       : isActive
-                      ? "bg-[#E5F0FF] border border-blue-300"
-                      : "bg-gray-50 border border-gray-100"
+                      ? "bg-[#E5F0FF]"
+                      : "bg-gray-50"
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -77,7 +77,11 @@ const BrandingFooter = ({ currentIndex }) => {
                     </div>
                     <span
                       className={`text-gray-700 ${
-                        isActive ? "font-medium text-black" : ""
+                        isActive
+                          ? "font-medium text-black"
+                          : isCompleted
+                          ? "text-[#158041]"
+                          : ""
                       }`}
                     >
                       {step.label}

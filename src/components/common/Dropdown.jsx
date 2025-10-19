@@ -1,8 +1,7 @@
 import React, { useState, useRef } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { useMemo } from "react";
+import { ChevronDown, Check } from "lucide-react";
 
 const Dropdown = ({
   value,
@@ -15,15 +14,13 @@ const Dropdown = ({
   dropdownClass = "border-orange",
   itemClass = "",
   borderClass = "border-gray-300",
-  bgClass = "bg-orange",
+  bgClass = "bg-orange/10",
   radiusClass = "rounded-[20px]",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
+  const handleToggle = () => setIsOpen(!isOpen);
 
   // Close on click outside
   React.useEffect(() => {
@@ -32,7 +29,6 @@ const Dropdown = ({
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -80,19 +76,26 @@ const Dropdown = ({
             transition={{ duration: 0.2 }}
             className={`absolute left-0 right-0 mt-1 bg-white border ${radiusClass} shadow-lg overflow-y-auto max-h-40 cursor-pointer z-50 ${dropdownClass}`}
           >
-            {options.map((opt, idx) => (
-              <li
-                key={idx}
-                onClick={() => handleSelect(opt.value || opt)}
-                className={`px-4 py-2 text-sm hover:bg-orange/10 transition-colors ${
-                  value === opt.value
-                    ? "text-orange font-medium"
-                    : "text-gray-700"
-                } ${itemClass}`}
-              >
-                {opt.label || opt}
-              </li>
-            ))}
+            {options.map((opt, idx) => {
+              const isSelected = value === (opt.value ?? opt);
+              return (
+                <li
+                  key={idx}
+                  onClick={() => handleSelect(opt.value ?? opt)}
+                  className={`px-4 py-2 text-sm hover:bg-orange/10 transition-colors flex justify-between items-center
+                    ${
+                      isSelected
+                        ? `${bgClass} font-medium text-orange`
+                        : "text-gray-700"
+                    } ${itemClass}`}
+                >
+                  <span>{opt.label || opt}</span>
+                  {isSelected && (
+                    <Check size={16} className="text-orange ml-2" />
+                  )}
+                </li>
+              );
+            })}
           </motion.ul>
         )}
       </AnimatePresence>
