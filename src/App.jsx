@@ -8,7 +8,6 @@ const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
 const LoginPage = lazy(() => import("./features/auth/LoginPage"));
 const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
 const VerifyLogin = lazy(() => import("./features/auth/VerifyLogin"));
-const VendorLayout = lazy(() => import("./features/vendorDashboard/components/VendorLayout"));
 
 const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
 
