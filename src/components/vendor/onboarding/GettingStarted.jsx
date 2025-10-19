@@ -13,7 +13,7 @@ import StepFour from "./branding/StepFour";
 import { onPrompt } from "../../../utils/notifications/onPrompt";
 
 const GettingStarted = ({ onNext, onBack }) => {
-  const [currentSubStep, setCurrentSubStep] = useState("publish");
+  const [currentSubStep, setCurrentSubStep] = useState("branding");
   const {
     register,
     trigger,
