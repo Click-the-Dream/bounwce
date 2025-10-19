@@ -44,7 +44,7 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
 
             {/* Label */}
             <span
-              className={`transition-all text-[clamp(9px,2vw,11px)] duration-300 ease-in-out text-xs break-words text-center ${
+              className={`transition-all text-[clamp(7px,2vw,10px)] duration-300 ease-in-out text-xs break-words text-center ${
                 tab.icon ? "hidden md:block" : "block"
               }`}
             >

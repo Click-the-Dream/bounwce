@@ -11,7 +11,7 @@ const VendorLayout = () => {
         <VendorHeader />
       </section>
       
-      <section className='w-full xl:w-[50%] px-[1rem] md:px-[3rem] lg:px-[7rem]'>
+      <section className='w-full lg:w-[80%] 2xl:w-[60%] px-[1rem] md:px-[3rem] lg:px-[140px] 2xl:px-[175px]'>
         <ToggleTabs
               tabs={[
                 { label: "Overview", path: "/vendor" },
@@ -24,7 +24,7 @@ const VendorLayout = () => {
           />
       </section>
         
-        <section className='px-[1rem] md:px-[3rem] lg:px-[7rem] py-5'>
+        <section className='px-[1rem] md:px-[3rem] lg:px-[140px] 2xl:px-[175px] py-5'>
            <Outlet /> 
         </section>
         

@@ -75,7 +75,6 @@ const VendorWallet = () => {
               withdrawalData.map((data, index) => {
                 let statusImg = "";
                 statusImg = data.action === "debit" ? walletDebitImg :  walletRefundImg;
-
                 
                 return (
                 <WithdrawalHistoryCard 

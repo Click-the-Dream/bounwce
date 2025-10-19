@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import VendorCardLayout from '../VendorCardLayout'
+import { noQuickActions } from '../../../../assets';
 
 const VendorQuickActions = () => {
     const [orders, setOrders] = useState([]);
@@ -20,12 +21,13 @@ const VendorQuickActions = () => {
             title={"Quick Actions"}
             buttonText={"View All"}
         >      
-            <div>
+            <div className=''>
                 {
                     orders.length === 0 ? (
                         <img 
-                            src=''  
-                            alt='No orders'       
+                            src={noQuickActions}  
+                            alt='No orders'  
+                            className='w-[132.78px] h-[99.1px] my-5 mx-auto'     
                         />  
                     ) : (
                         <div>
