@@ -4,11 +4,16 @@ import AuthLayout from "./features/auth/AuthLayout";
 import Fallback from "./components/Fallback";
 import { AuthProvider } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
+import VendorRouter from "./features/vendorDashboard/VendorRouter";
 // Lazy load the pages
 const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
 const LoginPage = lazy(() => import("./features/auth/LoginPage"));
 const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
 const VerifyLogin = lazy(() => import("./features/auth/VerifyLogin"));
+const VendorLayout = lazy(() =>
+  import("./features/vendorDashboard/components/VendorLayout")
+);
+
 const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
 
 function App() {
