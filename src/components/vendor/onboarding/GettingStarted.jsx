@@ -23,21 +23,21 @@ const GettingStarted = ({ onNext, onBack }) => {
 
   const currentIndex = brandingSteps.findIndex((s) => s.key === currentSubStep);
 
-  // ✅ Validate before moving to next
-  const handleNextSub = async () => {
-    const currentStep = brandingSteps[currentIndex];
+  // Validate before moving to next
+const handleNextSub = async (skipValidation = false) => {
+  const currentStep = brandingSteps[currentIndex];
 
-    // Trigger validation only for fields in this step
+  if (!skipValidation) {
     const isValid = await trigger(currentStep.fields);
-
     if (!isValid) return; // stop if invalid
+  }
 
-    if (currentIndex < brandingSteps.length - 1) {
-      setCurrentSubStep(brandingSteps[currentIndex + 1].key);
-    } else {
-      onNext();
-    }
-  };
+  if (currentIndex < brandingSteps.length - 1) {
+    setCurrentSubStep(brandingSteps[currentIndex + 1].key);
+  } else {
+    onNext(); // finish wizard
+  }
+};
 
   const handlePrevSub = () => {
     if (currentIndex > 0) {
@@ -147,7 +147,7 @@ const GettingStarted = ({ onNext, onBack }) => {
         <div className="flex gap-3 ml-auto">
           <button
             type="button"
-            onClick={onNext}
+            onClick={() => handleNextSub(true)}
             className="flex gap-2 items-center px-4 py-2 border bg-black rounded-lg text-white"
           >
             Skip <FaArrowRight />
