@@ -35,8 +35,8 @@ const VendorWallet = () => {
   }, [])  
 
   return (
-    <main className="space-y-[1rem]">
-      <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+    <main>
+      <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mb-[1rem]">
         {
           walletStats.map((stat, index) => (            
             <WalletStatsCard 
@@ -51,7 +51,7 @@ const VendorWallet = () => {
         }
       </section>
 
-      <section className="flex justify-end">
+      <section className="flex justify-end mb-[1rem]">
         <button
           className="bg-black text-white flex gap-2 items-center justify-center p-2 rounded-[4.45px] "
           onClick={() => setIsModalOpen(true)}
