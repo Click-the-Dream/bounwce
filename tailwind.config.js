@@ -16,13 +16,20 @@ export default {
         xl: "1024px",
         // => @media (min-width: 1280px) { ... }
 
-        "2xl": "1536px",
+        "2xl": "1280px",
         // => @media (min-width: 1536px) { ... }
       },
       colors: {
         ash: "#545454",
         orange: "#FF4B2B",
         "lighter-ash": "#EBEBEB",
+      },
+      fontFamily: {
+<<<<<<< HEAD
+        inter: ['Inter', 'sans-serif'], 
+=======
+        inter: ["Inter", "sans-serif"],
+>>>>>>> origin/main
       },
     },
   },

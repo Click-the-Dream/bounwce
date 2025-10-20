@@ -24,7 +24,7 @@ const CreateAccount = () => {
   } = useForm({
     mode: "onTouched",
     defaultValues: {
-      name: "",
+      full_name: "",
       email: "",
       username: "",
       institution: "",
@@ -33,7 +33,10 @@ const CreateAccount = () => {
   });
 
   const onSubmit = async (data) => {
-    await signUp.mutateAsync({ ...data, role: "user" });
+    await signUp.mutateAsync({
+      ...data,
+      role: data?.vendor === "yes" ? "vendor" : "user",
+    });
   };
 
   const fadeUp = {

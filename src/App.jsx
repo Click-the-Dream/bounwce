@@ -1,35 +1,80 @@
-import React, { Suspense, lazy } from "react";
-import { Navigate, Routes, Route } from "react-router-dom";
+import React, { Suspense, lazy, useContext, useEffect } from "react";
+import { Navigate, Routes, Route, useNavigate } from "react-router-dom";
 import AuthLayout from "./features/auth/AuthLayout";
 import Fallback from "./components/Fallback";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
-import VendorRouter from "./features/vendorDashboard/VendorRouter";
+import VendorRouter from "./routes/VendorRouter";
+import SecureRoute from "./routes/SecureRoute";
+
 // Lazy load the pages
 const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
 const LoginPage = lazy(() => import("./features/auth/LoginPage"));
 const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
-const VerifyLogin = lazy(() => import("./features/auth/VerifyLogin"));
 
 const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
+
+// Prevent authenticated users from accessing auth pages
+const PublicRoute = ({ children }) => {
+  const { authDetails, isLoading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authDetails?.user) {
+      // Redirect logged-in users to vendor dashboard
+      navigate("/vendor", { replace: true });
+    }
+  }, [authDetails]);
+
+  if (isLoading)
+    return <div className="text-white text-center mt-10">Loading...</div>;
+  return children;
+};
 
 function App() {
   return (
     <AuthProvider>
-      {/* Suspense fallback shows while lazy components load */}
       <Suspense fallback={<Fallback />}>
-        <Routes>
-          <Route element={<AuthLayout />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<CreateAccount />} />
-          </Route>
+        <div className="font-inter">
+          <Routes>
+            {/* Public Routes */}
+            <Route element={<AuthLayout />}>
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <LoginPage />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <PublicRoute>
+                    <CreateAccount />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/email_verification"
+                element={
+                  <PublicRoute>
+                    <VerifyAccount />
+                  </PublicRoute>
+                }
+              />
+            </Route>
 
-          <Route path="/email_verification" element={<VerifyAccount />} />
-          <Route path="/vendor_setup" element={<VendorOnboarding />} />
-          <Route path="/verifyLogin" element={<VerifyLogin />} />
-          <Route path="/vendor/*" element={<VendorRouter />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
+            {/* Protected Vendor Routes */}
+            <Route element={<SecureRoute />}>
+              <Route path="/vendor/setup" element={<VendorOnboarding />} />
+              <Route path="/vendor/*" element={<VendorRouter />} />
+            </Route>
+
+            {/* Catch-all redirect */}
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </div>
       </Suspense>
       <ToastContainer autoClose={2000} draggable />
     </AuthProvider>
