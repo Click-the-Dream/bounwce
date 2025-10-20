@@ -25,11 +25,7 @@ export default {
         "lighter-ash": "#EBEBEB",
       },
       fontFamily: {
-<<<<<<< HEAD
-        inter: ['Inter', 'sans-serif'], 
-=======
         inter: ["Inter", "sans-serif"],
->>>>>>> origin/main
       },
     },
   },
