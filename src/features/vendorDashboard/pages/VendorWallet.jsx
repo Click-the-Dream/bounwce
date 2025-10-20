@@ -5,10 +5,13 @@ import { PiHandWithdraw } from "react-icons/pi";
 import WithdrawalHistoryCard from "../components/ui/WithdrawalHistoryCard";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import {noHistoryImg, walletDebitImg, walletRefundImg, availableBalance, withdrawableBalance, pendingBalance} from "../../../assets"
+import WithdrawFunds from "../components/ui/WithdrawFunds";
 
 const VendorWallet = () => {
   const [walletStats, setWalletStats] = useState([]);
   const [withdrawalData, setWithdrawalData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   useEffect(() => {
     const dummyData = [
       {title: "Available Balance", amount: "20,000", subtext: "Total earnings from all sales", icon: availableBalance},
@@ -29,7 +32,7 @@ const VendorWallet = () => {
           {action: "refund", label: "Wallet Account Refunded", date: "Sep 20, 2025, 11:01AM", amount: "100,000", status: "sucessful"}          
       ]
       setWithdrawalData(dummyData);
-  }, [])
+  }, [])  
 
   return (
     <main className="space-y-[1rem]">
@@ -51,12 +54,17 @@ const VendorWallet = () => {
       <section className="flex justify-end">
         <button
           className="bg-black text-white flex gap-2 items-center justify-center p-2 rounded-[4.45px] "
-          onClick={handleFundsWithdraw}
+          onClick={() => setIsModalOpen(true)}
         >
           <PiHandWithdraw />
           <span className="text-[11px]">Withdraw Funds</span>
         </button>
       </section> 
+
+      <WithdrawFunds 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
       <section className="border-[2px] rounded-[12.75px] p-5 w-full">
         <h1 className="text-[12px] font-medium">Withdrawal History</h1>

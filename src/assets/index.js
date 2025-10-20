@@ -7,6 +7,7 @@ import withdrawableBalance from './withdrawable-balance.svg'
 import noTopProducts from './top-products.svg'
 import noQuickActions from './quick-actions.svg'
 import productImg from './product-image.svg'
+import withdrawBackgroudImg from './withdraw-background.png'
 
 export {
     walletDebitImg, 
@@ -17,5 +18,6 @@ export {
     withdrawableBalance,
     noTopProducts,
     noQuickActions,
-    productImg
+    productImg,
+    withdrawBackgroudImg
 } 
