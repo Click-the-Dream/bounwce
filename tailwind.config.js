@@ -16,7 +16,7 @@ export default {
         xl: "1024px",
         // => @media (min-width: 1280px) { ... }
 
-        "2xl": "1536px",
+        "2xl": "1280px",
         // => @media (min-width: 1536px) { ... }
       },
       colors: {
@@ -25,7 +25,11 @@ export default {
         "lighter-ash": "#EBEBEB",
       },
       fontFamily: {
+<<<<<<< HEAD
+        inter: ['Inter', 'sans-serif'], 
+=======
         inter: ["Inter", "sans-serif"],
+>>>>>>> origin/main
       },
     },
   },

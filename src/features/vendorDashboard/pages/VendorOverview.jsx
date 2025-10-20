@@ -1,5 +1,3 @@
-import React from 'react'
-import VendorLayout from '../components/VendorLayout'
 import VendorOverviewCard from '../components/ui/VendorOverviewCard'
 import VendorQuickActions from '../components/ui/VendorQuickActions'
 import VendorTopProducts from '../components/ui/VendorTopProducts'
@@ -20,11 +18,10 @@ const VendorOverview = () => {
     {label: "Total Revenue", amount: "5,000", icon: AiOutlineBarChart, analysis: "2.5 % from last month", trendStatus: "down"},
   ]
   return (
-    <main className='space-y-[1rem]'>
-        <section className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5'>
+    <main className='space-y-[21px]'>
+        <section className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[21px]'>
           {
-            vendorData.map((data, index) => {
-              
+            vendorData.map((data, index) => {              
               // determine icon and color based on status
               const isTrendUp = data.trendStatus === "up";
               const TrendIcon = isTrendUp ? IoTrendingUpOutline : IoTrendingDownOutline;
@@ -39,14 +36,12 @@ const VendorOverview = () => {
                   amount={data.amount}
                   analysis={data.analysis}
                 />
-              )
-              
+              )              
             })
-          }
-          
+          }          
         </section>
         
-        <section className='flex flex-col md:flex-row gap-5 w-[100%]'>
+        <section className='flex flex-col md:flex-row gap-[21px] w-[100%]'>
           <VendorQuickActions />
           <VendorTopProducts />
         </section>
