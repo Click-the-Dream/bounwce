@@ -9,7 +9,6 @@
   margin: 0;
   padding: 0;
 }
-
 /* Optional: Font smoothing for better rendering */
 html {
   -webkit-font-smoothing: antialiased;
@@ -22,41 +21,38 @@ body {
 }
 
 /* Orange-themed scrollbar */
-@layer utilities {
-  /* Scrollbar width and height */
+::-webkit-scrollbar {
+  width: 5px; /* Slim but visible scrollbar */
+  height: 5px; /* Horizontal scrollbar height */
+}
+
+/* Track (background) */
+::-webkit-scrollbar-track {
+  background: #ffe6d5; /* Soft orange tint background */
+  border-radius: 10px;
+}
+
+/* Thumb (draggable handle) */
+::-webkit-scrollbar-thumb {
+  background: #ff6b35; /* Primary orange color */
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+/* Thumb hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #e35b20; /* Darker orange on hover */
+}
+
+/* Corner (where scrollbars meet) */
+::-webkit-scrollbar-corner {
+  background: #fff0e6;
+}
+
+/* Hide scrollbar on very small screens */
+@media (max-width: 600px) {
   ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-  }
-
-  /* Track (background) */
-  ::-webkit-scrollbar-track {
-    background: #ffe6d5;
-    border-radius: 10px;
-  }
-
-  /* Thumb (draggable handle) */
-  ::-webkit-scrollbar-thumb {
-    background: #ff6b35;
-    border-radius: 10px;
-    transition: background 0.3s ease;
-  }
-
-  /* Thumb hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #e35b20;
-  }
-
-  /* Corner (where scrollbars meet) */
-  ::-webkit-scrollbar-corner {
-    background: #fff0e6;
-  }
-
-  /* Hide scrollbar on very small screens */
-  @media (max-width: 600px) {
-    ::-webkit-scrollbar {
-      width: 0px;
-      height: 0px;
-    }
+    width: 0px;
+    height: 0px;
   }
 }
