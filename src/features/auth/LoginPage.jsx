@@ -5,14 +5,16 @@ import Button from "../../components/common/Button";
 import { Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { requestOtp } = useAuth();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       email: "",
@@ -20,11 +22,10 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log("Login email:", data.email);
     // Simulate API call if needed
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    // Navigate after successful validation
-    navigate("/verifyLogin");
+    await requestOtp.mutateAsync(data, {
+      onSuccess: () => navigate("/email_verification"),
+    });
   };
 
   return (
@@ -50,9 +51,9 @@ const LoginPage = () => {
         />
 
         <Button
-          text={isSubmitting ? "Logging in..." : "Log in"}
+          text={requestOtp.isPending ? "Logging in..." : "Log in"}
           type="submit"
-          disabled={isSubmitting}
+          disabled={requestOtp.isPending}
         />
       </form>
     </motion.div>

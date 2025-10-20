@@ -24,6 +24,9 @@ export default {
         orange: "#FF4B2B",
         "lighter-ash": "#EBEBEB",
       },
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+      },
     },
   },
   plugins: [],

@@ -53,3 +53,11 @@ export const steps = [
   { number: 3, title: "Getting Started", desc: "Branding & first products" },
   { number: 4, title: "Complete", desc: "Ready to start selling" },
 ];
+
+export const storedUserEmail = (email) => {
+  if (email) {
+    localStorage.setItem("register_email", email);
+  } else {
+    return localStorage.getItem("register_email");
+  }
+};
