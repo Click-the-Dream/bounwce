@@ -6,37 +6,27 @@ import { AuthContext } from "../context/AuthContext";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { queryClient } from "../services/query-client";
-import { extractErrorMessage } from "../utils/formatters";
+import { extractErrorMessage, storedUserEmail } from "../utils/formatters";
 const useAuth = () => {
   const navigate = useNavigate();
-  const { authDetails, updateAuth, setOtpRequested } = useContext(AuthContext);
+  const { authDetails, updateAuth } = useContext(AuthContext);
 
   const client = axiosClient(authDetails?.token?.token);
-
-  const storedUserEmail = (email) => {
-    if (email) {
-      localStorage.setItem("register_email", email);
-    } else {
-      return localStorage.getItem("register_email");
-    }
-  };
 
   // Login Mutation
   const loginMutation = useMutation({
     mutationFn: async (credentials) => {
       const { data } = await client.post("/auth/login", credentials);
-      if (!data?.data?.user) {
-        throw new Error("Invalid response: User data not found");
-      }
       return data.data;
     },
-    onSuccess: (userData) => {
-      updateAuth(userData); // Immediately update auth state
+    onSuccess: (data) => {
+      console.log(data);
+      //updateAuth(userData); // Immediately update auth state
       onSuccess({
         message: "Login Successful!",
-        success: "Continuing to dashboard",
+        success: `Here is your otp ${data?.otp}`, //"Continuing to dashboard",
       });
-      navigate("/vendor/dashboard");
+      navigate("/vendor");
     },
     onError: async (error, variables) => {
       onFailure({ message: "Login Failed", error: extractErrorMessage(error) });
@@ -51,15 +41,15 @@ const useAuth = () => {
   const registerMutation = useMutation({
     mutationFn: async (userData) => {
       const { data } = await client.post("/auth/register", userData);
-      return data;
+      return data?.data;
     },
     onSuccess: (userData, variables) => {
       onSuccess({
         message: "Registration Successful!",
-        success: userData?.message || "User created successfully",
+        success: `User created successfully - ${userData?.otp}`,
       });
       storedUserEmail(variables.email);
-      navigate("/email_verification", { state: variables });
+      navigate("/email_verification", { state: variables, replace: true });
     },
     onError: async (err, variables) => {
       const apiMessage = err?.response?.data?.message;
@@ -77,7 +67,10 @@ const useAuth = () => {
           onSuccess: () => {
             // Step 3: Save the email and redirect with a short UX delay
             storedUserEmail(variables?.email);
-            navigate("/email_verification", { state: variables });
+            navigate("/email_verification", {
+              state: variables,
+              replace: true,
+            });
           },
         });
 
@@ -132,25 +125,23 @@ const useAuth = () => {
   });
 
   const requestOtpMutation = useMutation({
-    mutationFn: async (address) => {
-      if (address) {
-        storedUserEmail(address);
+    mutationFn: async (credentials) => {
+      if (credentials?.email) {
+        storedUserEmail(credentials?.email);
       }
-      const email = address ?? storedUserEmail(); // Call function to get email
+      const email = credentials?.email ?? storedUserEmail(); // Call function to get email
       if (!email) {
         throw new Error("No email provided");
       }
-      const { data } = await client.post("/resend-otp", { email: email });
-      if (!data?.success) {
-        throw new Error("An error occurred");
-      }
+      const { data } = await client.post("/auth/login", { email: email });
+
       return data;
     },
-    onSuccess: (data) => {
+    onSuccess: ({ data }) => {
       //setOtpRequested(true);
       onSuccess({
         message: "OTP Requested!",
-        success: data?.message ?? "please check your mail",
+        success: `Here is your otp ${data?.otp}`,
       });
     },
     onError: (err) => {
@@ -172,22 +163,16 @@ const useAuth = () => {
         ...otpData,
         email: email,
       });
-      if (!data?.success) {
-        throw new Error("Invalid response: User data not found");
-      }
+
       return data.data;
     },
-    onSuccess: (userData, variables) => {
-      if (variables?.mode === "verify") {
-        onSuccess({
-          message: "OTP Verified!",
-          success: "Your OTP has been verified",
-        });
-      } else {
-        updateAuth(userData);
-        navigate("/login");
-        onSuccess({ message: "OTP Verified!", success: "Proceeding to login" });
-      }
+    onSuccess: (userData) => {
+      updateAuth(userData);
+      navigate("/vendor", { replace: true });
+      onSuccess({
+        message: "OTP Verified!",
+        success: "Proceeding to dashboard",
+      });
     },
     onError: (err) => {
       onFailure({
