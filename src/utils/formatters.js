@@ -1,4 +1,22 @@
-import { desc } from "framer-motion/client";
+export const extractErrorMessage = (error) => {
+  const getString = (data) => {
+    return typeof data === "string" ? data : JSON.stringify(data);
+  };
+
+  if (error?.response?.data?.message) {
+    return getString(error.response.data.message);
+  }
+
+  if (error?.response?.data?.error) {
+    return getString(error.response.data.error);
+  }
+
+  if (error?.response?.error) {
+    return getString(error.response.error);
+  }
+
+  return getString(error?.message || "An unknown error occurred");
+};
 
 export const containerVariants = {
   hidden: { opacity: 0 },
@@ -35,3 +53,11 @@ export const steps = [
   { number: 3, title: "Getting Started", desc: "Branding & first products" },
   { number: 4, title: "Complete", desc: "Ready to start selling" },
 ];
+
+export const storedUserEmail = (email) => {
+  if (email) {
+    localStorage.setItem("register_email", email);
+  } else {
+    return localStorage.getItem("register_email");
+  }
+};

@@ -5,7 +5,7 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex w-full rounded-full bg-[#ECECF033]/30 border border-gray-300 mb-5 p-1 overflow-hidden">
+    <div className="flex w-full gap-1 rounded-full bg-[#ECECF033]/30 border border-gray-300 mb-5 p-1 overflow-hidden">
       {tabs.map((tab, index) => {
         const isActive = tab.path === activePath;
 
@@ -44,7 +44,7 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
 
             {/* Label */}
             <span
-              className={`transition-all duration-300 ease-in-out text-xs break-words text-center ${
+              className={`transition-all text-[clamp(7px,2vw,10px)] duration-300 ease-in-out text-xs break-words text-center ${
                 tab.icon ? "hidden md:block" : "block"
               }`}
             >

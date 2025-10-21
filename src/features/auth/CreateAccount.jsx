@@ -1,26 +1,20 @@
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
-import {
-  setName,
-  setEmail,
-  setUsername,
-  setInstitution,
-  setVendor,
-} from "../../store/authSlice";
 import { CiAt } from "react-icons/ci";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { TbSchool } from "react-icons/tb";
 import { LuUserRound } from "react-icons/lu";
 import { Store } from "lucide-react";
 import { UNIVERSITIES } from "../../utils/dummies";
+import useAuth from "../../hooks/useAuth";
+
 const CreateAccount = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
+  const { signUp } = useAuth();
 
   const {
     control,
@@ -30,7 +24,7 @@ const CreateAccount = () => {
   } = useForm({
     mode: "onTouched",
     defaultValues: {
-      name: "",
+      full_name: "",
       email: "",
       username: "",
       institution: "",
@@ -38,13 +32,11 @@ const CreateAccount = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    dispatch(setName(data.name));
-    dispatch(setEmail(data.email));
-    dispatch(setUsername(data.username));
-    dispatch(setInstitution(data.institution));
-    dispatch(setVendor(data.vendor));
-    navigate("/verifyAccount");
+  const onSubmit = async (data) => {
+    await signUp.mutateAsync({
+      ...data,
+      role: data?.vendor === "yes" ? "vendor" : "user",
+    });
   };
 
   const fadeUp = {
@@ -75,8 +67,8 @@ const CreateAccount = () => {
             type="text"
             placeholder="Full name"
             icon={<LuUserRound size={15} />}
-            error={errors.name?.message}
-            {...register("name", { required: "Full name is required" })}
+            error={errors.full_name?.message}
+            {...register("full_name", { required: "Full name is required" })}
           />
         </motion.div>
 
@@ -108,7 +100,7 @@ const CreateAccount = () => {
           />
         </motion.div>
 
-        {/* Institution (Controller used here) */}
+        {/* Institution */}
         <motion.div variants={fadeUp}>
           <Controller
             name="institution"
@@ -127,7 +119,7 @@ const CreateAccount = () => {
           />
         </motion.div>
 
-        {/* Vendor (Controller used here) */}
+        {/* Vendor */}
         <motion.div variants={fadeUp}>
           <Controller
             name="vendor"
@@ -149,7 +141,12 @@ const CreateAccount = () => {
           />
         </motion.div>
 
-        <Button text="Create Account" type="submit" />
+        <Button
+          text="Create Account"
+          type="submit"
+          isLoading={signUp.isPending}
+          disabled={signUp.isPending}
+        />
       </motion.form>
 
       <motion.p
