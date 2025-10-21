@@ -65,12 +65,22 @@ function App() {
                   </PublicRoute>
                 }
               />
+
+              <Route 
+              path="/vendor/dashboard" 
+              element={
+               <PublicRoute>
+                  <DashboardHeader />
+                </PublicRoute>
+              } 
+             />
             </Route>
+
 
             {/* Protected Vendor Routes */}
             <Route element={<SecureRoute />}>
               <Route path="/vendor/setup" element={<VendorOnboarding />} />
-              <Route path="/vendor/dashboard" element={<Dashboard />} />
+              <Route path="/vendor/dashboard" element={<DashboardHeader />} />
               <Route path="/vendor/*" element={<VendorRouter />} />
             </Route>
 
