@@ -1,13 +1,14 @@
-import React, { Suspense, lazy } from "react";
-import { Navigate, Routes, Route } from "react-router-dom";
-import AuthLayout from "./features/auth/AuthLayout";
-import Fallback from "./components/Fallback";
+import { Suspense, lazy } from "react"
+import { Navigate, Routes, Route } from "react-router-dom"
+import AuthLayout from "./features/auth/AuthLayout"
+import Fallback from "./components/Fallback"
 // Lazy load the pages
-const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
-const LoginPage = lazy(() => import("./features/auth/LoginPage"));
-const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
-const VerifyLogin = lazy(() => import("./features/auth/VerifyLogin"));
-const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
+const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"))
+const LoginPage = lazy(() => import("./features/auth/LoginPage"))
+const CreateAccount = lazy(() => import("./features/auth/CreateAccount"))
+const VerifyLogin = lazy(() => import("./features/auth/VerifyLogin"))
+const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"))
+const DashboardHeader = lazy(() => import("./page/dashboard/DashboardHeader"))
 
 function App() {
   return (
@@ -23,11 +24,12 @@ function App() {
           <Route path="/verifyAccount" element={<VerifyAccount />} />
           <Route path="/vendor_setup" element={<VendorOnboarding />} />
           <Route path="/verifyLogin" element={<VerifyLogin />} />
+          <Route path="/dashboard" element={<DashboardHeader />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Suspense>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
