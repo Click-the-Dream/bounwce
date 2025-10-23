@@ -1,5 +1,6 @@
 import React from "react";
 import { FaLock } from "react-icons/fa";
+import { Controller } from "react-hook-form";
 import Dropdown from "../../../common/Dropdown";
 
 const banks = [
@@ -15,14 +16,12 @@ const securityQuestions = [
   { value: "city", label: "What city were you born in?" },
 ];
 
-const StepFour = ({ register, errors, setValue, watch }) => {
-  const bankName = watch("bankName");
-  const securityQuestion = watch("securityQuestion");
-
+const StepFour = ({ register, errors, control }) => {
   return (
     <div className="space-y-4 pt-2">
       {/* Account details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+        {/* Account Name */}
         <div>
           <label className="block font-medium text-gray-700 mb-2">
             Account Name *
@@ -33,9 +32,9 @@ const StepFour = ({ register, errors, setValue, watch }) => {
             {...register("accountName", {
               required: "Account name is required",
             })}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 ${
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] ${
               errors.accountName
-                ? "border-red-500"
+                ? "border border-red-500"
                 : "border-gray-300 bg-gray-50"
             }`}
           />
@@ -46,6 +45,7 @@ const StepFour = ({ register, errors, setValue, watch }) => {
           )}
         </div>
 
+        {/* Account Number */}
         <div>
           <label className="block font-medium text-gray-700 mb-2">
             Account Number *
@@ -61,9 +61,9 @@ const StepFour = ({ register, errors, setValue, watch }) => {
                 message: "Account number must be 10 digits",
               },
             })}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 ${
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] ${
               errors.accountNumber
-                ? "border-red-500"
+                ? "border border-red-500"
                 : "border-gray-300 bg-gray-50"
             }`}
           />
@@ -74,25 +74,33 @@ const StepFour = ({ register, errors, setValue, watch }) => {
           )}
         </div>
 
-        {/* Bank and withdrawal code */}
+        {/* Bank Name */}
         <div>
           <label className="block font-medium text-gray-700 mb-2">
             Bank Name *
           </label>
-          <Dropdown
-            value={bankName}
-            onChange={(e) => setValue("bankName", e.target.value)}
-            options={banks}
-            placeholder="Select your bank"
-            error={errors.bankName?.message}
-            borderClass="border-gray-300"
-            bgClass="bg-white"
-            containerClass="text-xs"
-            dropdownClass="border-gray-300"
-            radiusClass="rounded-md"
+          <Controller
+            name="bankName"
+            control={control}
+            rules={{ required: "Bank name is required" }}
+            render={({ field }) => (
+              <Dropdown
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                options={banks}
+                placeholder="Select your bank"
+                error={errors.bankName?.message}
+                bgClass="bg-gray-50"
+                borderClass="border-none focus:border focus:border-gray-500"
+                containerClass="text-xs"
+                dropdownClass="border-gray-300"
+                radiusClass="rounded-md"
+              />
+            )}
           />
         </div>
 
+        {/* Withdrawal Code */}
         <div>
           <label className="block font-medium text-gray-700 mb-2">
             6-Digit Withdrawal Code *
@@ -108,9 +116,9 @@ const StepFour = ({ register, errors, setValue, watch }) => {
                 message: "Must be a 6-digit numeric code",
               },
             })}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 ${
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] ${
               errors.withdrawalCode
-                ? "border-red-500"
+                ? "border border-red-500"
                 : "border-gray-300 bg-gray-50"
             }`}
           />
@@ -130,20 +138,27 @@ const StepFour = ({ register, errors, setValue, watch }) => {
         <label className="block font-medium text-gray-700 mb-2 text-xs">
           Security Question *
         </label>
-        <Dropdown
-          value={securityQuestion}
-          onChange={(e) => setValue("securityQuestion", e.target.value)}
-          options={securityQuestions}
-          placeholder="Select a security question"
-          error={errors.securityQuestion?.message}
-          borderClass="border-gray-300"
-          bgClass="bg-gray-50"
-          containerClass="text-xs"
-          dropdownClass="border-gray-300"
-          radiusClass="rounded-md"
+        <Controller
+          name="securityQuestion"
+          control={control}
+          rules={{ required: "Security question is required" }}
+          render={({ field }) => (
+            <Dropdown
+              value={field.value}
+              onChange={(e) => field.onChange(e.target.value)}
+              options={securityQuestions}
+              placeholder="Select a security question"
+              error={errors.securityQuestion?.message}
+              bgClass="bg-gray-50"
+              containerClass="text-xs"
+              dropdownClass="border-gray-300"
+              radiusClass="rounded-md"
+            />
+          )}
         />
       </div>
 
+      {/* Security Answer */}
       <div className="text-xs">
         <label className="block font-medium text-gray-700 mb-2 ">
           Security Answer *
@@ -154,9 +169,9 @@ const StepFour = ({ register, errors, setValue, watch }) => {
           {...register("securityAnswer", {
             required: "Security answer is required",
           })}
-          className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 ${
+          className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] ${
             errors.securityAnswer
-              ? "border-red-500"
+              ? "border border-red-500"
               : "border-gray-300 bg-gray-50"
           }`}
         />

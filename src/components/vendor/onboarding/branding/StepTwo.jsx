@@ -174,8 +174,8 @@ const StepTwo = ({ register, errors, trigger }) => {
               {...register("productName", {
                 required: "Product name is required",
               })}
-              className={`w-full px-3 py-2 border rounded-md text-xs ${
-                errors.productName ? "border-red-500" : "border-gray-300"
+              className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
+                errors.productName ? "border border-red-500" : "border-gray-50"
               }`}
               placeholder="e.g., Wireless Headphones"
             />
@@ -198,10 +198,10 @@ const StepTwo = ({ register, errors, trigger }) => {
                   options={categories}
                   placeholder="Choose a category"
                   error={fieldState.error?.message}
-                  borderClass="border-gray-300"
+                  borderClass="border-gray-50"
                   bgClass="bg-gray-50 py-[8px]"
                   containerClass="text-xs"
-                  dropdownClass="border-gray-300"
+                  dropdownClass="border-gray-50"
                   radiusClass="rounded-md"
                 />
               )}
@@ -220,8 +220,8 @@ const StepTwo = ({ register, errors, trigger }) => {
               maxLength: { value: 1000, message: "Max 1000 characters" },
             })}
             rows={4}
-            className={`w-full px-3 py-2 border rounded-lg text-xs resize-none ${
-              errors.description ? "border-red-500" : "border-gray-300"
+            className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs resize-none bg-gray-50 ${
+              errors.description ? "border border-red-500" : ""
             }`}
             placeholder="Describe your product"
           />
@@ -245,8 +245,8 @@ const StepTwo = ({ register, errors, trigger }) => {
               type="number"
               step="0.01"
               {...register("price", { required: "Price is required" })}
-              className={`w-full px-3 py-2 border rounded-md text-xs ${
-                errors.price ? "border-red-500" : "border-gray-300"
+              className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
+                errors.price ? "border border-red-500" : "border-gray-50"
               }`}
               placeholder="e.g., 49.99"
             />
@@ -264,8 +264,8 @@ const StepTwo = ({ register, errors, trigger }) => {
             <input
               type="number"
               {...register("stock", { required: "Stock is required" })}
-              className={`w-full px-3 py-2 border rounded-md text-xs ${
-                errors.stock ? "border-red-500" : "border-gray-300"
+              className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
+                errors.stock ? "border border-red-500" : "border-gray-50"
               }`}
               placeholder="e.g., 100"
             />
@@ -290,10 +290,10 @@ const StepTwo = ({ register, errors, trigger }) => {
                   options={availabilityOptions}
                   placeholder="Select availability"
                   error={fieldState.error?.message}
-                  borderClass="border-gray-300"
+                  borderClass="border-gray-50"
                   bgClass="bg-gray-50 py-[8px]"
                   containerClass="text-xs"
-                  dropdownClass="border-gray-300"
+                  dropdownClass="border-gray-50"
                   radiusClass="rounded-md"
                 />
               )}
@@ -317,8 +317,8 @@ const StepTwo = ({ register, errors, trigger }) => {
                   key={slot}
                   className={`relative aspect-video border-2 border-dashed rounded-xl flex items-center justify-center cursor-pointer ${
                     errors.images
-                      ? "border-red-500"
-                      : "border-gray-300 hover:border-orange-400"
+                      ? "border border-red-500"
+                      : "border-gray-100 hover:border-orange-400"
                   }`}
                 >
                   <input

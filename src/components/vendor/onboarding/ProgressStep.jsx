@@ -24,7 +24,7 @@ const ProgressStep = ({ currentStep }) => {
         {/* progress width */}
         <div className="w-full bg-gray-400/80 rounded-full h-2 hidden md:block">
           <div
-            className="bg-green-600 h-2 rounded transition-all duration-500"
+            className="bg-[#38C066] h-2 rounded transition-all duration-500"
             style={{
               width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
             }}
@@ -39,7 +39,7 @@ const ProgressStep = ({ currentStep }) => {
                 <div
                   className={`w-6 h-6 rounded-full font-medium flex items-center border-2 justify-center ${
                     currentStep > step.number
-                      ? "border-green-500 text-white"
+                      ? "border-[#38C066] text-white"
                       : currentStep === step.number
                       ? "border-black bg-black text-white"
                       : "border-gray-500 text-gray-200"
@@ -48,7 +48,7 @@ const ProgressStep = ({ currentStep }) => {
                   {currentStep === step.number && step.number}
                 </div>
               ) : (
-                <LuCircleCheckBig className="w-6 h-6 text-green-500" />
+                <LuCircleCheckBig className="w-6 h-6 text-[#38C066]" />
               )}
               <span
                 className={`${

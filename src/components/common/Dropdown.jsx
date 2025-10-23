@@ -11,13 +11,14 @@ const Dropdown = ({
   error,
   icon,
   containerClass = "",
-  dropdownClass = "border-orange",
+  dropdownClass = "border-gray-200",
   itemClass = "",
-  borderClass = "border-gray-300",
-  bgClass = "bg-orange/10",
-  radiusClass = "rounded-[20px]",
+  borderClass = "border border-gray-300",
+  bgClass = "bg-gray-50",
+  radiusClass = "rounded-md",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleToggle = () => setIsOpen(!isOpen);
@@ -27,6 +28,7 @@ const Dropdown = ({
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
+        setIsFocused(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -36,16 +38,23 @@ const Dropdown = ({
   const handleSelect = (val) => {
     onChange?.({ target: { value: val } });
     setIsOpen(false);
+    setIsFocused(false);
   };
 
   return (
     <div ref={dropdownRef} className={`relative w-full ${containerClass}`}>
       {/* Select Box */}
       <div
-        className={`flex items-center justify-between gap-2 border ${radiusClass} px-3 sm:px-4 py-[10px] text-[clamp(12px,1vw,14px)] cursor-pointer transition-all
-        ${error ? "border-red-500 focus:ring-red-500" : borderClass}
-        ${bgClass}`}
+        tabIndex={0}
         onClick={handleToggle}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        className={`flex items-center justify-between gap-2 ${radiusClass} px-3 sm:px-4 py-[10px]
+          text-[clamp(12px,1vw,14px)] cursor-pointer transition-all duration-150
+          ${error ? "border border-red-500" : borderClass}
+          ${
+            isFocused || isOpen ? "bg-gray-100 ring-1 ring-[#737373]" : bgClass
+          }`}
       >
         {icon && <span className="text-gray-400 flex-shrink-0">{icon}</span>}
 
@@ -82,16 +91,16 @@ const Dropdown = ({
                 <li
                   key={idx}
                   onClick={() => handleSelect(opt.value ?? opt)}
-                  className={`px-4 py-2 text-sm hover:bg-orange/10 transition-colors flex justify-between items-center
+                  className={`px-4 py-2 text-sm hover:bg-gray-100 transition-colors flex justify-between items-center
                     ${
                       isSelected
-                        ? `${bgClass} font-medium text-orange`
+                        ? "bg-gray-100 font-medium text-[#737373]"
                         : "text-gray-700"
                     } ${itemClass}`}
                 >
                   <span>{opt.label || opt}</span>
                   {isSelected && (
-                    <Check size={16} className="text-orange ml-2" />
+                    <Check size={16} className="text-[#737373] ml-2" />
                   )}
                 </li>
               );

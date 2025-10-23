@@ -9,7 +9,7 @@ import OnboardingSuccess from "../../components/vendor/onboarding/OnboardingSucc
 const tabOrder = ["store", "contact", "verification", "payout"];
 
 const VendorOnboarding = () => {
-  const [currentStep, setCurrentStep] = useState(3);
+  const [currentStep, setCurrentStep] = useState(2);
   const [currentTab, setCurrentTab] = useState("store");
   const [completedTabs, setCompletedTabs] = useState([]); // track completed tabs
 
