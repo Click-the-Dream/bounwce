@@ -7,6 +7,7 @@ import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import VendorRouter from "./routes/VendorRouter";
 import SecureRoute from "./routes/SecureRoute";
+import StoreHeader from "./features/vendorStore/dashboard/StoreHeader";
 
 // Lazy load the pages
 const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
@@ -14,7 +15,7 @@ const LoginPage = lazy(() => import("./features/auth/LoginPage"));
 const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
 
 const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
-const DashboardHeader = lazy(() => import("./page/dashboard/DashboardHeader"))
+const DashboardHeader = lazy(() => import("./features/vendorStore/dashboard/StoreHeader"));
 
 // Prevent authenticated users from accessing auth pages
 const PublicRoute = ({ children }) => {
@@ -67,10 +68,10 @@ function App() {
               />
 
               <Route 
-              path="/vendor/dashboard" 
+              path="/vendorStore" 
               element={
                <PublicRoute>
-                  <DashboardHeader />
+                  <StoreHeader />
                 </PublicRoute>
               } 
              />
@@ -80,7 +81,7 @@ function App() {
             {/* Protected Vendor Routes */}
             <Route element={<SecureRoute />}>
               <Route path="/vendor/setup" element={<VendorOnboarding />} />
-              <Route path="/vendor/dashboard" element={<DashboardHeader />} />
+              {/* <Route path="/vendorStore/dashboard" element={<StoreHeader />} /> */}
               <Route path="/vendor/*" element={<VendorRouter />} />
             </Route>
 

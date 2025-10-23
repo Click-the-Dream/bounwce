@@ -1,6 +1,6 @@
 import { Plus, RefreshCw } from "lucide-react"
 
-export default function QuickActions() {
+const QuickActions  = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold text-gray-900 mb-2">Quick Actions</h2>
@@ -21,3 +21,5 @@ export default function QuickActions() {
     </div>
   )
 }
+
+export default QuickActions

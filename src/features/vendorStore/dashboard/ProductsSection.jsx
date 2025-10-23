@@ -1,6 +1,6 @@
 import { Search, Filter, Download, Plus, Package } from "lucide-react"
 
-export default function ProductsSection() {
+const ProductsSection = () => {
   return (
     <div className="bg-white rounded-lg border border-gray-200 mb-6">
       {/* Search and Filter Bar */}
@@ -44,3 +44,6 @@ export default function ProductsSection() {
     </div>
   )
 }
+
+
+export default ProductsSection
