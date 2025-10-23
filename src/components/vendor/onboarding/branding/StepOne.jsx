@@ -135,28 +135,33 @@ const StepOne = ({ register, errors, watch, setValue }) => {
         </div>
       </div>
 
-      {/* Description */}
-      <textarea
-        {...register("storeDescription", {
-          required: "Store description is required",
-          minLength: {
-            value: 10,
-            message: "Description must be at least 10 characters long",
-          },
-        })}
-        rows="3"
-        placeholder="Tell your customers what you sell and what makes you special..."
-        className={`w-full border rounded-xl p-3 text-sm focus:ring-1 resize-none ${
-          errors.storeDescription
-            ? "border-red-500 focus:ring-red-500"
-            : "border-gray-300 focus:ring-orange"
-        }`}
-      />
-      {errors.storeDescription && (
-        <p className="text-xs text-red-500 mt-1">
-          {errors.storeDescription.message}
-        </p>
-      )}
+      <div className="mb-6">
+        <label className="block text-sm mb-1">
+          Store Description (Optional)
+        </label>
+        {/* Description */}
+        <textarea
+          {...register("storeDescription", {
+            required: "Store description is required",
+            minLength: {
+              value: 10,
+              message: "Description must be at least 10 characters long",
+            },
+          })}
+          rows="3"
+          placeholder="Tell your customers what you sell and what makes you special..."
+          className={`w-full border rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-gray-50 resize-none ${
+            errors.storeDescription
+              ? "border-red-500 focus:ring-red-500"
+              : "border-gray-300 focus:ring-orange"
+          }`}
+        />
+        {errors.storeDescription && (
+          <p className="text-xs text-red-500 mt-1">
+            {errors.storeDescription.message}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
