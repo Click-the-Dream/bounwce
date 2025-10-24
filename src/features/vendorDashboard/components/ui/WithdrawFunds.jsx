@@ -5,6 +5,7 @@ import WithdrawAmountStep from "./WithdrawAmountStep";
 import { userData } from "../..";
 import WithdrawVerificationStep from "./WithdrawVerificationStep";
 import WithdrawSucessStep from "./WithdrawSucessStep";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
     const DEMO_VERIFICATION_CODE = ["1", "2", "3", "4", "5", "6"];
@@ -12,6 +13,7 @@ const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
     const [amount, setAmount] = useState('');
     const [verificationCode, setVerificationCode] = useState(Array(6).fill(''));
     const [errorMessage, setErrorMessage] = useState('');
+    const [referenceID, setReferenceId] = useState("AS-HGSUWON763")
 
     // ref array for 6 input verification boxes 
     const codeRefs = useRef([]);
@@ -77,7 +79,7 @@ const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
                 return <WithdrawVerificationStep code={verificationCode} setCode={setVerificationCode} codeRefs={codeRefs}
                 amount={amount} bankName={userData.bankName} accountNumber={userData.accountNumber} error={errorMessage}/>
             case 3: 
-                return <WithdrawSucessStep />
+                return <WithdrawSucessStep amount={amount} bankName={userData.bankName} accountNumber={userData.accountNumber} referenceID={referenceID}/>
             default:
                 return null;
         }
@@ -95,7 +97,9 @@ const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
         >
             <div className="flex justify-between gap-2 items-center mb-1">
                 <div className="flex gap-2 items-center">
-                    <PiHandWithdrawFill />
+                    {
+                        step === 3 ? <IoMdCheckmarkCircleOutline size={20} className="text-[#00C950]"/> : <PiHandWithdrawFill /> 
+                    }                   
                     <h1 className="font-semibold text-[14px]">
                         {
                             step === 1
@@ -113,7 +117,8 @@ const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
                     x
                 </button>
             </div>
-            <p className="text-[11px] text-black/50 mb-3">Enter Withdrawal details and security information</p>
+
+            {step === 3 ? "" : <p className="text-[11px] text-black/50 mb-3">Enter Withdrawal details and security information</p>}
             
             {/* dynamic content area */}
             {renderContent()}
@@ -152,8 +157,7 @@ const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
                         }
                     </button>
                 </div>
-        </div>
-        
+        </div>        
     </div>
   )
 }

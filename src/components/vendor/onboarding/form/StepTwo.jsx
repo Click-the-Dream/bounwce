@@ -11,8 +11,8 @@ const StepTwo = ({ register, errors }) => {
           {...register("contactName", {
             required: "Contact name is required",
           })}
-          className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm ${
-            errors.contactName ? "border-red-500" : "bg-gray-50"
+          className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs ${
+            errors.contactName ? "border border-red-500" : "bg-gray-50"
           }`}
           placeholder="Afolabi Mubarak"
         />
@@ -31,8 +31,8 @@ const StepTwo = ({ register, errors }) => {
           {...register("role", { required: "Email is required" })}
           type="text"
           placeholder="CEO, Manager, Owner etc."
-          className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm ${
-            errors.role ? "border-red-500" : "bg-gray-50"
+          className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs ${
+            errors.role ? "border border-red-500" : "bg-gray-50"
           }`}
         />
         {errors.role && (
@@ -47,8 +47,8 @@ const StepTwo = ({ register, errors }) => {
           {...register("email", { required: "Email is required" })}
           type="email"
           placeholder="business@gmail.com"
-          className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm ${
-            errors.email ? "border-red-500" : "bg-gray-50"
+          className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs ${
+            errors.email ? "border border-red-500" : "bg-gray-50"
           }`}
         />
         {errors.email && (
@@ -66,8 +66,8 @@ const StepTwo = ({ register, errors }) => {
           })}
           type="tel"
           placeholder="+1 (555) 123-4567"
-          className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm ${
-            errors.phoneNumber ? "border-red-500" : "bg-gray-50"
+          className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs ${
+            errors.phoneNumber ? "border border-red-500" : "bg-gray-50"
           }`}
         />
         {errors.phoneNumber && (

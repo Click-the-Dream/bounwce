@@ -160,8 +160,8 @@ const StepThree = () => {
                 required: "Shipping cost is required",
                 min: { value: 0, message: "Cost must be greater than 0" },
               })}
-              className={`w-full px-3 py-2 border rounded-md text-xs ${
-                errors.shippingCost ? "border-red-500" : "border-gray-300"
+              className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
+                errors.shippingCost ? "border border-red-500" : ""
               }`}
               placeholder="e.g., 5.99"
             />
@@ -182,8 +182,8 @@ const StepThree = () => {
                 required: "Estimated delivery is required",
                 min: { value: 1, message: "Must be at least 1 day" },
               })}
-              className={`w-full px-3 py-2 border rounded-md text-sm ${
-                errors.estimatedDelivery ? "border-red-500" : "border-gray-300"
+              className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-sm ${
+                errors.estimatedDelivery ? "border border-red-500" : ""
               }`}
               placeholder="e.g., 3"
             />
