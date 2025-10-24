@@ -7,15 +7,14 @@ import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import VendorRouter from "./routes/VendorRouter";
 import SecureRoute from "./routes/SecureRoute";
-import StoreHeader from "./features/vendorStore/dashboard/StoreHeader";
+import StoreManagementDashboard from "./features/vendorStore/components/StoreManagementDashboard";
+import ActiveStore from "./features/vendorStore/components/ActiveStore";
 
 // Lazy load the pages
 const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
 const LoginPage = lazy(() => import("./features/auth/LoginPage"));
 const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
-
 const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
-const DashboardHeader = lazy(() => import("./features/vendorStore/dashboard/StoreHeader"));
 
 // Prevent authenticated users from accessing auth pages
 const PublicRoute = ({ children }) => {
@@ -23,11 +22,11 @@ const PublicRoute = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (authDetails?.user) {
+     if (authDetails?.user) {
       // Redirect logged-in users to vendor dashboard
       navigate("/vendor", { replace: true });
     }
-  }, [authDetails]);
+  }, [authDetails, navigate]);
 
   if (isLoading)
     return <div className="text-white text-center mt-10">Loading...</div>;
@@ -39,7 +38,7 @@ function App() {
     <AuthProvider>
       <Suspense fallback={<Fallback />}>
         <div className="font-inter">
-          <Routes>
+           <Routes>
             {/* Public Routes */}
             <Route element={<AuthLayout />}>
               <Route
@@ -66,33 +65,35 @@ function App() {
                   </PublicRoute>
                 }
               />
-
-              <Route 
-              path="/vendorStore" 
-              element={
-               <PublicRoute>
-                  <StoreHeader />
-                </PublicRoute>
-              } 
-             />
             </Route>
-
 
             {/* Protected Vendor Routes */}
             <Route element={<SecureRoute />}>
               <Route path="/vendor/setup" element={<VendorOnboarding />} />
-              {/* <Route path="/vendorStore/dashboard" element={<StoreHeader />} /> */}
+              
+              {/* Store Management Dashboard */}
+              <Route
+                path="/vendorStore"
+                element={<StoreManagementDashboard />}
+              />
+              {/*Active Product Page*/}
+              <Route path="/" element=     
+              {<ActiveStore />} />
+            <Route path="/ActiveStore"   
+              element={<ActiveStore />} />
+
+
+              {/* All other vendor routes via VendorRouter */}
               <Route path="/vendor/*" element={<VendorRouter />} />
             </Route>
 
             {/* Catch-all redirect */}
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </Routes>
-        </div>
-      </Suspense>
-      <ToastContainer autoClose={2000} draggable />
-    </AuthProvider>
-  );
-}
-
+             <Route path="*" element={<Navigate to="/login" replace />} />
+           </Routes>
+         </div>
+       </Suspense>
+       <ToastContainer autoClose={2000} draggable />
+     </AuthProvider>
+   );
+ }
 export default App;
