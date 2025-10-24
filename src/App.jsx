@@ -71,7 +71,7 @@ function App() {
             <Route element={<SecureRoute />}>
               <Route path="/vendor/setup" element={<VendorOnboarding />} />
               
-              {/* Store Management Dashboard */}
+              {/* Inactive Store Dashboard */}
               <Route
                 path="/vendorStore"
                 element={<StoreManagementDashboard />}
