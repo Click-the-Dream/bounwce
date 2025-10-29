@@ -133,7 +133,7 @@ const useAuth = () => {
       if (!email) {
         throw new Error("No email provided");
       }
-      const { data } = await client.post("/auth/login", { email: email });
+      const { data } = await client.post("/auth/resend-otp", { email: email });
 
       return data;
     },
