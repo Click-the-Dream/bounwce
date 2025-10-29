@@ -73,7 +73,7 @@ function App() {
               
               {/* Inactive Store Dashboard */}
               <Route
-                path="/vendorStore"
+                path="/vendor/store"
                 element={<StoreManagementDashboard />}
               />
               {/*Active Product Page*/}
