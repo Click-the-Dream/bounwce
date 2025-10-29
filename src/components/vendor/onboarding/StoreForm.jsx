@@ -1,15 +1,14 @@
 import React, { useCallback, useMemo } from "react";
-import { useFormContext, Controller, useWatch } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import StepOne from "./form/StepOne";
 import StepTwo from "./form/StepTwo";
 import StepThree from "./form/StepThree";
 import StepFour from "./form/StepFour";
 
-const StoreForm = ({ currentTab, onNext, onBack }) => {
+const StoreForm = ({ currentTab, onNext, onBack, isLoading = false }) => {
   const {
     register,
-    control,
     trigger,
     setValue,
     watch,
@@ -38,8 +37,6 @@ const StoreForm = ({ currentTab, onNext, onBack }) => {
         return [];
     }
   }, [currentTab]);
-
-  const watchedFields = useWatch({ control, name: tabFields });
 
   const validateCurrentTab = useCallback(async () => {
     return await trigger(tabFields);
@@ -77,7 +74,11 @@ const StoreForm = ({ currentTab, onNext, onBack }) => {
 
   // Determine button label
   const isLastTab = currentTab === "payout";
-  const nextButtonLabel = isLastTab ? "Continue to Getting Started" : "Next";
+  const nextButtonLabel = isLoading
+    ? "Please wait..."
+    : isLastTab
+    ? "Continue to Getting Started"
+    : "Next";
 
   return (
     <form onSubmit={handleNext} className="space-y-6 pt-2">
@@ -99,10 +100,15 @@ const StoreForm = ({ currentTab, onNext, onBack }) => {
 
         <button
           type="submit"
-          className="ml-auto flex gap-2 items-center px-6 py-2 text-white bg-orange/90 hover:bg-orange rounded-md transition-colors"
+          disabled={isLoading}
+          className={`ml-auto flex gap-2 items-center px-6 py-2 text-white rounded-md transition-all duration-300 ${
+            isLoading
+              ? "bg-orange/70 cursor-not-allowed"
+              : "bg-orange/90 hover:bg-orange"
+          }`}
         >
           {nextButtonLabel}
-          <FaArrowRight className="inline-block ml-2" />
+          <FaArrowRight className="inline-block ml-2 transition-all duration-200" />
         </button>
       </div>
     </form>
