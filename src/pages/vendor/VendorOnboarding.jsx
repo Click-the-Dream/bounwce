@@ -5,13 +5,15 @@ import StoreSetup from "../../components/vendor/onboarding/StoreSetup";
 import StoreForm from "../../components/vendor/onboarding/StoreForm";
 import GettingStarted from "../../components/vendor/onboarding/GettingStarted";
 import OnboardingSuccess from "../../components/vendor/onboarding/OnboardingSuccess";
+import useBusiness from "../../hooks/useBusiness";
 
 const tabOrder = ["store", "contact", "verification", "payout"];
 
 const VendorOnboarding = () => {
   const [currentStep, setCurrentStep] = useState(2);
   const [currentTab, setCurrentTab] = useState("store");
-  const [completedTabs, setCompletedTabs] = useState([]); // track completed tabs
+  const [completedTabs, setCompletedTabs] = useState([]);
+  const { createBusiness } = useBusiness();
 
   const methods = useForm({
     mode: "onChange",
@@ -52,11 +54,33 @@ const VendorOnboarding = () => {
     const valid = await methods.trigger(getTabFields(currentTab));
     if (!valid) return;
 
-    if (!completedTabs.includes(currentTab)) {
-      setCompletedTabs([...completedTabs, currentTab]);
+    const currentIndex = tabOrder.indexOf(currentTab);
+
+    if (currentTab === "store") {
+      const formData = methods.getValues();
+      createBusiness.mutateAsync(
+        {
+          name: formData.storeName,
+          email: formData.storeEmail,
+          address: formData.storeAddress,
+          phone_number: formData.phoneNumber,
+        },
+        {
+          onSuccess: () => {
+            setCompletedTabs((prev) => [...prev, currentTab]);
+            // Move to next tab
+            setCurrentTab(tabOrder[currentIndex + 1]);
+          },
+        }
+      );
+
+      return;
     }
 
-    const currentIndex = tabOrder.indexOf(currentTab);
+    if (!completedTabs.includes(currentTab)) {
+      setCompletedTabs((prev) => [...prev, currentTab]);
+    }
+
     if (currentIndex < tabOrder.length - 1) {
       setCurrentTab(tabOrder[currentIndex + 1]);
     } else {
@@ -100,6 +124,7 @@ const VendorOnboarding = () => {
                 currentTab={currentTab}
                 onNext={handleNext}
                 onBack={handleBack}
+                isLoading={createBusiness.isPending}
               />
             </div>
           )}

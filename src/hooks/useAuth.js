@@ -16,7 +16,7 @@ const useAuth = () => {
   // Login Mutation
   const loginMutation = useMutation({
     mutationFn: async (credentials) => {
-      const { data } = await client.post("/auth/login", credentials);
+      const { data } = await client.post("/auth/resend-otp", credentials);
       return data.data;
     },
     onSuccess: (data) => {
@@ -133,7 +133,7 @@ const useAuth = () => {
       if (!email) {
         throw new Error("No email provided");
       }
-      const { data } = await client.post("/auth/login", { email: email });
+      const { data } = await client.post("/auth/resend-otp", { email: email });
 
       return data;
     },
