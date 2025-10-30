@@ -23,7 +23,7 @@ const LoginPage = () => {
 
   const onSubmit = async (data) => {
     // Simulate API call if needed
-    await requestOtp.mutateAsync(data, {
+    await requestOtp.mutate(data, {
       onSuccess: () => navigate("/email_verification"),
     });
   };

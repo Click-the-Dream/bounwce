@@ -6,7 +6,7 @@ export const brandingSteps = [
     key: "branding",
     label: "Branding",
     desc: "Business details & verification",
-    fields: ["storeDescription", "storeLogo", "storeBanner"],
+    fields: ["store_description", "store_logo", "store_banner"],
   },
   {
     icon: BsBox,

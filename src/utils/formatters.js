@@ -1,21 +1,63 @@
 export const extractErrorMessage = (error) => {
   const getString = (data) => {
-    return typeof data === "string" ? data : JSON.stringify(data);
+    if (!data) return "";
+    if (typeof data === "string") return data;
+    if (Array.isArray(data)) return data.map(getString).join(", ");
+    if (typeof data === "object") return JSON.stringify(data);
+    return String(data);
   };
 
-  if (error?.response?.data?.message) {
-    return getString(error.response.data.message);
-  }
+  try {
+    // ✅ FastAPI / Pydantic validation errors
+    if (Array.isArray(error?.response?.data?.detail)) {
+      const details = error.response.data.detail.map((d) => {
+        // Extract field name from "loc" array, e.g. ["body", "type"] → "type"
+        const field = Array.isArray(d.loc)
+          ? d.loc[d.loc.length - 1]
+          : d.loc || "field";
 
-  if (error?.response?.data?.error) {
-    return getString(error.response.data.error);
-  }
+        // Capitalize field name
+        const formattedField = field
+          .replace(/_/g, " ")
+          .replace(/^\w/, (c) => c.toUpperCase());
 
-  if (error?.response?.error) {
-    return getString(error.response.error);
-  }
+        // Format message like "Type: Field required" → "Type field is required"
+        const msg =
+          d.msg
+            ?.replace("Field required", "field is required")
+            ?.replace("string", "text")
+            ?.trim() || "Invalid input";
 
-  return getString(error?.message || "An unknown error occurred");
+        return `${formattedField} ${msg}`;
+      });
+
+      return details.join(" | ");
+    }
+
+    // ✅ Handle direct detail string
+    if (error?.response?.data?.detail) {
+      return getString(error.response.data.detail);
+    }
+
+    // ✅ Handle message and error fields
+    if (error?.response?.data?.message) {
+      return getString(error.response.data.message);
+    }
+
+    if (error?.response?.data?.error) {
+      return getString(error.response.data.error);
+    }
+
+    if (error?.response?.error) {
+      return getString(error.response.error);
+    }
+
+    // ✅ Fallback
+    return getString(error?.message || "An unknown error occurred");
+  } catch (err) {
+    console.error("Error parsing error message:", err);
+    return "An unexpected error occurred while processing the error message.";
+  }
 };
 
 export const containerVariants = {

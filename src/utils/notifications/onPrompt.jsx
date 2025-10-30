@@ -1,4 +1,4 @@
-import { toast, Slide } from "react-toastify";
+import { toast } from "react-toastify";
 import { IoInformationCircle } from "react-icons/io5";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
@@ -28,13 +28,5 @@ const PromptToast = ({ title, message }) => (
 );
 
 export const onPrompt = ({ title = "Prompt", message }) => {
-  toast(<PromptToast title={title} message={message} />, {
-    position: "top-right",
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    transition: Slide,
-    theme: "light",
-  });
+  toast(<PromptToast title={title} message={message} />);
 };

@@ -1,4 +1,4 @@
-import { toast, Slide } from "react-toastify";
+import { toast } from "react-toastify";
 import { MdCancel } from "react-icons/md";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
@@ -31,13 +31,5 @@ const FailureToast = ({ message, error }) => (
 );
 
 export const onFailure = (error) => {
-  toast(<FailureToast message={error?.message} error={error?.error} />, {
-    position: "top-right",
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    transition: Slide,
-    theme: "light",
-  });
+  toast(<FailureToast message={error?.title} error={error?.message} />);
 };
