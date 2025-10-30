@@ -7,6 +7,7 @@ import GettingStarted from "../../components/vendor/onboarding/GettingStarted";
 import OnboardingSuccess from "../../components/vendor/onboarding/OnboardingSuccess";
 import useStore from "../../hooks/useStore";
 import useUser from "../../hooks/useUser";
+import StoreLoader from "../../components/common/StoreLoader";
 
 const tabOrder = ["store", "contact", "verification", "payout"];
 
@@ -267,22 +268,10 @@ const VendorOnboarding = () => {
   // ✅ Loading Screen
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange/20">
-        <div className="text-center space-y-6">
-          <div className="relative">
-            <div className="w-16 h-16 border-4 border-orange rounded-full animate-spin"></div>
-            <div className="absolute top-1/2 left-1/2 w-8 h-8 border-4 border-orange rounded-full animate-ping -translate-x-1/2 -translate-y-1/2"></div>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Setting up your store
-            </h3>
-            <p className="text-gray-500 text-sm">
-              This will just take a moment...
-            </p>
-          </div>
-        </div>
-      </div>
+      <StoreLoader
+        title="Setting up your vendor account"
+        description="Preparing your store dashboard..."
+      />
     );
   }
 

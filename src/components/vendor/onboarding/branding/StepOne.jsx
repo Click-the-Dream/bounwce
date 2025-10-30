@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react";
 
-const StepOne = ({ register, errors, watch, setValue }) => {
+const StepOne = ({ register, errors, watch, setValue, storeData }) => {
   const storeLogo = watch("store_logo");
   const storeBanner = watch("store_banner");
 
   const [logoPreview, setLogoPreview] = useState(null);
   const [bannerPreview, setBannerPreview] = useState(null);
 
-  // Generate image preview when files change
+  // Initialize previews from existing store data
+  useEffect(() => {
+    if (storeData) {
+      if (!storeLogo?.[0] && storeData.store_logo?.url) {
+        setLogoPreview(storeData.store_logo.url);
+      }
+      if (!storeBanner?.[0] && storeData.store_banner?.url) {
+        setBannerPreview(storeData.store_banner.url);
+      }
+    }
+  }, [storeData, storeLogo, storeBanner]);
+
+  // Update preview on file select
   useEffect(() => {
     if (storeLogo && storeLogo[0]) {
-      const file = storeLogo[0];
-      const previewURL = URL.createObjectURL(file);
+      const previewURL = URL.createObjectURL(storeLogo[0]);
       setLogoPreview(previewURL);
       return () => URL.revokeObjectURL(previewURL);
     }
@@ -19,12 +30,16 @@ const StepOne = ({ register, errors, watch, setValue }) => {
 
   useEffect(() => {
     if (storeBanner && storeBanner[0]) {
-      const file = storeBanner[0];
-      const previewURL = URL.createObjectURL(file);
+      const previewURL = URL.createObjectURL(storeBanner[0]);
       setBannerPreview(previewURL);
       return () => URL.revokeObjectURL(previewURL);
     }
   }, [storeBanner]);
+  useEffect(() => {
+    if (storeData?.store_description) {
+      setValue("store_description", storeData.store_description);
+    }
+  }, [storeData, setValue]);
 
   return (
     <div className="mb-10">

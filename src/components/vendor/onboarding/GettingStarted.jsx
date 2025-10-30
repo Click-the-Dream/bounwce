@@ -86,9 +86,21 @@ const GettingStarted = ({ storeData, onNext, onBack }) => {
     if (currentSubStep === "branding") {
       try {
         const formData = new FormData();
-        formData.append("store_logo", watch("store_logo")[0]);
-        formData.append("store_banner", watch("store_banner")[0]);
-        formData.append("store_description", watch("store_description"));
+
+        // Use uploaded file if present, otherwise fallback to URL string
+        const logoFile = watch("store_logo")?.[0];
+        const bannerFile = watch("store_banner")?.[0];
+
+        formData.append(
+          "store_logo",
+          logoFile || null
+        );
+        formData.append(
+          "store_banner",
+          bannerFile || null
+        );
+
+        formData.append("store_description", watch("store_description") || "");
 
         await updateBranding.mutateAsync(formData, {
           onSuccess: () => {
@@ -96,6 +108,7 @@ const GettingStarted = ({ storeData, onNext, onBack }) => {
           },
         });
       } catch (error) {
+        console.error(error);
         return;
       }
       return;
@@ -212,9 +225,8 @@ const GettingStarted = ({ storeData, onNext, onBack }) => {
             register={register}
             errors={errors}
             setValue={setValue}
-            trigger={trigger}
+            storeData={storeData}
             watch={watch}
-            control={control}
           />
         )}
 
