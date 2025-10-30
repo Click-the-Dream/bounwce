@@ -6,7 +6,15 @@ import StepTwo from "./form/StepTwo";
 import StepThree from "./form/StepThree";
 import StepFour from "./form/StepFour";
 
-const StoreForm = ({ currentTab, onNext, onBack, isLoading = false }) => {
+const StoreForm = ({
+  currentTab,
+  onNext,
+  onBack,
+  handleSkip,
+  isLoading = false,
+  hasExistingData = false,
+  canSkip = false,
+}) => {
   const {
     register,
     trigger,
@@ -15,7 +23,6 @@ const StoreForm = ({ currentTab, onNext, onBack, isLoading = false }) => {
     formState: { errors },
   } = useFormContext();
 
-  // Memoize tab fields to prevent unnecessary recalculations
   const tabFields = useMemo(() => {
     switch (currentTab) {
       case "store":
@@ -45,9 +52,7 @@ const StoreForm = ({ currentTab, onNext, onBack, isLoading = false }) => {
   const handleNext = async (e) => {
     e.preventDefault();
     const valid = await validateCurrentTab();
-    if (valid) {
-      onNext();
-    }
+    if (valid) onNext();
   };
 
   const renderFields = () => {
@@ -72,10 +77,11 @@ const StoreForm = ({ currentTab, onNext, onBack, isLoading = false }) => {
     }
   };
 
-  // Determine button label
   const isLastTab = currentTab === "payout";
   const nextButtonLabel = isLoading
     ? "Please wait..."
+    : hasExistingData
+    ? "Update"
     : isLastTab
     ? "Continue to Getting Started"
     : "Next";
@@ -83,6 +89,13 @@ const StoreForm = ({ currentTab, onNext, onBack, isLoading = false }) => {
   return (
     <form onSubmit={handleNext} className="space-y-6 pt-2">
       {renderFields()}
+
+      {hasExistingData && (
+        <p className="text-xs text-gray-500 italic mt-2">
+          You already have saved information. Clicking “Update” will overwrite
+          your current data.
+        </p>
+      )}
 
       <div className="flex flex-wrap justify-between gap-2 pt-6 text-sm">
         <button
@@ -95,21 +108,29 @@ const StoreForm = ({ currentTab, onNext, onBack, isLoading = false }) => {
               : "bg-gray-50 hover:bg-gray-100"
           }`}
         >
-          <FaArrowLeft className="inline-block mr-2" /> Back
+          <FaArrowLeft /> Back
         </button>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className={`ml-auto flex gap-2 items-center px-6 py-2 text-white rounded-md transition-all duration-300 ${
-            isLoading
-              ? "bg-orange/70 cursor-not-allowed"
-              : "bg-orange/90 hover:bg-orange"
-          }`}
-        >
-          {nextButtonLabel}
-          <FaArrowRight className="inline-block ml-2 transition-all duration-200" />
-        </button>
+        <div className="flex gap-3 ml-auto">
+          {/* ✅ Show Skip only when allowed */}
+          {canSkip && (
+            <button
+              type="button"
+              onClick={handleSkip}
+              className="flex gap-2 items-center px-4 py-2 border bg-black rounded-lg text-white hover:bg-black/90"
+            >
+              Skip <FaArrowRight />
+            </button>
+          )}
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="flex gap-2 items-center px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {nextButtonLabel} <FaArrowRight />
+          </button>
+        </div>
       </div>
     </form>
   );

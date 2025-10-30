@@ -8,17 +8,17 @@ const StepTwo = ({ register, errors }) => {
           Contact Person Name
         </label>
         <input
-          {...register("contactName", {
+          {...register("contact_info.name", {
             required: "Contact name is required",
           })}
           className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs ${
-            errors.contactName ? "border border-red-500" : "bg-gray-50"
+            errors?.contact_info?.name ? "border border-red-500" : "bg-gray-50"
           }`}
           placeholder="Afolabi Mubarak"
         />
-        {errors.contactName && (
+        {errors?.contact_info?.name && (
           <p className="text-red-600 mt-1 text-xs">
-            {errors.contactName.message}
+            {errors?.contact_info.name.message}
           </p>
         )}
       </div>
@@ -28,15 +28,19 @@ const StepTwo = ({ register, errors }) => {
           Role/Title
         </label>
         <input
-          {...register("role", { required: "Email is required" })}
+          {...register("contact_info.title", {
+            required: "Email is required",
+          })}
           type="text"
           placeholder="CEO, Manager, Owner etc."
           className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs ${
-            errors.role ? "border border-red-500" : "bg-gray-50"
+            errors?.contact_info?.title ? "border border-red-500" : "bg-gray-50"
           }`}
         />
-        {errors.role && (
-          <p className="text-red-600 mt-1 text-xs">{errors.role.message}</p>
+        {errors?.contact_info?.title && (
+          <p className="text-red-600 mt-1 text-xs">
+            {errors?.contact_info?.title.message}
+          </p>
         )}
       </div>
       <div>
@@ -44,15 +48,19 @@ const StepTwo = ({ register, errors }) => {
           Contact Person Email
         </label>
         <input
-          {...register("email", { required: "Email is required" })}
+          {...register("contact_info.email", {
+            required: "Email is required",
+          })}
           type="email"
           placeholder="business@gmail.com"
           className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs ${
-            errors.email ? "border border-red-500" : "bg-gray-50"
+            errors?.contact_info?.email ? "border border-red-500" : "bg-gray-50"
           }`}
         />
-        {errors.email && (
-          <p className="text-red-600 mt-1 text-xs">{errors.email.message}</p>
+        {errors?.contact_info?.email && (
+          <p className="text-red-600 mt-1 text-xs">
+            {errors?.contact_info?.email.message}
+          </p>
         )}
       </div>
 
@@ -61,18 +69,20 @@ const StepTwo = ({ register, errors }) => {
           Contact Person Number
         </label>
         <input
-          {...register("phoneNumber", {
+          {...register("contact_info.phone_number", {
             required: "Phone number is required",
           })}
           type="tel"
           placeholder="+1 (555) 123-4567"
           className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs ${
-            errors.phoneNumber ? "border border-red-500" : "bg-gray-50"
+            errors?.contact_info?.phone_number
+              ? "border border-red-500"
+              : "bg-gray-50"
           }`}
         />
-        {errors.phoneNumber && (
+        {errors?.contact_info?.phone_number && (
           <p className="text-red-600 mt-1 text-xs">
-            {errors.phoneNumber.message}
+            {errors?.contact_info?.phone_number.message}
           </p>
         )}
       </div>

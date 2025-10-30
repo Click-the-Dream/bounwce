@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 const StepOne = ({ register, errors, watch, setValue }) => {
-  const storeLogo = watch("storeLogo");
-  const storeBanner = watch("storeBanner");
+  const storeLogo = watch("store_logo");
+  const storeBanner = watch("store_banner");
 
   const [logoPreview, setLogoPreview] = useState(null);
   const [bannerPreview, setBannerPreview] = useState(null);
@@ -49,7 +49,7 @@ const StepOne = ({ register, errors, watch, setValue }) => {
                 type="button"
                 onClick={() => {
                   setLogoPreview(null);
-                  setValue("storeLogo", null);
+                  setValue("store_logo", null);
                 }}
                 className="text-[11px] text-red-500 hover:underline"
               >
@@ -59,14 +59,14 @@ const StepOne = ({ register, errors, watch, setValue }) => {
           ) : (
             <>
               <input
-                id="storeLogo"
+                id="store_logo"
                 type="file"
-                {...register("storeLogo")}
+                {...register("store_logo")}
                 accept="image/png, image/jpeg"
                 className="hidden"
               />
               <label
-                htmlFor="storeLogo"
+                htmlFor="store_logo"
                 className="inline-block bg-gray-50 text-sm font-medium px-4 py-2 rounded-md cursor-pointer border-2 border-gray-300 hover:bg-gray-50/90 transition"
               >
                 Choose File
@@ -74,9 +74,9 @@ const StepOne = ({ register, errors, watch, setValue }) => {
               <p className="text-[9px] text-gray-400 mt-2">
                 PNG, JPG up to 5MB. Recommended: 200x200px
               </p>
-              {errors.storeLogo && (
+              {errors.store_logo && (
                 <p className="text-xs text-red-500 mt-1">
-                  {errors.storeLogo.message}
+                  {errors.store_logo.message}
                 </p>
               )}
             </>
@@ -100,7 +100,7 @@ const StepOne = ({ register, errors, watch, setValue }) => {
                 type="button"
                 onClick={() => {
                   setBannerPreview(null);
-                  setValue("storeBanner", null);
+                  setValue("store_banner", null);
                 }}
                 className="text-[11px] text-red-500 hover:underline"
               >
@@ -110,14 +110,14 @@ const StepOne = ({ register, errors, watch, setValue }) => {
           ) : (
             <>
               <input
-                id="storeBanner"
+                id="store_banner"
                 type="file"
-                {...register("storeBanner")}
+                {...register("store_banner")}
                 accept="image/png, image/jpeg"
                 className="hidden"
               />
               <label
-                htmlFor="storeBanner"
+                htmlFor="store_banner"
                 className="inline-block bg-gray-50 text-sm font-medium px-4 py-2 rounded-md cursor-pointer border-2 border-gray-300 hover:bg-gray-50/90 transition"
               >
                 Choose File
@@ -125,9 +125,9 @@ const StepOne = ({ register, errors, watch, setValue }) => {
               <p className="text-[9px] text-gray-400 mt-2">
                 PNG, JPG up to 5MB. Recommended: 1200x300px
               </p>
-              {errors.storeBanner && (
+              {errors.store_banner && (
                 <p className="text-xs text-red-500 mt-1">
-                  {errors.storeBanner.message}
+                  {errors.store_banner.message}
                 </p>
               )}
             </>
@@ -141,7 +141,7 @@ const StepOne = ({ register, errors, watch, setValue }) => {
         </label>
         {/* Description */}
         <textarea
-          {...register("storeDescription", {
+          {...register("store_description", {
             required: "Store description is required",
             minLength: {
               value: 10,
@@ -151,14 +151,14 @@ const StepOne = ({ register, errors, watch, setValue }) => {
           rows="3"
           placeholder="Tell your customers what you sell and what makes you special..."
           className={`w-full border rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-gray-50 resize-none ${
-            errors.storeDescription
+            errors.store_description
               ? "border-red-500 focus:ring-red-500"
               : "border-gray-300 focus:ring-orange"
           }`}
         />
-        {errors.storeDescription && (
+        {errors.store_description && (
           <p className="text-xs text-red-500 mt-1">
-            {errors.storeDescription.message}
+            {errors.store_description.message}
           </p>
         )}
       </div>

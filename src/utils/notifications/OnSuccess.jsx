@@ -1,9 +1,8 @@
-import { toast, Slide } from "react-toastify";
+import { toast } from "react-toastify";
 import { MdCheckCircle } from "react-icons/md";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 
-// Component wrapper prevents isPaused from leaking to DOM
 // eslint-disable-next-line react-refresh/only-export-components
 const SuccessToast = ({ message, success }) => (
   <motion.div
@@ -29,13 +28,5 @@ const SuccessToast = ({ message, success }) => (
 );
 
 export const onSuccess = (success) => {
-  toast(<SuccessToast message={success.message} success={success.success} />, {
-    position: "top-right",
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    transition: Slide,
-    theme: "light",
-  });
+  toast(<SuccessToast message={success?.title} success={success?.message} />);
 };
