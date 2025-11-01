@@ -24,7 +24,7 @@ const Button = ({
       onClick={onClick}
       className={`${
         styles[variant] || styles.primary
-      } px-2 py-2 text-[12px] mx-auto flex items-center justify-center gap-2 ${
+      } px-2 py-3 text-[12px] mx-auto flex items-center justify-center gap-2 ${
         disabled || isLoading ? "opacity-60 cursor-not-allowed" : ""
       }`}
     >

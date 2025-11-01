@@ -15,6 +15,7 @@ const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
 const LoginPage = lazy(() => import("./features/auth/LoginPage"));
 const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
 const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
+const Waitlist = lazy(() => import("./pages/Waitlist"));
 
 // Prevent authenticated users from accessing auth pages
 const PublicRoute = ({ children }) => {
@@ -66,6 +67,8 @@ function App() {
                 }
               />
             </Route>
+
+            <Route path="/waitlist" element={<Waitlist />} />
 
             {/* Protected Vendor Routes */}
             <Route element={<SecureRoute />}>
