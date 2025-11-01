@@ -36,7 +36,7 @@ const StepTwo = ({ register, errors, trigger }) => {
       "productName",
       "category",
       "description",
-      "price",
+      "amount",
       "stock",
       "availability",
     ]);
@@ -58,7 +58,7 @@ const StepTwo = ({ register, errors, trigger }) => {
       formData.append("name", getValues("productName"));
       formData.append("category", getValues("category"));
       formData.append("description", getValues("description"));
-      formData.append("price", getValues("price"));
+      formData.append("amount", parseInt(getValues("amount")));
       formData.append("stock", getValues("stock"));
       formData.append("availability", getValues("availability"));
 
@@ -74,7 +74,7 @@ const StepTwo = ({ register, errors, trigger }) => {
         "productName",
         "category",
         "description",
-        "price",
+        "amount",
         "stock",
         "availability",
         "images",
@@ -93,7 +93,7 @@ const StepTwo = ({ register, errors, trigger }) => {
     setValue("productName", prod.name);
     setValue("category", prod.category);
     setValue("description", prod.description);
-    setValue("price", prod.price);
+    setValue("amount", prod.amount);
     setValue("stock", prod.stock);
     setValue("availability", prod.availability);
     setValue("images", prod.images || []);
@@ -173,7 +173,7 @@ const StepTwo = ({ register, errors, trigger }) => {
                       {prod?.description}
                     </p>
                     <p className="text-xs">
-                      <b>Price:</b> ₦{prod?.price}{" "}
+                      <b>Price:</b> ₦{prod?.amount}{" "}
                       <b className="ml-2">Stock:</b> {prod?.stock}
                     </p>
                   </div>
@@ -269,15 +269,15 @@ const StepTwo = ({ register, errors, trigger }) => {
                 <input
                   type="number"
                   step="0.01"
-                  {...register("price", { required: "Price is required" })}
+                  {...register("amount", { required: "Price is required" })}
                   className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
-                    errors.price ? "border border-red-500" : "border-gray-50"
+                    errors.amount ? "border border-red-500" : "border-gray-50"
                   }`}
                   placeholder="e.g., 49.99"
                 />
-                {errors.price && (
+                {errors.amount && (
                   <p className="text-red-500 text-xs mt-1">
-                    {errors.price.message}
+                    {errors.amount.message}
                   </p>
                 )}
               </div>

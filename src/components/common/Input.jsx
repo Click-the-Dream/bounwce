@@ -48,12 +48,12 @@ const Input = React.forwardRef(
     };
 
     return (
-      <div className="w-full relative" ref={dropdownRef}>
+      <div className="w-full relative " ref={dropdownRef}>
         {/* Input or custom dropdown container */}
         <div
           className={`flex items-center justify-between gap-2 border ${
             error ? "border-red-400" : "border-orange"
-          } rounded-[20px] px-3 sm:px-4 text-[clamp(12px,1vw,14px)] py-[10px] bg-white cursor-pointer relative`}
+          } rounded-[20px] px-3 sm:px-4 text-[clamp(12px,1vw,14px)] py-[10px] bg-white cursor-pointer relative w-full`}
           onClick={() => variant === "select" && handleToggle()}
         >
           {/* Left icon */}
@@ -102,7 +102,7 @@ const Input = React.forwardRef(
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
               transition={{ duration: 0.2 }}
-              className="absolute left-0 right-0 mt-1 bg-white border border-orange rounded-[16px] shadow-lg overflow-y-auto max-h-40 cursor-pointer z-50"
+              className="absolute left-0 right-0 mt-1 bg-white border border-orange rounded-[16px] shadow-lg overflow-y-auto  max-h-40 cursor-pointer z-50"
             >
               {options.map((opt, idx) => (
                 <li

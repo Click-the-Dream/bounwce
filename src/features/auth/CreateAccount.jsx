@@ -11,6 +11,7 @@ import { LuUserRound } from "react-icons/lu";
 import { Store } from "lucide-react";
 import { UNIVERSITIES } from "../../utils/dummies";
 import useAuth from "../../hooks/useAuth";
+import { fadeUp } from "../../utils/formatters";
 
 const CreateAccount = () => {
   //const navigate = useNavigate();
@@ -37,11 +38,6 @@ const CreateAccount = () => {
       ...data,
       role: data?.vendor === "yes" ? "vendor" : "user",
     });
-  };
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
   };
 
   return (
