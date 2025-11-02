@@ -14,7 +14,7 @@ import { onPrompt } from "../../../utils/notifications/onPrompt";
 import useStore from "../../../hooks/useStore";
 
 const GettingStarted = ({ storeData, onNext, onBack }) => {
-  const [currentSubStep, setCurrentSubStep] = useState("branding");
+  const [currentSubStep, setCurrentSubStep] = useState("shipping");
   const {
     register,
     trigger,
@@ -68,9 +68,9 @@ const GettingStarted = ({ storeData, onNext, onBack }) => {
 
       for (const s of shippings) {
         if (
-          !s.shippingMethod ||
-          s.shippingCost === "" ||
-          s.estimatedDelivery === ""
+          !s.shipping_address ||
+          s.delivery_fee === "" ||
+          s.delivery_time === ""
         ) {
           onPrompt({
             title: "Incomplete Shipping Details",
@@ -91,14 +91,8 @@ const GettingStarted = ({ storeData, onNext, onBack }) => {
         const logoFile = watch("store_logo")?.[0];
         const bannerFile = watch("store_banner")?.[0];
 
-        formData.append(
-          "store_logo",
-          logoFile || null
-        );
-        formData.append(
-          "store_banner",
-          bannerFile || null
-        );
+        formData.append("store_logo", logoFile || null);
+        formData.append("store_banner", bannerFile || null);
 
         formData.append("store_description", watch("store_description") || "");
 

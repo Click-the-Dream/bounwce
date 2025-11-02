@@ -10,11 +10,11 @@ const Button = ({
 }) => {
   const styles = {
     primary:
-      "w-full max-w-[368px] bg-orange text-white rounded-[16px] hover:bg-orange/90 transition-colors",
+      "w-full max-w-[368px] bg-orange text-white rounded-full hover:bg-orange/90 transition-colors",
     primarySmaller:
-      "w-full max-w-[178px] bg-orange text-white rounded-[16px] hover:bg-orange/90 transition-colors",
+      "w-full max-w-[178px] bg-orange text-white rounded-full hover:bg-orange/90 transition-colors",
     secondary:
-      "text-black w-full max-w-[178px] bg-[#ECECF033] rounded-[16px] hover:bg-gray-100 transition-colors",
+      "text-black w-full max-w-[178px] bg-[#ECECF033] rounded-full hover:bg-gray-100 transition-colors",
   };
 
   return (
