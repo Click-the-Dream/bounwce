@@ -44,7 +44,8 @@ const Waitlist = () => {
       institution: "",
     },
   });
-  const { joinWaitlist } = useWaitlist();
+  const { joinWaitlist, waitlistUser } = useWaitlist();
+  const { data: waitlistData } = waitlistUser;
   const UNIVERSITIES = allSchools().map((school) => ({
     label: school.name,
     value: school.name,
