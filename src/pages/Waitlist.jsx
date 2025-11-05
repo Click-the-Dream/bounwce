@@ -56,7 +56,7 @@ const Waitlist = () => {
   }));
 
   // Dynamic metrics based on live waitlist data
-  const joinedCount = waitlistData?.data?.length || 0; //waitlistData?.total || waitlistData?.data?.length || 0;
+  const joinedCount = waitlistData?.total || waitlistData?.data?.length || 0;
   const [animatedCount, setAnimatedCount] = useState(0);
 
   // Smooth count animation
