@@ -32,13 +32,10 @@ const useWaitlist = () => {
   const waitlistUserQuery = useQuery({
     queryKey: ["waitlistUsers"],
     queryFn: async () => {
-      const { data } = await client.get("/waitlists");
-      if (data.success !== true || !data.data) {
-        throw new Error("Failed to fetch waitlist user");
-      }
+      const { data } = await client.get("/waitlist/waitlist");
+
       return data.data;
     },
-    retry: false,
   });
 
   return {
