@@ -1,5 +1,4 @@
 import { Controller, useForm } from "react-hook-form";
-//import { useNavigate } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import Input from "../../components/common/Input";
@@ -9,9 +8,10 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { TbSchool } from "react-icons/tb";
 import { LuUserRound } from "react-icons/lu";
 import { Store } from "lucide-react";
-import { UNIVERSITIES } from "../../utils/dummies";
 import useAuth from "../../hooks/useAuth";
 import { fadeUp } from "../../utils/formatters";
+import { allSchools } from "nigerian-institutions";
+import Dropdown from "../../components/common/Dropdown";
 
 const CreateAccount = () => {
   //const navigate = useNavigate();
@@ -32,6 +32,10 @@ const CreateAccount = () => {
       vendor: "",
     },
   });
+  const UNIVERSITIES = allSchools().map((school) => ({
+    label: school.name,
+    value: school.name,
+  }));
 
   const onSubmit = async (data) => {
     await signUp.mutateAsync({
@@ -103,13 +107,18 @@ const CreateAccount = () => {
             control={control}
             rules={{ required: "Select your institution" }}
             render={({ field }) => (
-              <Input
-                {...field}
-                variant="select"
-                placeholder="Institution"
+              <Dropdown
                 icon={<TbSchool size={15} />}
                 options={UNIVERSITIES}
+                placeholder="Select Institution"
                 error={errors.institution?.message}
+                borderFocusClass=""
+                borderClass="border border-orange"
+                bgClass="bg-white"
+                radiusClass="rounded-full"
+                dropdownClass="rounded-lg border-orange"
+                searchable={true}
+                {...field}
               />
             )}
           />

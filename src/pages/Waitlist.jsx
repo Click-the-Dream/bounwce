@@ -3,15 +3,17 @@ import { motion } from "framer-motion";
 import waitlistImg from "../assets/waitlist.svg";
 import { Controller, useForm } from "react-hook-form";
 import { fadeUp } from "../utils/formatters";
-import { UNIVERSITIES } from "../utils/dummies";
+//import { UNIVERSITIES } from "../utils/dummies";
 import Input from "../components/common/Input";
 import { LuUserRound } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { TbSchool } from "react-icons/tb";
 import Button from "../components/common/Button";
 import { Phone } from "lucide-react";
+import Dropdown from "../components/common/Dropdown";
+import useWaitlist from "../hooks/useWaitlist";
+import { allSchools } from "nigerian-institutions";
 
-// Animation variants for smooth fade-in effects
 const fadeIn = (direction = "up", delay = 0) => ({
   hidden: {
     opacity: 0,
@@ -31,19 +33,29 @@ const Waitlist = () => {
     control,
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onTouched",
     defaultValues: {
       full_name: "",
       email: "",
-      phone: "",
+      phone_number: "",
       institution: "",
     },
   });
+  const { joinWaitlist } = useWaitlist();
+  const UNIVERSITIES = allSchools().map((school) => ({
+    label: school.name,
+    value: school.name,
+  }));
 
   const onSubmit = async (data) => {
-    console.log(data);
+    await joinWaitlist.mutate(data, {
+      onSuccess: () => {
+        reset();
+      },
+    });
   };
 
   return (
@@ -102,6 +114,14 @@ const Waitlist = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
+          <motion.div
+            className="block lg:hidden text-white font-extrabold text-4xl tracking-tight bg-gradient-to-r from-orange to-amber-400 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            bouwnce
+          </motion.div>
           <motion.h1
             variants={fadeIn("up", 0.3)}
             className="text-orange text-2xl md:text-3xl font-medium mb-2 tracking-tight text-center"
@@ -117,8 +137,8 @@ const Waitlist = () => {
             waitlist, don't hear it from others
           </motion.p>
           <motion.form
-            className="space-y-4 mt-2 flex flex-col w-full max-w-[331px]"
             onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 mt-2 flex flex-col w-full max-w-[331px]"
             initial="hidden"
             animate="visible"
             variants={{
@@ -162,8 +182,14 @@ const Waitlist = () => {
                 type="text"
                 placeholder="Phone number"
                 icon={<Phone size={15} />}
-                error={errors.phone?.message}
-                {...register("phone", { required: "Phone number is required" })}
+                error={errors.phone_number?.message}
+                {...register("phone_number", {
+                  required: "Phone number is required",
+                  onChange: (e) => {
+                    // Only allow digits
+                    e.target.value = e.target.value.replace(/\D/g, "");
+                  },
+                })}
               />
             </motion.div>
 
@@ -174,18 +200,28 @@ const Waitlist = () => {
                 control={control}
                 rules={{ required: "Select your institution" }}
                 render={({ field }) => (
-                  <Input
-                    {...field}
-                    variant="select"
-                    placeholder="Institution"
+                  <Dropdown
                     icon={<TbSchool size={15} />}
                     options={UNIVERSITIES}
+                    placeholder="Select Institution"
                     error={errors.institution?.message}
+                    borderFocusClass=""
+                    borderClass="border border-orange"
+                    bgClass="bg-white"
+                    radiusClass="rounded-full"
+                    dropdownClass="rounded-lg border-orange"
+                    searchable={true}
+                    {...field}
                   />
                 )}
               />
             </motion.div>
-            <Button text="Join the waitlist" type="submit" />
+            <Button
+              text="Join the waitlist"
+              type="submit"
+              isLoading={joinWaitlist.isPending}
+              disabled={joinWaitlist.isPending}
+            />
           </motion.form>
         </motion.div>
       </div>
