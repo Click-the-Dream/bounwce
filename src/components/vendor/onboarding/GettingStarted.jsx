@@ -14,7 +14,7 @@ import { onPrompt } from "../../../utils/notifications/onPrompt";
 import useStore from "../../../hooks/useStore";
 
 const GettingStarted = ({ storeData, onNext, onBack }) => {
-  const [currentSubStep, setCurrentSubStep] = useState("shipping");
+  const [currentSubStep, setCurrentSubStep] = useState("branding");
   const {
     register,
     trigger,
