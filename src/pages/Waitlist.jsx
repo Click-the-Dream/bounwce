@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import waitlistImg from "../assets/waitlist-img.jpg";
 import { Controller, useForm } from "react-hook-form";
-import { fadeUp } from "../utils/formatters";
+import { fadeIn, fadeUp } from "../utils/formatters";
 import Input from "../components/common/Input";
 import { LuUserRound } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
@@ -14,20 +14,7 @@ import useWaitlist from "../hooks/useWaitlist";
 import { allSchools } from "nigerian-institutions";
 import { useEffect, useState } from "react";
 import { useMemo } from "react";
-
-const fadeIn = (direction = "up", delay = 0) => ({
-  hidden: {
-    opacity: 0,
-    y: direction === "up" ? 20 : direction === "down" ? -20 : 0,
-    x: direction === "left" ? 40 : direction === "right" ? -40 : 0,
-  },
-  show: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay },
-  },
-});
+import Logo from "../components/common/Logo";
 
 const Waitlist = () => {
   const {
@@ -80,20 +67,19 @@ const Waitlist = () => {
     }
   }, [joinedCount]);
 
-  const { EXPECTED_USERS, growthRate, dailyGrowth, progressPercent } =
-    useMemo(() => {
-      const EXPECTED_USERS = Math.max(joinedCount * 2, 500);
-      const growthRate = Math.min(
-        0.2,
-        0.05 + (1 - joinedCount / EXPECTED_USERS) * 0.15
-      );
-      const dailyGrowth = Math.ceil(joinedCount * growthRate);
-      const progressPercent = Math.min(
-        (joinedCount / EXPECTED_USERS) * 100,
-        100
-      ).toFixed(1);
-      return { EXPECTED_USERS, growthRate, dailyGrowth, progressPercent };
-    }, [joinedCount]);
+  const { dailyGrowth, progressPercent } = useMemo(() => {
+    const EXPECTED_USERS = Math.max(joinedCount * 2, 500);
+    const growthRate = Math.min(
+      0.2,
+      0.05 + (1 - joinedCount / EXPECTED_USERS) * 0.15
+    );
+    const dailyGrowth = Math.ceil(joinedCount * growthRate);
+    const progressPercent = Math.min(
+      (joinedCount / EXPECTED_USERS) * 100,
+      100
+    ).toFixed(1);
+    return { EXPECTED_USERS, growthRate, dailyGrowth, progressPercent };
+  }, [joinedCount]);
 
   const onSubmit = async (data) => {
     await joinWaitlist.mutate(data, {
@@ -242,15 +228,7 @@ const Waitlist = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <motion.div
-            className="block lg:hidden font-extrabold text-4xl tracking-tight bg-gradient-to-r from-orange via-yellow-400 to-amber-400 bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            bouwnce
-          </motion.div>
-
+          <Logo />
           <motion.h1
             variants={fadeIn("up", 0.3)}
             className="text-orange text-2xl md:text-3xl font-medium mb-2 tracking-tight text-center"
