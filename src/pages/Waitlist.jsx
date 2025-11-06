@@ -316,6 +316,11 @@ const Waitlist = () => {
                     radiusClass="rounded-full"
                     dropdownClass="rounded-lg border-orange"
                     searchable={true}
+                    searchPlaceholder="Search institution..."
+                    allowCustomOptions={true}
+                    customOptionText="Add institution"
+                    enableInternetSearch={true}
+                    internetSearchText="Search online for"
                     {...field}
                   />
                 )}

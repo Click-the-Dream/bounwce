@@ -1,7 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Check, Search, X } from "lucide-react";
+import {
+  ChevronDown,
+  Check,
+  Search,
+  X,
+  Plus,
+  ExternalLink,
+  Loader2,
+} from "lucide-react";
 import { useMemo } from "react";
 
 const Dropdown = ({
@@ -21,23 +29,65 @@ const Dropdown = ({
   searchable = false,
   searchPlaceholder = "Search...",
   noResultsText = "No options found",
+  allowCustomOptions = false,
+  customOptionText = 'Add "{searchTerm}"',
+  enableInternetSearch = false,
+  onCustomOptionAdd,
+  ...props
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   const dropdownRef = useRef(null);
   const searchInputRef = useRef(null);
+
+  // Debounced search function
+  useEffect(() => {
+    if (!enableInternetSearch || !searchTerm.trim() || !isOpen) {
+      setSearchResults([]);
+      return;
+    }
+
+    const searchInstitutions = async () => {
+      setIsSearching(true);
+      try {
+        // Using a free API for educational institutions
+        const response = await fetch(
+          `http://universities.hipolabs.com/search?name=${encodeURIComponent(
+            searchTerm
+          )}&limit=5`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setSearchResults(data.slice(0, 5)); // Limit to 5 results
+        } else {
+          setSearchResults([]);
+        }
+      } catch (error) {
+        console.error("Search failed:", error);
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    const timeoutId = setTimeout(searchInstitutions, 500); // Debounce 500ms
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm, enableInternetSearch, isOpen]);
 
   const handleToggle = () => {
     const newIsOpen = !isOpen;
     setIsOpen(newIsOpen);
     if (newIsOpen && searchable) {
-      // Focus search input when dropdown opens and is searchable
       setTimeout(() => {
         searchInputRef.current?.focus();
       }, 100);
     } else {
-      setSearchTerm(""); // Clear search when closing
+      setSearchTerm("");
+      setSearchResults([]);
     }
   };
 
@@ -48,6 +98,7 @@ const Dropdown = ({
         setIsOpen(false);
         setIsFocused(false);
         setSearchTerm("");
+        setSearchResults([]);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -55,14 +106,50 @@ const Dropdown = ({
   }, []);
 
   const handleSelect = (val) => {
-    onChange?.({ target: { value: val } });
+    const selectedValue = typeof val === "object" ? val.value : val;
+
+    if (onChange) {
+      if (typeof onChange === "function") {
+        onChange(selectedValue);
+      } else if (onChange.onChange) {
+        onChange.onChange(selectedValue);
+      } else {
+        onChange(selectedValue);
+      }
+    }
+
     setIsOpen(false);
     setIsFocused(false);
     setSearchTerm("");
+    setSearchResults([]);
   };
 
-  const clearSearch = () => {
+  const handleAddCustomOption = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!searchTerm.trim()) return;
+
+    const customValue = searchTerm.trim();
+
+    if (onCustomOptionAdd) {
+      onCustomOptionAdd(customValue);
+    } else {
+      handleSelect(customValue);
+    }
+
     setSearchTerm("");
+    setSearchResults([]);
+  };
+
+  const handleSelectSearchResult = (institution) => {
+    handleSelect(institution.name);
+  };
+
+  const clearSearch = (e) => {
+    e.stopPropagation();
+    setSearchTerm("");
+    setSearchResults([]);
     searchInputRef.current?.focus();
   };
 
@@ -71,16 +158,53 @@ const Dropdown = ({
     if (!searchTerm) return options;
 
     const search = searchTerm.toLowerCase();
-
     return options.filter((opt) => {
-      const label = (opt.label || opt).toString().toLowerCase();
-      return label.includes(search);
+      if (typeof opt === "string") {
+        return opt.toLowerCase().includes(search);
+      } else if (typeof opt === "object" && opt.label) {
+        return opt.label.toLowerCase().includes(search);
+      }
+      return String(opt).toLowerCase().includes(search);
     });
   }, [options, searchTerm]);
 
-  const selectedOption = value
-    ? options.find((opt) => opt.value === value)
-    : null;
+  const getSelectedLabel = () => {
+    if (!value) return null;
+
+    if (typeof value === "string") {
+      const found = options.find((opt) =>
+        typeof opt === "string" ? opt === value : opt.value === value
+      );
+
+      if (found) {
+        return typeof found === "object" ? found?.label : found;
+      }
+
+      return value;
+    }
+
+    return value;
+  };
+
+  const selectedLabel = getSelectedLabel();
+
+  const showCustomOption =
+    allowCustomOptions &&
+    searchable &&
+    searchTerm.trim() &&
+    !filteredOptions.some((opt) => {
+      if (typeof opt === "string") {
+        return opt.toLowerCase() === searchTerm.trim().toLowerCase();
+      } else if (typeof opt === "object" && opt.label) {
+        return opt.label.toLowerCase() === searchTerm.trim().toLowerCase();
+      }
+      return false;
+    });
+
+  const showInternetSearchResults =
+    enableInternetSearch &&
+    searchTerm.trim() &&
+    (searchResults.length > 0 || isSearching);
 
   return (
     <div ref={dropdownRef} className={`relative w-full ${containerClass}`}>
@@ -94,12 +218,13 @@ const Dropdown = ({
           text-[clamp(12px,1vw,14px)] cursor-pointer transition-all duration-150
           ${error ? "border border-red-500" : borderClass}
           ${isFocused || isOpen ? borderFocusClass : bgClass}`}
+        {...props}
       >
         {icon && <span className="text-gray-400 flex-shrink-0">{icon}</span>}
 
         <div className="flex-1 text-gray-700 truncate">
-          {selectedOption ? (
-            selectedOption.label || value
+          {selectedLabel ? (
+            selectedLabel
           ) : (
             <span className="text-gray-400">{placeholder}</span>
           )}
@@ -123,6 +248,7 @@ const Dropdown = ({
             exit={{ opacity: 0, y: -5 }}
             transition={{ duration: 0.2 }}
             className={`absolute left-0 right-0 mt-1 bg-white border ${radiusClass} shadow-lg overflow-hidden cursor-pointer z-50 ${dropdownClass}`}
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Search Input */}
             {searchable && (
@@ -154,33 +280,111 @@ const Dropdown = ({
             )}
 
             {/* Options List */}
-            <ul className="max-h-40 overflow-y-auto">
-              {filteredOptions.length > 0 ? (
-                filteredOptions.map((opt, idx) => {
-                  const isSelected = value === (opt.value ?? opt);
-                  return (
-                    <li
-                      key={idx}
-                      onClick={() => handleSelect(opt.value ?? opt)}
-                      className={`px-4 py-2 text-sm hover:bg-gray-100 transition-colors flex justify-between items-center
-                        ${
-                          isSelected
-                            ? "bg-gray-100 font-medium text-[#737373]"
-                            : "text-gray-700"
-                        } ${itemClass}`}
-                    >
-                      <span>{opt.label || opt}</span>
-                      {isSelected && (
-                        <Check size={16} className="text-[#737373] ml-2" />
-                      )}
+            <ul className="max-h-60 overflow-y-auto">
+              {/* Local Options */}
+              {filteredOptions.length > 0 && (
+                <>
+                  {filteredOptions.map((opt, idx) => {
+                    const optionValue =
+                      typeof opt === "object" ? opt.value : opt;
+                    const optionLabel =
+                      typeof opt === "object" ? opt.label : opt;
+                    const isSelected = value === optionValue;
+
+                    return (
+                      <li
+                        key={`local-${idx}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelect(opt);
+                        }}
+                        className={`px-4 py-2 text-sm hover:bg-gray-100 transition-colors flex justify-between items-center
+                          ${
+                            isSelected
+                              ? "bg-gray-100 font-medium text-[#737373]"
+                              : "text-gray-700"
+                          } ${itemClass}`}
+                      >
+                        <span>{optionLabel}</span>
+                        {isSelected && (
+                          <Check size={16} className="text-[#737373] ml-2" />
+                        )}
+                      </li>
+                    );
+                  })}
+                </>
+              )}
+
+              {/* Internet Search Results */}
+              {showInternetSearchResults && (
+                <>
+                  <li className="px-3 py-2 text-xs font-semibold text-gray-500 bg-gray-50 border-t border-b border-gray-100">
+                    SEARCH RESULTS
+                  </li>
+                  {isSearching ? (
+                    <li className="px-4 py-3 text-sm text-gray-500 flex items-center justify-center">
+                      <Loader2 size={16} className="animate-spin mr-2" />
+                      Searching online...
                     </li>
-                  );
-                })
-              ) : (
-                <li className="px-4 py-3 text-sm text-gray-500 text-center">
-                  {noResultsText}
+                  ) : (
+                    searchResults.map((institution, idx) => (
+                      <li
+                        key={`search-${idx}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelectSearchResult(institution);
+                        }}
+                        className={`px-4 py-2 text-sm hover:bg-green-50 transition-colors flex items-center text-green-700 ${itemClass}`}
+                      >
+                        <ExternalLink
+                          size={14}
+                          className="mr-2 flex-shrink-0"
+                        />
+                        <div className="min-w-0 flex-1">
+                          <div className="font-medium truncate">
+                            {institution.name}
+                          </div>
+                          {institution.country && (
+                            <div className="text-xs text-green-600 truncate">
+                              {institution.country}
+                              {institution.domains &&
+                                institution.domains[0] && (
+                                  <span> • {institution.domains[0]}</span>
+                                )}
+                            </div>
+                          )}
+                        </div>
+                      </li>
+                    ))
+                  )}
+                </>
+              )}
+
+              {/* Custom Option */}
+              {showCustomOption && (
+                <li
+                  onClick={handleAddCustomOption}
+                  className={`px-4 py-2 text-sm hover:bg-gray-100 transition-colors flex items-center text-blue-600 border-t border-gray-100 ${itemClass}`}
+                >
+                  <Plus size={16} className="mr-2" />
+                  <span>
+                    {customOptionText.replace(
+                      "{searchTerm}",
+                      `"${searchTerm}"`
+                    )}
+                  </span>
                 </li>
               )}
+
+              {/* No Results */}
+              {filteredOptions.length === 0 &&
+                !showInternetSearchResults &&
+                !showCustomOption &&
+                !isSearching && (
+                  <li className="px-4 py-3 text-sm text-gray-500 text-center">
+                    {noResultsText}
+                  </li>
+                )}
             </ul>
           </motion.div>
         )}
