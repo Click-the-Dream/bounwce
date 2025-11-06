@@ -41,7 +41,7 @@ function App() {
         <div className="font-inter">
           <Routes>
             {/* Public Routes */}
-            <Route element={<AuthLayout />}>
+            {/* <Route element={<AuthLayout />}>
               <Route
                 path="/login"
                 element={
@@ -66,9 +66,9 @@ function App() {
                   </PublicRoute>
                 }
               />
-            </Route>
+            </Route> */}
 
-            <Route path="/waitlist" element={<Waitlist />} />
+            <Route path="/" element={<Waitlist />} />
 
             {/* Protected Vendor Routes */}
             <Route element={<SecureRoute />}>
@@ -88,7 +88,7 @@ function App() {
             </Route>
 
             {/* Catch-all redirect */}
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
       </Suspense>
