@@ -6,7 +6,6 @@ import {
   Check,
   Search,
   X,
-  Plus,
   ExternalLink,
   Loader2,
 } from "lucide-react";
@@ -29,10 +28,7 @@ const Dropdown = ({
   searchable = false,
   searchPlaceholder = "Search...",
   noResultsText = "No options found",
-  allowCustomOptions = false,
-  customOptionText = 'Add "{searchTerm}"',
   enableInternetSearch = false,
-  onCustomOptionAdd,
   ...props
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -124,24 +120,6 @@ const Dropdown = ({
     setSearchResults([]);
   };
 
-  const handleAddCustomOption = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-
-    if (!searchTerm.trim()) return;
-
-    const customValue = searchTerm.trim();
-
-    if (onCustomOptionAdd) {
-      onCustomOptionAdd(customValue);
-    } else {
-      handleSelect(customValue);
-    }
-
-    setSearchTerm("");
-    setSearchResults([]);
-  };
-
   const handleSelectSearchResult = (institution) => {
     handleSelect(institution.name);
   };
@@ -187,19 +165,6 @@ const Dropdown = ({
   };
 
   const selectedLabel = getSelectedLabel();
-
-  const showCustomOption =
-    allowCustomOptions &&
-    searchable &&
-    searchTerm.trim() &&
-    !filteredOptions.some((opt) => {
-      if (typeof opt === "string") {
-        return opt.toLowerCase() === searchTerm.trim().toLowerCase();
-      } else if (typeof opt === "object" && opt.label) {
-        return opt.label.toLowerCase() === searchTerm.trim().toLowerCase();
-      }
-      return false;
-    });
 
   const showInternetSearchResults =
     enableInternetSearch &&
@@ -280,7 +245,7 @@ const Dropdown = ({
             )}
 
             {/* Options List */}
-            <ul className="max-h-60 overflow-y-auto">
+            <ul className="max-h-40 overflow-y-auto">
               {/* Local Options */}
               {filteredOptions.length > 0 && (
                 <>
@@ -360,26 +325,9 @@ const Dropdown = ({
                 </>
               )}
 
-              {/* Custom Option */}
-              {showCustomOption && (
-                <li
-                  onClick={handleAddCustomOption}
-                  className={`px-4 py-2 text-sm hover:bg-gray-100 transition-colors flex items-center text-blue-600 border-t border-gray-100 ${itemClass}`}
-                >
-                  <Plus size={16} className="mr-2" />
-                  <span>
-                    {customOptionText.replace(
-                      "{searchTerm}",
-                      `"${searchTerm}"`
-                    )}
-                  </span>
-                </li>
-              )}
-
               {/* No Results */}
               {filteredOptions.length === 0 &&
                 !showInternetSearchResults &&
-                !showCustomOption &&
                 !isSearching && (
                   <li className="px-4 py-3 text-sm text-gray-500 text-center">
                     {noResultsText}
