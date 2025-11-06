@@ -51,7 +51,7 @@ const Dropdown = ({
       try {
         // Using a free API for educational institutions
         const response = await fetch(
-          `https://universities.hipolabs.com/search?name=${encodeURIComponent(
+          `https://corsproxy.io/?http://universities.hipolabs.com/search?name=${encodeURIComponent(
             searchTerm
           )}&limit=5`
         );
