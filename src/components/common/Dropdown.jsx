@@ -51,7 +51,7 @@ const Dropdown = ({
       try {
         // Using a free API for educational institutions
         const response = await fetch(
-          `http://universities.hipolabs.com/search?name=${encodeURIComponent(
+          `https://universities.hipolabs.com/search?name=${encodeURIComponent(
             searchTerm
           )}&limit=5`
         );
