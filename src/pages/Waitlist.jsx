@@ -105,12 +105,12 @@ const Waitlist = () => {
           transition={{ duration: 2, ease: "easeOut" }}
         />
         <motion.div
-          className="absolute top-8 left-8 text-white font-extrabold text-xl tracking-tight"
+          className="absolute top-8 left-8 text-white"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          bouwnce
+          <Logo size="text-xl block font-extrabold tracking-tight" />
         </motion.div>
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
@@ -121,7 +121,7 @@ const Waitlist = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.6, ease: "easeOut" }}
           viewport={{ amount: 0.4 }}
-          className="pt-10 absolute bottom-10 left-0 right-0 h-max max-w-sm mx-auto text-center text-white px-6"
+          className="pt-10 absolute bottom-10 left-0 right-0 h-max max-w-sm mx-auto text-center text-white px-6 bg-black/40"
         >
           {isLoading ? (
             <div className="flex items-center justify-center gap-3 text-sm text-gray-300">
