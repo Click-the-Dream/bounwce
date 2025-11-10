@@ -216,7 +216,7 @@ const Waitlist = () => {
       </motion.div>
 
       {/* --- Right Content Section --- */}
-      <div className="flex-1 w-full overflow-y-auto lg:overflow-hidden flex flex-col items-center justify-center bg-white">
+      <div className="flex-1 w-full overflow-y-auto lg:overflow-hidden flex flex-col items-center justify-stretch md:justify-center bg-white">
         <motion.img
           src={waitlistImg}
           alt="workspace"
