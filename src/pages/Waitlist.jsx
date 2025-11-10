@@ -237,7 +237,7 @@ const Waitlist = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <Logo size="text-2xl" />
+            <Logo size="text-2xl block lg:hidden" />
             <motion.h1
               variants={fadeIn("up", 0.3)}
               className="text-orange text-2xl md:text-3xl font-medium mb-2 tracking-tight text-center"
