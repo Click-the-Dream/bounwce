@@ -250,7 +250,7 @@ const Waitlist = () => {
               className="text-sm mb-6 text-center font-medium"
             >
               It's social. It's a marketplace.{" "}
-              <span className="text-orange">It's Bouwnce.</span> Join the
+              <span className="text-orange">It's bouwnce.</span> Join the
               waitlist — don’t hear it from others.
             </motion.p>
 
