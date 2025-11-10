@@ -216,7 +216,7 @@ const Waitlist = () => {
       </motion.div>
 
       {/* --- Right Content Section --- */}
-      <div className="w-full overflow-y-auto lg:overflow-hidden">
+      <div className="flex-1 w-full overflow-y-auto lg:overflow-hidden">
         <motion.img
           src={waitlistImg}
           alt="workspace"
@@ -229,7 +229,7 @@ const Waitlist = () => {
           variants={fadeIn("right", 0.2)}
           initial="hidden"
           animate="show"
-          className="flex-1 flex flex-col items-center justify-center p-4 md:p-6 lg:p-12 bg-white lg:overflow-y-auto"
+          className="flex flex-col items-center justify-center p-4 md:p-6 lg:p-12 bg-white lg:overflow-y-auto"
         >
           <motion.div
             className="max-w-md flex flex-col items-center"
