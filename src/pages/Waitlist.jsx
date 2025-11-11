@@ -229,7 +229,7 @@ const Waitlist = () => {
           variants={fadeIn("right", 0.2)}
           initial="hidden"
           animate="show"
-          className="flex flex-col items-center justify-center p-4 md:p-6 lg:p-12 lg:overflow-y-auto"
+          className="flex flex-col items-center justify-center w-full p-4 md:p-6 lg:p-12 lg:overflow-y-auto"
         >
           <motion.div
             className="max-w-md flex flex-col items-center"

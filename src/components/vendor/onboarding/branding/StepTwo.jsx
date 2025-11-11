@@ -13,24 +13,16 @@ const StepTwo = ({ register, errors, trigger }) => {
   const [editIndex, setEditIndex] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ✅ Hooks
+  // Hooks
   const { createProduct, updateProduct, useGetMyProducts } = useProduct();
   const { data: products = [], isLoading, refetch } = useGetMyProducts(); // <-- query hook from React Query
 
-  // ✅ Sync products with RHF
+  // Sync products with RHF
   useEffect(() => {
     setValue("products", products, { shouldValidate: true });
-  }, [products, setValue]);
+  }, [products]);
 
-  // ✅ Register validation
-  useEffect(() => {
-    register("products", {
-      validate: (value) =>
-        value && value.length > 0 ? true : "Please add at least one product",
-    });
-  }, [register]);
-
-  // ✅ Add Product
+  // Add Product
   const handleAddProduct = async () => {
     const isValid = await trigger([
       "productName",
@@ -67,9 +59,9 @@ const StepTwo = ({ register, errors, trigger }) => {
       });
 
       await createProduct.mutateAsync(formData);
-      await refetch(); // ✅ Refresh query data
+      await refetch(); // Refresh query data
 
-      // ✅ Reset fields
+      // Reset fields
       [
         "productName",
         "category",
@@ -106,7 +98,7 @@ const StepTwo = ({ register, errors, trigger }) => {
     try {
       const prod = products[index];
       await updateProduct.delete(prod.id);
-      await refetch(); // ✅ Refresh after delete
+      await refetch(); // Refresh after delete
     } catch (error) {
       console.error("Failed to delete product:", error);
     }
@@ -114,7 +106,7 @@ const StepTwo = ({ register, errors, trigger }) => {
 
   return (
     <div className="space-y-6">
-      {/* ✅ Loader for query */}
+      {/* Loader for query */}
       {isLoading ? (
         <div className="flex justify-center items-center py-10">
           <div className="animate-spin rounded-full h-6 w-6 border-2 border-black border-t-transparent" />
@@ -135,7 +127,7 @@ const StepTwo = ({ register, errors, trigger }) => {
             </p>
           </div>
 
-          {/* ✅ Product list */}
+          {/* Product list */}
           {products.length > 0 && (
             <ul className="gap-4">
               {products.map((prod, index) => (
@@ -182,7 +174,7 @@ const StepTwo = ({ register, errors, trigger }) => {
             </ul>
           )}
 
-          {/* ✅ Add Product Form */}
+          {/* Add Product Form */}
           <div className="border border-gray-200 rounded-lg p-4 space-y-6">
             <h3 className="text-sm">Add Product</h3>
 

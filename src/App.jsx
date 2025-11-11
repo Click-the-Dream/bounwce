@@ -41,7 +41,7 @@ function App() {
         <div className="font-inter">
           <Routes>
             {/* Public Routes */}
-            {/* <Route element={<AuthLayout />}>
+            <Route element={<AuthLayout />}>
               <Route
                 path="/login"
                 element={
@@ -66,7 +66,7 @@ function App() {
                   </PublicRoute>
                 }
               />
-            </Route> */}
+            </Route>
 
             <Route path="/" element={<Waitlist />} />
 
