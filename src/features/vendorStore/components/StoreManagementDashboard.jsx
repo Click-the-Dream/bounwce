@@ -1,89 +1,74 @@
-import { Package, Plus, Filter, Download, Settings, Eye, LogOut } from 'lucide-react';
+import { Package, Plus, Filter, Download } from 'lucide-react';
 import VendorHeader from '../../vendorDashboard/components/ui/VendorHeader';
 import { MdOutlineDashboard } from "react-icons/md";
 import { IoEyeOutline } from "react-icons/io5";
+import VendorOverviewCard from '../../vendorDashboard/components/ui/VendorOverviewCard';
+import { useState } from 'react';
+import ActionButton from './actionButton';
+import { CiFilter, CiExport } from "react-icons/ci";
+import { IoMdAdd } from "react-icons/io";
 
 const StoreManagementDashboard = () => {
+  const [dummyStat, setDummyStat] = useState([
+    {label: "Total Products", amount: "1", icon: MdOutlineDashboard},
+    {label: "Active Products", amount: "0", icon: MdOutlineDashboard},
+    {label: "Draft Products", amount: "1", icon: MdOutlineDashboard},
+    {label: "Low Stock Items", amount: "0", icon: MdOutlineDashboard},
+  ])
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <VendorHeader 
-        icon={MdOutlineDashboard}
-        label={"Go to Dashboard"}
-        bgColor={"bg-orange text-white"}
-        storeLabel={"Preview Store"}
-        leftIcon={IoEyeOutline}
-      />
+    <main className="min-h-screen bg-[#ECECF080]">
+      <header className='mb-6'>
+        <VendorHeader 
+          icon={MdOutlineDashboard}
+          label={"Go to Dashboard"}
+          bgColor={"bg-orange text-white"}
+          storeLabel={"Preview Store"}
+          leftIcon={IoEyeOutline}
+        />
+      </header>      
+      
 
-      {/* Stats Cards */}
-      <div className="px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Products</p>
-                <p className="text-2xl font-bold text-gray-900">1</p>
-              </div>
-              <Package className="w-8 h-8 text-gray-400" />
-            </div>
-          </div>
+      <section className='px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[175px] py-5 space-y-6'>
 
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Active Products</p>
-                <p className="text-2xl font-bold text-gray-900">0</p>
-              </div>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            </div>
-          </div>
-
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Draft Products</p>
-                <p className="text-2xl font-bold text-gray-900">1</p>
-              </div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-            </div>
-          </div>
-
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Low Stock Items</p>
-                <p className="text-2xl font-bold text-gray-900">0</p>
-              </div>
-              <Package className="w-8 h-8 text-gray-400" />
-            </div>
-          </div>
-        </div>
-      </div>
+      <section className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[21px]'>
+        {
+          dummyStat.map((data, index) => (
+            <VendorOverviewCard 
+              key={index}
+              label={data.label}
+              amount={data.amount}
+              icon={data.icon}
+            />
+          ))
+        }        
+      </section>
 
       {/* Search & Actions */}
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+        <div className="w-full bg-white p-2 flex flex-col md:flex-row gap-3 items-center justify-between space-x-2 rounded-[12.75px]">
           <input
             type="text"
             placeholder="Search Product..."
-            className="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full px-4 py-2 rounded-[12.75px] text-[13px] bg-[#ECECF080]"
           />
-          <div className="flex space-x-2">
-            <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 flex items-center space-x-2">
-              <Filter className="w-4 h-4" />
-              <span>Filter</span>
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 flex items-center space-x-2">
-              <Download className="w-4 h-4" />
-              <span>Export</span>
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-md hover:bg-gray-800 flex items-center space-x-2">
-              <Plus className="w-4 h-4" />
-              <span>Add Product</span>
-            </button>
+
+          <div className="flex items-center space-x-2">
+            <ActionButton 
+              label={"filter"}
+              icon={CiFilter}
+            />
+
+            <ActionButton 
+              label={"Export"}
+              icon={CiExport}
+            />
+
+            <ActionButton 
+              label={"Add Product"}
+              icon={IoMdAdd}
+              className="bg-black text-white"
+            />
           </div>
         </div>
-      </div>
 
       {/* Tabs */}
       <div className="px-4 sm:px-6 lg:px-8 mt-6">
@@ -137,7 +122,8 @@ const StoreManagementDashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

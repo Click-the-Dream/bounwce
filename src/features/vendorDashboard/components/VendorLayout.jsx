@@ -32,7 +32,7 @@ const VendorLayout = () => {
           />
       </section>
         
-        <section className='px-[1rem] md:px-[3rem] lg:px-[140px] 2xl:px-[175px] py-5'>
+        <section className='px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[175px] py-5'>          
            <Outlet /> 
         </section>
         
