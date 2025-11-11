@@ -11,8 +11,9 @@ import { brandingSteps } from "../../../utils/fields";
 import StepThree from "./branding/StepThree";
 import StepFour from "./branding/StepFour";
 import { onPrompt } from "../../../utils/notifications/onPrompt";
+import useStore from "../../../hooks/useStore";
 
-const GettingStarted = ({ onNext, onBack }) => {
+const GettingStarted = ({ storeData, onNext, onBack }) => {
   const [currentSubStep, setCurrentSubStep] = useState("branding");
   const {
     register,
@@ -23,6 +24,7 @@ const GettingStarted = ({ onNext, onBack }) => {
     watch,
     formState: { errors },
   } = useFormContext();
+  const { updateBranding } = useStore();
 
   const currentIndex = brandingSteps.findIndex((s) => s.key === currentSubStep);
   const products = watch("products") || [];
@@ -33,6 +35,15 @@ const GettingStarted = ({ onNext, onBack }) => {
 
     // Validate fields defined for this substep
     const isValid = await trigger(fieldsToValidate);
+
+    if (!isValid) {
+      onPrompt({
+        title: "Validation Error",
+        message:
+          "Please complete all required fields before proceeding to the next step.",
+      });
+      return;
+    }
 
     // --- PRODUCTS VALIDATION ---
     if (currentSubStep === "products" && products.length === 0) {
@@ -57,9 +68,9 @@ const GettingStarted = ({ onNext, onBack }) => {
 
       for (const s of shippings) {
         if (
-          !s.shippingMethod ||
-          s.shippingCost === "" ||
-          s.estimatedDelivery === ""
+          !s.shipping_address ||
+          s.delivery_fee === "" ||
+          s.delivery_time === ""
         ) {
           onPrompt({
             title: "Incomplete Shipping Details",
@@ -71,13 +82,29 @@ const GettingStarted = ({ onNext, onBack }) => {
       }
     }
 
-    // --- FIELD VALIDATION ---
-    if (!isValid) {
-      onPrompt({
-        title: "Validation Error",
-        message:
-          "Please complete all required fields before proceeding to the next step.",
-      });
+    // --- BRANDING STEP LOGIC ---
+    if (currentSubStep === "branding") {
+      try {
+        const formData = new FormData();
+
+        // Use uploaded file if present, otherwise fallback to URL string
+        const logoFile = watch("store_logo")?.[0];
+        const bannerFile = watch("store_banner")?.[0];
+
+        formData.append("store_logo", logoFile || null);
+        formData.append("store_banner", bannerFile || null);
+
+        formData.append("store_description", watch("store_description") || "");
+
+        await updateBranding.mutateAsync(formData, {
+          onSuccess: () => {
+            setCurrentSubStep(brandingSteps[currentIndex + 1].key);
+          },
+        });
+      } catch (error) {
+        console.error(error);
+        return;
+      }
       return;
     }
 
@@ -104,6 +131,27 @@ const GettingStarted = ({ onNext, onBack }) => {
     }
   };
 
+  // Helper to check if step can be skipped
+  const canSkipStep = (stepKey) => {
+    const step = brandingSteps.find((s) => s.key === stepKey);
+    if (!step) return false;
+
+    // If no fields, no skip needed
+    if (!step.fields || step.fields.length === 0) return false;
+
+    // Check if *all* fields for this step already have data
+    const hasData =
+      storeData &&
+      step.fields.some((field) => {
+        const value = storeData[field];
+        return value !== null && value !== undefined && value !== "";
+      });
+
+    // Show Skip only when there's already data
+    return !!hasData;
+  };
+
+  const nextButtonLabel = updateBranding.isPending ? "Please wait..." : "Next";
   return (
     <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
       {/* Header */}
@@ -171,9 +219,8 @@ const GettingStarted = ({ onNext, onBack }) => {
             register={register}
             errors={errors}
             setValue={setValue}
-            trigger={trigger}
+            storeData={storeData}
             watch={watch}
-            control={control}
           />
         )}
 
@@ -256,20 +303,23 @@ const GettingStarted = ({ onNext, onBack }) => {
           </div>
         ) : (
           <div className="flex gap-3 ml-auto">
-            <button
-              type="button"
-              onClick={handleSkip}
-              className="flex gap-2 items-center px-4 py-2 border bg-black rounded-lg text-white hover:bg-black/90"
-            >
-              Skip <FaArrowRight />
-            </button>
+            {canSkipStep(currentSubStep) && (
+              <button
+                type="button"
+                onClick={handleSkip}
+                className="flex gap-2 items-center px-4 py-2 border bg-black rounded-lg text-white hover:bg-black/90"
+              >
+                Skip <FaArrowRight />
+              </button>
+            )}
 
             <button
-              type="button"
+              type="submit"
+              disabled={updateBranding.isPending}
               onClick={handleNextSub}
-              className="flex gap-2 items-center px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90"
+              className="flex gap-2 items-center px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Next <FaArrowRight />
+              {nextButtonLabel} <FaArrowRight />
             </button>
           </div>
         )}

@@ -11,19 +11,22 @@ const StepThree = ({ register, errors }) => {
         <input
           type="text"
           placeholder="Enter your NIN"
-          {...register("nin", {
+          {...register("id_number", {
             required: "NIN is required",
             pattern: {
               value: /^[0-9]{11}$/,
               message: "NIN must be an 11-digit number",
             },
           })}
+          maxLength={11}
           className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 ${
-            errors.nin ? "border border-red-500" : "bg-gray-50"
+            errors.id_number ? "border border-red-500" : "bg-gray-50"
           }`}
         />
-        {errors.nin && (
-          <p className="text-red-600 mt-1 text-xs">{errors.nin.message}</p>
+        {errors.id_number && (
+          <p className="text-red-600 mt-1 text-xs">
+            {errors.id_number.message}
+          </p>
         )}
       </div>
 

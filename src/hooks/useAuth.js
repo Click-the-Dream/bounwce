@@ -23,8 +23,8 @@ const useAuth = () => {
       console.log(data);
       //updateAuth(userData); // Immediately update auth state
       onSuccess({
-        message: "Login Successful!",
-        success: `Here is your otp ${data?.otp}`, //"Continuing to dashboard",
+        title: "Login Successful!",
+        message: `Here is your otp ${data?.otp}`, //"Continuing to dashboard",
       });
       navigate("/vendor");
     },
@@ -45,8 +45,8 @@ const useAuth = () => {
     },
     onSuccess: (userData, variables) => {
       onSuccess({
-        message: "Registration Successful!",
-        success: `User created successfully - ${userData?.otp}`,
+        title: "Registration Successful!",
+        message: `User created successfully - ${userData?.otp}`,
       });
       storedUserEmail(variables.email);
       navigate("/email_verification", { state: variables, replace: true });
@@ -79,8 +79,8 @@ const useAuth = () => {
 
       // Default fallback for other errors
       onFailure({
-        message: "Registration Failed",
-        error: errorMessage,
+        title: "Registration Failed",
+        message: errorMessage,
       });
     },
   });
@@ -112,14 +112,14 @@ const useAuth = () => {
       const { user, ...other } = authDetails;
       updateAuth({ ...other, user: { ...user, ...updatedUser } });
       onSuccess({
-        message: "Profile Update",
-        success: "Profile updated successfully!",
+        title: "Profile Update",
+        message: "Profile updated successfully!",
       });
     },
     onError: (err) => {
       onFailure({
-        message: "Failed to update profile",
-        error: extractErrorMessage(err),
+        title: "Failed to update profile",
+        message: extractErrorMessage(err),
       });
     },
   });
@@ -140,15 +140,15 @@ const useAuth = () => {
     onSuccess: ({ data }) => {
       //setOtpRequested(true);
       onSuccess({
-        message: "OTP Requested!",
-        success: `Here is your otp ${data?.otp}`,
+        title: "OTP Requested!",
+        message: `Here is your otp ${data?.otp}`,
       });
     },
     onError: (err) => {
       // setOtpRequested(false);
       onFailure({
-        message: "Can't Request OTP",
-        error: extractErrorMessage(err),
+        title: "Can't Request OTP",
+        message: extractErrorMessage(err),
       });
     },
   });
@@ -168,16 +168,28 @@ const useAuth = () => {
     },
     onSuccess: (userData) => {
       updateAuth(userData);
-      navigate("/vendor", { replace: true });
+
+      console.log(userData);
+
+      const user = userData?.user;
+
+      // Check if user is a vendor but not yet a store owner
+      if (user?.role === "vendor" && user?.is_store_owner === false) {
+        navigate("/vendor/setup", { replace: true });
+      } else {
+        navigate("/vendor", { replace: true });
+      }
+
       onSuccess({
-        message: "OTP Verified!",
-        success: "Proceeding to dashboard",
+        title: "OTP Verified!",
+        message: "Proceeding to dashboard",
       });
     },
+
     onError: (err) => {
       onFailure({
-        message: "OTP Verification Failed",
-        error: extractErrorMessage(err),
+        title: "OTP Verification Failed",
+        message: extractErrorMessage(err),
       });
     },
   });
@@ -190,8 +202,8 @@ const useAuth = () => {
       updateAuth(null); // Reset auth state
       navigate("/login", { replace: true });
       onSuccess({
-        message: "Logout successful",
-        success: "You have been logged out.",
+        title: "Logout successful",
+        message: "You have been logged out.",
       });
       window.location.reload();
     },

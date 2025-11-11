@@ -11,10 +11,10 @@ const OnboardingSuccess = () => {
   const navigate = useNavigate();
 
   // Watch data from form
-  const storeName = watch("storeName") || "Unnamed Store";
-  const contactPerson = watch("contactPerson") || "N/A";
-  const phoneNumber = watch("phoneNumber") || "+234-XXXXXXXXXX";
-  const businessType = watch("businessType") || "Sole Proprietorship";
+  const storeName = watch("name") || "Unnamed Store";
+  const contactPerson = watch("contact_info.name") || "N/A";
+  const phoneNumber = watch("contact_info.phone_number") || "+234-XXXXXXXXXX";
+  const businessType = watch("contact_info.title") || "Sole Proprietorship";
 
   return (
     <div className="">
@@ -54,9 +54,12 @@ const OnboardingSuccess = () => {
         {/* Overview Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-8">
           {[
-            { label: "Total Products", value: 1 },
+            { label: "Total Products", value: watch("products")?.length || 0 },
             { label: "Draft Products", value: 1 },
-            { label: "Shipping Options", value: 3 },
+            {
+              label: "Shipping Options",
+              value: watch("shippings")?.length || 0,
+            },
             { label: "Avg. Price", value: "₦1000" },
           ].map((stat, i) => (
             <div

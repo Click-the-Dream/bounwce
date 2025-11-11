@@ -8,18 +8,16 @@ const StepOne = ({ register, errors }) => {
           Store Name *
         </label>
         <input
-          {...register("storeName", {
+          {...register("name", {
             required: "Store name is required",
           })}
           className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] ${
-            errors.storeName ? "border border-red-500" : "bg-gray-50"
+            errors.name ? "border border-red-500" : "bg-gray-50"
           }`}
           placeholder="Enter your business name"
         />
-        {errors.storeName && (
-          <p className="text-red-600 mt-1 text-xs">
-            {errors.storeName.message}
-          </p>
+        {errors.name && (
+          <p className="text-red-600 mt-1 text-xs">{errors.name.message}</p>
         )}
       </div>
 
@@ -28,17 +26,15 @@ const StepOne = ({ register, errors }) => {
           Store Email *
         </label>
         <input
-          {...register("storeEmail", { required: "Email is required" })}
+          {...register("email", { required: "Email is required" })}
           type="email"
           placeholder="Enter your business email"
           className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] ${
-            errors.storeEmail ? "border border-red-500" : "bg-gray-50"
+            errors.email ? "border border-red-500" : "bg-gray-50"
           }`}
         />
-        {errors.storeEmail && (
-          <p className="text-red-600 mt-1 text-xs">
-            {errors.storeEmail.message}
-          </p>
+        {errors.email && (
+          <p className="text-red-600 mt-1 text-xs">{errors.email.message}</p>
         )}
       </div>
 
@@ -47,19 +43,17 @@ const StepOne = ({ register, errors }) => {
           Store Address *
         </label>
         <textarea
-          {...register("storeAddress", {
+          {...register("address", {
             required: "Address is required",
           })}
           rows={4}
           className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] resize-none ${
-            errors.storeAddress ? "border border-red-500" : "bg-gray-50"
+            errors.address ? "border border-red-500" : "bg-gray-50"
           }`}
           placeholder="Enter your complete business address"
         />
-        {errors.storeAddress && (
-          <p className="text-red-600 mt-1 text-xs">
-            {errors.storeAddress.message}
-          </p>
+        {errors.address && (
+          <p className="text-red-600 mt-1 text-xs">{errors.address.message}</p>
         )}
       </div>
 
@@ -68,18 +62,18 @@ const StepOne = ({ register, errors }) => {
           Phone Number *
         </label>
         <input
-          {...register("phoneNumber", {
+          {...register("phone_number", {
             required: "Phone number is required",
           })}
           type="tel"
           placeholder="+1 (555) 123-4567"
           className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] ${
-            errors.phoneNumber ? "border border-red-500" : "bg-gray-50"
+            errors.phone_number ? "border border-red-500" : "bg-gray-50"
           }`}
         />
-        {errors.phoneNumber && (
+        {errors.phone_number && (
           <p className="text-red-600 mt-1 text-xs">
-            {errors.phoneNumber.message}
+            {errors.phone_number.message}
           </p>
         )}
       </div>

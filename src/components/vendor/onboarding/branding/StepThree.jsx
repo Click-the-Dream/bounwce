@@ -1,69 +1,98 @@
-import React from "react";
-import { useFormContext, Controller } from "react-hook-form";
-import Dropdown from "../../../common/Dropdown";
+import React, { useContext, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 import { FaRegEdit } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
-
-const shippingOptions = [
-  { label: "Standard Shipping", value: "standard" },
-  { label: "Express Shipping", value: "express" },
-  { label: "Overnight Shipping", value: "overnight" },
-];
+import useShipping from "../../../../hooks/useShipping";
+import { AuthContext } from "../../../../context/AuthContext";
+import { useMemo } from "react";
 
 const StepThree = () => {
   const {
     register,
     setValue,
     watch,
-    control,
     trigger,
     formState: { errors },
   } = useFormContext();
 
-  const shippings = watch("shippings") || [];
-  const shippingMethod = watch("shippingMethod");
-  const shippingCost = watch("shippingCost");
-  const estimatedDelivery = watch("estimatedDelivery");
-  const editIndex = watch("editIndex"); // store edit index in form
+  const { authDetails } = useContext(AuthContext);
+  const userId = authDetails?.user?.id;
+
+  const {
+    useGetShipmentByUser,
+    createShipment,
+    updateShipment,
+    deleteShipment,
+  } = useShipping();
+
+  // Fetch user's existing shipment info
+  const {
+    data: shipmentData,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useGetShipmentByUser(userId);
+
+  // Normalize to array (if it's an object, wrap it)
+  const shippings = useMemo(() => {
+    if (!shipmentData) return [];
+    return Array.isArray(shipmentData) ? shipmentData : [shipmentData];
+  }, [shipmentData]);
+
+  useEffect(() => {
+    if (shippings?.length > 0) {
+      setValue("shippings", shippings);
+    }
+  }, [shippings, setValue]);
+  // Watch form state
+  const deliveryAddress = watch("shipping_address");
+  const deliveryFee = watch("delivery_fee");
+  const estimatedDelivery = watch("delivery_time");
+  const editIndex = watch("editIndex");
 
   const handleAddShipping = async () => {
     const isValid = await trigger([
-      "shippingMethod",
-      "shippingCost",
-      "estimatedDelivery",
+      "shipping_address",
+      "delivery_fee",
+      "delivery_time",
     ]);
     if (!isValid) return;
 
-    const newShipping = { shippingMethod, shippingCost, estimatedDelivery };
-    let updated = [];
+    const newShipping = {
+      shipping_address: deliveryAddress,
+      delivery_fee: deliveryFee,
+      delivery_time: estimatedDelivery,
+      delivery_method: "Standard",
+    };
 
-    if (editIndex != null) {
-      updated = shippings.map((s, i) => (i === editIndex ? newShipping : s));
-    } else {
-      updated = [newShipping, ...shippings];
-    }
-
-    setValue("shippings", updated, { shouldValidate: true });
-    setValue("shippingMethod", "");
-    setValue("shippingCost", "");
-    setValue("estimatedDelivery", "");
-    setValue("editIndex", null); // reset edit index
+    // Choose API call based on whether shipment already exists
+    const mutation = editIndex != null ? updateShipment : createShipment;
+    mutation.mutate(newShipping, {
+      onSuccess: () => {
+        setValue("shipping_address", "");
+        setValue("delivery_fee", "");
+        setValue("delivery_time", "");
+        setValue("editIndex", null);
+      },
+    });
   };
 
   const handleEdit = (index) => {
     const s = shippings[index];
-    setValue("shippingMethod", s.shippingMethod);
-    setValue("shippingCost", s.shippingCost);
-    setValue("estimatedDelivery", s.estimatedDelivery);
+    setValue("shipping_address", s.shipping_address);
+    setValue("delivery_fee", s.delivery_fee);
+    setValue("delivery_time", s.delivery_time);
     setValue("editIndex", index);
   };
 
-  const handleDelete = (index) => {
-    if (window.confirm("Delete this shipping option?")) {
-      const updated = shippings.filter((_, i) => i !== index);
-      setValue("shippings", updated, { shouldValidate: true });
-    }
+  const handleDelete = () => {
+    if (!window.confirm("Delete this shipping option?")) return;
+
+    // const updated = shippings.filter((_, i) => i !== index);
+    // setValue("shippings", updated, { shouldValidate: true });
+
+    deleteShipment.mutate();
   };
 
   return (
@@ -75,7 +104,14 @@ const StepThree = () => {
         </p>
       </div>
 
-      {shippings.length > 0 && (
+      {/* Display conditions */}
+      {isLoading ? (
+        <p className="text-gray-500 text-xs">Loading shipping options...</p>
+      ) : isError ? (
+        <p className="text-red-500 text-xs">
+          Failed to load shipping options. Please try again.
+        </p>
+      ) : isSuccess && shippings.length > 0 ? (
         <ul className="gap-4">
           {shippings.map((s, index) => (
             <li
@@ -97,57 +133,60 @@ const StepThree = () => {
                   className="p-1 hover:bg-gray-300 rounded-md border border-[#9E9E9E]"
                   title="Delete"
                 >
-                  <FiTrash2 size={10} className="" />
+                  <FiTrash2 size={10} />
                 </button>
               </div>
               <div className="flex-1 space-y-1">
                 <p className="text-sm font-medium capitalize">
-                  {s.shippingMethod}
+                  {s.shipping_address}
                 </p>
-                <p className="text-[10px] font-medium text-gray-900">
-                  <span>Fee:</span> ${s.shippingCost}{" "}
-                  <span className="ml-2">Estimated:</span> {s.estimatedDelivery}{" "}
+                <p className="text-xs font-medium text-gray-900">
+                  <span>Fee:</span> ₦{s.delivery_fee}{" "}
+                  <span className="ml-2">Estimated:</span> {s.delivery_time}{" "}
                   days
                 </p>
               </div>
             </li>
           ))}
         </ul>
+      ) : (
+        <p className="text-gray-400 text-xs">No shipping options added yet.</p>
       )}
 
+      {/* Add new shipping option */}
       <div className="border border-gray-200 rounded-lg p-4 space-y-6">
         <section>
-          <h3 className="text-[10px] font-semibold flex gap-1 items-center">
-            {" "}
+          <h3 className="text-xs font-medium flex gap-1 items-center">
             <GoPlus size={14} /> Add Shipping Option
           </h3>
-          <p className="text-gray-400 text-[10px] mt-1">
+          <p className="text-gray-400 text-xs mt-1">
             Add at least 3 delivery options
           </p>
         </section>
+
+        {/* Delivery Method */}
         <div>
           <label className="block text-xs font-medium mb-2">
-            Shipping Method *
+            Delivery Method *
           </label>
-          <Controller
-            name="shippingMethod"
-            control={control}
-            rules={{ required: "Shipping method is required" }}
-            render={({ field, fieldState }) => (
-              <Dropdown
-                {...field}
-                options={shippingOptions}
-                placeholder="Select a shipping method"
-                error={fieldState.error?.message}
-                borderClass="border-gray-300"
-                bgClass={"bg-gray-50"}
-                radiusClass="rounded-md"
-                dropdownClass="border-gray-300"
-              />
-            )}
+          <input
+            type="text"
+            {...register("shipping_address", {
+              required: "Delivery method is required",
+            })}
+            className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
+              errors.shipping_address ? "border border-red-500" : ""
+            }`}
+            placeholder="e.g., Pickup, Door Delivery"
           />
+          {errors.shipping_address && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.shipping_address.message}
+            </p>
+          )}
         </div>
 
+        {/* Fee & Time */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-medium mb-2">
@@ -156,18 +195,18 @@ const StepThree = () => {
             <input
               type="number"
               step="0.01"
-              {...register("shippingCost", {
+              {...register("delivery_fee", {
                 required: "Shipping cost is required",
                 min: { value: 0, message: "Cost must be greater than 0" },
               })}
               className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
-                errors.shippingCost ? "border border-red-500" : ""
+                errors.delivery_fee ? "border border-red-500" : ""
               }`}
-              placeholder="e.g., 5.99"
+              placeholder="0"
             />
-            {errors.shippingCost && (
+            {errors.delivery_fee && (
               <p className="text-red-500 text-xs mt-1">
-                {errors.shippingCost.message}
+                {errors.delivery_fee.message}
               </p>
             )}
           </div>
@@ -178,18 +217,18 @@ const StepThree = () => {
             </label>
             <input
               type="number"
-              {...register("estimatedDelivery", {
+              {...register("delivery_time", {
                 required: "Estimated delivery is required",
                 min: { value: 1, message: "Must be at least 1 day" },
               })}
               className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-sm ${
-                errors.estimatedDelivery ? "border border-red-500" : ""
+                errors.delivery_time ? "border border-red-500" : ""
               }`}
-              placeholder="e.g., 3"
+              placeholder="e.g. 3"
             />
-            {errors.estimatedDelivery && (
+            {errors.delivery_time && (
               <p className="text-red-500 text-xs mt-1">
-                {errors.estimatedDelivery.message}
+                {errors.delivery_time.message}
               </p>
             )}
           </div>
@@ -198,9 +237,14 @@ const StepThree = () => {
         <button
           type="button"
           onClick={handleAddShipping}
-          className="bg-black text-white text-sm p-3 w-full rounded-lg hover:bg-gray-800 transition-colors"
+          disabled={createShipment.isPending || updateShipment.isPending}
+          className="bg-black text-white text-sm p-3 w-full rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50"
         >
-          {editIndex != null ? "Update Shipping" : "Add Shipping"}
+          {editIndex != null
+            ? "Update Shipping"
+            : createShipment.isPending || updateShipment.isPending
+            ? "Saving..."
+            : "Add Shipping"}
         </button>
       </div>
     </div>

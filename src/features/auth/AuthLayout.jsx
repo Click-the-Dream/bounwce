@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useLocation, Outlet } from "react-router-dom";
 import createPicImg from "../../assets/createpic.jpg";
 import ToggleTabs from "../../components/common/ToggleTabs";
+import Logo from "../../components/common/Logo";
 
 // Animation variants for smooth fade-in effects
 const fadeIn = (direction = "up", delay = 0) => ({
@@ -57,7 +58,7 @@ const AuthLayout = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          bounwce
+          bouwnce
         </motion.div>
 
         {/* Tagline */}
@@ -91,6 +92,7 @@ const AuthLayout = () => {
           ) : (
             // --- Default Layout (Login / Register) ---
             <>
+              <Logo />
               <motion.h1
                 key={`title-${pathname}`}
                 variants={fadeIn("up", 0.3)}
