@@ -7,6 +7,7 @@ import { useState } from 'react';
 import ActionButton from './actionButton';
 import { CiFilter, CiExport } from "react-icons/ci";
 import { IoMdAdd } from "react-icons/io";
+import ProductSection from './ProductSection';
 
 const StoreManagementDashboard = () => {
   const [dummyStat, setDummyStat] = useState([
@@ -15,10 +16,13 @@ const StoreManagementDashboard = () => {
     {label: "Draft Products", amount: "1", icon: MdOutlineDashboard},
     {label: "Low Stock Items", amount: "0", icon: MdOutlineDashboard},
   ])
+const [activeTab, setActiveTab] = useState("active");
   return (
     <main className="min-h-screen bg-[#ECECF080]">
       <header className='mb-6'>
         <VendorHeader 
+          header={"Store Management"}
+          headerDetails={"Manage your products and inventory"}
           icon={MdOutlineDashboard}
           label={"Go to Dashboard"}
           bgColor={"bg-orange text-white"}
@@ -71,57 +75,25 @@ const StoreManagementDashboard = () => {
         </div>
 
       {/* Tabs */}
-      <div className="px-4 sm:px-6 lg:px-8 mt-6">
-        <div className="border-b border-gray-200">
-          <nav className="-mb-px flex space-x-8">
-            <a
-              href="#"
-              className="py-2 px-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 flex items-center space-x-2"
-            >
-              <span className="bg-gray-200 text-gray-600 px-2 py-1 rounded-full text-xs">0</span>
-              <span>Active Products</span>
-            </a>
-            <a
-              href="#"
-              className="py-2 px-1 border-b-2 border-red-500 text-sm font-medium text-red-600 flex items-center space-x-2"
-            >
-              <span className="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xs">1</span>
-              <span>Drafts</span>
-            </a>
-          </nav>
-        </div>
+      <div className='bg-[#ECECF0] rounded-[20px] border-[1px] border-[#0000001A] p-1 inline-flex gap-3 text-[13px]'>
+        <button 
+          className={`py-2 px-2 rounded-[16px]  ${activeTab === "active" ? "bg-orange text-white" : ""}`}
+          onClick={() => setActiveTab("active")}
+        >
+          <span>Active Products</span>
+          <span>(0)</span>
+        </button>
+
+        <button 
+          className={`py-2 px-2 rounded-[16px] ${activeTab === "drafts" ? "bg-orange text-white" : ""}`}
+          onClick={() => setActiveTab("drafts")}
+        >
+          <span>Drafts</span>
+          <span>(1)</span>
+        </button>
       </div>
 
-      {/* Empty State */}
-      <div className="px-4 sm:px-6 lg:px-8 mt-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-          <Package className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-2 text-lg font-medium text-gray-900">No Active Products</h3>
-          <p className="mt-1 text-sm text-gray-500">You haven't published any products yet</p>
-          <button className="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-900 hover:bg-gray-800">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Your Product
-          </button>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="px-4 sm:px-6 lg:px-8 mt-8 pb-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-medium text-gray-900">Quick Actions</h3>
-          <p className="mt-1 text-sm text-gray-500">Common tasks to manage your inventory</p>
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button className="flex items-center justify-center px-6 py-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-              <Plus className="w-5 h-5 mr-3" />
-              Add Product
-            </button>
-            <button className="flex items-center justify-center px-6 py-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-              <Package className="w-5 h-5 mr-3" />
-              Update Inventory
-            </button>
-          </div>
-        </div>
-      </div>
+      <ProductSection />     
       </section>
     </main>
   );

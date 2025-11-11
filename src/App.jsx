@@ -73,19 +73,9 @@ function App() {
             {/* Protected Vendor Routes */}
             <Route element={<SecureRoute />}>
               <Route path="/vendor/setup" element={<VendorOnboarding />} />
-
-              {/* Inactive Store Dashboard */}
-              <Route
-                path="/vendor/store"
-                element={<StoreManagementDashboard />}
-              />
-              {/*Active Product Page*/}
-              <Route path="/" element={<ActiveStore />} />
-              <Route path="/ActiveStore" element={<ActiveStore />} />
-
-              {/* All other vendor routes via VendorRouter */}
+              <Route path="/vendor/store" element={<StoreManagementDashboard />} />  
               <Route path="/vendor/*" element={<VendorRouter />} />
-            </Route>
+            </Route>           
 
             {/* Catch-all redirect */}
             <Route path="*" element={<Navigate to="/" replace />} />

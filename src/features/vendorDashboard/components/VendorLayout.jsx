@@ -11,6 +11,8 @@ const VendorLayout = () => {
     <main>
       <section className='mb-7'>
         <VendorHeader 
+          header={"Dashboard"}
+          headerDetails={"Here's what's happening with your store"}
           icon={RiNotification3Line}
           notifications={"9"}
           storeLabel={"View Store"}

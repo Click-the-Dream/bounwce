@@ -2,7 +2,7 @@ import { TbHome } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
 import userImage from '../../../../assets/createpic.jpg'
 
-const VendorHeader = ({notifications, label, icon: Icon, bgColor, storeLabel, leftIcon:LeftIcon, rightIcon: RightIcon}) => {
+const VendorHeader = ({header, headerDetails, notifications, label, icon: Icon, bgColor, storeLabel, leftIcon:LeftIcon, rightIcon: RightIcon}) => {
     
   return (
     <header className='bg-white shadow px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[175px] py-5 flex justify-between gap-2'>
@@ -18,9 +18,9 @@ const VendorHeader = ({notifications, label, icon: Icon, bgColor, storeLabel, le
             <div className='hidden md:block'>
                 <div className='flex gap-1 items-center'>
                     <TbHome />
-                    <p className='text-[10px]'><span>Origami Store</span> - Dashboard</p> 
+                    <p className='text-[10px]'><span>Origami Store</span> - {header}</p> 
                 </div>
-                <p className='text-[9px]'>Here is what's happening with your store</p>
+                <p className='text-[9px]'>{headerDetails}</p>
             </div>
         </div>
 
