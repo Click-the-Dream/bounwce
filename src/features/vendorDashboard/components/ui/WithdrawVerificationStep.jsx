@@ -7,15 +7,16 @@ const WithdrawVerificationStep = ({code, setCode, codeRefs, amount, bankName, ac
         if (!/^\d*$/.test(value)) return; // Only allow digits
 
         const newCode = [...code];
-        newCode[index] = value.slice(-1)
+        newCode[index] = value.slice(-1); //keep last digit only
         setCode(newCode);
 
         // move to a new input if a digit was entered
-        if(value.length === 1 && index < 5 && codeRefs.current[ index + 1 ]) {
-            codeRefs.current[index + 1].focus();
+        if(value && index < code.length -1 && codeRefs.current[ index + 1 ]) {
+            codeRefs.current[ index + 1 ].focus();
         }
     }
 
+    // moves to the previous input on backspace if current is empty
     const handleKeyDown = (e, index) => {
         if (e.key === 'Backspace' && !code[index] && index > 0 && codeRefs.current[index - 1]) {
             codeRefs.current[index - 1].focus();
