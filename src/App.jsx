@@ -76,7 +76,7 @@ function App() {
               <Route path="/vendor/store" element={<StoreManagementDashboard />} />  
               <Route path="/vendor/*" element={<VendorRouter />} />
             </Route>           
-
+              
             {/* Catch-all redirect */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
