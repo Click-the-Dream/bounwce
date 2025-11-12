@@ -86,11 +86,14 @@ const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
     }    
 
   return (
+    // makes entire backgorund blur when modal is clicked
     <div 
         className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-all duration-500 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
         aria-modal="true"
         role="dialog"
     >
+
+        {/* modal section */}
         <div 
             className={`bg-white rounded-[8px] p-5 transform transition-all duration-500 ease-in-out ${isOpen ? "scale-100 opacity-100" : "scale-50 opacity-0"}`}
             onClick={(e) => e.stopPropagation()}
@@ -123,6 +126,7 @@ const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
             {/* dynamic content area */}
             {renderContent()}
             
+            {/* modal footer section */}
             <div className="flex gap-3 justify-end text-[10px] mt-8">
                     <button 
                         className={`border-[1px] p-[9px] rounded-[4.45px] ${step === 3 ? "hidden" : "block"}`}
