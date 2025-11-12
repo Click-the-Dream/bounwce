@@ -9,7 +9,7 @@ import { IoMdAdd } from "react-icons/io";
 import ProductSection from './ProductSection';
 import DraftSection from './DraftSection';
 import { motion, AnimatePresence } from 'framer-motion';
-import { section } from 'framer-motion/client';
+import StoreQuickActionsSection from './StoreQuickActionsSection';
 
 const StoreManagementDashboard = () => {
   const [dummyStat, setDummyStat] = useState([
@@ -101,6 +101,7 @@ const sectionVariants = {
           </button>
         </div>
         
+        {/* Active products and drafs section */}
         <AnimatePresence mode='wait'>
           {
             activeTab === "product" && (
@@ -132,7 +133,11 @@ const sectionVariants = {
             )
           }          
         </AnimatePresence>
-          
+
+        {/* quick actions section */}
+        <div>
+         <StoreQuickActionsSection />
+        </div>          
       </section>
     </main>
   );
