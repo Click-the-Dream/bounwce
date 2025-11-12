@@ -41,7 +41,7 @@ function App() {
         <div className="font-inter">
           <Routes>
             {/* Public Routes */}
-            <Route element={<AuthLayout />}>
+            {/* <Route element={<AuthLayout />}>
               <Route
                 path="/login"
                 element={
@@ -66,26 +66,25 @@ function App() {
                   </PublicRoute>
                 }
               />
-            </Route>
+            </Route> */}
 
             <Route path="/" element={<Waitlist />} />
 
             {/* Protected Vendor Routes */}
-            <Route element={<SecureRoute />}>
+            {/* <Route element={<SecureRoute />}>
               <Route path="/vendor/setup" element={<VendorOnboarding />} />
 
-              {/* Inactive Store Dashboard */}
               <Route
                 path="/vendorStore"
                 element={<StoreManagementDashboard />}
               />
-              {/*Active Product Page*/}
+            
               <Route path="/" element={<ActiveStore />} />
               <Route path="/ActiveStore" element={<ActiveStore />} />
 
-              {/* All other vendor routes via VendorRouter */}
+             
               <Route path="/vendor/*" element={<VendorRouter />} />
-            </Route>
+            </Route> */}
 
             {/* Catch-all redirect */}
             <Route path="*" element={<Navigate to="/" replace />} />
