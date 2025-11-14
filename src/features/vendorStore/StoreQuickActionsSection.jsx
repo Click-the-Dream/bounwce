@@ -1,6 +1,6 @@
 import { HiOutlinePlus } from "react-icons/hi2";
 import { RxUpdate } from "react-icons/rx";
-import QuickActionsButton from '../../vendorDashboard/components/ui/QuickActionsButton'
+import QuickActionsButton from '../vendorDashboard/components/ui/QuickActionsButton'
 
 const StoreQuickActionsSection = () => {
     const quickActions = [

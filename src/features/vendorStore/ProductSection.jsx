@@ -1,6 +1,6 @@
 import { useState } from "react"
-import ProductCard from "./ProductCard";
-import NoProductCard from "./NoProductCard";
+import ProductCard from "./components/ProductCard";
+import NoProductCard from "./components/NoProductCard";
 
 const ProductSection = () => {
   const [products, setProducts] = useState([

@@ -1,6 +1,6 @@
 import { useState } from "react"
-import NoProductCard from "./NoProductCard"
-import ProductCard from "./ProductCard"
+import NoProductCard from "./components/NoProductCard"
+import ProductCard from "./components/ProductCard"
 
 
 const DraftSection = () => {

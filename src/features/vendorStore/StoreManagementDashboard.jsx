@@ -1,15 +1,13 @@
-import VendorHeader from '../../vendorDashboard/components/ui/VendorHeader';
+import VendorHeader from '../vendorDashboard/components/ui/VendorHeader';
 import { MdOutlineDashboard } from "react-icons/md";
 import { IoEyeOutline } from "react-icons/io5";
-import VendorOverviewCard from '../../vendorDashboard/components/ui/VendorOverviewCard';
+import VendorOverviewCard from '../vendorDashboard/components/ui/VendorOverviewCard';
 import { useState } from 'react';
-import ActionButton from './actionButton';
-import { CiFilter, CiExport } from "react-icons/ci";
-import { IoMdAdd } from "react-icons/io";
 import ProductSection from './ProductSection';
 import DraftSection from './DraftSection';
 import { motion, AnimatePresence } from 'framer-motion';
 import StoreQuickActionsSection from './StoreQuickActionsSection';
+import SearchActionsBar from './SearchActionsBar';
 
 const StoreManagementDashboard = () => {
   const [dummyStat, setDummyStat] = useState([
@@ -56,31 +54,7 @@ const sectionVariants = {
         </section>
 
         {/* Search & Actions */}
-          <div className="w-full bg-white p-2 flex flex-col md:flex-row gap-3 items-center justify-between space-x-2 rounded-[12.75px]">
-            <input
-              type="text"
-              placeholder="Search Product..."
-              className="w-full px-4 py-2 rounded-[12.75px] text-[13px] bg-[#ECECF080]"
-            />
-
-            <div className="flex items-center space-x-2">
-              <ActionButton 
-                label={"filter"}
-                icon={CiFilter}
-              />
-
-              <ActionButton 
-                label={"Export"}
-                icon={CiExport}
-              />
-
-              <ActionButton 
-                label={"Add Product"}
-                icon={IoMdAdd}
-                className="bg-black text-white"
-              />
-            </div>
-          </div>
+          <SearchActionsBar />
 
         {/* Tabs */}
         <div className='bg-[#ECECF0] rounded-[20px] border-[1px] border-[#0000001A] p-1 inline-flex gap-3 text-[13px]'>
