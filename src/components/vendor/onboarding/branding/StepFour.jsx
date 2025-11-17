@@ -2,7 +2,7 @@ import React from "react";
 import { FiBox, FiTruck } from "react-icons/fi";
 import { IoColorPaletteOutline } from "react-icons/io5";
 
-const StepFour = () => {
+const StepFour = ({ watch }) => {
   return (
     <div className="w-full flex flex-col items-center py-10 px-4 bg-white rounded-3xl">
       {/* Title Section */}
@@ -43,13 +43,14 @@ const StepFour = () => {
           </div>
           <ul className="text-gray-600 text-xs space-y-2">
             <li>
-              <span className="mr-1">✓</span> 1 product added
+              <span className="mr-1">✓</span> {watch("products")?.length || 0}{" "}
+              product added
             </li>
             <li>
               <span className="mr-1">✓</span> 0 active products
             </li>
             <li>
-              <span className="mr-1">✓</span> 1 draft product
+              <span className="mr-1">✓</span> 0 draft product
             </li>
           </ul>
         </div>
@@ -62,7 +63,8 @@ const StepFour = () => {
           </div>
           <ul className="text-gray-600 text-xs space-y-2">
             <li>
-              <span className="mr-1">✓</span> 1 shipping option
+              <span className="mr-1">✓</span> {watch("shippings")?.length || 0}{" "}
+              shipping option
             </li>
             <li>
               <span className="mr-1">✓</span> Delivery methods configured
