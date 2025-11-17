@@ -1,20 +1,36 @@
-import React from "react";
-import { useFormContext } from "react-hook-form";
+import React, { useMemo } from "react";
 import { Store, LayoutDashboard } from "lucide-react";
 import { LuCircleCheckBig } from "react-icons/lu";
 import { FiMessageSquare } from "react-icons/fi";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import useProduct from "../../../hooks/useProduct";
 
-const OnboardingSuccess = () => {
-  const { watch } = useFormContext();
+const OnboardingSuccess = ({ storeData }) => {
   const navigate = useNavigate();
+  const { useGetMyProducts } = useProduct();
+  const { data: { products } = [], isLoading } = useGetMyProducts();
 
-  // Watch data from form
-  const storeName = watch("name") || "Unnamed Store";
-  const contactPerson = watch("contact_info.name") || "N/A";
-  const phoneNumber = watch("contact_info.phone_number") || "+234-XXXXXXXXXX";
-  const businessType = watch("contact_info.title") || "Sole Proprietorship";
+  // Calculate average price
+  const averagePrice = useMemo(() => {
+    if (!products || products.length === 0) return 0;
+
+    const total = products.reduce((sum, product) => {
+      return sum + (parseFloat(product.amount) || 0);
+    }, 0);
+
+    return total / products.length;
+  }, [products]);
+
+  // Format currency
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
 
   return (
     <div className="">
@@ -35,7 +51,7 @@ const OnboardingSuccess = () => {
         <div className="mt-4 flex flex-col justify-center items-center">
           <div className="flex items-center gap-2 px-4 py-2">
             <Store className="w-6 h-6" />
-            <span className="font-medium text-[11px]">{storeName}</span>
+            <span className="font-medium text-[11px]">{storeData?.name}</span>
             <span className="inline-block text-[10px] text-gray-100 bg-[#92922e] border-[#9F9F9F] px-3 py-[2px] rounded-2xl">
               Draft
             </span>
@@ -48,19 +64,29 @@ const OnboardingSuccess = () => {
       <div className="border border-gray-300 bg-white p-6 sm:p-8 rounded-2xl">
         <h3 className="text-sm font-semibold mb-1">Your Store Overview</h3>
         <p className="text-xs text-gray-500 mb-6">
-          Here’s what you’ve set up so far
+          Here's what you've set up so far
         </p>
 
         {/* Overview Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-8">
           {[
-            { label: "Total Products", value: watch("products")?.length || 0 },
+            {
+              label: "Total Products",
+              value: isLoading ? "..." : products?.length || 0,
+            },
             { label: "Draft Products", value: 1 },
             {
               label: "Shipping Options",
-              value: watch("shippings")?.length || 0,
+              value: storeData?.shipment_info?.length || 0,
             },
-            { label: "Avg. Price", value: "₦1000" },
+            {
+              label: "Avg. Price",
+              value: isLoading
+                ? "..."
+                : products?.length > 0
+                ? formatCurrency(averagePrice)
+                : "₦0",
+            },
           ].map((stat, i) => (
             <div
               key={i}
@@ -72,6 +98,7 @@ const OnboardingSuccess = () => {
           ))}
         </div>
 
+        {/* Rest of your component remains the same */}
         {/* Business Info + Features */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div>
@@ -79,13 +106,15 @@ const OnboardingSuccess = () => {
             <ul className="text-sm text-gray-600 space-y-1">
               <li className="flex justify-between gap-2">
                 <span className="text-gray-400">Business Type:</span>{" "}
-                {businessType}
+                {storeData?.name}
               </li>
               <li className="flex justify-between gap-2">
-                <span className="text-gray-400">Contact:</span> {contactPerson}
+                <span className="text-gray-400">Contact:</span>{" "}
+                {storeData?.contact_info.name}
               </li>
               <li className="flex justify-between gap-2">
-                <span className="text-gray-400">Phone:</span> {phoneNumber}
+                <span className="text-gray-400">Phone:</span>{" "}
+                {storeData?.contact_info.phone_number}
               </li>
               <li className="flex justify-between items-center gap-2">
                 <span className="text-gray-400">Verification Status:</span>
@@ -151,11 +180,14 @@ const OnboardingSuccess = () => {
         </button>
 
         <div className="ml-auto flex flex-wrap gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-900">
+          <button
+            onClick={() => navigate("/vendorStore", { replace: true })}
+            className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-900"
+          >
             <Store className="w-4 h-4" /> View My Store
           </button>
           <button
-            onClick={() => navigate("/vendor")}
+            onClick={() => navigate("/vendor", { replace: true })}
             className="flex items-center gap-2 px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90"
           >
             <LayoutDashboard className="w-4 h-4" /> Go to Dashboard

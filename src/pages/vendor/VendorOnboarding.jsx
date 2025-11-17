@@ -12,7 +12,7 @@ import StoreLoader from "../../components/common/StoreLoader";
 const tabOrder = ["store", "contact", "verification", "payout"];
 
 const VendorOnboarding = () => {
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(4);
   const [currentTab, setCurrentTab] = useState("store");
   const [completedTabs, setCompletedTabs] = useState([]);
 
@@ -326,7 +326,7 @@ const VendorOnboarding = () => {
             />
           )}
 
-          {currentStep === 4 && <OnboardingSuccess />}
+          {currentStep === 4 && <OnboardingSuccess storeData={storeData} />}
         </FormProvider>
       </div>
     </div>

@@ -27,10 +27,10 @@ const useShipping = () => {
     useQuery({
       queryKey: ["shipment", userId],
       queryFn: async () => {
-        const response = await client.get(`/store/shipment/${userId}`);
+        const response = await client.get(`/store/shipment/`);
         return response.data.data;
       },
-      enabled: !!userId && !!authDetails?.access_token,
+      enabled: !!authDetails?.access_token,
       onError: (error) => handleFailure("Fetch Shipment Info", error),
     });
 
@@ -49,8 +49,9 @@ const useShipping = () => {
 
   // Update Shipment Info
   const updateShipment = useMutation({
-    mutationFn: async (shipmentData) => {
-      const response = await client.put("/store/shipment/", shipmentData);
+    mutationFn: async ({ id, ...shipmentData }) => {
+      if (!id) throw Error("ID is required");
+      const response = await client.put(`/store/shipment/${id}`, shipmentData);
       return response.data.data;
     },
     onSuccess: () => {
@@ -62,8 +63,9 @@ const useShipping = () => {
 
   // Delete Shipment Info
   const deleteShipment = useMutation({
-    mutationFn: async () => {
-      const response = await client.delete("/store/shipment/");
+    mutationFn: async (id) => {
+      if (!id) throw Error("ID is required");
+      const response = await client.delete(`/store/shipment/?id=${id}`);
       return response.data.data;
     },
     onSuccess: () => {
