@@ -19,8 +19,13 @@ const StepTwo = ({ register, errors, trigger }) => {
 
   // Sync products with RHF
   useEffect(() => {
-    setValue("products", products, { shouldValidate: true });
-  }, [products]);
+    if (
+      products?.length !== watch("products")?.length ||
+      JSON.stringify(products) !== JSON.stringify(watch("products"))
+    ) {
+      setValue("products", products, { shouldValidate: true });
+    }
+  }, [products, setValue, watch]);
 
   // Add Product
   const handleAddProduct = async () => {
