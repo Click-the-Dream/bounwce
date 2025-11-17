@@ -1,6 +1,4 @@
-
-const ActionButton = ({label, icon: Icon, onClick, className}) => {
-    
+const ActionButton = ({label, icon: Icon, onClick, className}) => {    
   return (
     <button 
         className={` px-4 py-2 font-medium text-gray-700 border border-gray-300 rounded-md flex items-center space-x-2 ${className || ""}`}

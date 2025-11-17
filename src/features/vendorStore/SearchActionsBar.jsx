@@ -1,7 +1,7 @@
-import ActionButton from './components/actionButton';
 import { CiFilter, CiExport } from "react-icons/ci";
 import { IoMdAdd } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
+import ActionButton from "./components/ActionButton";
 
 const SearchActionsBar = () => {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ const SearchActionsBar = () => {
         />
 
         <div className="flex items-center space-x-2">
-            <ActionButton 
+            <ActionButton
                 label={"filter"}
                 icon={CiFilter}
             />

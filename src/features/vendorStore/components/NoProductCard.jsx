@@ -1,6 +1,6 @@
 import { productImg } from "../../../assets"
-import ActionButton from "./actionButton"
 import { IoMdAdd } from "react-icons/io";
+import ActionButton from "./ActionButton";
 
 
 const NoProductCard = ({title, subtext}) => {
@@ -16,7 +16,7 @@ const NoProductCard = ({title, subtext}) => {
         </div>
 
         <div className="p-3">
-        <ActionButton 
+        <ActionButton
             label={"Add Your Product"}
             icon={IoMdAdd}
             className="bg-black text-white"            
