@@ -80,7 +80,7 @@ const useProduct = () => {
     useQuery({
       queryKey: ["products", "my-products"],
       queryFn: async () => {
-        const response = await client.get("/products/me");
+        const response = await client.get("/store/products/me");
         return response.data.data;
       },
       enabled: !!authDetails?.access_token,
@@ -91,10 +91,21 @@ const useProduct = () => {
     useQuery({
       queryKey: ["products", "store", storeId],
       queryFn: async () => {
-        const response = await client.get(`/products/store/${storeId}`);
+        const response = await client.get(`/store/products/store/${storeId}`);
         return response.data.data;
       },
       enabled: !!storeId && !!authDetails?.access_token,
+      onError: (error) => handleFailure("Fetch Store Products", error),
+    });
+
+  const useGetStoreCategories = () =>
+    useQuery({
+      queryKey: ["productCategories"],
+      queryFn: async () => {
+        const response = await client.get(`/store/products/categories`);
+        return response.data.data;
+      },
+      enabled: !!authDetails?.access_token,
       onError: (error) => handleFailure("Fetch Store Products", error),
     });
 
@@ -102,7 +113,7 @@ const useProduct = () => {
     useQuery({
       queryKey: ["product", id],
       queryFn: async () => {
-        const response = await client.get(`/products/${id}`);
+        const response = await client.get(`/store/products/${id}`);
         return response.data.data;
       },
       enabled: !!id && !!authDetails?.access_token,
@@ -113,7 +124,7 @@ const useProduct = () => {
 
   const createProduct = useMutation({
     mutationFn: async (productData) => {
-      const response = await client.post("/products/", productData, {
+      const response = await client.post("/store/products/", productData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return response.data.data;
@@ -127,7 +138,7 @@ const useProduct = () => {
 
   const updateProduct = useMutation({
     mutationFn: async ({ id, productData }) => {
-      const response = await client.put(`/products/${id}`, productData, {
+      const response = await client.put(`/store/products/${id}`, productData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return response.data.data;
@@ -158,7 +169,7 @@ const useProduct = () => {
 
   const deleteProduct = useMutation({
     mutationFn: async (id) => {
-      const response = await client.delete(`/products/${id}`);
+      const response = await client.delete(`/store/products/${id}`);
       return response.data.data;
     },
     onSuccess: () => {
@@ -211,6 +222,7 @@ const useProduct = () => {
     deleteProduct,
     deleteAllMyProducts,
     deleteProductImage,
+    useGetStoreCategories,
   };
 };
 

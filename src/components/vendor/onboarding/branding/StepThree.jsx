@@ -6,6 +6,7 @@ import { GoPlus } from "react-icons/go";
 import useShipping from "../../../../hooks/useShipping";
 import { AuthContext } from "../../../../context/AuthContext";
 import { useMemo } from "react";
+import { onPrompt } from "../../../../utils/notifications/onPrompt";
 
 const StepThree = () => {
   const {
@@ -58,6 +59,13 @@ const StepThree = () => {
       "delivery_time",
     ]);
     if (!isValid) return;
+    if (shipmentData?.length >= 3 && !editIndex) {
+      onPrompt({
+        title: "Limit Reached",
+        message: "You can only add up to 3 shipments at this stage.",
+      });
+      return; // Stop the function
+    }
 
     const newShipping = {
       shipping_address: deliveryAddress,
@@ -68,14 +76,17 @@ const StepThree = () => {
 
     // Choose API call based on whether shipment already exists
     const mutation = editIndex != null ? updateShipment : createShipment;
-    mutation.mutate(newShipping, {
-      onSuccess: () => {
-        setValue("shipping_address", "");
-        setValue("delivery_fee", "");
-        setValue("delivery_time", "");
-        setValue("editIndex", null);
-      },
-    });
+    mutation.mutate(
+      editIndex ? { id: editIndex, ...newShipping } : newShipping,
+      {
+        onSuccess: () => {
+          setValue("shipping_address", "");
+          setValue("delivery_fee", "");
+          setValue("delivery_time", "");
+          setValue("editIndex", null);
+        },
+      }
+    );
   };
 
   const handleEdit = (index) => {
@@ -83,16 +94,18 @@ const StepThree = () => {
     setValue("shipping_address", s.shipping_address);
     setValue("delivery_fee", s.delivery_fee);
     setValue("delivery_time", s.delivery_time);
-    setValue("editIndex", index);
+    setValue("editIndex", s.id);
+  };
+  const handleCancelEdit = () => {
+    setValue("shipping_address", "");
+    setValue("delivery_fee", "");
+    setValue("delivery_time", "");
+    setValue("editIndex", null);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (id) => {
     if (!window.confirm("Delete this shipping option?")) return;
-
-    // const updated = shippings.filter((_, i) => i !== index);
-    // setValue("shippings", updated, { shouldValidate: true });
-
-    deleteShipment.mutate();
+    deleteShipment.mutate(id);
   };
 
   return (
@@ -129,7 +142,7 @@ const StepThree = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleDelete(index)}
+                  onClick={() => handleDelete(s?.id)}
                   className="p-1 hover:bg-gray-300 rounded-md border border-[#9E9E9E]"
                   title="Delete"
                 >
@@ -137,11 +150,12 @@ const StepThree = () => {
                 </button>
               </div>
               <div className="flex-1 space-y-1">
-                <p className="text-sm font-medium capitalize">
-                  {s.shipping_address}
-                </p>
-                <p className="text-xs font-medium text-gray-900">
-                  <span>Fee:</span> ₦{s.delivery_fee}{" "}
+                <p className="text-sm capitalize">{s.shipping_address}</p>
+                <p className="text-xs text-gray-900">
+                  <span>Fee:</span>{" "}
+                  {parseInt(s.delivery_fee) > 0
+                    ? `₦ ${s.delivery_fee}`
+                    : "free"}
                   <span className="ml-2">Estimated:</span> {s.delivery_time}{" "}
                   days
                 </p>
@@ -155,14 +169,25 @@ const StepThree = () => {
 
       {/* Add new shipping option */}
       <div className="border border-gray-200 rounded-lg p-4 space-y-6">
-        <section>
-          <h3 className="text-xs font-medium flex gap-1 items-center">
-            <GoPlus size={14} /> Add Shipping Option
-          </h3>
-          <p className="text-gray-400 text-xs mt-1">
-            Add at least 3 delivery options
-          </p>
-        </section>
+        <div className="flex justify-between items-center">
+          <section>
+            <h3 className="text-sm font-medium flex gap-1 items-center">
+              {editIndex ? "Edit Shipping Option" : "Add Shipping Option"}
+            </h3>
+            <p className="text-gray-500 text-xs mt-1">
+              Add at least 3 delivery options
+            </p>
+          </section>
+          {editIndex && (
+            <button
+              type="button"
+              onClick={handleCancelEdit}
+              className="text-xs text-gray-600 border border-gray-300 hover:border-gray-400 px-3 py-2 rounded-md transition-all duration-200 hover:bg-white font-medium"
+            >
+              Cancel Edit
+            </button>
+          )}
+        </div>
 
         {/* Delivery Method */}
         <div>
@@ -241,8 +266,10 @@ const StepThree = () => {
           className="bg-black text-white text-sm p-3 w-full rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50"
         >
           {editIndex != null
-            ? "Update Shipping"
-            : createShipment.isPending || updateShipment.isPending
+            ? updateShipment.isPending
+              ? "Updating..."
+              : "Update Shipping"
+            : createShipment.isPending
             ? "Saving..."
             : "Add Shipping"}
         </button>

@@ -4,23 +4,52 @@ import Dropdown from "../../../common/Dropdown";
 import { GoImage } from "react-icons/go";
 import { FiTrash2 } from "react-icons/fi";
 import { FaRegEdit } from "react-icons/fa";
-import { availabilityOptions, categories } from "../../../../utils/dummies";
+import { availabilityOptions } from "../../../../utils/dummies";
 import { onPrompt } from "../../../../utils/notifications/onPrompt";
 import useProduct from "../../../../hooks/useProduct";
 
 const StepTwo = ({ register, errors, trigger }) => {
   const { setValue, watch, getValues, control } = useFormContext();
-  const [editIndex, setEditIndex] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Hooks
-  const { createProduct, updateProduct, useGetMyProducts } = useProduct();
-  const { data: products = [], isLoading, refetch } = useGetMyProducts(); // <-- query hook from React Query
+  const reset = () => {
+    setValue("productName", "");
+    setValue("category", "");
+    setValue("description", "");
+    setValue("amount", "");
+    setValue("stock", "");
+    setValue("availability", "");
+    setValue("images", []);
+    setValue("id", null); // IMPORTANT FIX
+  };
 
+  // Hooks
+  const {
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    useGetMyProducts,
+    useGetStoreCategories,
+  } = useProduct();
+  const { data: { products } = [], isLoading } = useGetMyProducts();
+  const { data: categories = [] } = useGetStoreCategories();
+
+  const hasId =
+    getValues("id") !== null &&
+    getValues("id") !== undefined &&
+    getValues("id") !== "";
+
+  const sortCategory = categories?.map((cat) => ({
+    value: cat?.name,
+    label: cat?.name,
+    description: cat?.description,
+  }));
   // Sync products with RHF
   useEffect(() => {
-    setValue("products", products, { shouldValidate: true });
-  }, [products]);
+    if (products && products.length > 0) {
+      setValue("products", products, { shouldValidate: true });
+    }
+  }, [products, setValue]);
 
   // Add Product
   const handleAddProduct = async () => {
@@ -58,21 +87,32 @@ const StepTwo = ({ register, errors, trigger }) => {
         if (file) formData.append("images", file);
       });
 
-      await createProduct.mutateAsync(formData);
-      await refetch(); // Refresh query data
+      if (hasId) {
+        console.log(getValues("id"));
+
+        await updateProduct.mutate(
+          {
+            id: getValues("id"),
+            productData: formData,
+          },
+          {
+            onSuccess: () => reset(),
+          }
+        );
+      } else {
+        if (products?.length >= 2) {
+          onPrompt({
+            title: "Limit Reached",
+            message: "You can only add up to 2 products at this stage.",
+          });
+          return; // Stop the function
+        }
+        await createProduct.mutate(formData, {
+          onSuccess: () => reset(),
+        });
+      }
 
       // Reset fields
-      [
-        "productName",
-        "category",
-        "description",
-        "amount",
-        "stock",
-        "availability",
-        "images",
-      ].forEach((field) => setValue(field, ""));
-
-      setEditIndex(null);
     } catch (error) {
       console.error(error);
     } finally {
@@ -82,6 +122,8 @@ const StepTwo = ({ register, errors, trigger }) => {
 
   const handleEditProduct = (index) => {
     const prod = products[index];
+    console.log(prod);
+
     setValue("productName", prod.name);
     setValue("category", prod.category);
     setValue("description", prod.description);
@@ -89,7 +131,7 @@ const StepTwo = ({ register, errors, trigger }) => {
     setValue("stock", prod.stock);
     setValue("availability", prod.availability);
     setValue("images", prod.images || []);
-    setEditIndex(index);
+    setValue("id", prod.id || null);
   };
 
   const handleDeleteProduct = async (index) => {
@@ -97,13 +139,14 @@ const StepTwo = ({ register, errors, trigger }) => {
       return;
     try {
       const prod = products[index];
-      await updateProduct.delete(prod.id);
-      await refetch(); // Refresh after delete
+      await deleteProduct.mutate(prod.id);
     } catch (error) {
       console.error("Failed to delete product:", error);
     }
   };
-
+  const handleCancelEdit = () => {
+    reset();
+  };
   return (
     <div className="space-y-6">
       {/* Loader for query */}
@@ -176,7 +219,20 @@ const StepTwo = ({ register, errors, trigger }) => {
 
           {/* Add Product Form */}
           <div className="border border-gray-200 rounded-lg p-4 space-y-6">
-            <h3 className="text-sm">Add Product</h3>
+            <div className="flex justify-between items-center">
+              <h3 className="text-sm">
+                {hasId ? "Edit Product" : "Add Product"}
+              </h3>
+              {hasId && (
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
+                  className="text-xs text-gray-600 border border-gray-300 hover:border-gray-400 px-3 py-2 rounded-md transition-all duration-200 hover:bg-white font-medium"
+                >
+                  Cancel Edit
+                </button>
+              )}
+            </div>
 
             <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -212,7 +268,7 @@ const StepTwo = ({ register, errors, trigger }) => {
                   render={({ field, fieldState }) => (
                     <Dropdown
                       {...field}
-                      options={categories}
+                      options={sortCategory}
                       placeholder="Choose a category"
                       error={fieldState.error?.message}
                       borderClass="border-gray-50"
@@ -261,10 +317,17 @@ const StepTwo = ({ register, errors, trigger }) => {
                 <input
                   type="number"
                   step="0.01"
-                  {...register("amount", { required: "Price is required" })}
+                  {...register("amount", {
+                    required: "Price is required",
+                    min: {
+                      value: 0,
+                      message: "Price cannot be negative",
+                    },
+                  })}
                   className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
                     errors.amount ? "border border-red-500" : "border-gray-50"
                   }`}
+                  min={0}
                   placeholder="e.g., 49.99"
                 />
                 {errors.amount && (
@@ -280,11 +343,18 @@ const StepTwo = ({ register, errors, trigger }) => {
                 </label>
                 <input
                   type="number"
-                  {...register("stock", { required: "Stock is required" })}
+                  {...register("stock", {
+                    required: "Stock is required",
+                    min: {
+                      value: 0,
+                      message: "quantity cannot be negative",
+                    },
+                  })}
                   className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
                     errors.stock ? "border border-red-500" : "border-gray-50"
                   }`}
                   placeholder="e.g., 100"
+                  min={0}
                 />
                 {errors.stock && (
                   <p className="text-red-500 text-xs mt-1">
@@ -327,7 +397,10 @@ const StepTwo = ({ register, errors, trigger }) => {
                 {[1, 2, 3, 4].map((slot) => {
                   const images = watch("images") || [];
                   const file = images[slot - 1];
-                  const previewUrl = file ? URL.createObjectURL(file) : null;
+                  const previewUrl =
+                    file instanceof File
+                      ? URL.createObjectURL(file)
+                      : file?.url;
 
                   return (
                     <div
@@ -379,16 +452,24 @@ const StepTwo = ({ register, errors, trigger }) => {
             <button
               type="button"
               onClick={handleAddProduct}
-              disabled={isSubmitting}
+              disabled={
+                isSubmitting ||
+                createProduct.isPending ||
+                updateProduct.isPending
+              }
               className={`bg-black text-white text-xs p-3 w-full rounded-lg transition-colors ${
-                isSubmitting
+                isSubmitting ||
+                createProduct.isPending ||
+                updateProduct.isPending
                   ? "opacity-70 cursor-not-allowed"
                   : "hover:bg-gray-800"
               }`}
             >
-              {isSubmitting
+              {isSubmitting ||
+              createProduct.isPending ||
+              updateProduct.isPending
                 ? "Saving Product..."
-                : editIndex !== null
+                : hasId
                 ? "Update Product"
                 : "Add Product"}
             </button>
