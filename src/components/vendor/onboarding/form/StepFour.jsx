@@ -95,7 +95,7 @@ const StepFour = ({ register, errors, control }) => {
             render={({ field }) => (
               <Dropdown
                 value={field.value}
-                onChange={(e) => field.onChange(e.target.value)}
+                onChange={(value) => field.onChange(value)}
                 options={banks}
                 placeholder="Select your bank"
                 error={errors?.payout_info?.bank_name?.message}
@@ -154,7 +154,7 @@ const StepFour = ({ register, errors, control }) => {
           render={({ field }) => (
             <Dropdown
               value={field.value}
-              onChange={(e) => field.onChange(e.target.value)}
+              onChange={(value) => field.onChange(value)}
               options={securityQuestions}
               placeholder="Select a security question"
               error={errors?.payout_info?.security_question?.message}

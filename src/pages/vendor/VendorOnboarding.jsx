@@ -60,7 +60,7 @@ const VendorOnboarding = () => {
     },
   });
 
-  // ✅ Populate form with existing data
+  // Populate form with existing data
   useEffect(() => {
     if (storeData) {
       methods.reset({
@@ -87,7 +87,7 @@ const VendorOnboarding = () => {
     }
   }, [storeData, verificationData, methods]);
 
-  // ✅ Detect existing data for skip logic
+  // Detect existing data for skip logic
   const hasExistingData = useMemo(() => {
     if (!storeData) return false;
     switch (currentTab) {
@@ -109,7 +109,7 @@ const VendorOnboarding = () => {
     }
   }, [storeData, verificationData, currentTab]);
 
-  // ✅ Skip logic
+  // Skip logic
   const canSkip = currentTab === "contact" || hasExistingData;
 
   const getTabFields = (tab) => {
@@ -139,7 +139,7 @@ const VendorOnboarding = () => {
     }
   };
 
-  // ✅ Handle Next (create or update)
+  // Handle Next (create or update)
   const handleNext = async () => {
     const valid = await methods.trigger(getTabFields(currentTab));
     if (!valid) return;
@@ -239,7 +239,7 @@ const VendorOnboarding = () => {
     }
   };
 
-  // ✅ Handle Skip
+  // Handle Skip
   const handleSkip = () => {
     const currentIndex = tabOrder.indexOf(currentTab);
 
@@ -250,12 +250,12 @@ const VendorOnboarding = () => {
     if (currentIndex < tabOrder.length - 1) {
       setCurrentTab(tabOrder[currentIndex + 1]);
     } else {
-      // ✅ If last tab, move to next onboarding step
+      // If last tab, move to next onboarding step
       setCurrentStep((prev) => Math.min(prev + 1, 4));
     }
   };
 
-  // ✅ Handle Back
+  // Handle Back
   const handleBack = () => {
     const currentIndex = tabOrder.indexOf(currentTab);
     if (currentIndex > 0) {
@@ -265,7 +265,7 @@ const VendorOnboarding = () => {
     }
   };
 
-  // ✅ Loading Screen
+  // Loading Screen
   if (isLoading) {
     return (
       <StoreLoader
@@ -275,7 +275,7 @@ const VendorOnboarding = () => {
     );
   }
 
-  // ✅ Render UI
+  // Render UI
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
@@ -326,7 +326,7 @@ const VendorOnboarding = () => {
             />
           )}
 
-          {currentStep === 4 && <OnboardingSuccess />}
+          {currentStep === 4 && <OnboardingSuccess storeData={storeData} />}
         </FormProvider>
       </div>
     </div>

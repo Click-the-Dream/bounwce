@@ -24,7 +24,7 @@ const GettingStarted = ({ storeData, onNext, onBack }) => {
     watch,
     formState: { errors },
   } = useFormContext();
-  const { updateBranding } = useStore();
+  const { updateBranding, activateStore } = useStore();
 
   const currentIndex = brandingSteps.findIndex((s) => s.key === currentSubStep);
   const products = watch("products") || [];
@@ -286,19 +286,15 @@ const GettingStarted = ({ storeData, onNext, onBack }) => {
 
             <button
               type="button"
+              disabled={activateStore.isPending}
               onClick={() => {
                 // simulate success and move to success screen
-                onPrompt({
-                  title: "Store Published!",
-                  message: "🎉 Your store is now live!",
-                });
-                setTimeout(() => {
-                  onNext(); // go to success component
-                }, 1000); // small delay for smooth UX
+                activateStore.mutate(null, { onSuccess: () => onNext() });
               }}
-              className="flex gap-2 items-center px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90"
+              className="flex gap-2 items-center px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90 disabled:opacity-50 disabled:cursor-wait"
             >
-              <IoRocketOutline /> Publish My Store
+              <IoRocketOutline />{" "}
+              {activateStore.isPending ? "Please wait..." : "Publish My Store"}
             </button>
           </div>
         ) : (
