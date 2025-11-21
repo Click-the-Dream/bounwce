@@ -1,4 +1,3 @@
-import React from 'react'
 import QuickActionsButton from './ui/QuickActionsButton'
 import { HiOutlinePlus } from "react-icons/hi2";
 import { RxUpdate } from "react-icons/rx";

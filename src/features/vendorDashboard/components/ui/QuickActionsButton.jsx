@@ -1,4 +1,3 @@
-import React from 'react'
 
 const QuickActionsButton = ({icon: Icon, onClick, label}) => {
   
