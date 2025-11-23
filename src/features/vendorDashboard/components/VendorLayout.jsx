@@ -33,7 +33,7 @@ const VendorLayout = () => {
           ]}
           activePath={location.pathname}
         />
-        <h1>testing</h1>
+
         <DateFilter
           onChange={(val) => {
             // Do something with the selection
