@@ -219,16 +219,16 @@ export default function DateFilter({ value, onChange, className }) {
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={cx(
-          "flex items-center gap-2 rounded-md border border-gray-200 bg-white",
+          "flex justify-between items-center gap-2 rounded-lg border border-gray-200 bg-white min-w-40",
           "px-3 py-1.5 shadow-sm hover:bg-gray-50",
           "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-300"
         )}
         aria-haspopup="dialog"
         aria-expanded={open}
       >
-        <CalendarIcon className="h-4 w-4 text-gray-600" />
-        <span className="text-gray-800">{displayLabel}</span>
-        <ChevronDownIcon className="h-3.5 w-3.5 text-gray-500" />
+        <CalendarIcon className="h-4 w-4" />
+        <span className="">{displayLabel}</span>
+        <ChevronDownIcon className="h-3.5 w-3.5" />
       </button>
 
       {/* Popover */}
