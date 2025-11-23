@@ -11,14 +11,17 @@ const VendorOverviewCard = ({
   }) => {
 
   return (
-    <div className='flex items-center gap-2 justify-between p-5 rounded-lg border-[2px] w-full'>
+    <div className='bg-white flex items-center gap-2 justify-between p-5 rounded-lg border-[2px] w-full'>
         <div>
             <p className='text-[11px] text-ash'>{label}</p>
             <h1 className='text-[18px]'>{amount}</h1>
-            <div className={`flex gap-2 ${trendColor}`}>
+            {
+              TrendIcon &&
+              <div className={`flex gap-2 ${trendColor}`}>
                 <TrendIcon />
                 <p className='text-[10px] '>{analysis}</p>
-            </div>
+              </div>
+            }            
         </div>
 
         <div>
