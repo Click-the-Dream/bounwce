@@ -8,8 +8,9 @@ const ProductDetails = () => {
         {label: "electronics", value: "electronics"}
     ]
     const availability = [
-        {label: "yes", value: "yes"},
-        {label: "no", value: "no"}
+        {label: "In Stock", value: "in-stock"},
+        {label: "Pre-Order", value: "pre-order"},
+        {label: "Out of Stock", value: "out-of-stock"}
     ]
   return (
     <div className="bg-white rounded-[10px] p-5">
@@ -22,7 +23,7 @@ const ProductDetails = () => {
                 type={"text"}
                 placeholder={"Enter product name"}
                 error={errors.productName}
-                {...register("productName", { required: "Name is required" })}
+                {...register("productName", { required: "Product Name is required" })}
             />
             <InputField 
                 label={"Description *"}

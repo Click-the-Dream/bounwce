@@ -44,7 +44,7 @@ const ProductImages = () => {
                                 accept="image/*"
                                 className="hidden"
                                 {...register(fieldName, {
-                                    required: index === 0 ? "Main Image is required" : false
+                                    required: index === 0 ? "Product Image is required" : false
                                 })}
                             />
 
@@ -88,7 +88,7 @@ const ProductImages = () => {
 
         {
             errors?.images?.[0] && (
-                <p>
+                <p className="text-[10px] text-red-700 mt-2">
                     {errors.images[0].message}
                 </p>
             )
