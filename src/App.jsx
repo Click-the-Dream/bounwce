@@ -7,7 +7,6 @@ import { ToastContainer } from "react-toastify";
 import VendorRouter from "./routes/VendorRouter";
 import SecureRoute from "./routes/SecureRoute";
 import StoreManagementDashboard from "./features/vendorStore/StoreManagementDashboard";
-import ActiveStore from "./features/vendorStore/components/ActiveStore";
 import { Slide } from "react-toastify";
 import AddProductPage from "./features/vendorStore/pages/AddProductPage";
 
@@ -42,7 +41,7 @@ function App() {
         <div className="font-inter">
           <Routes>
             {/* Public Routes */}
-            {/* <Route element={<AuthLayout />}>
+            <Route element={<AuthLayout />}>
               <Route
                 path="/login"
                 element={
@@ -67,20 +66,20 @@ function App() {
                   </PublicRoute>
                 }
               />
-            </Route> */}
+            </Route>
 
             <Route path="/" element={<Waitlist />} />
 
             {/* Protected Vendor Routes */}
-            {/* <Route element={<SecureRoute />}>
+            <Route element={<SecureRoute />}>
               <Route path="/vendor/setup" element={<VendorOnboarding />} />
-              
+              <Route path="/vendor/store" element={<StoreManagementDashboard />} />  
+              <Route path="/vendor/addproduct" element={<AddProductPage />} />
+              <Route path="/vendor/*" element={<VendorRouter />} />
             </Route>           
               
             {/* Catch-all redirect */}
-            <Route path="/vendor/store" element={<StoreManagementDashboard />} />  
-            <Route path="/vendor/addproduct" element={<AddProductPage />} />
-            <Route path="/vendor/*" element={<VendorRouter />} />
+            
             
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
