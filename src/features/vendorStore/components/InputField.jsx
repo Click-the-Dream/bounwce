@@ -3,7 +3,7 @@ import React from 'react'
 const InputField = React.forwardRef(({label, type, placeholder, error, options = [], ...rest}, ref) => {
     const baseClasses = "focus:outline-none focus:ring-0 w-full p-2 bg-[#F3F3F5] rounded-[6.75px] mt-1 text-[12px]"
     const renderField = () => {
-        if(type === "text") {  
+        if(type === "text" || type === "number") {  
             return (
                 <input 
                     id={rest.name}
