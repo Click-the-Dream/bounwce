@@ -16,12 +16,13 @@ const StoreManagementDashboard = () => {
     {label: "Draft Products", amount: "1", icon: MdOutlineDashboard},
     {label: "Low Stock Items", amount: "0", icon: MdOutlineDashboard},
   ])
-const [activeTab, setActiveTab] = useState("product");
-const sectionVariants = {
-  initial: {opacity: 0, y: 20},
-  animate: {opacity: 1, y: 0},
-  exit: {opacity: 0, y: -20}
-}
+  const [activeTab, setActiveTab] = useState("product");
+  const sectionVariants = {
+    initial: {opacity: 0, y: 20},
+    animate: {opacity: 1, y: 0},
+    exit: {opacity: 0, y: -20}
+  }
+  
   return (
     <main className="min-h-screen bg-[#ECECF080]">
       <header className='mb-6'>
