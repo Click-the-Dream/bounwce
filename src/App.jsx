@@ -73,10 +73,11 @@ function App() {
             {/* Protected Vendor Routes */}
             <Route element={<SecureRoute />}>
               <Route path="/vendor/setup" element={<VendorOnboarding />} />
+              
+            </Route>           
               <Route path="/vendor/store" element={<StoreManagementDashboard />} />  
               <Route path="/vendor/addproduct" element={<AddProductPage />} />
               <Route path="/vendor/*" element={<VendorRouter />} />
-            </Route>           
               
             {/* Catch-all redirect */}
             
