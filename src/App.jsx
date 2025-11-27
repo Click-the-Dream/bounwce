@@ -6,9 +6,9 @@ import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import VendorRouter from "./routes/VendorRouter";
 import SecureRoute from "./routes/SecureRoute";
-import StoreManagementDashboard from "./features/vendorStore/components/StoreManagementDashboard";
-import ActiveStore from "./features/vendorStore/components/ActiveStore";
+import StoreManagementDashboard from "./features/vendorStore/StoreManagementDashboard";
 import { Slide } from "react-toastify";
+import AddProductPage from "./features/vendorStore/pages/AddProductPage";
 
 // Lazy load the pages
 const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
@@ -66,34 +66,29 @@ function App() {
                   </PublicRoute>
                 }
               />
-            </Route> 
+            </Route>
 
             <Route path="/" element={<Waitlist />} />
 
             {/* Protected Vendor Routes */}
-             <Route element={<SecureRoute />}>
+            <Route element={<SecureRoute />}>
               <Route path="/vendor/setup" element={<VendorOnboarding />} />
-
-              <Route
-                path="/vendorStore"
-                element={<StoreManagementDashboard />}
-              />
-            
-              <Route path="/" element={<ActiveStore />} />
-              <Route path="/ActiveStore" element={<ActiveStore />} />
-
-             
+              
+            </Route>           
+              <Route path="/vendor/store" element={<StoreManagementDashboard />} />  
+              <Route path="/vendor/addproduct" element={<AddProductPage />} />
               <Route path="/vendor/*" element={<VendorRouter />} />
-            </Route> 
-
+              
             {/* Catch-all redirect */}
+            
+            
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
       </Suspense>
       <ToastContainer
         autoClose={2000}
-        draggable
+        draggable        
         position="bottom-right"
         hideProgressBar={false}
         closeOnClick={true}

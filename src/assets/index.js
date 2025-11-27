@@ -10,6 +10,9 @@ import productImg from './product-image.svg'
 import withdrawBackgroudImg from './withdraw-background.png'
 import withdrawSucessImg from './withdraw-sucess.svg'
 import withdrawSucessPattern from  './withdraw-success-pattern.png'
+import publishIcon from './publish-icon.svg'
+import saveDraftIcon from './save-draft-icon.svg'
+import previewIcon from './preview-icon.svg'
 
 export {
     walletDebitImg, 
@@ -23,5 +26,8 @@ export {
     productImg,
     withdrawBackgroudImg,
     withdrawSucessImg,
-    withdrawSucessPattern
+    withdrawSucessPattern,
+    publishIcon,
+    saveDraftIcon,
+    previewIcon
 } 
