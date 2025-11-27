@@ -10,7 +10,7 @@ import HelpSection from "../HelpSection";
 import useProduct from "../../../hooks/useProduct";
 import { useState } from "react";
 
-const AddProductPage = () => {
+const AddProductPage = ({onClose}) => {
     const navigate = useNavigate();
     const { createProduct } = useProduct();
     const [ submittingAction, setSubmittingAction ] = useState(null);
@@ -96,7 +96,8 @@ const AddProductPage = () => {
                 <VendorHeader 
                     header={"Store Management"}
                     headerDetails={"Add New Product"}
-                    isBackButton={true}                
+                    isBackButton={true}     
+                    onClose={onClose}           
                 /> 
                 
                 <form 

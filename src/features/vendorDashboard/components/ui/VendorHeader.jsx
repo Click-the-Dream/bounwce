@@ -3,7 +3,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import userImage from '../../../../assets/createpic.jpg'
 import { useNavigate } from "react-router-dom";
 
-const VendorHeader = ({header, headerDetails, notifications, isBackButton, label, icon: Icon, bgColor, storeLabel, leftIcon:LeftIcon, rightIcon: RightIcon}) => {
+const VendorHeader = ({header, onClose, headerDetails, notifications, isBackButton, label, icon: Icon, bgColor, storeLabel, leftIcon:LeftIcon, rightIcon: RightIcon}) => {
     const navigate = useNavigate();
     
   return (
@@ -11,7 +11,7 @@ const VendorHeader = ({header, headerDetails, notifications, isBackButton, label
         <div className='flex gap-3 items-center'>
             {isBackButton && <button
                 className="p-2 bg-[#FFFFFF] border-[1px] border-[#0000001A] rounded-[3px] text-[13px] mr-6"
-                onClick={() => navigate("/vendor/store")}
+                onClick={onClose}
             >
                 Back
             </button>}

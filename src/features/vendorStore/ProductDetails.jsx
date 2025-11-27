@@ -38,8 +38,8 @@ const ProductDetails = () => {
                 /> 
             </div>
             
-            <div>
-                <div className="mb-2">
+            <div className="flex flex-col lg:flex-row gap-2 w-full">
+                <div className="mb-2 flex-1">
                     <label className="text-[13px]">Category *</label>
                     <Controller 
                         name="category"
@@ -61,7 +61,7 @@ const ProductDetails = () => {
                     />
                 </div>
                 
-                <div>
+                <div className="flex-1">
                     <label className="text-[13px]">Availability *</label>
                     <Controller 
                         name="availability"
