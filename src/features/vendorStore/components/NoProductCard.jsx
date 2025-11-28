@@ -1,9 +1,11 @@
 import { productImg } from "../../../assets"
 import { IoMdAdd } from "react-icons/io";
 import ActionButton from "./ActionButton";
+import { useState } from "react";
 
 
 const NoProductCard = ({title, subtext}) => {
+  const [ isModalOpen, setIsModalOpen ] = useState(false);
   return (
     <div className="bg-white  rounded-[12.75px]">
         <div className="flex flex-col justify-center items-center gap-2 py-[30px]">
@@ -19,9 +21,14 @@ const NoProductCard = ({title, subtext}) => {
         <ActionButton
             label={"Add Your Product"}
             icon={IoMdAdd}
-            className="bg-black text-white"            
+            className="bg-black text-white"       
+            onClick={() => setIsModalOpen(true)}     
         />
-        </div>              
+        </div> 
+
+        <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+            <AddProductPage onClose={() => setIsModalOpen(false)}/>
+        </Modal>             
     </div>
   )
 }

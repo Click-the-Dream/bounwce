@@ -1,7 +1,7 @@
 import ActionButton from './components/ActionButton'
 import { publishIcon, previewIcon, saveDraftIcon } from '../../assets'
 
-const ProductActions = ({setSubmitMode}) => {
+const ProductActions = ({ isLoading, isPublishing, isSavingDraft}) => {
   const renderIcon = (src) => (props) => (
     <img src={src} alt='icon' width={15} />
   )
@@ -15,16 +15,18 @@ const ProductActions = ({setSubmitMode}) => {
         <div className='flex sm:flex-col gap-2'>
           <ActionButton 
             type={"submit"}
-            label={"Save & Publish"}
+            value={"publish"}
+            label={isPublishing ? "Publishing..." : "Save & Publish"}
             icon={renderIcon(publishIcon)}
-            className={"bg-black text-white"}
-            onClick={() => setSubmitMode("publish")}
+            className={isPublishing ? "bg-black/35 text-white" : "bg-black text-white"}
+            disabled={isLoading}
           />
           <ActionButton 
             type={"submit"}
-            label={"Save as Draft"}
+            value={"draft"}
+            label={isSavingDraft ? "Saving..." : "Save as Draft"}
             icon={renderIcon(saveDraftIcon)}
-            onClick={() => setSubmitMode("draft")}
+            disabled={isLoading}
           />
         </div>
         
