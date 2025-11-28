@@ -19,7 +19,7 @@ const VendorHeader = ({
   const navigate = useNavigate();
 
   return (
-    <header className="bg-white shadow px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[175px] py-5 flex justify-between gap-2">
+    <header className="bg-white shadow px-[1rem] md:px-[3rem] py-5 flex justify-between gap-2">
       <div className="flex gap-3 items-center">
         {isBackButton && (
           <button
