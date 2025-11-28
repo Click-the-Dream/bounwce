@@ -98,7 +98,7 @@ const AddProductPage = ({ onClose }) => {
         />
 
         <form
-          className="px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[175px] py-5 flex flex-col xl:flex-row gap-4"
+          className="px-[1rem] md:px-[3rem] py-5 flex flex-col xl:flex-row gap-4"
           onSubmit={methods.handleSubmit(onSubmit)}
         >
           <div className="flex flex-col gap-4 w-full xl:w-[70%]">

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 
-const Modal = ({ open, onClose, children, widthClass = "max-w-5xl" }) => {
+const Modal = ({ open, onClose, children, widthClass = "max-w-4xl" }) => {
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === "Escape" && onClose?.();
@@ -18,10 +18,13 @@ const Modal = ({ open, onClose, children, widthClass = "max-w-5xl" }) => {
 
   return createPortal(
     <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-black/50 blur-md" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+        onClick={onClose}
+      />
       <div className="absolute inset-0 flex items-center justify-center p-4">
         <div
-          className={`w-full ${widthClass} max-h-[90vh] bg-white rounded-xl shadow-xl overflow-auto`}
+          className={`w-full ${widthClass} max-h-[90vh] bg-white/60 rounded-xl shadow-xl overflow-auto`}
         >
           {children}
         </div>
