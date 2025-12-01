@@ -18,7 +18,7 @@ const ProductActions = ({ isLoading, isPublishing, isSavingDraft}) => {
             value={"publish"}
             label={isPublishing ? "Publishing..." : "Save & Publish"}
             icon={renderIcon(publishIcon)}
-            className={isPublishing ? "bg-black/35 text-white" : "bg-black text-white"}
+            className={isPublishing ? "bg-black/35 text-white disabled:no-cursor-allowed" : "bg-black text-white"}
             disabled={isLoading}
           />
           <ActionButton 

@@ -8,8 +8,10 @@ import DraftSection from './DraftSection';
 import { motion, AnimatePresence } from 'framer-motion';
 import StoreQuickActionsSection from './StoreQuickActionsSection';
 import SearchActionsBar from './SearchActionsBar';
+import { useNavigate } from 'react-router-dom';
 
 const StoreManagementDashboard = () => {
+  const navigate = useNavigate();
   const [dummyStat, setDummyStat] = useState([
     {label: "Total Products", amount: "1", icon: MdOutlineDashboard},
     {label: "Active Products", amount: "0", icon: MdOutlineDashboard},
@@ -34,6 +36,7 @@ const StoreManagementDashboard = () => {
           bgColor={"bg-orange text-white"}
           storeLabel={"Preview Store"}
           leftIcon={IoEyeOutline}
+          onSecondClick={() => navigate("/vendor/")}
         />
       </header>      
       

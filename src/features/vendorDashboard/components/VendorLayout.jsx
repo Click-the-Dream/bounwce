@@ -1,12 +1,13 @@
 import { RiNotification3Line } from "react-icons/ri";
 import VendorHeader from './ui/VendorHeader'
 import ToggleTabs from '../../../components/common/ToggleTabs'
-import { useLocation, Outlet } from 'react-router-dom'
+import { useLocation, Outlet, useNavigate } from 'react-router-dom'
 import { LuStore } from "react-icons/lu";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6"
 
 const VendorLayout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   return (
     <main>
       <section className='mb-7'>
@@ -18,6 +19,7 @@ const VendorLayout = () => {
           storeLabel={"View Store"}
           leftIcon={LuStore}
           rightIcon={FaArrowUpRightFromSquare}
+          onSecondClick={() => navigate("/vendor/store")}
         />
       </section>
       

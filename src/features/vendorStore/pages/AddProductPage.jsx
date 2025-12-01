@@ -38,6 +38,23 @@ const AddProductPage = ({onClose}) => {
         setSubmittingAction(action);      
         
         try {
+            if (action === "draft") {
+                const draftData = {
+                    productName: data.productName || "",
+                    description: data.description || "",
+                    category: data.category || "",
+                    availability: data.availability || "",
+                    price: data.price || "",
+                    stockQuantity: data.stockQuantity || "",
+                    tags: data.tags || [],
+                    savedAt: new Date().toISOString()
+                }
+
+                localStorage.setItem("draft_product", JSON.stringify(draftData))
+                alert("Draft saved successfully")
+                setSubmittingAction(null);
+                return;
+            }
             const formData = new FormData();
 
             // Add text fields 
@@ -92,13 +109,16 @@ const AddProductPage = ({onClose}) => {
 
     return (
         <FormProvider {...methods}>
-            <div className="bg-[#ECECF080]">        
-                <VendorHeader 
-                    header={"Store Management"}
-                    headerDetails={"Add New Product"}
-                    isBackButton={true}     
-                    onClose={onClose}           
-                /> 
+            <div className="bg-[#ECECF080]">  
+                <div className="sticky top-0  z-50">
+                   <VendorHeader 
+                        header={"Store Management"}
+                        headerDetails={"Add New Product"}
+                        isBackButton={true}     
+                        onClose={onClose}           
+                    />  
+                </div>      
+                
                 
                 <form 
                     className="px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[175px] py-5 flex flex-col xl:flex-row gap-4"
