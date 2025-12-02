@@ -1,7 +1,7 @@
-import VendorHeader from "../../vendorDashboard/components/ui/VendorHeader"
-import { useNavigate } from "react-router-dom"
+import VendorHeader from "../../vendorDashboard/components/ui/VendorHeader";
+import { useNavigate } from "react-router-dom";
 import ProductDetails from "../ProductDetails";
-import ProductImages from "../ProductImages"
+import ProductImages from "../ProductImages";
 import { useForm, FormProvider } from "react-hook-form";
 import ProductActions from "../ProductActions";
 import PricingInventory from "../PricingInventory";
@@ -71,27 +71,70 @@ const AddProductPage = ({onClose}) => {
                     formData.append("tags[]", tag);
                 });
             }
+          }
+        });
+      }
 
-            // Add images 
-            if (data.images && data.images.length > 0) {
-                data.images.forEach((fileListOrNull) => {                    
-                    if (fileListOrNull && fileListOrNull.length > 0) {                        
-                        const file = fileListOrNull[0];
-                        if (file instanceof File) {
-                            formData.append("images", file);
-                        }
-                    }
-                });
-            }
+      // Add status based on submit mode
+      formData.append("status", action);
 
-            // Add status based on submit mode
-            formData.append("status", action);
+      console.log("FormData contents:");
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
 
-            
-            console.log("FormData contents:");
-            for (let [key, value] of formData.entries()) {
-                console.log(key, value);
-            }
+      // Make API call
+      await createProduct.mutateAsync(formData);
+
+      console.log(`Product ${submitMode}ed successfully`);
+
+      // Reset form after successful submission
+      methods.reset();
+    } catch (error) {
+      console.error("Error creating product:", error);
+    }
+  };
+
+  return (
+    <FormProvider {...methods}>
+      <div className="bg-[#ECECF080]">
+        <VendorHeader
+          header={"Store Management"}
+          headerDetails={"Add New Product"}
+          isBackButton={true}
+          onClose={onClose}
+        />
+
+        <form
+          className="px-[1rem] md:px-[3rem] py-5 flex flex-col xl:flex-row gap-4"
+          onSubmit={methods.handleSubmit(onSubmit)}
+        >
+          <div className="flex flex-col gap-4 w-full xl:w-[70%]">
+            <div>
+              <ProductDetails />
+            </div>
+
+            <div>
+              <PricingInventory />
+            </div>
+
+            <div>
+              <ProductImages />
+            </div>
+
+            <div>
+              <ProductTags />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 w-full xl:w-[30%]">
+            <div>
+              <ProductActions
+                isLoading={isLoading}
+                isPublishing={isPublishing}
+                isSavingDraft={isSavingDraft}
+              />
+            </div>
 
             // Make API call
             await createProduct.mutateAsync(formData);
@@ -157,8 +200,11 @@ const AddProductPage = ({onClose}) => {
                     </div>
                 </form>
             </div>
-        </FormProvider>    
-    );
+          </div>
+        </form>
+      </div>
+    </FormProvider>
+  );
 };
 
 export default AddProductPage;

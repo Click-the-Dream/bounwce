@@ -1,36 +1,40 @@
 import { TbHome } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
-import userImage from '../../../../assets/createpic.jpg'
+import userImage from "../../../../assets/createpic.jpg";
 import { useNavigate } from "react-router-dom";
 
 const VendorHeader = ({header, onClose, headerDetails, notifications, onFirstClick, onSecondClick, onThirdClick, isBackButton, label, icon: Icon, bgColor, storeLabel, leftIcon:LeftIcon, rightIcon: RightIcon}) => {
     const navigate = useNavigate();
     
   return (
-    <header className='bg-white shadow px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[175px] py-5 flex justify-between gap-2'>
-        <div className='flex gap-3 items-center'>
-            {isBackButton && <button
-                className="p-2 bg-[#FFFFFF] border-[1px] border-[#0000001A] rounded-[3px] text-[13px] mr-6"
-                onClick={onClose}
-            >
-                Back
-            </button>}
-            <div>
-                <img 
-                    src={userImage}
-                    alt='user_image'
-                    className='w-[35px] aspect-square rounded-full object-cover'
-                />
-            </div>
-
-            <div className='hidden md:block'>
-                <div className='flex gap-1 items-center'>
-                    <TbHome />
-                    <p className='text-[10px]'><span>Origami Store</span> - {header}</p> 
-                </div>
-                <p className='text-[9px]'>{headerDetails}</p>
-            </div>
+    <header className="bg-white shadow px-[1rem] md:px-[3rem] py-5 flex justify-between gap-2">
+      <div className="flex gap-3 items-center">
+        {isBackButton && (
+          <button
+            className="p-2 bg-[#FFFFFF] border-[1px] border-[#0000001A] rounded-[3px] text-[13px] mr-6"
+            onClick={onClose}
+          >
+            Back
+          </button>
+        )}
+        <div>
+          <img
+            src={userImage}
+            alt="user_image"
+            className="w-[35px] aspect-square rounded-full object-cover"
+          />
         </div>
+
+        <div className="hidden md:block">
+          <div className="flex gap-1 items-center">
+            <TbHome />
+            <p className="text-[10px]">
+              <span>Origami Store</span> - {header}
+            </p>
+          </div>
+          <p className="text-[9px]">{headerDetails}</p>
+        </div>
+      </div>
 
         {storeLabel && <div className='flex gap-2'>
             <button 
@@ -59,7 +63,7 @@ const VendorHeader = ({header, onClose, headerDetails, notifications, onFirstCli
             </button>
         </div>}
     </header>
-  )
-}
+  );
+};
 
-export default VendorHeader
+export default VendorHeader;
