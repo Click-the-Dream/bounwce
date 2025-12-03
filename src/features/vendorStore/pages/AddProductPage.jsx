@@ -113,7 +113,7 @@ const AddProductPage = ({ onClose }) => {
         </div>
 
         <form
-          className="px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[175px] py-5 flex flex-col xl:flex-row gap-4"
+          className="px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[80px] py-5 flex flex-col xl:flex-row gap-4"
           onSubmit={methods.handleSubmit(onSubmit)}
         >
           {/* LEFT COLUMN */}

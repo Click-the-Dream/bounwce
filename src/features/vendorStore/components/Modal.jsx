@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Modal = ({ open, onClose, children, widthClass = "max-w-4xl" }) => {
   useEffect(() => {
@@ -14,22 +15,32 @@ const Modal = ({ open, onClose, children, widthClass = "max-w-4xl" }) => {
     };
   }, [open, onClose]);
 
-  if (!open) return null;
-
   return createPortal(
-    <div className="fixed inset-0 z-50">
-      <div
-        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      <div className="absolute inset-0 flex items-center justify-center p-4">
-        <div
-          className={`w-full ${widthClass} max-h-[90vh] bg-white/60 rounded-xl shadow-xl overflow-auto`}
-        >
-          {children}
+    <AnimatePresence>
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4}}
+            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+            onClick={onClose}
+          />
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.75, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.75, y: 10 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className={`relative w-full ${widthClass} max-h-[90vh] bg-white/60 rounded-xl shadow-xl overflow-auto`}
+          >
+            {children}
+          </motion.div>
         </div>
-      </div>
-    </div>,
+      )}
+    </AnimatePresence>,
     document.body
   );
 };
