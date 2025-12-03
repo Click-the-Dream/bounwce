@@ -1,5 +1,4 @@
 
-
 const WalletStatsCard = ({title, amount, subtext, image, amountColor}) => {
   return (
     <div className="flex flex-col gap-7 border-[2px] rounded-lg p-5">
