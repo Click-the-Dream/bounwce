@@ -1,16 +1,18 @@
+import SalesPerformanceSection from "../components/SalesPerformanceSection";
 import SharedMetricsCard from "../components/SharedMetricsCard"
 import { IoBarChartOutline } from "react-icons/io5";
+import StoreHealthSection from "../components/StoreHealthSection";
 
 const VendorAnalytics = () => {
   return (
     <main>
-      <section>
-        <section>
-
+      <section className="w-full grid gap-5 xl:grid-cols-2  mb-5">
+        <section className="">
+          <SalesPerformanceSection />
         </section>
 
-        <section>
-          
+        <section className="">
+          <StoreHealthSection />
         </section>
       </section>
 
