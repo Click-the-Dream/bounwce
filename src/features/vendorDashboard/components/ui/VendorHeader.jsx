@@ -7,7 +7,7 @@ const VendorHeader = ({header, onClose, headerDetails, notifications, onFirstCli
     const navigate = useNavigate();
     
   return (
-    <header className="bg-white shadow px-[1rem] md:px-[3rem] py-5 flex justify-between gap-2">
+    <header className="bg-white shadow py-5 px-[1rem] md:px-[3rem] lg:px-[140px] 2xl:px-[175px] flex justify-between gap-2">
       <div className="flex gap-3 items-center">
         {isBackButton && (
           <button

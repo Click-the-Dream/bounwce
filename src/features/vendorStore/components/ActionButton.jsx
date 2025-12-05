@@ -1,7 +1,7 @@
 const ActionButton = ({label, icon: Icon, onClick, className, type, disabled, value}) => {    
   return (
     <button 
-        className={`w-full px-4 py-2 font-medium text-gray-700 border border-gray-300 rounded-md flex items-center justify-center space-x-2 ${className || ""}`}
+        className={`w-full px-4 py-2 font-medium text-gray-700 border border-gray-300 rounded-md flex items-center justify-center space-x-2 whitespace-nowrap ${className || ""}`}
         onClick={onClick}
         type={type}
         disabled={disabled}
