@@ -71,7 +71,7 @@ const VendorOrders = () => {
         >
           <span>Incoming</span>
           {incomingCount > 0 && (
-            <span className="flex items-center justify-center min-w-[16px] h-[16px] px-1 text-[9px] font-medium text-white bg-red-500 rounded-full">
+            <span className="flex items-center justify-center min-w-[16px] h-[16px] px-1 text-[9px] font-medium text-white bg-[#C91616] rounded-full">
               {incomingCount}
             </span>
           )}
@@ -89,7 +89,7 @@ const VendorOrders = () => {
         >
           <span>Ongoing</span>
           {ongoingCount > 0 && (
-            <span className="flex items-center justify-center min-w-[16px] h-[16px] px-1 text-[9px] font-medium text-white bg-red-500 rounded-full">
+            <span className="flex items-center justify-center min-w-[16px] h-[16px] px-1 text-[9px] font-medium text-white bg-[#C91616] rounded-full">
               {ongoingCount}
             </span>
           )}
