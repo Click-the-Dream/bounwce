@@ -127,5 +127,5 @@ export const statusStyles = {
   Processing: "bg-yellow-100 text-yellow-700",
   "Ready for Shipment": "bg-blue-100 text-blue-700",
   Shipped: "bg-purple-100 text-purple-700",
-  Completed: "bg-green-100 text-green-700",
+  Completed: "bg-[#F0FDF4] text-[#38C066]",
 };

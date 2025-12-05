@@ -109,10 +109,11 @@ export const orders = [
   {
     id: "#ORD-002",
     status: "Processing",
+    tag: "Needs Review", // pink tag like screenshot
     customer: "Jane Doe",
     item: "Blue Cotton Jean",
     date: "Oct 27, 2025 • 11:55AM",
-    action: { decline: true, primary: "Accept" },
+    action: { primary: "Review Products" },
 
     placedDate: "October 27, 2025",
     customerInfo: {
@@ -129,7 +130,7 @@ export const orders = [
         price: "₦3,000",
         total: "₦6,000",
         image:
-          "https://images.pexels.com/photos/3756341/pexels-photo-3756341.jpeg", // replace with your asset
+          "https://images.pexels.com/photos/3756341/pexels-photo-3756341.jpeg",
       },
       {
         id: 2,
@@ -160,11 +161,11 @@ export const orders = [
 
   {
     id: "#ORD-002",
-    status: "Ready for Shipment",
+    status: "Processing",
     customer: "Jane Doe",
     item: "Blue Cotton Jean (3)",
     date: "Oct 27, 2025 • 11:55AM",
-    action: { primary: "Mark as Shipped" },
+    action: { decline: true, primary: "Accept" },
 
     placedDate: "October 27, 2025",
     customerInfo: {
@@ -177,18 +178,27 @@ export const orders = [
       {
         id: 1,
         name: "Leather Blue Jean",
-        qty: 3,
+        qty: 2,
         price: "₦3,000",
-        total: "₦9,000",
+        total: "₦6,000",
         image:
           "https://images.pexels.com/photos/3756341/pexels-photo-3756341.jpeg",
+      },
+      {
+        id: 2,
+        name: "Red Polo Shirt",
+        qty: 1,
+        price: "₦2,000",
+        total: "₦2,000",
+        image:
+          "https://images.pexels.com/photos/532588/pexels-photo-532588.jpeg",
       },
     ],
 
     summary: {
-      subtotal: "₦9,000",
+      subtotal: "₦8,000",
       shipping: "(Free)",
-      total: "₦9,000",
+      total: "₦8,000",
     },
 
     timeline: [
@@ -205,7 +215,7 @@ export const orders = [
     id: "#ORD-002",
     status: "Shipped",
     customer: "Jane Doe",
-    item: "Blue Cotton Jean",
+    item: "Blue Cotton Jean (3)",
     date: "Oct 27, 2025 • 11:55AM",
     waiting: "Waiting for buyer’s confirmation",
 
@@ -220,18 +230,18 @@ export const orders = [
       {
         id: 1,
         name: "Blue Cotton Jean",
-        qty: 1,
+        qty: 3,
         price: "₦5,000",
-        total: "₦5,000",
+        total: "₦15,000",
         image:
           "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg",
       },
     ],
 
     summary: {
-      subtotal: "₦5,000",
+      subtotal: "₦15,000",
       shipping: "(Free)",
-      total: "₦5,000",
+      total: "₦15,000",
     },
 
     timeline: [
@@ -300,6 +310,96 @@ export const orders = [
         id: 3,
         label: "Delivered & Completed",
         date: "Oct 30, 2025 • 02:15PM",
+        completed: true,
+      },
+    ],
+  },
+  {
+    id: "#ORD-002",
+    status: "Ready for Shipment",
+    customer: "Jane Doe",
+    item: "Blue Cotton Jean (3)",
+    date: "Oct 27, 2025 • 11:55AM",
+    action: { primary: "Mark as Shipped" },
+
+    placedDate: "October 27, 2025",
+    customerInfo: {
+      name: "Jane Doe",
+      phone: "08152161484",
+      address: "Pepsi",
+    },
+
+    items: [
+      {
+        id: 1,
+        name: "Blue Cotton Jean",
+        qty: 3,
+        price: "₦5,000",
+        total: "₦15,000",
+        image:
+          "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg",
+      },
+    ],
+
+    summary: {
+      subtotal: "₦15,000",
+      shipping: "(Free)",
+      total: "₦15,000",
+    },
+
+    timeline: [
+      {
+        id: 1,
+        label: "Order Placed - Payment Verified",
+        date: "Oct 27, 2025 • 11:55AM",
+        completed: true,
+      },
+      {
+        id: 2,
+        label: "Packed & Ready for Shipment",
+        date: "Oct 28, 2025 • 01:10PM",
+        completed: true,
+      },
+    ],
+  },
+  {
+    id: "#ORD-002",
+    status: "Processing",
+    customer: "Jane Doe",
+    item: "Blue Cotton Jean",
+    date: "Oct 27, 2025 • 11:55AM",
+    action: { decline: true, primary: "Accept" },
+
+    placedDate: "October 27, 2025",
+    customerInfo: {
+      name: "Jane Doe",
+      phone: "08152161484",
+      address: "Pepsi",
+    },
+
+    items: [
+      {
+        id: 1,
+        name: "Blue Cotton Jean",
+        qty: 1,
+        price: "₦5,000",
+        total: "₦5,000",
+        image:
+          "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg",
+      },
+    ],
+
+    summary: {
+      subtotal: "₦5,000",
+      shipping: "(Free)",
+      total: "₦5,000",
+    },
+
+    timeline: [
+      {
+        id: 1,
+        label: "Order Placed - Payment Verified",
+        date: "Oct 27, 2025 • 11:55AM",
         completed: true,
       },
     ],
