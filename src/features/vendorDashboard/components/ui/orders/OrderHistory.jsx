@@ -6,7 +6,8 @@ import OrderCard from "./OrderCard";
 import { CiFilter } from "react-icons/ci";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { IoIosArrowDown, IoMdCloseCircleOutline } from "react-icons/io";
-
+import Dropdown from "../../../../../components/common/Dropdown";
+import { useState } from "react";
 const backdrop = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
@@ -39,6 +40,25 @@ const itemVariants = {
 };
 
 const OrderHistory = ({ closeModal }) => {
+  const [showCount, setShowCount] = useState("all");
+
+  // Predefined buckets
+  const BUCKETS = [5, 10, 20, 50, 100, 200, 500];
+
+  const total = 50; //orders?.length || 0;
+
+  // Generate options dynamically
+  const showOptions = [
+    ...BUCKETS.filter((b) => b < total).map((b) => ({
+      label: `Show ${b}`,
+      value: b,
+    })),
+    {
+      label: `Show ${total} (All)`,
+      value: total,
+    },
+  ];
+
   return (
     <AnimatePresence>
       {/* Optional backdrop */}
@@ -102,10 +122,19 @@ const OrderHistory = ({ closeModal }) => {
           </div>
 
           <div className="flex justify-end">
-            <button className="border rounded-md px-3 py-1 text-xs flex items-center gap-2 bg-[#F3F3F5] hover:bg-gray-50">
-              <span>Show {orders?.length || 0}</span>
-              <IoIosArrowDown size={12} />
-            </button>
+            <div className="w-36">
+              <Dropdown
+                value={`Show ${showCount}`}
+                onChange={(val) => setShowCount(val)}
+                options={showOptions}
+                containerClass="w-full"
+                borderClass="border border-gray-300 !py-2"
+                radiusClass="rounded-lg"
+                dropdownClass="border-gray-200"
+                itemClass="text-sm"
+                placeholder={`Show ${orders?.length || 0}`}
+              />
+            </div>
           </div>
         </div>
 
