@@ -122,3 +122,10 @@ export const fadeIn = (direction = "up", delay = 0) => ({
     transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay },
   },
 });
+
+export const statusStyles = {
+  Processing: "bg-yellow-100 text-yellow-700",
+  "Ready for Shipment": "bg-blue-100 text-blue-700",
+  Shipped: "bg-purple-100 text-purple-700",
+  Completed: "bg-[#F0FDF4] text-[#38C066]",
+};
