@@ -1,6 +1,5 @@
 import { CiFilter, CiExport } from "react-icons/ci";
 import { IoMdAdd } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
 import ActionButton from "./components/ActionButton";
 import { useState } from "react";
 import Modal from "./components/Modal";
@@ -8,7 +7,6 @@ import AddProductPage from "./pages/AddProductPage";
 
 const SearchActionsBar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate();
 
   return (
     <div className="w-full bg-white p-2 flex flex-col md:flex-row gap-3 items-center justify-between space-x-2 rounded-[12.75px]">

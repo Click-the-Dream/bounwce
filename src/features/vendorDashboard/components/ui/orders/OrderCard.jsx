@@ -26,7 +26,7 @@ const OrderCard = ({ order }) => {
             {/* ID + status + optional tag */}
             <section className="flex items-center justify-between gap-2  w-full border-b border-[#0000001A] pb-2 mb-2 px-5">
               {" "}
-              <div className="flex items-center gap-2 md:gap-3">
+              <div className="flex flex-wrap items-center gap-2 md:gap-3">
                 <h3 className="font-semibold text-sm">{order.id}</h3>
 
                 {hasStatus && (
@@ -53,7 +53,7 @@ const OrderCard = ({ order }) => {
               </button>
             </section>
 
-            <section className="flex items-center gap-2 justify-between px-5">
+            <section className="flex flex-col md:flex-row md:items-center gap-2 justify-between px-5">
               <div className="space-y-1">
                 {/* customer + items */}
                 <p className="text-[13px] text-gray-500 flex items-center gap-1">
