@@ -64,26 +64,26 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location}>
         {/* Public Routes */}
-        <Route element={<AuthLayout />}>
+        {/* <Route element={<AuthLayout />}>
           <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><CreateAccount /></PublicRoute>} />
           <Route path="/email_verification" element={<PublicRoute><VerifyAccount /></PublicRoute>} />
-        </Route>
+        </Route> */}
 
         <Route path="/" element={<Waitlist />} />
 
         {/* Protected Vendor Routes */}
-        <Route element={<SecureRoute />}>
+        {/* <Route element={<SecureRoute />}>
           <Route path="/vendor/setup" element={<VendorOnboarding />} />
           
           
-        </Route>
+        </Route> */}
         
-          <Route path="/vendor/store" element={<StoreManagementDashboard />} />
-          <Route path="/vendor/addproduct" element={<AddProductPage />} />
+          {/* <Route path="/vendor/store" element={<StoreManagementDashboard />} />
+          <Route path="/vendor/addproduct" element={<AddProductPage />} /> */}
           
           {/* Dashboard Router */}
-          <Route path="/vendor/*" element={<VendorRouter />} />
+          {/* <Route path="/vendor/*" element={<VendorRouter />} /> */}
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
