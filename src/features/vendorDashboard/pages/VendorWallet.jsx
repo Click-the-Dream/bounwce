@@ -6,6 +6,7 @@ import WithdrawalHistoryCard from "../components/ui/WithdrawalHistoryCard";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import {noHistoryImg, walletDebitImg, walletRefundImg, availableBalance, withdrawableBalance, pendingBalance} from "../../../assets"
 import WithdrawFunds from "../components/ui/WithdrawFunds";
+import useStore from '../../../hooks/useStore'
 
 const VendorWallet = () => {
   const [walletStats, setWalletStats] = useState([]);
@@ -24,6 +25,10 @@ const VendorWallet = () => {
   const handleFundsWithdraw = () => {
     console.log("Withdraw Funds");    
   }
+
+  const { useGetMyStore} = useStore();
+  const { data } = useGetMyStore();
+  console.log(data);  
 
   useEffect(() => {
       const dummyData = [

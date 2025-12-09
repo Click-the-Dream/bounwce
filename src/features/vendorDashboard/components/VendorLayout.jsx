@@ -6,15 +6,19 @@ import { LuStore } from "react-icons/lu";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import PageTransition from "../../../components/common/PageTransition";
+import useStore from "../../../hooks/useStore";
 
 const VendorLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { useGetMyStore } = useStore();
+  const { data, isLoading } = useGetMyStore();
   return (
     <PageTransition>
         <main className="bg-[#ECECF080]">
         <section className="mb-7 ">
           <VendorHeader
+            storeName={isLoading ? "-" : data.name}
             header={"Dashboard"}
             headerDetails={"Here's what's happening with your store"}
             icon={RiNotification3Line}

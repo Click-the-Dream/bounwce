@@ -6,9 +6,13 @@ import { userData } from "../..";
 import WithdrawVerificationStep from "./WithdrawVerificationStep";
 import WithdrawSucessStep from "./WithdrawSucessStep";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import useStore from "../../../../hooks/useStore";
 
-const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
-    const DEMO_VERIFICATION_CODE = ["1", "2", "3", "4", "5", "6"];
+const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => { 
+    const { useGetMyStore } = useStore();
+    const { data, isLoading } = useGetMyStore();
+
+    const userVerificationCode = data.payout_info.withdrawal_pin;
     const [step, setStep] = useState(1); //1: Amount 2: Verification 3: Success
     const [amount, setAmount] = useState('');
     const [verificationCode, setVerificationCode] = useState(Array(6).fill(''));
@@ -49,7 +53,7 @@ const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
 
         if(step === 2) {
             const enteredCode = verificationCode.join('');
-            const correctCode = DEMO_VERIFICATION_CODE.join('');
+            const correctCode = userVerificationCode;
 
             if(enteredCode.length !== 6) {
                 setErrorMessage("Please enter all 6 digits of the withdrawal code");
@@ -79,7 +83,7 @@ const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
                 return <WithdrawVerificationStep code={verificationCode} setCode={setVerificationCode} codeRefs={codeRefs}
                 amount={amount} bankName={userData.bankName} accountNumber={userData.accountNumber} error={errorMessage}/>
             case 3: 
-                return <WithdrawSucessStep amount={amount} bankName={userData.bankName} accountNumber={userData.accountNumber} referenceID={referenceID}/>
+                return <WithdrawSucessStep amount={amount} bankName={data.payout_info.account_name} accountNumber={data.payout_info.account_number} referenceID={referenceID}/>
             default:
                 return null;
         }

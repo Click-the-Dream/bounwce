@@ -3,7 +3,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import userImage from "../../../../assets/createpic.jpg";
 import { useNavigate } from "react-router-dom";
 
-const VendorHeader = ({header, onClose, headerDetails, notifications, onFirstClick, onSecondClick, onThirdClick, isBackButton, label, icon: Icon, bgColor, storeLabel, leftIcon:LeftIcon, rightIcon: RightIcon}) => {
+const VendorHeader = ({storeName, header, onClose, headerDetails, notifications, onFirstClick, onSecondClick, onThirdClick, isBackButton, label, icon: Icon, bgColor, storeLabel, leftIcon:LeftIcon, rightIcon: RightIcon}) => {
     const navigate = useNavigate();
     
   return (
@@ -29,7 +29,7 @@ const VendorHeader = ({header, onClose, headerDetails, notifications, onFirstCli
           <div className="flex gap-1 items-center">
             <TbHome />
             <p className="text-[10px]">
-              <span>Origami Store</span> - {header}
+              <span>{storeName}</span> - {header}
             </p>
           </div>
           <p className="text-[9px]">{headerDetails}</p>
