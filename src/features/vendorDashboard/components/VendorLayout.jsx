@@ -1,9 +1,10 @@
 import { RiNotification3Line } from "react-icons/ri";
-import VendorHeader from './ui/VendorHeader'
-import ToggleTabs from '../../../components/common/ToggleTabs'
-import { useLocation, Outlet, useNavigate } from 'react-router-dom'
+import VendorHeader from "./ui/VendorHeader";
+import ToggleTabs from "../../../components/common/ToggleTabs";
+import { useLocation, Outlet, useNavigate } from "react-router-dom";
 import { LuStore } from "react-icons/lu";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import PageTransition from "../../../components/common/PageTransition";
 import useStore from "../../../hooks/useStore";
@@ -15,7 +16,7 @@ const VendorLayout = () => {
   const { data, isLoading } = useGetMyStore();
   return (
     <PageTransition>
-        <main className="bg-[#ECECF080]">
+      <main className="bg-[#ECECF080]">
         <section className="mb-7 ">
           <VendorHeader
             storeName={isLoading ? "-" : data.name}
@@ -43,17 +44,17 @@ const VendorLayout = () => {
           />
         </section>
 
-        <motion.section 
+        <motion.section
           key={location.pathname}
           className="px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[175px] pb-5"
-          initial={{y: 20, opacity: 0}}
-          animate={{y: 0, opacity: 1}}
-          transition={{ duration: 0.6, ease: "easeInOut"}}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
         >
           <Outlet />
         </motion.section>
       </main>
-    </PageTransition>    
+    </PageTransition>
   );
 };
 

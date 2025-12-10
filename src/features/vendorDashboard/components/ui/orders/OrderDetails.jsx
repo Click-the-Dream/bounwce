@@ -157,45 +157,45 @@ const OrderDetails = ({ closeModal, order }) => {
                 </span>
               </div>
 
-              {/* Table header */}
-              <div className="border border-gray-200 rounded-t-md bg-[#F9FAFB]">
-                <div className="grid grid-cols-[minmax(0,2fr)_40px_80px_80px] gap-2 px-4 py-2 text-[11px] font-medium text-gray-500">
-                  <span>Items</span>
-                  <span className="text-center">Qty</span>
-                  <span className="text-right">Price</span>
-                  <span className="text-right">Total</span>
-                </div>
-              </div>
+              {/* wrap in overflow container so the table can scroll on small screens */}
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[400px] text-xs">
+                  <thead className="bg-[#F9FAFB] border border-gray-200 rounded-t-md">
+                    <tr className="text-left text-[11px] font-medium text-gray-500">
+                      <th className="px-4 py-2">Items</th>
+                      <th className="px-4 py-2 text-center">Qty</th>
+                      <th className="px-4 py-2 text-right">Price</th>
+                      <th className="px-4 py-2 text-right">Total</th>
+                    </tr>
+                  </thead>
 
-              {/* Rows */}
-              <div className="border-x border-b border-gray-200 rounded-b-md divide-y divide-gray-200 bg-white">
-                {data?.items?.map((item) => (
-                  <div
-                    key={item.id}
-                    className="grid grid-cols-[minmax(0,2fr)_40px_80px_80px] gap-2 px-4 py-2 items-center"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-11 h-11 rounded-md overflow-hidden bg-gray-100 flex-shrink-0">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <span className="text-xs text-gray-800">{item.name}</span>
-                    </div>
+                  <tbody className="bg-white border-x border-b border-gray-200 divide-y divide-gray-200">
+                    {data.items.map((item) => (
+                      <tr key={item.id} className="align-middle">
+                        <td className="px-4 py-2">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-11 h-11 rounded-md overflow-hidden bg-gray-100 flex-shrink-0">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-xs text-gray-800 truncate">
+                                {item.name}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
 
-                    <span className="text-xs text-gray-700 text-center">
-                      {item.qty}
-                    </span>
-                    <span className="text-xs text-gray-700 text-right">
-                      {item.price}
-                    </span>
-                    <span className="text-xs text-gray-700 text-right">
-                      {item.total}
-                    </span>
-                  </div>
-                ))}
+                        <td className="px-4 py-2 text-center">{item.qty}</td>
+                        <td className="px-4 py-2 text-right">{item.price}</td>
+                        <td className="px-4 py-2 text-right">{item.total}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </section>
 
@@ -229,7 +229,10 @@ const OrderDetails = ({ closeModal, order }) => {
               </div>
 
               {data?.timeline?.map((event) => (
-                <div key={event.id} className="flex items-start gap-2 text-xs">
+                <div
+                  key={event.id}
+                  className="flex items-start gap-2 text-xs my-2"
+                >
                   <div className="mt-0.5">
                     <div className="w-7 h-7 rounded-full border bg-[#DBFCE7] text-[#38C066] flex items-center justify-center">
                       <FiCheckCircle size={16} />

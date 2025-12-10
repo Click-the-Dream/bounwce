@@ -1,11 +1,24 @@
 import { TbHome } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
 import userImage from "../../../../assets/createpic.jpg";
-import { useNavigate } from "react-router-dom";
 
-const VendorHeader = ({storeName, header, onClose, headerDetails, notifications, onFirstClick, onSecondClick, onThirdClick, isBackButton, label, icon: Icon, bgColor, storeLabel, leftIcon:LeftIcon, rightIcon: RightIcon}) => {
-    const navigate = useNavigate();
-    
+const VendorHeader = ({
+  storeName,
+  header,
+  onClose,
+  headerDetails,
+  notifications,
+  onFirstClick,
+  onSecondClick,
+  onThirdClick,
+  isBackButton,
+  label,
+  icon: Icon,
+  bgColor,
+  storeLabel,
+  leftIcon: LeftIcon,
+  rightIcon: RightIcon,
+}) => {
   return (
     <header className="bg-white shadow py-5 px-[1rem] md:px-[3rem] lg:px-[140px] 2xl:px-[175px] flex justify-between gap-2">
       <div className="flex gap-3 items-center">
@@ -36,32 +49,40 @@ const VendorHeader = ({storeName, header, onClose, headerDetails, notifications,
         </div>
       </div>
 
-        {storeLabel && <div className='flex gap-2'>
-            <button 
-                className='flex items-center gap-2 py-[6px] px-[11px] border-[2px] rounded-md'
-                onClick={onFirstClick}
-            >
-                {LeftIcon && <LeftIcon size={15}/>}
-                <p className='text-[12px] hidden lg:block'>{storeLabel}</p>
-                {RightIcon && <RightIcon size={12} className='hidden md:block'/>}
-            </button>
+      {storeLabel && (
+        <div className="flex gap-2">
+          <button
+            className="flex items-center gap-2 py-[6px] px-[11px] border-[2px] rounded-md"
+            onClick={onFirstClick}
+          >
+            {LeftIcon && <LeftIcon size={15} />}
+            <p className="text-[12px] hidden lg:block">{storeLabel}</p>
+            {RightIcon && <RightIcon size={12} className="hidden md:block" />}
+          </button>
 
-            <button 
-                className={`relative border-[2px] py-[6px] px-[12px] flex items-center rounded-md ${bgColor}`}
-                onClick={onSecondClick}
-            >
-                {Icon && <Icon />}
-                {label && <p className="text-[12px] ml-2 hidden lg:block">{label}</p>}
-                {notifications && <p className='absolute top-[-10px] right-[-3px] px-[5px] py-[3px] bg-red-600 text-[8px] text-white rounded-full w-[15px] h-[15px] aspect-square'>{notifications}</p>}
-            </button>
+          <button
+            className={`relative border-[2px] py-[6px] px-[12px] flex items-center rounded-md ${bgColor}`}
+            onClick={onSecondClick}
+          >
+            {Icon && <Icon />}
+            {label && (
+              <p className="text-[12px] ml-2 hidden lg:block">{label}</p>
+            )}
+            {notifications && (
+              <p className="absolute top-[-10px] right-[-3px] px-[5px] py-[3px] bg-red-600 text-[8px] text-white rounded-full w-[15px] h-[15px] aspect-square">
+                {notifications}
+              </p>
+            )}
+          </button>
 
-            <button 
-                className='border-[2px] py-[6px] px-[12px] flex items-center rounded-md'
-                onClick={onThirdClick}
-            >
-                <IoSettingsOutline />
-            </button>
-        </div>}
+          <button
+            className="border-[2px] py-[6px] px-[12px] flex items-center rounded-md"
+            onClick={onThirdClick}
+          >
+            <IoSettingsOutline />
+          </button>
+        </div>
+      )}
     </header>
   );
 };

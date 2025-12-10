@@ -1,13 +1,11 @@
 import React from "react";
-
+import Logo from "./common/Logo";
 function Fallback() {
   return (
     <main className="w-full h-screen bg-gradient-to-br from-orange/20 to-white flex flex-col justify-center items-center space-y-8">
       {/* Brand Text */}
       <div className="text-center space-y-3">
-        <h1 className="text-4xl md:text-5xl font-bold text-orange tracking-tight">
-          bounwce
-        </h1>
+        <Logo size="text-4xl md:text-5xl" />
         <p className="text-ash text-sm md:text-base font-medium">
           Grow. Connect. Build.
         </p>
