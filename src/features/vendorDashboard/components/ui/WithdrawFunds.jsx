@@ -12,7 +12,7 @@ const WithdrawFunds = ({onClose, isOpen, onWithdraw}) => {
     const { useGetMyStore } = useStore();
     const { data, isLoading } = useGetMyStore();
 
-    const userVerificationCode = data.payout_info.withdrawal_pin;
+    const userVerificationCode = data?.payout_info.withdrawal_pin;
     const [step, setStep] = useState(1); //1: Amount 2: Verification 3: Success
     const [amount, setAmount] = useState('');
     const [verificationCode, setVerificationCode] = useState(Array(6).fill(''));

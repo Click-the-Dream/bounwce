@@ -1,53 +1,50 @@
-import { VscCalendar, VscSettingsGear } from "react-icons/vsc";
 import WalletStatsCard from '../components/ui/WalletStatsCard'
 import { useEffect, useState } from "react";
 import { PiHandWithdraw } from "react-icons/pi";
 import WithdrawalHistoryCard from "../components/ui/WithdrawalHistoryCard";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
-import {noHistoryImg, walletDebitImg, walletRefundImg, availableBalance, withdrawableBalance, pendingBalance} from "../../../assets"
+import {noHistoryImg, walletDebitImg, walletRefundImg} from "../../../assets"
 import WithdrawFunds from "../components/ui/WithdrawFunds";
-import useStore from '../../../hooks/useStore'
+import { useGetWalletSummary } from "../../../hooks/useVendor";
+import { vendorWalletConfig } from "../../../utils/vendorWalletMapper";
 
 const VendorWallet = () => {
-  const [walletStats, setWalletStats] = useState([]);
   const [withdrawalData, setWithdrawalData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { data: walletData, isLoading } = useGetWalletSummary();
+  console.log(walletData);
 
-  useEffect(() => {
-    const dummyData = [
-      {title: "Available Balance", amount: "20,000", subtext: "Total earnings from all sales", icon: availableBalance},
-      {title: "Pending Balance", amount: "5,000", subtext: "Money in escrow for active orders", icon: pendingBalance, amountColor: "text-[#2563EB]"},
-      {title: "Withdrawable Balance", amount: "15,000", subtext: "Available for withdrawal", icon:withdrawableBalance, amountColor: "text-[#00A644]"},      
-    ]
-    setWalletStats(dummyData);
-  }, [])    
+  const walletStats = vendorWalletConfig.map((config) => {
+    const amount = walletData?.[config.dataKey] || 0;
+
+    return {
+      key: config.label,
+      image: config.icon,
+      label: config.label,
+      subtext: config.subtext,
+      amount: amount,
+      amountColor: config.amountColor
+    }
+  })
 
   const handleFundsWithdraw = () => {
     console.log("Withdraw Funds");    
-  }
-
-  const { useGetMyStore} = useStore();
-  const { data } = useGetMyStore();
-  console.log(data);  
+  }  
 
   useEffect(() => {
-      const dummyData = [
-          {action: "debit", label: "Wallet Account Debited", date: "Sep 20, 2025, 11:01AM", amount: "100,000", status: "sucessful" },
-          {action: "debit", label: "Wallet Account Debited", date: "Sep 20, 2025, 11:01AM", amount: "100,000", status: "sucessful"},
-          {action: "refund", label: "Wallet Account Refunded", date: "Sep 20, 2025, 11:01AM", amount: "100,000", status: "sucessful"}          
-      ]
-      setWithdrawalData(dummyData);
-  }, [])  
+    const recentHistory = walletData?.withdrawal_history?.items || [];
+    setWithdrawalData(recentHistory)
+  }, [walletData])
 
   return (
     <main>
       <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mb-[1rem]">
         {
-          walletStats.map((stat, index) => (            
+          walletStats.map((stat) => (            
             <WalletStatsCard 
-              key={index}
-              image={stat.icon}
-              title={stat.title}
+              key={stat.key}
+              image={stat.image}
+              title={stat.label}
               subtext={stat.subtext}
               amount={stat.amount}
               amountColor={stat.amountColor}

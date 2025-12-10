@@ -10,7 +10,7 @@ const VendorQuickActions = () => {
     useEffect(() => {
         const recentOrders = data?.recent_orders || [];
         setOrders(recentOrders)
-    }, [])
+    }, [data])
 
   return (
         <VendorCardLayout

@@ -10,7 +10,7 @@ const VendorTopProducts = () => {
     useEffect(() => {
         const topProducts = data?.top_products || [];
         setTopProducts(topProducts);
-    }, [])
+    }, [data])
     
   return (
     <VendorCardLayout
