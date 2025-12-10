@@ -3,11 +3,16 @@ import VendorQuickActions from "../components/ui/VendorQuickActions";
 import VendorTopProducts from "../components/ui/VendorTopProducts";
 import QuickActionSection from "../components/QuickActionSection";
 import { IoTrendingUpOutline, IoTrendingDownOutline } from "react-icons/io5";
+import { useGetDashboardOverview } from "../../../hooks/useVendor";
+
 
 import DateFilter from "../components/DateFilter";
 import { vendorData } from "../../../utils/dummies";
 
 const VendorOverview = () => {
+ const { data: dashboardData, isLoading } = useGetDashboardOverview();
+  console.log(dashboardData);  
+
   return (
     <>
       <DateFilter
