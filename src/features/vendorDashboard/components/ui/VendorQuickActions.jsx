@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react'
 import VendorCardLayout from '../VendorCardLayout'
 import { noQuickActions } from '../../../../assets';
+import { useGetDashboardOverview } from '../../../../hooks/useVendor';
 
 const VendorQuickActions = () => {
     const [orders, setOrders] = useState([]);
+    const { data, isLoading } = useGetDashboardOverview();
     
     useEffect(() => {
-        const dummyData = [
-            {orderNumber: "#ORD-001", name: "Lisa Wang", amount: "#20,000", status: "completed"},
-            {orderNumber: "#ORD-002", name: "Lisa Wang", amount: "#20,000", status: "completed"},
-            {orderNumber: "#ORD-003", name: "Lisa Wang", amount: "#20,000", status: "processing"},
-            {orderNumber: "#ORD-004", name: "Lisa Wang", amount: "#20,000", status: "completed"},
-            {orderNumber: "#ORD-005", name: "Lisa Wang", amount: "#20,000", status: "shipped"},
-        ]
-        setOrders(dummyData)
+        const recentOrders = data?.recent_orders || [];
+        setOrders(recentOrders)
     }, [])
 
   return (

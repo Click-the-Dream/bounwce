@@ -1,5 +1,3 @@
-import React from 'react'
-import { IoTrendingUpOutline } from "react-icons/io5";
 
 const VendorOverviewCard = ({
   label, 
@@ -7,7 +5,9 @@ const VendorOverviewCard = ({
   analysis, 
   icon: OverviewIcon,
   trendIcon: TrendIcon,
-  trendColor
+  trendColor,
+  iconColor,
+  size
   }) => {
 
   return (
@@ -25,8 +25,8 @@ const VendorOverviewCard = ({
         </div>
 
         <div>
-            <OverviewIcon size={25} className='text-ash font-bold' />
-        </div>
+            <OverviewIcon size={size} className={`${iconColor} p-2 rounded-[8px] font-bold`}/>
+        </div> 
     </div>
   )
 }
