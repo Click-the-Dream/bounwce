@@ -1,7 +1,10 @@
 import { withdrawBackgroudImg } from "../../../../assets";
 import { CgDanger } from "react-icons/cg";
+import useStore from "../../../../hooks/useStore";
 
-const WithdrawVerificationStep = ({code, setCode, codeRefs, amount, bankName, accountNumber, error}) => {
+const WithdrawVerificationStep = ({code, setCode, codeRefs, amount, error}) => {    
+    const { useGetMyStore } = useStore();
+    const { data, isLoading } = useGetMyStore();
     const handleChange = (e, index) => {
         const { value } = e.target;
         if (!/^\d*$/.test(value)) return; // Only allow digits
@@ -35,7 +38,7 @@ const WithdrawVerificationStep = ({code, setCode, codeRefs, amount, bankName, ac
 
             <div className="flex justify-between gap-2 items-center text-[10px]">
                 <p className="text-white/50">Destination</p>
-                <p className="text-white">{bankName}({accountNumber})</p>
+                <p className="text-white">{data.payout_info.account_name}({data.payout_info.account_number})</p>
             </div>
         </div>
 
