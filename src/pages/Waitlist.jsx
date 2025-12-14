@@ -174,7 +174,7 @@ const Waitlist = () => {
                   </div>
                   <div className="text-left">
                     <span className="text-lg font-light text-lime-300">
-                      +{waitlistData?.today_count || dailyGrowth || 0}
+                      +{waitlistData?.today_count || 0}
                     </span>
                     <p className="text-xs text-gray-400 font-light tracking-wide uppercase">
                       Today
