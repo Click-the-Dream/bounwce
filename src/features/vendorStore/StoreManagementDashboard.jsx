@@ -11,9 +11,20 @@ import StoreQuickActionsSection from "./StoreQuickActionsSection";
 import SearchActionsBar from "./SearchActionsBar";
 import { useNavigate } from "react-router-dom";
 import PageTransition from "../../components/common/PageTransition";
+import useProduct from "../../hooks/useProduct";
 
 const StoreManagementDashboard = () => {
+  const { useGetMyProducts } = useProduct();
+  const { data, isLoading, error } = useGetMyProducts();
+  const products = data?.products ?? [];
+
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("product");
+  const sectionVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+  };
   // eslint-disable-next-line no-unused-vars
   const [dummyStat, setDummyStat] = useState([
     { label: "Total Products", amount: "1", icon: MdOutlineDashboard },
@@ -21,12 +32,6 @@ const StoreManagementDashboard = () => {
     { label: "Draft Products", amount: "1", icon: MdOutlineDashboard },
     { label: "Low Stock Items", amount: "0", icon: MdOutlineDashboard },
   ]);
-  const [activeTab, setActiveTab] = useState("product");
-  const sectionVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 },
-  };
 
   return (
     <PageTransition>
@@ -45,6 +50,12 @@ const StoreManagementDashboard = () => {
         </header>
 
         <section className="px-[1rem] md:px-[3rem] lg:px-[100px] xl:px-[140px] 2xl:px-[175px] py-5 space-y-6">
+          {error && (
+            <div className="text-red-500">
+              Error loading products: {error.message}
+            </div>
+          )}
+          {isLoading && <div>Loading products...</div>}
           {/* stats card */}
           <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[21px]">
             {dummyStat.map((data, index) => (
@@ -69,7 +80,7 @@ const StoreManagementDashboard = () => {
               onClick={() => setActiveTab("product")}
             >
               <span>Active Products</span>
-              <span>(0)</span>
+              <span>({products?.length})</span>
             </button>
 
             <button
@@ -79,7 +90,7 @@ const StoreManagementDashboard = () => {
               onClick={() => setActiveTab("drafts")}
             >
               <span>Drafts</span>
-              <span>(1)</span>
+              <span>(0)</span>
             </button>
           </div>
 
@@ -94,7 +105,7 @@ const StoreManagementDashboard = () => {
                 exit="exit"
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               >
-                <ProductSection />
+                <ProductSection products={products} />
               </motion.div>
             )}
 
@@ -121,5 +132,4 @@ const StoreManagementDashboard = () => {
     </PageTransition>
   );
 };
-
 export default StoreManagementDashboard;
