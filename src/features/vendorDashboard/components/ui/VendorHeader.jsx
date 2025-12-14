@@ -3,6 +3,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import userImage from "../../../../assets/createpic.jpg";
 
 const VendorHeader = ({
+  storeName,
   header,
   onClose,
   headerDetails,
@@ -41,7 +42,7 @@ const VendorHeader = ({
           <div className="flex gap-1 items-center">
             <TbHome />
             <p className="text-[10px]">
-              <span>Origami Store</span> - {header}
+              <span>{storeName}</span> - {header}
             </p>
           </div>
           <p className="text-[9px]">{headerDetails}</p>

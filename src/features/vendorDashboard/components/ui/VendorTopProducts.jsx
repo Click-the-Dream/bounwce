@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import VendorCardLayout from '../VendorCardLayout'
 import { noTopProducts, productImg } from '../../../../assets';
+import { useGetDashboardOverview } from '../../../../hooks/useVendor';
 
 const VendorTopProducts = () => {
+    const { data, isLoading } = useGetDashboardOverview();
     const [topProducts, setTopProducts] = useState([]);
 
     useEffect(() => {
-        const dummyData = [
-            {productNumber: "1", productName: "DFDF", salesNumber: "44", totalRevenue: "100,000", productImg: productImg}
-        ]
-        setTopProducts(dummyData);
-    }, [])
+        const topProducts = data?.top_products || [];
+        setTopProducts(topProducts);
+    }, [data])
     
   return (
     <VendorCardLayout

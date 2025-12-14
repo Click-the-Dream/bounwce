@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { withdrawBackgroudImg } from "../../../../assets";
 import { userData } from "../..";
+import useStore from "../../../../hooks/useStore";
 
 const WithdrawAmountStep = ({amount, setAmount, error}) => {
-    const [securityAnswer, setSecurityAnswer] = useState("");
+    const { useGetMyStore } = useStore();
+    const { data, isLoading } = useGetMyStore();
+    const [securityAnswer, setSecurityAnswer] = useState(isLoading ? "" : data.payout_info.security_answer);
     const [showSecurityAnswer, setShowSecurityAnswer] = useState(false)
   return (
     <div>
@@ -14,15 +17,15 @@ const WithdrawAmountStep = ({amount, setAmount, error}) => {
             <h1 className="text-white underline text-[12px]">Withdrawal Destination</h1>
             <p className="text-[10px]">
                 <span className="text-white/65">Account Name: </span>
-                <span className="text-white ">{userData.name}</span>
+                <span className="text-white ">{isLoading ? "--" : data.payout_info.account_name}</span>
             </p>
             <p className="text-[10px]">
                 <span className="text-white/65">Bank Name: </span>
-                <span className="text-white ">{userData.bankName}</span> 
+                <span className="text-white ">{isLoading ? "--" : data.payout_info.bank_name}</span> 
             </p>
             <p className="text-[10px]">
                 <span className="text-white/65">Account Number: </span >
-                <span className="text-white ">{userData.accountNumber}</span> 
+                <span className="text-white ">{isLoading ? "--" : data.payout_info.account_number}</span> 
             </p>
         </div>
 
@@ -44,7 +47,7 @@ const WithdrawAmountStep = ({amount, setAmount, error}) => {
 
             <div className="relative">
                 <label className="font-semibold text-[10px]">
-                    Your Security Question: {userData.securityQuestion}
+                    Your Security Question: {isLoading ? "--" : data.payout_info.security_question}
                 </label>
                 <input 
                     value={securityAnswer}
