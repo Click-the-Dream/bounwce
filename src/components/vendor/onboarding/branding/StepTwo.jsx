@@ -46,7 +46,7 @@ const StepTwo = ({ register, errors, trigger }) => {
   }));
   // Sync products with RHF
   useEffect(() => {
-    if (products && products.length > 0) {
+    if (products && products?.length > 0) {
       setValue("products", products, { shouldValidate: true });
     }
   }, [products, setValue]);
@@ -159,19 +159,19 @@ const StepTwo = ({ register, errors, trigger }) => {
         <>
           <div>
             <h3 className="text-sm font-medium capitalize mb-2">
-              {products.length === 0
+              {products?.length === 0
                 ? "Add your first Product"
                 : "Manage your Products"}
             </h3>
             <p className="text-xs text-gray-500">
-              {products.length === 0
+              {products?.length === 0
                 ? "Start with one product to get your store up and running"
                 : "Edit or remove products anytime"}
             </p>
           </div>
 
           {/* Product list */}
-          {products.length > 0 && (
+          {products?.length > 0 && (
             <ul className="gap-4">
               {products.map((prod, index) => (
                 <li
