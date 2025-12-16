@@ -1,3 +1,4 @@
+import { useState } from "react";
 import VendorOverviewCard from "../components/ui/VendorOverviewCard";
 import VendorQuickActions from "../components/ui/VendorQuickActions";
 import VendorTopProducts from "../components/ui/VendorTopProducts";
@@ -5,21 +6,27 @@ import QuickActionSection from "../components/QuickActionSection";
 import { IoTrendingUpOutline, IoTrendingDownOutline } from "react-icons/io5";
 import { useGetDashboardOverview } from "../../../hooks/useVendor";
 import { overviewCardConfig } from "../../../utils/vendorOverviewMapper";
-
-
 import DateFilter from "../components/DateFilter";
-import { vendorData } from "../../../utils/dummies";
+import { mapDateFilter, getComparisonLabel } from "../components/mapDateFilter";
 
 const VendorOverview = () => {
- const { data: dashboardData, isLoading } = useGetDashboardOverview();
+ const [ selectedFilter, setSelectedFilter ] = useState(null);
+ const apiParams = mapDateFilter(selectedFilter);
+ const comparisonLabel = getComparisonLabel(selectedFilter);
+ const { data: dashboardData, isLoading } = useGetDashboardOverview(apiParams);
  console.log(dashboardData);  
+ console.log(apiParams);
 
  const overviewCards = overviewCardConfig.map(config => {
     const amount = dashboardData?.[config.dataKey] || 0;
-    const analysis = dashboardData?.[config.analysisKey] ?? "N/A"
+    const changePercent = dashboardData?.[config.analysisKey] ?? "N/A"
     const trendStatus = config.trendStatus
 
-    const isTrendUp = trendStatus === "up";
+    const analysis = changePercent !== undefined && changePercent !== null
+      ? `${Math.abs(changePercent)}% ${comparisonLabel}`
+      : "N/A"
+
+    const isTrendUp = changePercent > 0;
       const TrendIcon = isTrendUp
         ? IoTrendingUpOutline
         : IoTrendingDownOutline;
@@ -45,8 +52,10 @@ const VendorOverview = () => {
       <DateFilter
         onChange={(val) => {
           // Do something with the selection
+          setSelectedFilter(val);
           console.log("DateFilter changed:", val);
         }}
+        value={selectedFilter}
       />
       <main className="space-y-[21px] mt-5">
         <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[21px]">
@@ -59,7 +68,7 @@ const VendorOverview = () => {
                 trendColor={data.trendColor}
                 label={data.label}
                 amount={data.amount}
-                analysis={data.analysis}
+                analysis={isLoading ? "--" : data.analysis}
                 iconColor={data.iconColor}
                 size={data.iconSize}
               />
