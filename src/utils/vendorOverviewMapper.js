@@ -12,7 +12,6 @@ export const overviewCardConfig = [
     trendKey: "salesTrend",
     analysisKey: "revenue_change_percent",
     isCurrency: true,
-    trendStatus: "up",
     iconColor: "text-[#38C066] bg-[#DBFCE7]",
     size: 35
   },
@@ -23,7 +22,6 @@ export const overviewCardConfig = [
     trendKey: "ordersTrend",
     analysisKey: "orders_change_percent",
     isCurrency: false,
-    trendStatus: "up",
     iconColor: "text-[#2563EB] bg-[#DBEAFE]",
     size: 32
   },
@@ -34,7 +32,6 @@ export const overviewCardConfig = [
     trendKey: "customersTrend",
     analysisKey: "customers_change_percent",
     isCurrency: false,
-    trendStatus: "up",
     iconColor: "text-[#6B21A8] bg-[#F3E8FF]",
     size: 32
   },
@@ -43,9 +40,8 @@ export const overviewCardConfig = [
     icon: AiOutlineBarChart,
     dataKey: "avg_order_value",
     trendKey: "averageOrdersTrend",
-    analysisKey: "averageOrdersAnalysis",
+    analysisKey: "avg_order_value_change_percent",
     isCurrency: false,
-    trendStatus: "down",
     iconColor: "text-[#8C3306] bg-[#FFEDD4]",
     size: 32
   },

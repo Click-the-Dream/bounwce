@@ -20,7 +20,6 @@ const VendorOverview = () => {
  const overviewCards = overviewCardConfig.map(config => {
     const amount = dashboardData?.[config.dataKey] || 0;
     const changePercent = dashboardData?.[config.analysisKey] ?? "N/A"
-    const trendStatus = config.trendStatus
 
     const analysis = changePercent !== undefined && changePercent !== null
       ? `${Math.abs(changePercent)}% ${comparisonLabel}`
