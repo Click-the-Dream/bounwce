@@ -6,18 +6,33 @@ import { useStore } from "../../context/storeContext";
 const ProductCard = ({ product }) => {
   const { cart } = useStore();
   const { addToCart, removeFromCart } = useCart();
-  // Check if this product is already in the cart
+
   const isInCart = cart.some((vendor) =>
     vendor.items.find((item) => item.id === product.id)
   );
 
   return (
-    <div className="flex flex-col bg-white rounded-xl shadow-sm w-[220px] border border-gray-200">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="rounded-t-lg mb-4 h-36 aspect-square object-top object-cover"
-      />
+    <div
+      className="
+        group relative flex flex-col bg-white
+        rounded-xl border border-gray-200
+        w-[150px] md:w-[220px]
+        transition-all duration-300 ease-out
+        hover:shadow-lg hover:-translate-y-1 cursor-pointer
+      "
+    >
+      {/* Image wrapper */}
+      <div className="overflow-hidden rounded-t-xl">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="
+            h-36 w-full object-cover object-top
+            transition-transform duration-500 ease-out
+            group-hover:scale-105 mb-4
+          "
+        />
+      </div>
 
       <section className="px-4 pb-4 flex flex-col flex-1">
         <h2 className="font-medium text-sm mb-1 line-clamp-2">
@@ -31,25 +46,42 @@ const ProductCard = ({ product }) => {
           </span>
         </div>
 
-        <p className="mb-3 text-[13px] font-semibold">
+        <p className="mb-1 text-[13px] font-semibold">
           {formatCurrency(product.price)}
         </p>
 
-        {isInCart ? (
-          <button
-            onClick={() => removeFromCart(product)}
-            className="ml-auto bg-gray-400 hover:bg-gray-500 text-white text-xs p-2 rounded-md transition duration-200"
-          >
-            Remove from Cart
-          </button>
-        ) : (
-          <button
-            onClick={() => addToCart(product)}
-            className="ml-auto bg-orange text-white text-xs p-2 rounded-md transition duration-200"
-          >
-            Add to Cart
-          </button>
-        )}
+        {/* Action */}
+        <div className="mt-auto flex justify-end">
+          {isInCart ? (
+            <button
+              onClick={() => removeFromCart(product)}
+              className="
+                opacity-0 translate-y-3 pointer-events-none
+                group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
+                transition-all duration-300 ease-out
+                bg-gray-400 hover:bg-gray-500
+                text-white text-[10px] md:text-xs
+                py-1 px-2 md:p-2 rounded-md
+              "
+            >
+              Remove from Cart
+            </button>
+          ) : (
+            <button
+              onClick={() => addToCart(product)}
+              className="
+                opacity-0 translate-y-3 pointer-events-none
+                group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
+                transition-all duration-300 ease-out
+                bg-orange hover:bg-orange-600
+                text-white text-[10px] md:text-xs
+                py-1 px-2 md:p-2 rounded-md
+              "
+            >
+              Add to Cart
+            </button>
+          )}
+        </div>
       </section>
     </div>
   );

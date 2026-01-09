@@ -10,7 +10,7 @@ const MarketPlace = () => {
       <div className="max-w-5xl mx-auto px-6 pb-8">
         <Header title="Marketplace" />
 
-        <div className="grid grid-cols-auto gap-6">
+        <div className="grid grid-cols-mobile md:grid-cols-auto gap-3 md:gap-6 place-items-center">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
