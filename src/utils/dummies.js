@@ -405,3 +405,89 @@ export const orders = [
     ],
   },
 ];
+
+export const cartItems = [
+  {
+    name: "Campus Books",
+    items: [
+      {
+        id: 1,
+        name: "Fictional Novel",
+        price: 8500,
+        quantity: 1,
+        image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f",
+      },
+    ],
+  },
+  {
+    name: "Fashion Hub",
+    items: [
+      {
+        id: 2,
+        name: "Leather Backpack",
+        price: 12500,
+        quantity: 1,
+        image: "https://images.unsplash.com/photo-1593032465171-8f55c8a1c3c3",
+      },
+    ],
+  },
+  {
+    name: "Tech Gadgets",
+    items: [
+      {
+        id: 3,
+        name: "Premium Wireless Earbuds",
+        price: 15000,
+        quantity: 1,
+        image: "https://images.unsplash.com/photo-1606220838315-056192d5e927",
+      },
+    ],
+  },
+  {
+    name: "Eco Store",
+    items: [
+      {
+        id: 4,
+        name: "Stainless Steel Water Bottle",
+        price: 3500,
+        quantity: 1,
+        image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8",
+      },
+    ],
+  },
+];
+
+export const products = [
+  {
+    id: 1,
+    name: "Blue Cotton Shirt",
+    category: "Clothing",
+    price: 12500,
+    rating: 4.5,
+    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
+  },
+  {
+    id: 2,
+    name: "Leather Handbag",
+    category: "Accessories",
+    price: 28500,
+    rating: 4.7,
+    image: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c",
+  },
+  {
+    id: 3,
+    name: "Running Sneakers",
+    category: "Footwear",
+    price: 32000,
+    rating: 4.6,
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+  },
+  {
+    id: 4,
+    name: "Wireless Headphones",
+    category: "Electronics",
+    price: 45000,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad",
+  },
+];

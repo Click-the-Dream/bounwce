@@ -8,7 +8,7 @@ export const extractErrorMessage = (error) => {
   };
 
   try {
-    // ✅ FastAPI / Pydantic validation errors
+    // FastAPI / Pydantic validation errors
     if (Array.isArray(error?.response?.data?.detail)) {
       const details = error.response.data.detail.map((d) => {
         // Extract field name from "loc" array, e.g. ["body", "type"] → "type"
@@ -34,12 +34,12 @@ export const extractErrorMessage = (error) => {
       return details.join(" | ");
     }
 
-    // ✅ Handle direct detail string
+    // Handle direct detail string
     if (error?.response?.data?.detail) {
       return getString(error.response.data.detail);
     }
 
-    // ✅ Handle message and error fields
+    // Handle message and error fields
     if (error?.response?.data?.message) {
       return getString(error.response.data.message);
     }
@@ -52,7 +52,7 @@ export const extractErrorMessage = (error) => {
       return getString(error.response.error);
     }
 
-    // ✅ Fallback
+    // Fallback
     return getString(error?.message || "An unknown error occurred");
   } catch (err) {
     console.error("Error parsing error message:", err);
@@ -129,3 +129,5 @@ export const statusStyles = {
   Shipped: "bg-purple-100 text-purple-700",
   Completed: "bg-[#F0FDF4] text-[#38C066]",
 };
+
+export const formatCurrency = (amount) => `₦${amount.toLocaleString("en-NG")}`;
