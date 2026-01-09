@@ -37,10 +37,15 @@ const Waitlist = () => {
   const { data: waitlistData, isLoading } = waitlistUser;
 
   // Institutions in Nigeria
-  const UNIVERSITIES = allSchools().map((school) => ({
-    label: school.name,
-    value: school.name,
-  }));
+ const UNIVERSITIES = useMemo(() => {
+  return [
+    ...allSchools().map((school) => ({
+      label: school.name,
+      value: school.name,
+    })),
+    { label: "Koladaisi University", value: "Koladaisi University" }, // Added manually
+  ].sort((a, b) => a.label.localeCompare(b.label));
+}, []);
 
   // Dynamic metrics based on live waitlist data
   const joinedCount = waitlistData?.total || waitlistData?.data?.length || 0;
@@ -169,7 +174,7 @@ const Waitlist = () => {
                   </div>
                   <div className="text-left">
                     <span className="text-lg font-light text-lime-300">
-                      +{dailyGrowth}
+                      +{waitlistData?.today_count || dailyGrowth || 0}
                     </span>
                     <p className="text-xs text-gray-400 font-light tracking-wide uppercase">
                       Today
