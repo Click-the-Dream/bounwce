@@ -75,7 +75,7 @@ const ShoppingCart = () => {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-8">
             {cart.map((vendor, vIdx) => (
-              <div key={vendor.name}>
+              <div key={vendor.name} className="space-y-4">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="flex-1 border-t border-gray-300" />
                   <p className="text-[11px] text-gray-500">

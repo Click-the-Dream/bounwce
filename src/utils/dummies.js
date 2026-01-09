@@ -490,4 +490,72 @@ export const products = [
     rating: 4.8,
     image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad",
   },
+  {
+    id: 5,
+    name: "Slim Fit Jeans",
+    category: "Clothing",
+    price: 18000,
+    rating: 4.4,
+    image: "https://images.unsplash.com/photo-1514996937319-344454492b37",
+  },
+  {
+    id: 6,
+    name: "Sports Watch",
+    category: "Accessories",
+    price: 22000,
+    rating: 4.6,
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+  },
+  {
+    id: 7,
+    name: "Headphones",
+    category: "Accessories",
+    price: 15000,
+    rating: 4.5,
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+  },
+  {
+    id: 8,
+    name: "Smartphone",
+    category: "Electronics",
+    price: 85000,
+    rating: 4.9,
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+  },
+  {
+    id: 9,
+    name: "Formal Leather Shoes",
+    category: "Footwear",
+    price: 40000,
+    rating: 4.6,
+    image:
+      "https://images.unsplash.com/photo-1573253803478-d7146d61d09e?auto=format&fit=crop&w=500&q=80", // formal leather shoe
+  },
+  {
+    id: 10,
+    name: "Cotton Polo Shirt",
+    category: "Clothing",
+    price: 9500,
+    rating: 4.3,
+    image:
+      "https://images.unsplash.com/photo-1593032465171-4b5062bc6bbd?auto=format&fit=crop&w=500&q=80", // polo‑style shirt
+  },
+  {
+    id: 11,
+    name: "Bluetooth Speaker",
+    category: "Electronics",
+    price: 30000,
+    rating: 4.7,
+    image:
+      "https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    id: 12,
+    name: "Running Shorts",
+    category: "Clothing",
+    price: 7000,
+    rating: 4.2,
+    image:
+      "https://images.unsplash.com/photo-1594737625785-d6f0d7beef26?auto=format&fit=crop&w=500&q=80", // running shorts style
+  },
 ];
