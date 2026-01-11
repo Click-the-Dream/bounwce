@@ -24,7 +24,11 @@ const useCart = () => {
                     (item, iIdx) =>
                       iIdx !== itemIndex
                         ? item
-                        : { ...item, quantity: item.quantity + 1 } // only update quantity
+                        : {
+                            ...item,
+                            quantity: item.quantity + 1,
+                            status: "cart",
+                          } // only update quantity
                   ),
                 }
           );
@@ -36,7 +40,10 @@ const useCart = () => {
               ? vendor
               : {
                   ...vendor,
-                  items: [...vendor.items, { ...product, quantity: 1 }],
+                  items: [
+                    ...vendor.items,
+                    { ...product, quantity: 1, status: "cart" },
+                  ],
                 }
           );
           return newCart;
@@ -45,7 +52,10 @@ const useCart = () => {
         // New vendor, add product with quantity 1
         return [
           ...prev,
-          { name: product.category, items: [{ ...product, quantity: 1 }] },
+          {
+            name: product.category,
+            items: [{ ...product, quantity: 1, status: "cart" }],
+          },
         ];
       }
     });

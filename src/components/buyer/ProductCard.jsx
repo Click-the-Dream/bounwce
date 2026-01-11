@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
         group relative flex flex-col bg-white
         rounded-xl border border-gray-200
         w-[150px] md:w-[220px]
-        transition-all duration-300 ease-out
+        transition-all duration-300
         hover:shadow-lg hover:-translate-y-1 cursor-pointer
       "
     >
@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
           alt={product.name}
           className="
             h-36 w-full object-cover object-top
-            transition-transform duration-500 ease-out
+            transition-transform duration-500
             group-hover:scale-105 mb-4
           "
         />
@@ -58,7 +58,7 @@ const ProductCard = ({ product }) => {
               className="
                 opacity-0 translate-y-3 pointer-events-none
                 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
-                transition-all duration-300 ease-out
+                transition-all duration-300
                 bg-gray-400 hover:bg-gray-500
                 text-white text-[10px] md:text-xs
                 py-1 px-2 md:p-2 rounded-md
@@ -72,7 +72,7 @@ const ProductCard = ({ product }) => {
               className="
                 opacity-0 translate-y-3 pointer-events-none
                 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
-                transition-all duration-300 ease-out
+                transition-all duration-300
                 bg-orange hover:bg-orange-600
                 text-white text-[10px] md:text-xs
                 py-1 px-2 md:p-2 rounded-md
