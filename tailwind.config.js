@@ -27,6 +27,11 @@ export default {
       fontFamily: {
         inter: ["Inter"],
       },
+      gridTemplateColumns: {
+        auto: "repeat(auto-fill, minmax(220px, 1fr))",
+        responsive: "repeat(auto-fill, minmax(300px, 1fr))",
+        mobile: "repeat(auto-fill, minmax(150px, 1fr))",
+      },
     },
   },
   plugins: [],

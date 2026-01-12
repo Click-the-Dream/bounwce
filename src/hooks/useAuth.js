@@ -51,9 +51,9 @@ const useAuth = () => {
       storedUserEmail(variables.email);
       navigate("/email_verification", { state: variables, replace: true });
     },
-    onError: async (err, variables) => {
-      const apiMessage = err?.response?.data?.message;
+    onError: async (err) => {
       const errorMessage = extractErrorMessage(err);
+      /* const apiMessage = err?.response?.data?.message;
 
       // Handle "user already exists" case more gracefully
       if (apiMessage === "User with the email already exist") {
@@ -75,7 +75,7 @@ const useAuth = () => {
         });
 
         return;
-      }
+      }*/
 
       // Default fallback for other errors
       onFailure({
