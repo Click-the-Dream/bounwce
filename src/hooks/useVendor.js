@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { axiosClient } from "../services/axios-client";
 
-
 const useAxios = () => {
   const { authDetails } = useContext(AuthContext);
   return axiosClient(authDetails?.access_token);
@@ -13,8 +12,6 @@ const useAxios = () => {
 export const useGetDashboardOverview = () => {
   const client = useAxios();
   const { authDetails } = useContext(AuthContext);
-  console.log("Current Token;", authDetails?.access_token);
-  
 
   return useQuery({
     queryKey: ["vendor", "dashboard", "overview"],

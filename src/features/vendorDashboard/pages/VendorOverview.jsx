@@ -5,27 +5,23 @@ import QuickActionSection from "../components/QuickActionSection";
 import { IoTrendingUpOutline, IoTrendingDownOutline } from "react-icons/io5";
 import { useGetDashboardOverview } from "../../../hooks/useVendor";
 import { overviewCardConfig } from "../../../utils/vendorOverviewMapper";
-
-
 import DateFilter from "../components/DateFilter";
-import { vendorData } from "../../../utils/dummies";
 
 const VendorOverview = () => {
- const { data: dashboardData, isLoading } = useGetDashboardOverview();
- console.log(dashboardData);  
+  const { data: dashboardData } = useGetDashboardOverview();
 
- const overviewCards = overviewCardConfig.map(config => {
+  const overviewCards = overviewCardConfig.map((config) => {
     const amount = dashboardData?.[config.dataKey] || 0;
-    const analysis = dashboardData?.[config.analysisKey] ?? "N/A"
-    const trendStatus = config.trendStatus
+    const analysis = dashboardData?.[config.analysisKey] ?? "N/A";
+    const trendStatus = config.trendStatus;
 
     const isTrendUp = trendStatus === "up";
-      const TrendIcon = isTrendUp
-        ? IoTrendingUpOutline
-        : IoTrendingDownOutline;
+    const TrendIcon = isTrendUp ? IoTrendingUpOutline : IoTrendingDownOutline;
     const TrendColor = isTrendUp ? "text-[#38C066]" : "text-[#FF4B2B]";
 
-    const formattedAmount = config.isCurrency ? `₦${amount.toLocaleString()}` : amount.toLocaleString();
+    const formattedAmount = config.isCurrency
+      ? `₦${amount.toLocaleString()}`
+      : amount.toLocaleString();
 
     return {
       key: config.label,
@@ -36,9 +32,9 @@ const VendorOverview = () => {
       amount: formattedAmount,
       analysis: analysis,
       iconColor: config.iconColor,
-      iconSize: config.size
-    }
- })
+      iconSize: config.size,
+    };
+  });
 
   return (
     <>
@@ -50,7 +46,7 @@ const VendorOverview = () => {
       />
       <main className="space-y-[21px] mt-5">
         <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[21px]">
-          {overviewCards.map((data) => {            
+          {overviewCards.map((data) => {
             return (
               <VendorOverviewCard
                 key={data.key}
