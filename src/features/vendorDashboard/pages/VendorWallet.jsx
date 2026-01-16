@@ -27,10 +27,6 @@ const VendorWallet = () => {
     }
   })
 
-  const handleFundsWithdraw = () => {
-    console.log("Withdraw Funds");    
-  }  
-
   useEffect(() => {
     const recentHistory = walletData?.withdrawal_history?.items || [];
     setWithdrawalData(recentHistory)
@@ -82,13 +78,13 @@ const VendorWallet = () => {
                 className="w-[120px] h-[120px]"
               />
             ) : (
-              withdrawalData.map((data, index) => {
+              withdrawalData.map((data) => {
                 let statusImg = "";
                 statusImg = data.action === "debit" ? walletDebitImg :  walletRefundImg;
                 
                 return (
                 <WithdrawalHistoryCard 
-                    key={index}
+                    key={data.label}
                     label={data.label}
                     icon={data.icon}
                     status={data.status}

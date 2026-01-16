@@ -9,6 +9,7 @@ import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { ToastContainer, Slide } from "react-toastify";
 import SecureRoute from "./routes/SecureRoute";
 import { StoreProvider } from "./context/storeContext";
+import ProductDetails from "./pages/buyer/ProductDetails";
 
 // Lazy-loaded routers & pages
 const VendorRouter = lazy(() => import("./routes/VendorRouter"));
@@ -122,8 +123,6 @@ const AnimatedRoutes = () => {
             }
           />
         </Route>
-
-        {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>

@@ -8,10 +8,14 @@ import Header from "../../components/buyer/Header";
 import { formatCurrency } from "../../utils/formatters";
 import { useStore } from "../../context/storeContext";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ShoppingCart = () => {
   const { cart, setCart } = useStore(); // use global cart
   const [openItem, setOpenItem] = useState(null);
+  const navigate = useNavigate();
+  console.log(cart);
+  
 
   const toggleItem = (vIdx, iIdx) => {
     const key = `${vIdx}-${iIdx}`;
@@ -225,7 +229,19 @@ const ShoppingCart = () => {
 
                           {/* Buttons */}
                           <div className="flex gap-3 pt-2">
-                            <button className="flex-1 border rounded-lg py-2 text-[11px] font-semibold hover:bg-gray-50">
+                            <button 
+                              className="flex-1 border rounded-lg py-2 text-[11px] font-semibold hover:bg-gray-50"
+                              onClick={() => {
+                                navigate("/product-details", { 
+                                  state: { 
+                                    product: item,
+                                    vendorInfo: {
+                                      name: vendor.name,
+                                    }
+                                  }
+                                })
+                              }}
+                            >
                               View Details
                             </button>
                             <button
