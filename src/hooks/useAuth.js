@@ -180,6 +180,10 @@ const useAuth = () => {
         navigate("/vendor", { replace: true });
       }
 
+      if (user?.role === "user") {
+        navigate("/buyer", { replace: true });
+      }
+
       onSuccess({
         title: "OTP Verified!",
         message: "Proceeding to dashboard",
