@@ -2,17 +2,49 @@ import { FaStar } from "react-icons/fa6";
 import { formatCurrency } from "../../utils/formatters";
 import useCart from "../../hooks/useCart";
 import { useStore } from "../../context/storeContext";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   const { cart } = useStore();
   const { addToCart, removeFromCart } = useCart();
+  const navigate = useNavigate();
 
   const isInCart = cart.some((vendor) =>
     vendor.items.find((item) => item.id === product.id)
   );
 
+  const handleCardClick = (e) => {
+    if(e.target.closest("button")) return;
+
+    navigate("/product-details", {
+      state: {
+        product: product,
+        vendorInfo: {
+          name: "Tech Gadgets",
+        }
+      }
+    })
+  }
+
+  // Helper to safely handle cart actions without triggering navigation
+  const handleCartAction = (e, action) => {
+    e.stopPropagation();     
+    
+    const productWithVendor = {
+        ...product,
+        vendor: "Tech Gadgets" 
+    };
+
+    if (action === "add") {
+      addToCart(productWithVendor);
+    } else {
+      removeFromCart(productWithVendor);
+    }
+  };
+
   return (
     <div
+      onClick={handleCardClick}
       className="
         group relative flex flex-col bg-white
         rounded-xl border border-gray-200
@@ -54,7 +86,7 @@ const ProductCard = ({ product }) => {
         <div className="mt-auto flex justify-end">
           {isInCart ? (
             <button
-              onClick={() => removeFromCart(product)}
+              onClick={(e) => handleCartAction(e, "remove")}
               className="
                 opacity-0 translate-y-3 pointer-events-none
                 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
@@ -68,7 +100,7 @@ const ProductCard = ({ product }) => {
             </button>
           ) : (
             <button
-              onClick={() => addToCart(product)}
+               onClick={(e) => handleCartAction(e, "add")}
               className="
                 opacity-0 translate-y-3 pointer-events-none
                 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
