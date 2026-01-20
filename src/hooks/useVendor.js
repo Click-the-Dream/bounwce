@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { axiosClient } from "../services/axios-client";
 
-
 const useAxios = () => {
   const { authDetails } = useContext(AuthContext);
   return axiosClient(authDetails?.access_token);

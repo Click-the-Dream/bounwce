@@ -19,7 +19,7 @@ const VendorLayout = () => {
       <main className="bg-[#ECECF080]">
         <section className="mb-7 ">
           <VendorHeader
-            storeName={isLoading ? "-" : data.name || "origami store"}
+            storeName={isLoading ? "-" : data?.name || "-"}
             header={"Dashboard"}
             headerDetails={"Here's what's happening with your store"}
             icon={RiNotification3Line}

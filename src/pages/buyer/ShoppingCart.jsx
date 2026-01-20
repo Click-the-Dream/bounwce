@@ -15,7 +15,6 @@ const ShoppingCart = () => {
   const [openItem, setOpenItem] = useState(null);
   const navigate = useNavigate();
   console.log(cart);
-  
 
   const toggleItem = (vIdx, iIdx) => {
     const key = `${vIdx}-${iIdx}`;
@@ -33,10 +32,10 @@ const ShoppingCart = () => {
               items: vendor.items.map((item, iIdx) =>
                 iIdx !== itemIndex
                   ? item
-                  : { ...item, quantity: Math.max(1, item.quantity + delta) }
+                  : { ...item, quantity: Math.max(1, item.quantity + delta) },
               ),
-            }
-      )
+            },
+      ),
     );
   };
 
@@ -50,16 +49,16 @@ const ShoppingCart = () => {
             : {
                 ...vendor,
                 items: vendor.items.filter((_, iIdx) => iIdx !== itemIndex),
-              }
+              },
         )
-        .filter((vendor) => vendor.items.length > 0)
+        .filter((vendor) => vendor.items.length > 0),
     );
   };
 
   const savedItems = cart.flatMap((v) =>
     v.items
       .filter((i) => i.status === "saved")
-      .map((i) => ({ ...i, vendor: v.name }))
+      .map((i) => ({ ...i, vendor: v.name })),
   );
 
   /** Compute order summary */
@@ -71,7 +70,7 @@ const ShoppingCart = () => {
         name: vendor.name,
         total: cartOnly.reduce(
           (sum, item) => sum + item.price * item.quantity,
-          0
+          0,
         ),
       };
     });
@@ -84,7 +83,7 @@ const ShoppingCart = () => {
         v.items
           .filter((i) => i.status !== "saved")
           .reduce((iSum, i) => iSum + i.quantity, 0),
-      0
+      0,
     );
 
     return { vendorTotals, subtotal, totalItems };
@@ -229,17 +228,17 @@ const ShoppingCart = () => {
 
                           {/* Buttons */}
                           <div className="flex gap-3 pt-2">
-                            <button 
+                            <button
                               className="flex-1 border rounded-lg py-2 text-[11px] font-semibold hover:bg-gray-50"
                               onClick={() => {
-                                navigate("/product-details", { 
-                                  state: { 
+                                navigate("/buyer/product-details", {
+                                  state: {
                                     product: item,
                                     vendorInfo: {
                                       name: vendor.name,
-                                    }
-                                  }
-                                })
+                                    },
+                                  },
+                                });
                               }}
                             >
                               View Details
@@ -255,10 +254,10 @@ const ShoppingCart = () => {
                                           items: vendor.items.map((it, i) =>
                                             i !== iIdx
                                               ? it
-                                              : { ...it, status: "saved" }
+                                              : { ...it, status: "saved" },
                                           ),
-                                        }
-                                  )
+                                        },
+                                  ),
                                 )
                               }
                               className="flex-1 border rounded-lg py-2 text-[11px] font-semibold hover:bg-gray-50"
@@ -366,10 +365,10 @@ const ShoppingCart = () => {
                                   items: v.items.map((it) =>
                                     it.id === item.id
                                       ? { ...it, status: "cart" }
-                                      : it
+                                      : it,
                                   ),
-                                }
-                          )
+                                },
+                          ),
                         )
                       }
                       className="w-full bg-black text-white py-2 rounded-lg text-xs flex items-center justify-center gap-2"
@@ -382,7 +381,7 @@ const ShoppingCart = () => {
                           cart.findIndex((v) => v.name === item.vendor),
                           cart
                             .find((v) => v.name === item.vendor)
-                            .items.findIndex((i) => i.id === item.id)
+                            .items.findIndex((i) => i.id === item.id),
                         )
                       }
                       className="text-gray-400 hover:text-red-500 border p-2 rounded-lg"

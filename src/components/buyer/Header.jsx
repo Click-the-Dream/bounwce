@@ -20,7 +20,7 @@ const Header = ({ title = "" }) => {
       <h1 className="text-xl font-medium text-orange">{title}</h1>
 
       <div
-        onClick={() => navigate("/cart")}
+        onClick={() => navigate("/buyer/cart")}
         className="relative bg-[#ECECF0] p-2 rounded-lg cursor-pointer"
       >
         <FaCartShopping size={20} />
