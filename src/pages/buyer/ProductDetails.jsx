@@ -10,6 +10,8 @@ import { LuBox, LuStore } from "react-icons/lu";
 import { CiStar } from "react-icons/ci";
 import { useStore } from "../../context/storeContext";
 import useCart from "../../hooks/useCart"
+import Header from "../../components/buyer/Header";
+import { IoClose } from "react-icons/io5";
 
 const ProductDetails = () => {
     const location = useLocation();
@@ -17,10 +19,11 @@ const ProductDetails = () => {
     const { cart, setCart } = useStore();
     const { addToCart, removeFromCart } = useCart();
     const [ quantity, setQuantity ] = useState(1);
+    const [ isModalOpen, setIsModalOpen] = useState(false);
 
     const { product, vendorInfo } = location.state || {};
-    console.log(product);
-    console.log(vendorInfo);
+    console.log("location state: ", location.state);
+    console.log("product data: ", product);
     
     const [ activeImage, setActiveImage ] = useState(product?.image || "");
     const imageList = [
@@ -39,6 +42,7 @@ const ProductDetails = () => {
     // redirect if state is missing
     useEffect(() => {
         if(!product) {
+            console.log("redirecting because product is missing");            
             navigate("/marketplace")
         }
     }, [product, navigate])
@@ -66,22 +70,22 @@ const ProductDetails = () => {
             }
       )
     );
-  };
+    };
 
-//   remove product from cart
-  const removeItem = (vendorIndex, itemIndex) => {
-        setCart((prev) =>
-            prev
-                .map((vendor, vIdx) =>
-                    vIdx !== vendorIndex
-                        ? vendor
-                        : {
-                            ...vendor,
-                            items: vendor.items.filter((_, iIdx) => iIdx !== itemIndex),
-                        }
-                )
-                .filter((vendor) => vendor.items.length > 0) // Remove empty vendors
-        );
+    // remove product from cart
+    const removeItem = (vendorIndex, itemIndex) => {
+            setCart((prev) =>
+                prev
+                    .map((vendor, vIdx) =>
+                        vIdx !== vendorIndex
+                            ? vendor
+                            : {
+                                ...vendor,
+                                items: vendor.items.filter((_, iIdx) => iIdx !== itemIndex),
+                            }
+                    )
+                    .filter((vendor) => vendor.items.length > 0) // Remove empty vendors
+            );
     };
 
   let currentVendorIndex = -1;
@@ -128,15 +132,27 @@ const ProductDetails = () => {
     <div className="bg-[#ECECF080] min-h-screen ">
         <Navbar />
 
+        <div className="px-6">
+            <Header 
+                title="Product Details"
+            /> 
+        </div>
+        
+
         {/* main layout */}
         <div className="flex flex-col lg:flex-row gap-4 items-center justify-center mb-6 max-w-5xl mx-auto px-6">
             {/* left side - image gallery */}
             <div className="flex flex-col gap-4 w-full lg:w-[50%]">
-                <div className="w-full h-[400px] bg-white border-gray-200 border rounded-md flex items-center justify-center p-2">
-                    <img 
-                        src={activeImage}
-                        className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
-                    />
+                <div className="w-full h-[500px] bg-white border-gray-200 border rounded-md flex items-center justify-center p-2">
+                    <div 
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        <img 
+                            src={activeImage}
+                            className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"                        
+                        />  
+                    </div>
+                    
                 </div>
                 
                 <div className="flex gap-2 items-center">
@@ -247,7 +263,7 @@ const ProductDetails = () => {
                     }
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex flex-col md:flex-row gap-2">
                     <VendorFeatureCard icon={BsTruck} feature={"Fast Delivery"}/>
                     <VendorFeatureCard icon={FiShield} feature={"Secure Payment"}/>
                     <VendorFeatureCard icon={LuBox} feature={"Quality Product"}/>
@@ -306,6 +322,51 @@ const ProductDetails = () => {
                 </div>
             </div>
         </div>
+        
+        {/* Modal implementation */}
+        {isModalOpen && (
+            <div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center">
+                <div className="bg-white w-[50%] rounded-xl">
+                    <div className="flex justify-between items-center px-4">
+                       <h1 className="text-[14px]">Product Images</h1>
+                        <button 
+                            onClick={() => setIsModalOpen(false)}
+                            className=" text-black p-2 hover:bg-white/10 rounded-full transition-colors z-50"
+                        >
+                            <IoClose size={24} />
+                        </button> 
+                    </div>                
+
+                {/* Large Image Area */}
+                <div className="flex-1 w-full flex items-center justify-center overflow-hidden">
+                     <img 
+                        src={activeImage} 
+                        className="w-[70%] object-contain"
+                        alt="Full View"
+                    />
+                </div>
+
+                {/* Thumbnails Inside Modal */}
+                <div className="w-full flex items-center justify-center gap-4 mt-4 mb-2">
+                     {imageList.map((img, idx) => (
+                        <button
+                            key={idx}
+                            onClick={(e) => {
+                                e.stopPropagation(); 
+                                setActiveImage(img);
+                            }}
+                            className={`
+                                w-16 h-16 rounded-md overflow-hidden border-2 transition-all
+                                ${activeImage === img ? 'border-orange scale-110 opacity-100' : 'border-transparent opacity-50 hover:opacity-100'}
+                            `}
+                        >
+                            <img src={img} className="w-full h-full object-cover" />
+                        </button>
+                     ))}
+                </div>
+                </div>
+            </div>
+        )}        
     </div>
   )
 }

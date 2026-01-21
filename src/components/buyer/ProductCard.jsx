@@ -1,44 +1,73 @@
 import { FaStar } from "react-icons/fa6";
 import { formatCurrency } from "../../utils/formatters";
-import useCart from "../../hooks/useCart";
 import { useStore } from "../../context/storeContext";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
-  const { cart } = useStore();
-  const { addToCart, removeFromCart } = useCart();
+  const { cart, setCart } = useStore();
   const navigate = useNavigate();
 
-  const isInCart = cart.some((vendor) =>
-    vendor.items.find((item) => item.id === product.id)
+  if (!product) return null;
+
+  const foundVendorIndex = cart.findIndex((vendor) => 
+    vendor.items.some(item => item.id === product.id)
   );
+  
+  const isInCart = foundVendorIndex !== -1;
 
   const handleCardClick = (e) => {
+    // Prevent navigation if clicking buttons
     if(e.target.closest("button")) return;
 
-    navigate("/product-details", {
+    navigate("/buyer/product-details", {
       state: {
         product: product,
         vendorInfo: {
-          name: "Tech Gadgets",
+          name: isInCart ? cart[foundVendorIndex].name : (product.vendor || "Tech Gadgets"),
         }
       }
     })
   }
 
-  // Helper to safely handle cart actions without triggering navigation
   const handleCartAction = (e, action) => {
-    e.stopPropagation();     
-    
-    const productWithVendor = {
-        ...product,
-        vendor: "Tech Gadgets" 
-    };
+    e.stopPropagation(); // Stop clicking the card
 
     if (action === "add") {
-      addToCart(productWithVendor);
+      setCart((prevCart) => {
+        const cartClone = [...prevCart];
+        const vendorName = product.vendor || "Tech Gadgets";
+        const vendorIndex = cartClone.findIndex(v => v.name === vendorName);
+
+        if (vendorIndex > -1) {
+            // Vendor exists, push item
+            cartClone[vendorIndex].items.push({ ...product, quantity: 1, status: "cart" });
+        } else {
+            // New Vendor
+            cartClone.push({
+                name: vendorName,
+                items: [{ ...product, quantity: 1, status: "cart" }]
+            });
+        }
+        return cartClone;
+      });
     } else {
-      removeFromCart(productWithVendor);
+      // REMOVE LOGIC
+      if (isInCart) {
+        setCart((prev) =>
+            prev
+                .map((vendor, vIdx) => {
+                    // Only modify the vendor that contains this product
+                    if (vIdx !== foundVendorIndex) return vendor;
+                    
+                    return {
+                        ...vendor,
+                        // Filter out the specific product ID
+                        items: vendor.items.filter((item) => item.id !== product.id),
+                    }
+                })
+                .filter((vendor) => vendor.items.length > 0) // Clean up empty vendors
+        );
+      }
     }
   };
 
