@@ -1,18 +1,79 @@
 import { FaStar } from "react-icons/fa6";
 import { formatCurrency } from "../../utils/formatters";
-import useCart from "../../hooks/useCart";
 import { useStore } from "../../context/storeContext";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
-  const { cart } = useStore();
-  const { addToCart, removeFromCart } = useCart();
+  const { cart, setCart } = useStore();
+  const navigate = useNavigate();
 
-  const isInCart = cart.some((vendor) =>
-    vendor.items.find((item) => item.id === product.id)
+  if (!product) return null;
+
+  const foundVendorIndex = cart.findIndex((vendor) => 
+    vendor.items.some(item => item.id === product.id)
   );
+  
+  const isInCart = foundVendorIndex !== -1;
+
+  const handleCardClick = (e) => {
+    // Prevent navigation if clicking buttons
+    if(e.target.closest("button")) return;
+
+    navigate("/buyer/product-details", {
+      state: {
+        product: product,
+        vendorInfo: {
+          name: isInCart ? cart[foundVendorIndex].name : (product.vendor || "Tech Gadgets"),
+        }
+      }
+    })
+  }
+
+  const handleCartAction = (e, action) => {
+    e.stopPropagation(); // Stop clicking the card
+
+    if (action === "add") {
+      setCart((prevCart) => {
+        const cartClone = [...prevCart];
+        const vendorName = product.vendor || "Tech Gadgets";
+        const vendorIndex = cartClone.findIndex(v => v.name === vendorName);
+
+        if (vendorIndex > -1) {
+            // Vendor exists, push item
+            cartClone[vendorIndex].items.push({ ...product, quantity: 1, status: "cart" });
+        } else {
+            // New Vendor
+            cartClone.push({
+                name: vendorName,
+                items: [{ ...product, quantity: 1, status: "cart" }]
+            });
+        }
+        return cartClone;
+      });
+    } else {
+      // REMOVE LOGIC
+      if (isInCart) {
+        setCart((prev) =>
+            prev
+                .map((vendor, vIdx) => {
+                    // Only modify the vendor that contains this product
+                    if (vIdx !== foundVendorIndex) return vendor;
+                    
+                    return {
+                        ...vendor,
+                        // Filter out the specific product ID
+                        items: vendor.items.filter((item) => item.id !== product.id),
+                    }
+                })
+                .filter((vendor) => vendor.items.length > 0) // Clean up empty vendors
+        );
+      }
+    }
+  };
 
   return (
     <div
+      onClick={handleCardClick}
       className="
         group relative flex flex-col bg-white
         rounded-xl border border-gray-200
@@ -54,7 +115,7 @@ const ProductCard = ({ product }) => {
         <div className="mt-auto flex justify-end">
           {isInCart ? (
             <button
-              onClick={() => removeFromCart(product)}
+              onClick={(e) => handleCartAction(e, "remove")}
               className="
                 opacity-0 translate-y-3 pointer-events-none
                 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
@@ -68,7 +129,7 @@ const ProductCard = ({ product }) => {
             </button>
           ) : (
             <button
-              onClick={() => addToCart(product)}
+               onClick={(e) => handleCartAction(e, "add")}
               className="
                 opacity-0 translate-y-3 pointer-events-none
                 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
