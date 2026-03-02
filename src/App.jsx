@@ -10,6 +10,8 @@ import { ToastContainer, Slide } from "react-toastify";
 import SecureRoute from "./routes/SecureRoute";
 import { StoreProvider } from "./context/storeContext";
 import ProductDetails from "./pages/buyer/ProductDetails";
+import { ThemeProvider } from "../src/pages/Landing/context/ThemeContext";
+import { ModalProvider } from "../src/pages/Landing/context/ModalContext";
 
 // Lazy-loaded routers & pages
 const VendorRouter = lazy(() => import("./routes/VendorRouter"));
@@ -18,6 +20,7 @@ const LoginPage = lazy(() => import("./features/auth/LoginPage"));
 const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
 const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
 const Waitlist = lazy(() => import("./pages/Waitlist"));
+const LandingPage = lazy(() => import("./pages/Landing/LandingPage"));
 
 const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
 
@@ -33,19 +36,23 @@ function App() {
   return (
     <AuthProvider>
       <StoreProvider>
-        <div className="font-inter">
-          <Suspense fallback={<Fallback />}>
-            <AnimatedRoutes />
-          </Suspense>
-        </div>
+        <ThemeProvider>
+          <ModalProvider>          
+            <div className="font-inter">
+              <Suspense fallback={<Fallback />}>
+                <AnimatedRoutes />
+              </Suspense>
+            </div>
 
-        <ToastContainer
-          autoClose={2000}
-          draggable
-          position="bottom-right"
-          transition={Slide}
-          theme="light"
-        />
+            <ToastContainer
+              autoClose={2000}
+              draggable
+              position="bottom-right"
+              transition={Slide}
+              theme="light"
+            />
+        </ModalProvider>
+        </ThemeProvider>
       </StoreProvider>
     </AuthProvider>
   );
@@ -91,6 +98,16 @@ const AnimatedRoutes = () => {
             }
           />
         </Route>
+
+        {/* NEW LANDING PAGE */}
+        <Route
+          path="/landing-page"
+          element={
+            <PageWrapper>
+              <LandingPage />
+            </PageWrapper>
+          }
+        />
 
         {/* Waitlist */}
         <Route
