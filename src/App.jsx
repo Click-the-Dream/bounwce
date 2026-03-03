@@ -101,7 +101,7 @@ const AnimatedRoutes = () => {
 
         {/* NEW LANDING PAGE */}
         <Route
-          path="/landing-page"
+          path="/"
           element={
             <PageWrapper>
               <LandingPage />
@@ -111,7 +111,7 @@ const AnimatedRoutes = () => {
 
         {/* Waitlist */}
         <Route
-          path="/"
+          path="/waitlist"
           element={
             <PageWrapper>
               <Waitlist />
