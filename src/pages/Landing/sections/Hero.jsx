@@ -56,7 +56,7 @@ const Hero = () => {
         <div className="pt-2">
           <button 
             onClick={openModal}
-            className="bg-brand-orange hover:opacity-90 transition-opacity text-white px-8 py-3 rounded-sm font-semibold tracking-wide shadow-lg shadow-brand-orange/20"
+            className="bg-brand-orange hover:opacity-90 transition-opacity text-white px-8 py-3 font-semibold tracking-wide shadow-lg shadow-brand-orange/20"
           >
             Claim My Spot
           </button>

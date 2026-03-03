@@ -15,6 +15,15 @@ const WaitlistBanner = () => {
     "Amplify Your Influence",
     "Explore"
   ];
+
+  // The avatars array
+  const avatars = [
+    "https://i.pravatar.cc/100?img=33",
+    "https://i.pravatar.cc/100?img=47",
+    "https://i.pravatar.cc/100?img=12",
+    "https://i.pravatar.cc/100?img=32",
+    "https://i.pravatar.cc/100?img=64",
+  ];
   
   return (
     <section>
@@ -25,14 +34,33 @@ const WaitlistBanner = () => {
           backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 24px, rgba(0, 0, 0, 0.06) 24px, rgba(0, 0, 0, 0.06) 48px)"
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-white font-bold tracking-wider uppercase text-[10px] md:text-sm">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-x-4 gap-y-3 text-center text-white font-bold tracking-wider uppercase text-[10px] md:text-sm">
           
-          <p className="drop-shadow-sm">
-            Students joining right now — <span className="bg-black/20 px-4 py-1.5 rounded-md shadow-sm backdrop-blur-sm">3,078</span>
-          </p>
+          {/* Avatar and Number Group */}
+          <div className="flex items-center gap-3">
+            
+            {/* Overlapping Avatars */}
+            <div className="flex -space-x-2.5 drop-shadow-sm">
+              {avatars.map((src, index) => (
+                <img 
+                  key={index}
+                  src={src} 
+                  alt={`Waitlist member ${index + 1}`} 
+                  // Notice the border-[#FF4F33] so it matches the banner background perfectly!
+                  className="w-6 h-6 md:w-7 md:h-7 rounded-full border-[1.5px] border-[#FF4F33] object-cover relative"
+                  style={{ zIndex: avatars.length - index }} 
+                />
+              ))}
+            </div>
+
+            {/* The highlighted number badge */}
+            <span className="bg-black/20 px-4 py-1.5 shadow-sm rounded-sm backdrop-blur-sm">
+              3,078
+            </span>
+          </div>
 
           <p className="drop-shadow-sm">
-            On the waitlist. Don't miss the launch.
+            students already on the waitlist. Don't miss the launch.
           </p>
           
         </div>

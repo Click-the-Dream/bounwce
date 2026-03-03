@@ -86,7 +86,7 @@ const StudentsSection = () => {
             <p className="text-brand-orange text-xs font-bold uppercase tracking-[0.2em] mb-3">
               Different schools. Same story
             </p>
-            <h2 className="text-[2rem] lg:text-[3rem] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 leading-[0.9] tracking-tighter mb-4">
+            <h2 className="font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-4">
               Meet the students <br />
               Bouwnce was built for<span className="text-brand-orange">.</span>
             </h2>
@@ -203,7 +203,7 @@ const StudentsSection = () => {
             <p className="text-gray-400 text-xs font-bold uppercase tracking-[0.2em] mb-4">
               Before Bouwnce
             </p>
-            <h2 className="text-white text-3xl lg:text-[3rem] font-black uppercase leading-[0.85] tracking-tighter mb-6">
+            <h2 className="text-white font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase mb-6">
               One Campus.<br/>
               One Bubble.<br/>
               No Way Out.
@@ -227,7 +227,7 @@ const StudentsSection = () => {
             <p className="text-brand-orange text-xs font-bold uppercase tracking-[0.2em] mb-4">
               With Bouwnce
             </p>
-            <h2 className="text-white text-3xl lg:text-[3rem] font-black uppercase leading-[0.85] tracking-tighter mb-6">
+            <h2 className="text-white font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase mb-6">
               Every Campus.<br/>
               One Universe.<br/>
               Infinite Access.

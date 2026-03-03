@@ -32,7 +32,7 @@ const FinalCTASection = () => {
 
           {/* Text Content */}
           <div className="relative z-20">
-            <h2 className="text-white text-[3.5rem] lg:text-[4.5rem] font-black uppercase leading-[0.85] tracking-tighter mb-5">
+            <h2 className="text-white font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase mb-5">
               YOUR <br />
               MOMENT <br />
               IS NOW.
@@ -53,7 +53,7 @@ const FinalCTASection = () => {
             </p>
 
             {/* Heading */}
-            <h2 className="text-[2.5rem] lg:text-[3rem] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 leading-[0.9] tracking-tighter mb-4">
+            <h2 className="font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-4">
               Join The <br />
               Waitlist
             </h2>

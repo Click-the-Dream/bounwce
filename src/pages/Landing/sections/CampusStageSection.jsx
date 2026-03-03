@@ -29,19 +29,20 @@ const CampusStageSection = () => {
 
   return (
     <section className="w-full py-20 lg:py-32 bg-[#f5f4ef] dark:bg-neutral-950 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-5 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+      <div className="max-w-7xl mx-auto px-5 lg:px-10">        
+       
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center lg:items-stretch">
           
           {/* Left Column: Framed Image Card */}
-          <div className="relative w-full max-w-md mx-auto lg:max-w-none shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
+          <div className="relative w-full h-full flex flex-col max-w-md mx-auto lg:max-w-none shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
+              
               <img 
                 src={campusUniverse} 
                 alt="campus universe image" 
-                className="w-full aspect-4/5 object-cover"
+                className="w-full min-h-[350px] lg:min-h-[500px] grow object-cover"
               />
               
-              {/* Bottom Orange Banner Block */}
-              <div className="bg-brand-orange p-6 md:p-8">
+              <div className="bg-brand-orange p-6 md:p-8 shrink-0">
                 <h3 className="text-white text-xl md:text-2xl font-bold uppercase tracking-wide mb-1.5">
                   The Campus Universe Is Opening.
                 </h3>
@@ -52,7 +53,7 @@ const CampusStageSection = () => {
           </div>
 
           {/* Right Column: Copy & Features List */}
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center lg:py-8">
             
             {/* Kicker */}
             <span className="text-brand-orange text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] mb-4">
@@ -60,7 +61,7 @@ const CampusStageSection = () => {
             </span>
 
             {/* Main Headline */}
-            <h2 className="text-[2rem] lg:text-[3rem] font-black uppercase text-[#1A1A1A] dark:text-white leading-[0.85] tracking-tighter mb-12 transition-colors duration-300">
+            <h2 className="font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white mb-12 transition-colors duration-300">
               Your Campus.<br />
               Your Stage.<br />
               Your Economy.

@@ -41,7 +41,7 @@ const ProblemDetailsSection = () => {
             </span>
 
             {/* Main Headline */}
-            <h2 className="text-[2rem] lg:text-[3rem] font-black uppercase text-[#1A1A1A] dark:text-gray-50 leading-[0.85] tracking-tight mb-6 transition-colors duration-300">
+            <h2 className="font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-gray-50 mb-6 transition-colors duration-300">
               The Campus Gate <br />
               Is The Cage.
             </h2>
