@@ -1,6 +1,6 @@
 const ProblemSection = () => {
   return (
-    <section className="relative w-full py-15 lg:py-20 flex flex-col items-center justify-center overflow-hidden bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300">
+    <section className="relative w-full py-7 lg:py-10 flex flex-col items-center justify-center overflow-hidden bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300">
       
       <div 
         className="absolute inset-0 pointer-events-none transition-opacity duration-300 dark:opacity-0"
@@ -13,7 +13,7 @@ const ProblemSection = () => {
         
         <div className="max-w-4xl mx-auto px-5 text-center flex flex-col items-center">
           {/* Fading Vertical Divider */}
-          <div className="w-px h-20 md:h-28 bg-linear-to-b from-transparent via-brand-orange/40 to-brand-orange/80 mt-16 mb-12"></div>
+          <div className="w-px h-20 md:h-28 bg-linear-to-b from-transparent via-brand-orange/40 to-brand-orange/80 mt-[16px] mb-[12px]"></div>
           
           {/* Main Heading Block */}
           <h2 className="text-[2rem] md:text-[3.25rem] font-serif text-[#1A1A1A] dark:text-white transition-colors duration-300 leading-[1.15] tracking-tight">
@@ -35,7 +35,7 @@ const ProblemSection = () => {
           </div>
 
           {/* Fading Vertical Divider */}
-          <div className="w-px h-20 md:h-28 bg-linear-to-b from-transparent via-brand-orange/40 to-brand-orange/80 mt-16 mb-12"></div>
+          <div className="w-px h-20 md:h-28 bg-linear-to-b from-transparent via-brand-orange/40 to-brand-orange/80 mt-[16px] mb-[12px]"></div>
 
         </div>
 

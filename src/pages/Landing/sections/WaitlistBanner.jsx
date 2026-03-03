@@ -39,7 +39,7 @@ const WaitlistBanner = () => {
       </section>
 
       {/* BOTTOM SCROLLER */}
-      <section className="w-full overflow-hidden border-y border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 py-4 flex items-center relative transition-colors duration-300">
+      {/* <section className="w-full overflow-hidden border-y border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 py-4 flex items-center relative transition-colors duration-300">
         <style>{`
           @keyframes scroll {
             0% { transform: translateX(0); }
@@ -62,7 +62,7 @@ const WaitlistBanner = () => {
             </div>
           ))}          
         </div>
-      </section>
+      </section> */}
     </section>    
   );
 };

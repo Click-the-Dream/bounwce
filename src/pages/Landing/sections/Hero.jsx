@@ -20,7 +20,7 @@ const Hero = () => {
   ];
 
   return (
-    <section className="relative px-5 py-27 lg:px-10 min-h-[80vh] flex items-center overflow-hidden bg-[#FCFAF5] dark:bg-neutral-950 transition-colors duration-300">
+    <section className="relative px-5 py-28 lg:px-10 min-h-[80vh] flex items-center overflow-hidden bg-[#FCFAF5] dark:bg-neutral-950 transition-colors duration-300">
       
       {/* Left: Main Content */}
       <div className="w-full lg:w-1/2 gap-6 space-y-5 relative z-10">
@@ -40,9 +40,9 @@ const Hero = () => {
           Different schools. one platform
         </p>
         
-        <h1 className="font-bold text-5xl lg:text-7xl uppercase leading-tight text-gray-900 dark:text-white transition-colors duration-300">
+        <h1 className="font-bold font-bebas text-6xl lg:text-8xl uppercase leading-[61px] text-gray-900 dark:text-white transition-colors duration-300">
           Access is no <br />
-          longer a <span className="text-brand-orange block">privilege</span>
+          longer a <span className="text-brand-orange font-instrument lowercase italic font-normal tracking-normal text-6xl lg:text-8xl">Privilege</span>
         </h1>
         
         <p className="text-sm lg:text-base text-gray-500 dark:text-gray-400 tracking-wide font-medium transition-colors duration-300">

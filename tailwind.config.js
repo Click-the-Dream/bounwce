@@ -30,6 +30,9 @@ export default {
       },
       fontFamily: {
         inter: ["Inter"],
+        georgia: ["Georgia", "Cambria", '"Times New Roman"', "Times", "serif"],
+        bebas: ['"Bebas Neue"', "sans-serif"],
+        instrument: ['"Instrument Serif"', "serif"],
       },
       gridTemplateColumns: {
         auto: "repeat(auto-fill, minmax(220px, 1fr))",

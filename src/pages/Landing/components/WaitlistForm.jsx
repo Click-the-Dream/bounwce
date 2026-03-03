@@ -9,6 +9,7 @@ import { Phone } from "lucide-react";
 import { TbSchool } from "react-icons/tb";
 import { useMemo } from "react";
 import { allSchools } from "nigerian-institutions";
+import useWaitlist from "../../../hooks/useWaitlist";
 
 const WaitlistForm = () => {
   const {
@@ -27,8 +28,10 @@ const WaitlistForm = () => {
     },
   });
 
-  const onSubmit = () => {
-    // Handle form submission
+  const onSubmit = async (data) => {
+    await joinWaitlist.mutate(data, {
+      onSuccess: () => reset(),
+    });
   };
 
   const fadeUp = {
@@ -45,6 +48,9 @@ const WaitlistForm = () => {
       { label: "Koladaisi University", value: "Koladaisi University" },
     ].sort((a, b) => a.label.localeCompare(b.label));
   }, []);
+
+  const { joinWaitlist, waitlistUser } = useWaitlist();
+  const { data: waitlistData, isLoading } = waitlistUser;
 
   return (
     <div className="w-full">
@@ -146,8 +152,9 @@ const WaitlistForm = () => {
           <Button
             text="Join the waitlist"
             type="submit"
-            // isLoading={joinWaitlist.isPending}
-            // disabled={joinWaitlist.isPending}
+            isLoading={joinWaitlist.isPending}
+            disabled={joinWaitlist.isPending}
+            
           />
         </motion.div>
       </motion.form>

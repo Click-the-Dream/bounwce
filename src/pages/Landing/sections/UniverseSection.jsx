@@ -83,12 +83,12 @@ const UniverseSection = () => {
           </h2>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-2 md:gap-3 w-full h-auto md:h-150 lg:h-175">
+        <div className="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-2 md:gap-3 w-full h-auto md:h-[25rem] lg:h-[35rem]">
           
           {gridItems.map((item) => (
             <div 
               key={item.id} 
-              className={`relative overflow-hidden group rounded-sm cursor-pointer bg-black ${item.gridClass}`}
+              className={`relative overflow-hidden group cursor-pointer bg-black ${item.gridClass}`}
             >
               <img 
                 src={item.imgSrc} 

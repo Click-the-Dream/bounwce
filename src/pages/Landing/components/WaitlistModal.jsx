@@ -10,7 +10,7 @@ const WaitlistModal = () => {
   return (
     <AnimatePresence>
       {isModalOpen && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center px-4 md:px-0">
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 md:px-0">
           
           {/* Backdrop */}
           <motion.div

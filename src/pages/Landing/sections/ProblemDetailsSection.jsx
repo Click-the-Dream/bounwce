@@ -7,7 +7,7 @@ const ProblemDetailsSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
           {/* Left Column: Editorial Image Card */}
-          <div className="relative w-full aspect-[4/5] max-w-md mx-auto lg:max-w-none rounded-sm overflow-hidden shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
+          <div className="relative w-full aspect-[4/5] max-w-md mx-auto lg:max-w-none overflow-hidden shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
             
             {/* Main Image */}
             <img 

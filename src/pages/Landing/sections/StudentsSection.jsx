@@ -110,7 +110,7 @@ const StudentsSection = () => {
                     activeCard === index ? '[transform:rotateY(180deg)]' : ''
                   }`}
                 >
-                  <div className="absolute inset-0 w-full h-full bg-gray-900 [backface-visibility:hidden] overflow-hidden rounded-sm">
+                  <div className="absolute inset-0 w-full h-full bg-gray-900 [backface-visibility:hidden] overflow-hidden">
                     <img 
                       src={student.image} 
                       alt={student.name} 
