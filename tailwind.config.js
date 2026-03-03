@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],  
+  
+  darkMode: "class", 
+  
   theme: {
     extend: {
       screens: {
@@ -22,10 +25,14 @@ export default {
       colors: {
         ash: "#545454",
         orange: "#FF4B2B",
-        "lighter-ash": "#EBEBEB",
+        "lighter-ash": "#EBEBEB",        
+        "brand-orange": "#FF4F33", 
       },
       fontFamily: {
         inter: ["Inter"],
+        georgia: ["Georgia", "Cambria", '"Times New Roman"', "Times", "serif"],
+        bebas: ['"Bebas Neue"', "sans-serif"],
+        instrument: ['"Instrument Serif"', "serif"],
       },
       gridTemplateColumns: {
         auto: "repeat(auto-fill, minmax(220px, 1fr))",
