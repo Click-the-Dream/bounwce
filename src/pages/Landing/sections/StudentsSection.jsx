@@ -80,7 +80,7 @@ const StudentsSection = () => {
             <p className="text-brand-orange text-xs font-bold uppercase tracking-[0.2em] mb-3">
               Different schools. Same story
             </p>
-            <h2 className="font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-4">
+            <h2 className="font-bebas text-4xl lg:text-6xl md:leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-4">
               Meet the students <br />
               Bouwnce was built for<span className="text-brand-orange">.</span>
             </h2>

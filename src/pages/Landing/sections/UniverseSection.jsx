@@ -77,7 +77,7 @@ const UniverseSection = () => {
           <p className="text-brand-orange text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] pt-10 pb-2">
             Campus Life, Amplified
           </p>
-          <h2 className="text-[2rem] lg:text-[3rem] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 leading-[0.85] tracking-tighter mb-15">
+          <h2 className="font-bebas text-4xl lg:text-6xl md:leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-15">
             This is your <br />
             universe now.
           </h2>
@@ -118,8 +118,8 @@ const UniverseSection = () => {
           <p className="text-brand-orange text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] mb-3">
             Getting Started
           </p>
-          <h2 className="font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300">
-            Four Steps To<br className="hidden md:block" />
+          <h2 className="font-bebas text-4xl lg:text-6xl md:leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300">
+            Four Steps To <br className="hidden md:block" />
             Your Universe
           </h2>
         </div>

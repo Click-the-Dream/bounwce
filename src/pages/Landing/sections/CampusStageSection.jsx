@@ -61,7 +61,7 @@ const CampusStageSection = () => {
             </span>
 
             {/* Main Headline */}
-            <h2 className="font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white mb-12 transition-colors duration-300">
+            <h2 className="font-bebas text-4xl lg:text-6xl md:leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white mb-12 transition-colors duration-300">
               Your Campus.<br />
               Your Stage.<br />
               Your Economy.

@@ -33,6 +33,7 @@ export default {
         georgia: ["Georgia", "Cambria", '"Times New Roman"', "Times", "serif"],
         bebas: ['"Bebas Neue"', "sans-serif"],
         instrument: ['"Instrument Serif"', "serif"],
+        sthupo: ['"STHupo"', "cursive", "sans-serif"],
       },
       gridTemplateColumns: {
         auto: "repeat(auto-fill, minmax(220px, 1fr))",
