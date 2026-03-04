@@ -5,14 +5,14 @@ const ProblemDetailsSection = () => {
     <section className="w-full py-16 lg:py-24 bg-[#f0e7d8] dark:bg-neutral-950 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-5 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          
+
           {/* Left Column: Editorial Image Card */}
           <div className="relative w-full aspect-[4/5] max-w-md mx-auto lg:max-w-none overflow-hidden shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
-            
+
             {/* Main Image */}
-            <img 
-              src={theProblemImage} 
-              alt="problem image" 
+            <img
+              src={theProblemImage}
+              alt="problem image"
               className="absolute inset-0 w-full h-full object-cover"
             />
 
@@ -34,7 +34,7 @@ const ProblemDetailsSection = () => {
 
           {/* Right Column: Copy & Badges */}
           <div className="flex flex-col justify-center">
-            
+
             {/* Small Kicker */}
             <span className="text-brand-orange text-xs font-bold uppercase tracking-[0.2em] mb-4">
               The Gap
@@ -48,7 +48,7 @@ const ProblemDetailsSection = () => {
 
             {/* Serif Italic Quote */}
             <p className="text-xl lg:text-2xl font-serif italic text-[#A68A77] dark:text-[#c4a997] leading-snug mb-8 max-w-lg transition-colors duration-300">
-              "Same talent. Different opportunities — based on nothing but location."
+              "Same talent. Different opportunities based on nothing but location."
             </p>
 
             {/* Body Paragraphs */}
@@ -60,7 +60,7 @@ const ProblemDetailsSection = () => {
               </p>
               <p>
                 The campus you attend shouldn't decide the ceiling of your opportunity. But
-                right now — <span className="font-bold text-[#1A1A1A] dark:text-white transition-colors duration-300">for most students, it does.</span>
+                right now <span className="font-bold text-[#1A1A1A] dark:text-white transition-colors duration-300">for most students, it does.</span>
               </p>
             </div>
 
@@ -81,7 +81,7 @@ const ProblemDetailsSection = () => {
             </div>
 
           </div>
-          
+
         </div>
       </div>
     </section>
