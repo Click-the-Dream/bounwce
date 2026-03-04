@@ -65,7 +65,7 @@ const Hero = () => {
           </button>
         </div>
 
-        <p className="text-xs text-gray-400 dark:text-gray-500 flex gap-1 items-center font-medium mt-2 transition-colors duration-300">
+        <div className="text-xs text-gray-400 dark:text-gray-500 flex gap-1 items-center font-medium mt-2 transition-colors duration-300">
           <span className="text-brand-orange text-lg">
             <GoDash />
           </span>
@@ -82,7 +82,7 @@ const Hero = () => {
             ))}
           </div>
           2,879 students already waiting
-        </p>
+        </div>
       </div>
 
       {/* Right/Background: 3D Mesh Design */}

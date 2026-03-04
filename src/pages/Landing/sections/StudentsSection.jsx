@@ -117,14 +117,11 @@ const StudentsSection = () => {
                   </div>
                 </div>
 
-                {/* BACK SIDE (The Blur Overlay) */}
+
                 <div
                   className={`absolute inset-0 z-20 w-full h-full bg-black/60 backdrop-blur-md transition-all duration-500 flex flex-col p-6 border-t-[6px] border-brand-orange ${activeCard === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
                     }`}
                 >
-                  {/* <div className="absolute top-2 right-2 text-8xl font-black text-white/5 select-none z-0">
-                    {student.id}
-                  </div> */}
 
                   <div className="relative z-10 grow">
                     <p className="text-brand-orange text-[10px] font-bold uppercase tracking-widest mb-2">
