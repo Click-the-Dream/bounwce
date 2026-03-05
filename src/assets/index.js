@@ -16,6 +16,8 @@ import previewIcon from './preview-icon.svg'
 import productListIcon from './product-list-icon.svg'
 import responseRateIcon from './response-rate-icon.svg'
 import starIcon from './star-icon.svg'
+import ratingsIcon from './ratings-icon.svg'
+import stockIcon from './stock-icon.svg'
 
 export {
     walletDebitImg, 
@@ -35,5 +37,7 @@ export {
     previewIcon,
     productListIcon,
     responseRateIcon,
-    starIcon
+    starIcon,
+    ratingsIcon,
+    stockIcon
 } 

@@ -1,62 +1,58 @@
 export const extractErrorMessage = (error) => {
-  const getString = (data) => {
-    if (!data) return "";
-    if (typeof data === "string") return data;
-    if (Array.isArray(data)) return data.map(getString).join(", ");
-    if (typeof data === "object") return JSON.stringify(data);
-    return String(data);
-  };
-
   try {
-    // ✅ FastAPI / Pydantic validation errors
-    if (Array.isArray(error?.response?.data?.detail)) {
-      const details = error.response.data.detail.map((d) => {
-        // Extract field name from "loc" array, e.g. ["body", "type"] → "type"
-        const field = Array.isArray(d.loc)
-          ? d.loc[d.loc.length - 1]
-          : d.loc || "field";
+    // 1. Dig into the response data (where FastAPI's detail lives)
+    const resData = error?.response?.data;
 
-        // Capitalize field name
-        const formattedField = field
-          .replace(/_/g, " ")
-          .replace(/^\w/, (c) => c.toUpperCase());
+    if (resData) {
+      // Handle the specific structure: { detail: { message: "..." } }
+      if (resData.detail?.message) {
+        return resData.detail.message;
+      }
 
-        // Format message like "Type: Field required" → "Type field is required"
-        const msg =
-          d.msg
-            ?.replace("Field required", "field is required")
-            ?.replace("string", "text")
-            ?.trim() || "Invalid input";
+      // Handle FastAPI Validation Errors: { detail: [{ loc: [...], msg: "..." }] }
+      if (Array.isArray(resData.detail)) {
+        return resData.detail
+          .map((d) => {
+            const field = Array.isArray(d.loc)
+              ? d.loc[d.loc.length - 1]
+              : d.loc || "";
+            const formattedField = field
+              .toString()
+              .replace(/_/g, " ")
+              .replace(/^\w/, (c) => c.toUpperCase());
+            const cleanMsg = d.msg
+              ?.replace("Field required", "is required")
+              .trim();
+            return formattedField ? `${formattedField} ${cleanMsg}` : cleanMsg;
+          })
+          .join(" | ");
+      }
 
-        return `${formattedField} ${msg}`;
-      });
+      // Handle simple string detail: { detail: "Error message" }
+      if (typeof resData.detail === "string") {
+        return resData.detail;
+      }
 
-      return details.join(" | ");
+      // Handle direct message or error keys: { message: "..." }
+      if (resData.message && typeof resData.message === "string")
+        return resData.message;
+      if (resData.error && typeof resData.error === "string")
+        return resData.error;
     }
 
-    // ✅ Handle direct detail string
-    if (error?.response?.data?.detail) {
-      return getString(error.response.data.detail);
+    // 2. If no response data, check for standard Axios error messages
+    if (error?.message) {
+      if (error.message.includes("network error"))
+        return "Network error. Please check your connection.";
+      if (error.message.includes("timeout"))
+        return "Request timed out. Please try again.";
+      return error.message;
     }
 
-    // ✅ Handle message and error fields
-    if (error?.response?.data?.message) {
-      return getString(error.response.data.message);
-    }
-
-    if (error?.response?.data?.error) {
-      return getString(error.response.data.error);
-    }
-
-    if (error?.response?.error) {
-      return getString(error.response.error);
-    }
-
-    // ✅ Fallback
-    return getString(error?.message || "An unknown error occurred");
+    return "An unknown error occurred";
   } catch (err) {
-    console.error("Error parsing error message:", err);
-    return "An unexpected error occurred while processing the error message.";
+    console.error("Error parsing message:", err);
+    return "Something went wrong while processing the error.";
   }
 };
 
@@ -129,3 +125,5 @@ export const statusStyles = {
   Shipped: "bg-purple-100 text-purple-700",
   Completed: "bg-[#F0FDF4] text-[#38C066]",
 };
+
+export const formatCurrency = (amount) => `₦${amount.toLocaleString("en-NG")}`;

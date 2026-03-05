@@ -1,93 +1,164 @@
-import React, { Suspense, lazy, useContext, useEffect } from "react";
-import { Navigate, Routes, Route, useNavigate, useLocation } from "react-router-dom"; // Added useLocation
-import { AnimatePresence } from "framer-motion"; // Added for exit animations
+import { Suspense, lazy, useContext } from "react";
+import { Navigate, Routes, Route, useLocation } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+import { AnimatePresence, motion } from "framer-motion";
+
 import AuthLayout from "./features/auth/AuthLayout";
 import Fallback from "./components/Fallback";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { ToastContainer, Slide } from "react-toastify";
 import SecureRoute from "./routes/SecureRoute";
+import { StoreProvider } from "./context/storeContext";
+import ProductDetails from "./pages/buyer/ProductDetails";
+import { ThemeProvider } from "../src/pages/Landing/context/ThemeContext";
+import { ModalProvider } from "../src/pages/Landing/context/ModalContext";
 
-//  Lazy Load these pages 
+// Lazy-loaded routers & pages
 const VendorRouter = lazy(() => import("./routes/VendorRouter"));
-const StoreManagementDashboard = lazy(() => import("./features/vendorStore/StoreManagementDashboard"));
-const AddProductPage = lazy(() => import("./features/vendorStore/pages/AddProductPage"));
-
-
-const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
+const BuyerRouter = lazy(() => import("./routes/BuyerRouter"));
 const LoginPage = lazy(() => import("./features/auth/LoginPage"));
 const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
-const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
+const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
 const Waitlist = lazy(() => import("./pages/Waitlist"));
+const LandingPage = lazy(() => import("./pages/Landing/LandingPage"));
+
+const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
 
 // Prevent authenticated users from accessing auth pages
 const PublicRoute = ({ children }) => {
-  const { authDetails, isLoading } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (authDetails?.user) {
-      // Redirect logged-in users to vendor dashboard
-      navigate("/vendor", { replace: true });
-    }
-  }, [authDetails, navigate]);
-
-  if (isLoading) return <div className="text-white text-center mt-10">Loading...</div>;
+  const { isLoading } = useContext(AuthContext);
+  if (isLoading)
+    return <div className="text-white text-center mt-10">Loading...</div>;
   return children;
 };
 
 function App() {
   return (
     <AuthProvider>
-      <div className="font-inter">
-        <Suspense fallback={<Fallback />}>
-          <AnimatedRoutes />
-        </Suspense>
-      </div>
-      
-      <ToastContainer
-        autoClose={2000}
-        draggable
-        position="bottom-right"
-        transition={Slide}
-        theme="light"
-      />
+      <StoreProvider>
+        <ThemeProvider>
+          <ModalProvider>          
+            <div className="font-inter">
+              <Suspense fallback={<Fallback />}>
+                <AnimatedRoutes />
+              </Suspense>
+            </div>
+
+            <ToastContainer
+              autoClose={2000}
+              draggable
+              position="bottom-right"
+              transition={Slide}
+              theme="light"
+            />
+        </ModalProvider>
+        </ThemeProvider>
+      </StoreProvider>
     </AuthProvider>
   );
 }
 
-// --- separate component to handle Animations ---
+// ----- Animated Routes -----
 const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
-    // AnimatePresence detects when routes change to play exit animations
     <AnimatePresence mode="wait">
-      <Routes location={location}>
+      <Routes location={location} key={location.pathname}>
         {/* Public Routes */}
-        {/* <Route element={<AuthLayout />}>
-          <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
-          <Route path="/register" element={<PublicRoute><CreateAccount /></PublicRoute>} />
-          <Route path="/email_verification" element={<PublicRoute><VerifyAccount /></PublicRoute>} />
-        </Route> */}
+        <Route element={<AuthLayout />}>
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <PageWrapper>
+                  <LoginPage />
+                </PageWrapper>
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <PageWrapper>
+                  <CreateAccount />
+                </PageWrapper>
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/email_verification"
+            element={
+              <PublicRoute>
+                <PageWrapper>
+                  <VerifyAccount />
+                </PageWrapper>
+              </PublicRoute>
+            }
+          />
+        </Route>
 
-        <Route path="/" element={<Waitlist />} />
+        {/* NEW LANDING PAGE */}
+        <Route
+          path="/"
+          element={
+            <PageWrapper>
+              <LandingPage />
+            </PageWrapper>
+          }
+        />
 
-        {/* Protected Vendor Routes */}
-        {/* <Route element={<SecureRoute />}>
+        {/* Waitlist */}
+        <Route
+          path="/waitlist"
+          element={
+            <PageWrapper>
+              <Waitlist />
+            </PageWrapper>
+          }
+        />
+
+        {/* Protected Routes */}
+        <Route path="/" element={<SecureRoute />}>
+          <Route
+            path="/vendor/*"
+            element={
+              <PageWrapper>
+                <VendorRouter />
+              </PageWrapper>
+            }
+          />
+
           <Route path="/vendor/setup" element={<VendorOnboarding />} />
-          
-          
-        </Route> */}
-        
-          {/* <Route path="/vendor/store" element={<StoreManagementDashboard />} />
-          <Route path="/vendor/addproduct" element={<AddProductPage />} /> */}
-          
-          {/* Dashboard Router */}
-          {/* <Route path="/vendor/*" element={<VendorRouter />} /> */}
-
+          <Route
+            path="/buyer/*"
+            element={
+              <PageWrapper>
+                <BuyerRouter />
+              </PageWrapper>
+            }
+          />
+        </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>
+  );
+};
+
+// ----- Page Wrapper for animations -----
+const PageWrapper = ({ children }) => {
+  return (
+    <motion.div
+      key={Math.random()} // Ensures AnimatePresence triggers on route change
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.2 }}
+      className="w-full h-full"
+    >
+      {children}
+    </motion.div>
   );
 };
 

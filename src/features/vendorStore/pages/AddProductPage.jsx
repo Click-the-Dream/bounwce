@@ -1,5 +1,4 @@
 import VendorHeader from "../../vendorDashboard/components/ui/VendorHeader";
-import { useNavigate } from "react-router-dom";
 import ProductDetails from "../ProductDetails";
 import ProductImages from "../ProductImages";
 import { useForm, FormProvider } from "react-hook-form";
@@ -11,10 +10,9 @@ import useProduct from "../../../hooks/useProduct";
 import { useState } from "react";
 
 const AddProductPage = ({ onClose }) => {
-  const navigate = useNavigate();
   const { createProduct } = useProduct();
   const [submittingAction, setSubmittingAction] = useState(null);
-  
+
   const isLoading = createProduct.isPending;
   const isPublishing = isLoading && submittingAction === "publish";
   const isSavingDraft = isLoading && submittingAction === "draft";
@@ -92,11 +90,10 @@ const AddProductPage = ({ onClose }) => {
 
       // Reset form after successful submission
       methods.reset();
-      
     } catch (error) {
       console.error("Error creating product:", error);
     } finally {
-        setSubmittingAction(null);
+      setSubmittingAction(null);
     }
   };
 
