@@ -1,6 +1,8 @@
 import { GoDash } from "react-icons/go";
 import { motion } from "framer-motion";
 import { useModal } from "../context/ModalContext";
+import { useEffect, useState } from "react";
+import useWaitlist from "../../../hooks/useWaitlist";
 const avatars = [
   "https://i.pravatar.cc/100?img=33",
   "https://i.pravatar.cc/100?img=47",
@@ -25,6 +27,34 @@ const Hero = () => {
     [0, 0, 0, 1, 1, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ];
+
+  const { waitlistUser } = useWaitlist();
+  const { data: waitlistData,} = waitlistUser;
+
+  // Dynamic metrics based on live waitlist data
+    const joinedCount = waitlistData?.total || waitlistData?.data?.length || 0;
+    const [animatedCount, setAnimatedCount] = useState(0);
+
+    // Smooth count animation
+      useEffect(() => {
+        if (joinedCount > 0) {
+          let start = 0;
+          const duration = 1000;
+          const increment = joinedCount / (duration / 16);
+    
+          const animate = () => {
+            start += increment;
+            if (start < joinedCount) {
+              setAnimatedCount(Math.floor(start));
+              requestAnimationFrame(animate);
+            } else {
+              setAnimatedCount(joinedCount);
+            }
+          };
+    
+          animate();
+        }
+      }, [joinedCount]);
 
   return (
     <section className="relative px-5 py-28 lg:px-10 min-h-[80vh] flex items-center overflow-hidden bg-[#FCFAF5] dark:bg-neutral-950 transition-colors duration-300">
@@ -81,7 +111,7 @@ const Hero = () => {
               />
             ))}
           </div>
-          2,879 students already waiting
+          <span>{animatedCount}</span>students already waiting
         </div>
       </div>
 

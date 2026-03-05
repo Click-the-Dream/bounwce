@@ -18,7 +18,7 @@ const Gallery = () => {
                     <p className="text-gray-400 text-xs font-bold uppercase tracking-[0.2em] mb-4">
                         Before Bouwnce
                     </p>
-                    <h2 className="text-white font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase mb-6">
+                    <h2 className="text-white font-bebas text-4xl lg:text-6xl md:leading-[61px] font-black uppercase mb-6">
                         One Campus.<br />
                         One Bubble.<br />
                         No Way Out.
@@ -42,7 +42,7 @@ const Gallery = () => {
                     <p className="text-brand-orange text-xs font-bold uppercase tracking-[0.2em] mb-4">
                         With Bouwnce
                     </p>
-                    <h2 className="text-white font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase mb-6">
+                    <h2 className="text-white font-bebas text-4xl lg:text-6xl md:leading-[61px] font-black uppercase mb-6">
                         Every Campus.<br />
                         One Universe.<br />
                         Infinite Access.

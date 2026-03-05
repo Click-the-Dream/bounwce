@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import useWaitlist from "../../../hooks/useWaitlist";
 import { yourMoments } from "../assets/images";
 import { useModal } from "../context/ModalContext";
 
@@ -11,6 +13,34 @@ const FinalCTASection = () => {
     "https://i.pravatar.cc/100?img=32",
     "https://i.pravatar.cc/100?img=64",
   ];
+
+  const { waitlistUser } = useWaitlist();
+  const { data: waitlistData } = waitlistUser;
+
+  // Dynamic metrics based on live waitlist data
+    const joinedCount = waitlistData?.total || waitlistData?.data?.length || 0;
+    const [animatedCount, setAnimatedCount] = useState(0);
+
+    // Smooth count animation
+      useEffect(() => {
+        if (joinedCount > 0) {
+          let start = 0;
+          const duration = 1000;
+          const increment = joinedCount / (duration / 16);
+    
+          const animate = () => {
+            start += increment;
+            if (start < joinedCount) {
+              setAnimatedCount(Math.floor(start));
+              requestAnimationFrame(animate);
+            } else {
+              setAnimatedCount(joinedCount);
+            }
+          };
+    
+          animate();
+        }
+      }, [joinedCount]);
 
   return (
     <section className="w-full py-20 lg:py-32 bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300 flex justify-center px-5">
@@ -94,7 +124,7 @@ const FinalCTASection = () => {
 
               {/* Count Text */}
               <p className="text-[11px] text-[#595550] dark:text-gray-400 transition-colors duration-300">
-                <span className="font-bold text-[#1A1A1A] dark:text-white transition-colors duration-300">3,089 students</span> already on the list.
+                <span className="font-bold text-[#1A1A1A] dark:text-white transition-colors duration-300"><span>{animatedCount}</span> students</span> already on the list.
               </p>
 
             </div>
