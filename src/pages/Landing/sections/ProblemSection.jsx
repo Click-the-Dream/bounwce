@@ -17,20 +17,19 @@ const ProblemSection = () => {
 
           {/* Main Heading Block */}
           <h2 className="text-[2rem] md:text-[3.25rem] font-serif text-[#1A1A1A] dark:text-white transition-colors duration-300 leading-[1.15] tracking-tight">
-            What if your kind of people <br className="hidden md:block" />
-            are three campuses away <br />
-            and there is <span className="text-brand-orange italic font-light">no way to discover them?</span>
+            What if your school had its own social feed — where you catch up with <br className="hidden md:block" />
+             <br />
+             <span className="text-brand-orange italic font-light">every moments, every story, every gist?</span>
           </h2>
 
           {/* Sub-heading Block */}
           <div className="mt-10 space-y-2 md:space-y-3 text-base md:text-[1.35rem] font-serif text-[#333333] dark:text-gray-300 transition-colors duration-300 leading-snug">
             <p>
-              What if the event you'd love is happening <span className="text-brand-orange italic font-light">right now</span> <br className="hidden md:block" />
-              at a school <span className="text-brand-orange italic font-light">you've never heard of?</span>
+              What if the girl selling the <span className="text-brand-orange italic font-light">best jollof in school</span> <br className="hidden md:block" />had a storefront everyone could find?
             </p>
             <p>
-              What if your next collaborator, client, or partner <br className="hidden md:block" />
-              is already out there, <span className="text-brand-orange italic font-light"> just invisible to you?</span>
+              What if the thrift vendor, the hair stylist, the food vendor could reach more people <br className="hidden md:block" />
+              <span className="text-brand-orange italic font-light">than their contact list? </span>
             </p>
           </div>
 
@@ -41,41 +40,42 @@ const ProblemSection = () => {
 
         {/* Stats Section */}
         <div className="w-full max-w-6xl mx-auto px-5 pb-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-12 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-12 text-center">
 
             {/* Stat 1 */}
             <div className="flex flex-col items-center justify-start">
-              <h3 className="text-5xl md:text-7xl font-bold text-brand-orange tracking-tighter mb-4">
-                4M+
+              <h3 className="text-3xl md:text-5xl font-bold text-brand-orange tracking-tighter mb-4">
+                8 in 10
               </h3>
               <p className="text-[9px] md:text-[11px] text-[#8C857B] dark:text-gray-400 transition-colors duration-300 uppercase tracking-[0.2em] font-semibold leading-relaxed max-w-45">
-                Students earning nothing <br /> from their skills
+                school vendors selling
+                <br />only via WhatsApp
               </p>
             </div>
 
             {/* Stat 2 */}
             <div className="flex flex-col items-center justify-start">
-              <h3 className="text-5xl md:text-7xl font-bold text-brand-orange tracking-tighter mb-4">
+              <h3 className="text-3xl md:text-5xl font-bold text-brand-orange tracking-tighter mb-4">
                 73%
               </h3>
               <p className="text-[9px] md:text-[11px] text-[#8C857B] dark:text-gray-400 transition-colors duration-300 uppercase tracking-[0.2em] font-semibold leading-relaxed max-w-45">
-                Want to monetize <br /> their talent right now
+                students want to buy <br /> from school vendors
               </p>
             </div>
 
             {/* Stat 3 */}
             <div className="flex flex-col items-center justify-start">
-              <h3 className="text-5xl md:text-7xl font-bold text-brand-orange tracking-tighter mb-4">
+              <h3 className="text-3xl md:text-5xl font-bold text-brand-orange tracking-tighter mb-4">
                 0
               </h3>
               <p className="text-[9px] md:text-[11px] text-[#8C857B] dark:text-gray-400 transition-colors duration-300 uppercase tracking-[0.2em] font-semibold leading-relaxed max-w-45">
-                Platforms built <br /> for campus-to-campus
+                Social apps built <br /> for school commerce
               </p>
             </div>
 
             {/* Stat 4 */}
             <div className="flex flex-col items-center justify-start">
-              <h3 className="text-5xl md:text-7xl font-bold text-brand-orange tracking-tighter mb-4">
+              <h3 className="text-3xl md:text-5xl font-bold text-brand-orange tracking-tighter mb-4">
                 1
               </h3>
               <p className="text-[9px] md:text-[11px] text-[#8C857B] dark:text-gray-400 transition-colors duration-300 uppercase tracking-[0.2em] font-semibold leading-relaxed max-w-45">

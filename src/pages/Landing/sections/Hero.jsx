@@ -62,7 +62,7 @@ const Hero = () => {
       {/* Left: Main Content */}
       <div className="w-full lg:w-1/2 gap-6 space-y-5 relative z-10">
         <p className="flex items-center gap-2 uppercase text-brand-orange text-sm font-semibold tracking-wider mt-10">
-          <motion.span
+          {/* <motion.span
             animate={{
               scale: [1, 0.5, 1],
               opacity: [1, 0.2, 1]
@@ -73,17 +73,18 @@ const Hero = () => {
               ease: "easeInOut"
             }}
             className="block h-2.5 w-2.5 rounded-full bg-brand-orange shrink-0"
-          />
-          Different schools. one platform
+          /> */}
+          School social. school market. one app
         </p>
 
-        <h1 className="font-bold font-bebas text-6xl lg:text-8xl uppercase leading-[61px] text-gray-900 dark:text-white transition-colors duration-300">
-          Access is no <br />
-          longer a <span className="text-brand-orange font-instrument lowercase italic font-normal tracking-normal text-6xl lg:text-8xl">Privilege</span>
+        <h1 className="font-bold font-bebas text-5xl lg:text-7xl uppercase leading-[61px] text-gray-900 dark:text-white transition-colors duration-300">
+          Redifining<br />
+          the school <span className="text-brand-orange font-instrument lowercase italic font-normal tracking-normal text-5xl lg:text-7xl">Experience</span>
         </h1>
 
         <p className="text-sm lg:text-base text-gray-500 dark:text-gray-400 tracking-wide font-medium transition-colors duration-300">
-          Two Students. Two different schools. <br className="hidden lg:block" /> Same vibe. Same ambition
+          Share moments students in your school can relate with. Buy from the students in your school. Follow. Connect<br />
+          <span className="font-bold block mt-3">And if you sell — your storefront lives right here too</span>
         </p>
 
         <div className="pt-2">
