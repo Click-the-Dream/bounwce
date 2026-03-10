@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import useWaitlist from "../../../hooks/useWaitlist";
-import { yourMoments } from "../assets/images";
+import { avatarFive, avatarFour, avatarOne, avatarThree, avatarTwo, yourMoments } from "../assets/images";
 import { useModal } from "../context/ModalContext";
 
 const FinalCTASection = () => {
   const { openModal } = useModal();
   // Array to quickly map out the overlapping avatar images
   const avatars = [
-    "https://i.pravatar.cc/100?img=33",
-    "https://i.pravatar.cc/100?img=47",
-    "https://i.pravatar.cc/100?img=12",
-    "https://i.pravatar.cc/100?img=32",
-    "https://i.pravatar.cc/100?img=64",
+    avatarOne,
+    avatarTwo,
+    avatarThree, 
+    avatarFour,
+    avatarFive
   ];
 
   const { waitlistUser } = useWaitlist();
@@ -64,11 +64,11 @@ const FinalCTASection = () => {
           <div className="relative z-20">
             <h2 className="text-white font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase mb-5">
               YOUR <br />
-              MOMENT <br />
-              IS NOW.
+              school <br />
+              online.
             </h2>
-            <p className="text-white/90 text-[13px] md:text-sm font-medium leading-relaxed max-w-xs">
-              Early members get first access, founding perks, and the chance to shape what Bouwnce becomes. The doors open once.
+            <p className="text-white/90 text-[13px] md:text-sm leading-relaxed max-w-xs">
+              The social app your school has been missing. Post, connect, belong — and if you sell, your whole school is already your market.
             </p>
           </div>
         </div>
@@ -89,8 +89,8 @@ const FinalCTASection = () => {
             </h2>
 
             {/* Subtext */}
-            <p className="text-[#595550] dark:text-gray-400 transition-colors duration-300 text-[13px] leading-relaxed mb-8 font-medium">
-              Space is limited. Be one of the first students to access the campus universe when we launch.
+            <p className="text-[#595550] dark:text-gray-400 transition-colors duration-300 text-[13px] leading-relaxed mb-8">
+              Be among the first students on the platform when we launch in your school. Early members get early access and free storefronts for vendors during the pilot.
             </p>
 
             {/* The CTA Button */}

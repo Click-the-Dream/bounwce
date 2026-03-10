@@ -1,7 +1,7 @@
-import { FiEye, FiDollarSign, FiLink, FiAward } from "react-icons/fi";
+import { FiEye, FiAward } from "react-icons/fi";
 import { FaStore } from "react-icons/fa";
 import { SlUserFollowing } from "react-icons/sl";
-import { campusUniverse } from "../assets/images";
+import { momentImage } from "../assets/images";
 import { useModal } from "../context/ModalContext";
 
 const CampusStageSection = () => {
@@ -33,19 +33,19 @@ const CampusStageSection = () => {
     <section className="w-full py-20 lg:py-32 bg-[#f5f4ef] dark:bg-neutral-950 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-5 lg:px-10">        
        
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 xl:gap-24 items-center lg:items-stretch">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 xl:gap-16 items-center">
           
           {/* Left Column: Framed Image Card */}
-          <div className="relative w-full h-full flex flex-col max-w-md mx-auto lg:max-w-none shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
+          <div className="relative w-full flex flex-col lg:max-w-none shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
               
               <img 
-                src={campusUniverse} 
-                alt="campus universe image" 
-                className="w-full min-h-[350px] lg:min-h-[500px] grow object-cover"
+                src={momentImage} 
+                alt="school moments image" 
+                className="w-full h-[270px] xl:h-[500px] object-cover"
               />
               
               <div className="bg-brand-orange p-6 md:p-8 shrink-0">
-                <h3 className="text-white text-xl md:text-2xl font-bebas font-bold tracking-[0.1rem] uppercase mb-1.5">
+                <h3 className="text-white text-md sm:text-lg md:text-xl font-bebas tracking-[0.1rem] uppercase mb-1.5">
                   The social app your school actually needs
                 </h3>
                 <p className="text-white/80 text-xs md:text-sm font-medium flex items-center gap-2">
@@ -55,7 +55,7 @@ const CampusStageSection = () => {
           </div>
 
           {/* Right Column: Copy & Features List */}
-          <div className="flex flex-col justify-center lg:py-8">
+          <div className="flex flex-col justify-center lg:py-4">
             
             {/* Kicker */}
             <span className="text-brand-orange text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] mb-4">

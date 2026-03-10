@@ -73,11 +73,11 @@ const StudentsSection = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1">
             {students.map((student, index) => (
               <div
                 key={student.id}
-                className="relative h-[30rem] w-full cursor-pointer group overflow-hidden"
+                className="relative h-[32rem] md:h-[38rem] xl:h-[34rem] w-full cursor-pointer group overflow-hidden"
                 onMouseEnter={() => setActiveCard(index)}
                 onMouseLeave={() => setActiveCard(null)}
               >
@@ -102,7 +102,7 @@ const StudentsSection = () => {
 
 
                 <div
-                  className={`absolute inset-0 z-20 w-full h-full bg-black/60 backdrop-blur-md transition-all duration-500 flex flex-col p-6 border-t-[6px] border-brand-orange ${activeCard === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+                  className={`absolute inset-0 z-20 w-full h-full bg-black/60 backdrop-blur-md transition-all duration-500 flex flex-col p-5 md:p-6 border-t-[6px] border-brand-orange overflow-y-auto custom-scrollbar ${activeCard === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
                     }`}
                 >
 

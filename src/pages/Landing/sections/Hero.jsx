@@ -1,14 +1,14 @@
 import { GoDash } from "react-icons/go";
-import { motion } from "framer-motion";
 import { useModal } from "../context/ModalContext";
 import { useEffect, useState } from "react";
 import useWaitlist from "../../../hooks/useWaitlist";
+import { avatarFive, avatarFour, avatarOne, avatarThree, avatarTwo } from "../assets/images";
 const avatars = [
-  "https://i.pravatar.cc/100?img=33",
-  "https://i.pravatar.cc/100?img=47",
-  "https://i.pravatar.cc/100?img=12",
-  "https://i.pravatar.cc/100?img=32",
-  "https://i.pravatar.cc/100?img=64",
+  avatarOne,
+  avatarTwo,
+  avatarThree,
+  avatarFour,
+  avatarFive
 ];
 
 const Hero = () => {

@@ -17,6 +17,17 @@ import studentTwo from './students2.jpeg'
 import studentThree from './student3.jpeg'
 import studentFour from './student4.jpeg'
 import withBouwnce from './withbouwnce (1).jpg'
+import momentImage from './MOMENT.jpeg'
+import galleryOne from './Gallery1.jpeg'
+import galleryTwo from './Gallery2.jpeg'
+import galleryThree from './Gallery3.jpg'
+import galleryFour from './Gallery4.jpeg'
+import galleryFive from './Gallery5.jpg'
+import avatarOne from './finalform1.jpeg'
+import avatarTwo from './finalform2.jpeg'
+import avatarThree from './finalform3.JPG'
+import avatarFour from './finalform4.jpeg'
+import avatarFive from './Bryan.jpeg'
 
 export {
     theProblem,
@@ -25,6 +36,17 @@ export {
     studentThree, 
     studentFour,
     withBouwnce,
+    momentImage,
+    galleryOne,
+    galleryTwo,
+    galleryThree,
+    galleryFour,
+    galleryFive,
+    avatarOne,
+    avatarTwo,
+    avatarThree,
+    avatarFour,
+    avatarFive,
     theHustler,
     theMisfit,
     theFounder,
