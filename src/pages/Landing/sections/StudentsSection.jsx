@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { theHustler, theFounder, theMisfit, theVoice, everyCampus, oneCampus } from "../assets/images";
+import { studentOne, studentTwo, studentThree, studentFour} from "../assets/images";
 
 const StudentsSection = () => {
   const [activeCard, setActiveCard] = useState(null);
@@ -7,85 +7,69 @@ const StudentsSection = () => {
   const students = [
     {
       id: "01",
-      badgeFront: "THE HUSTLER",
-      badgeBack: "THE SKILLED HUSTLER",
-      name: "KOFI A.",
-      location: "KNUST — KUMASI, GHANA",
-      roleFront: "Graphic Designer · Side hustle since Year 1",
-      roleBack: "Designer · KNUST, Ghana",
-      quote: `"I've designed for 40 clients. Every one came through WhatsApp. Some paid. Some disappeared. No record. No reputation."`,
-      painPoints: ["Hard to find serious buyers", "No trust or reputation layer", "Income is feast or famine"],
-      unlocks: "Structured stage, verified reviews, consistent campus income.",
-      image: theHustler
+      badgeFront: "THE social student",
+      badgeBack: "THE social student",
+      name: "Leemah F.",
+      roleFront: "300L, knows everyone, seen everywhere",
+      roleBack: "300L",
+      quote: `"I scroll Instagram & TikTok seeing people I'll never meet. I want to see what's actually happening on my school — who's posting, what events are coming, vibe and party"`,
+      painPoints: ["No school-only social space", "Misses school events and culture", "Has to ask around to find school people"],
+      unlocks: "A school feed showing only her school. Follow classmates. See what's happening in real time. Never miss a school moment again.",
+      image: studentOne
     },
     {
       id: "02",
-      badgeFront: "THE MISFIT",
-      badgeBack: "THE CREATIVE MISFIT",
-      name: "ZARA M.",
-      location: "UNILAG — LAGOS, NIGERIA",
-      roleFront: "Filmmaker · Studying Economics",
-      roleBack: "Filmmaker · UNILAG, Nigeria",
-      quote: `"I need actors, editors, and set designers for my short film, but everyone in my department just wants to work in a bank."`,
-      painPoints: [
-        "Trapped in the wrong network",
-        "Can't find creative collaborators",
-        "Ideas stall without a team"
-      ],
-      unlocks: "Instant access to vetted creatives across multiple campuses.",
-      image: theMisfit
+      badgeFront: "THE food vendor",
+      badgeBack: "THE food vendor",
+      name: "Favour O.",
+      roleFront: "Jollof and small chops - cooking since 200L",
+      roleBack: "300L",
+      quote: `"Everyone on my floor knows my jollof. Three blocks away — nobody. My whole business stops where my WhatsApp contacts end."`,
+      painPoints: ["New customers can't find him", "orders come in chaos, no structure", "no way to build reputation beyond his circle"],
+      unlocks: "A verified school storefront. She posts on the feed — the whole school sees her food. Orders come in. Reviews build trust she keeps forever.",
+      image: studentTwo
+    },
+    {
+     id: "03",
+      badgeFront: "THE thrift vendor",
+      badgeBack: "THE thrift vendor",
+      name: "Francisca B.",
+      roleFront: "Thrifts & vintage fits. Selling since year 1",
+      roleBack: "Thrift seller",
+      quote: `"I post on my story. 24 hours later it's gone. The best pieces sell to people who happened to be online. Everyone else misses out and I lose buyers."`,
+      painPoints: ["Listings disappear after 24 hours", "buyers outside her circle never finds her", "no permanent store to send people to"],
+      unlocks: "Post new drops to the school feed. Permanent storefront anyone can visit. school-wide audience — not just people who caught his story in time.",
+      image: studentThree
     },
     {
       id: "03",
-      badgeFront: "THE BUILDER",
-      badgeBack: "THE VISIONARY BUILDER",
-      name: "JALEN W.",
-      location: "HOWARD UNIVERSITY — D.C., USA",
-      roleFront: "CS Student · Aspiring Founder",
-      roleBack: "Developer · Howard, USA",
-      quote: `"I can code the entire backend, but my UI looks terrible. I know there's a genius designer at another school, but I can't reach them."`,
-      painPoints: [
-        "Missing complementary skills",
-        "Building in a silo",
-        "Limited to immediate friends"
-      ],
-      unlocks: "A cross-campus co-founder and collaborator matchmaking engine.",
-      image: theFounder
-    },
-    {
-      id: "04",
-      badgeFront: "THE VOICE",
-      badgeBack: "THE CULTURE DRIVER",
-      name: "MARCUS D.",
-      location: "MOREHOUSE COLLEGE — ATLANTA, USA",
-      roleFront: "Culture Driver · Campus Everything",
-      roleBack: "Promoter · Morehouse, USA",
-      quote: `"I throw the biggest events and know everyone. Brands want to reach my audience, but I have no professional way to pitch myself."`,
-      painPoints: [
-        "High influence, low monetization",
-        "No professional portfolio",
-        "Brands skip over students"
-      ],
-      unlocks: "A verifiable metric of influence and direct brand sponsorships.",
-      image: theVoice
+      badgeFront: "THE gadgets vendor",
+      badgeBack: "THE gadgets vendor",
+      name: "Bryan O.",
+      roleFront: "School creative. posts everything. sells sometimes",
+      roleBack: "Entrepreneur",
+      quote: `"I post. People know my brand. But my social life and my hustle are on different apps and nobody connects the two unless I manually send them a link"`,
+      painPoints: ["social presence and businesses are disconnected", "followers can't easily become clients", "juggling multiple platforms to do one thing"],
+      unlocks: "One school profile. Post content, build clout, flip on a storefront when he's ready. His school following and his business live in the same place.",
+      image: studentFour
     }
   ];
 
   return (
     <>
-      <section className="w-full px-10 pt-20 lg:pt-32 bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300">
+      <section className="w-full pt-20 lg:pt-32 bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300">
         <div className="max-w-[90rem] mx-auto px-5 lg:px-10">
 
           <div className="mb-16">
             <p className="text-brand-orange text-xs font-bold uppercase tracking-[0.2em] mb-3">
-              Different schools. Same story
+              Real students. Real Stories
             </p>
-            <h2 className="font-bebas text-4xl lg:text-6xl md:leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-4">
-              Meet the students <br />
-              Bouwnce was built for<span className="text-brand-orange">.</span>
+            <h2 className="font-bebas text-5xl lg:text-6xl font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-4">
+              Built for every <br />
+              kind of student.
             </h2>
-            <p className="text-xl lg:text-2xl font-serif italic text-[#8C857B] dark:text-gray-400 transition-colors duration-300">
-              Hover over each card to reveal their story.
+            <p className="text-lg lg:text-xl font-serif italic text-[#8C857B] dark:text-gray-400 transition-colors duration-300">
+              The ones who post. The ones who sell. The ones who buy. The ones who just want to belong.
             </p>
           </div>
 
@@ -111,9 +95,8 @@ const StudentsSection = () => {
                       {student.badgeFront}
                     </div>
                     <div className="bg-gradient-to-t from-black/80 via-black/40 to-transparent absolute inset-x-0 bottom-0 h-1/2 -z-10" />
-                    <p className="text-gray-300 text-[9px] uppercase tracking-[0.15em] font-semibold mb-1">{student.location}</p>
-                    <h3 className="text-white text-3xl font-black uppercase tracking-tighter mb-1">{student.name}</h3>
-                    <p className="text-gray-400 font-serif italic text-sm">{student.roleFront}</p>
+                    <h3 className="text-white text-3xl font-black uppercase font-bebas mb-1">{student.name}</h3>
+                    <p className="text-gray-400 font-serif italic text-[12px]">{student.roleFront}</p>
                   </div>
                 </div>
 

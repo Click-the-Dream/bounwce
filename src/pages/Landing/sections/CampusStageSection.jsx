@@ -1,4 +1,6 @@
 import { FiEye, FiDollarSign, FiLink, FiAward } from "react-icons/fi";
+import { FaStore } from "react-icons/fa";
+import { SlUserFollowing } from "react-icons/sl";
 import { campusUniverse } from "../assets/images";
 import { useModal } from "../context/ModalContext";
 
@@ -7,23 +9,23 @@ const CampusStageSection = () => {
   const features = [
     {
       icon: <FiEye size={20} />,
-      title: "Be Seen Across Campuses",
-      description: "Your profile reaches students, mentors, and brands at schools you've never visited."
+      title: "The school feed",
+      description: "A social feed that shows your school. Post moments, follow classmates, see what's trending right where you are."
     },
     {
-      icon: <FiDollarSign size={20} />,
-      title: "Earn With Structure",
-      description: "Real gigs. Real reviews. Real income — not WhatsApp negotiations or ghosted clients."
+      icon: <SlUserFollowing size={20} />,
+      title: "Follow your school",
+      description: "Build your school presence. Follow people, get followed back. The feed surfaces the students shaping culture at your school — not algorithms built for everyone else."
     },
     {
-      icon: <FiLink size={20} />,
-      title: "Connect Across Schools",
-      description: "Find collaborators, communities, and events at any campus — not just your own bubble."
+      icon: <FaStore size={20} />,
+      title: "Storeftonts for anyone",
+      description: "Make your business as visible as you with an automated storefront from your profile. Food, clothes, services — listed and discovered on the same feed your followers already scroll. Commerce grows from community."
     },
     {
       icon: <FiAward size={20} />,
-      title: "Build A Rep That Lasts",
-      description: "Verifiable reputation that compounds and opens doors long before graduation."
+      title: "The Quad",
+      description: "Explore the exclusive features of your school alone"
     }
   ];
 
@@ -31,7 +33,7 @@ const CampusStageSection = () => {
     <section className="w-full py-20 lg:py-32 bg-[#f5f4ef] dark:bg-neutral-950 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-5 lg:px-10">        
        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center lg:items-stretch">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 xl:gap-24 items-center lg:items-stretch">
           
           {/* Left Column: Framed Image Card */}
           <div className="relative w-full h-full flex flex-col max-w-md mx-auto lg:max-w-none shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
@@ -43,8 +45,8 @@ const CampusStageSection = () => {
               />
               
               <div className="bg-brand-orange p-6 md:p-8 shrink-0">
-                <h3 className="text-white text-xl md:text-2xl font-bold uppercase tracking-wide mb-1.5">
-                  The Campus Universe Is Opening.
+                <h3 className="text-white text-xl md:text-2xl font-bebas font-bold tracking-[0.1rem] uppercase mb-1.5">
+                  The social app your school actually needs
                 </h3>
                 <p className="text-white/80 text-xs md:text-sm font-medium flex items-center gap-2">
                   Early waitlist <span>&rarr;</span> <button className="cursor-pointer hover:-translate-y-1 transition-all duration-300" onClick={openModal}>Join us</button>
@@ -57,14 +59,14 @@ const CampusStageSection = () => {
             
             {/* Kicker */}
             <span className="text-brand-orange text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] mb-4">
-              What Bouwnce Does
+              What Bouwnce is
             </span>
 
             {/* Main Headline */}
-            <h2 className="font-bebas text-4xl lg:text-6xl md:leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white mb-12 transition-colors duration-300">
-              Your Campus.<br />
-              Your Stage.<br />
-              Your Economy.
+            <h2 className="font-bebas text-4xl lg:text-6xl font-black uppercase text-[#1A1A1A] dark:text-white mb-12 transition-colors duration-300">
+              Your school.<br />
+              Social and commerce.<br />
+              Built in.
             </h2>
 
             {/* Features List */}
@@ -79,10 +81,10 @@ const CampusStageSection = () => {
 
                   {/* Feature Text */}
                   <div className="pt-1">
-                    <h4 className="text-[#1A1A1A] dark:text-gray-100 text-sm md:text-base font-black uppercase tracking-wide mb-1.5 transition-colors duration-300">
+                    <h4 className="text-[#1A1A1A] font-bebas dark:text-gray-100 text-sm md:text-base font-black uppercase tracking-wide transition-colors duration-300">
                       {feature.title}
                     </h4>
-                    <p className="text-[#595550] dark:text-gray-400 text-[10px] md:text-[12px] leading-relaxed font-medium max-w-md transition-colors duration-300">
+                    <p className="text-[#595550] dark:text-gray-400 text-[10px] md:text-[12px] leading-relaxed max-w-md transition-colors duration-300">
                       {feature.description}
                     </p>
                   </div>

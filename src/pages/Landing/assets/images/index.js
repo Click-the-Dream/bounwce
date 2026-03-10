@@ -1,3 +1,4 @@
+import theProblem from './1_the_problem.jpeg'
 import theHustler from './2_the_hustler.JPG'
 import theMisfit from './3_the_misfit.JPG'
 import theFounder from './4_the_founder.JPG'
@@ -11,8 +12,19 @@ import connect from './12_connect_collab_create.JPG'
 import buildReputation from './13_build_reputation_that_travels.JPG'
 import yourMoments from './14_your_moment_is_now.JPG'
 import campusUniverse from './8_the_campus_universe_is_opening.JPG'
+import studentOne from './student1.jpeg'
+import studentTwo from './students2.jpeg'
+import studentThree from './student3.jpeg'
+import studentFour from './student4.jpeg'
+import withBouwnce from './withbouwnce (1).jpg'
 
 export {
+    theProblem,
+    studentOne, 
+    studentTwo, 
+    studentThree, 
+    studentFour,
+    withBouwnce,
     theHustler,
     theMisfit,
     theFounder,

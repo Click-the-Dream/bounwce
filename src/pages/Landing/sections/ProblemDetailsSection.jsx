@@ -1,17 +1,17 @@
-import theProblemImage from '../assets/images/1_the_problem.JPG'
+import { theProblem } from "../assets/images";
 
 const ProblemDetailsSection = () => {
   return (
     <section className="w-full py-16 lg:py-24 bg-[#f0e7d8] dark:bg-neutral-950 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-5 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 lg:gap-20 items-center">
 
           {/* Left Column: Editorial Image Card */}
-          <div className="relative w-full aspect-[4/5] max-w-md mx-auto lg:max-w-none overflow-hidden shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
+          <div className="relative w-full aspect-video xl:aspect-[4/5] lg:max-w-none overflow-hidden shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
 
             {/* Main Image */}
             <img
-              src={theProblemImage}
+              src={theProblem}
               alt="problem image"
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -22,11 +22,12 @@ const ProblemDetailsSection = () => {
             </div>
 
             {/* Bottom Gradient Overlay & Text */}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pt-24 pb-8 px-8 z-10">
-              <h3 className="text-white text-2xl md:text-3xl font-black uppercase tracking-tighter mb-2">
+            {/* 2. GRADIENT HEIGHT: Changed pt-24 to pt-12 lg:pt-24 so it doesn't cover the whole mobile image */}
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pt-12 lg:pt-24 pb-6 lg:pb-8 px-6 lg:px-8 z-10 font-bebas">
+              <h3 className="text-white text-2xl md:text-3xl font-black uppercase mb-2">
                 School life is interesting it's just invisible
               </h3>
-              <p className="text-gray-300 font-serif italic text-sm md:text-base">
+              <p className="text-gray-300 font-georgia italic text-[12px] md:text-base">
                 "So much happening - and no way to see it."
               </p>
             </div>
@@ -41,7 +42,7 @@ const ProblemDetailsSection = () => {
             </span>
 
             {/* Main Headline */}
-            <h2 className="font-bebas text-4xl lg:text-6xl md:leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-gray-50 mb-6 transition-colors duration-300">
+            <h2 className="font-bebas text-4xl lg:text-6xl font-black uppercase text-[#1A1A1A] dark:text-gray-50 mb-6 transition-colors duration-300">
               school LIFE <br />
               HAS NO FEED.<br />
               school MARKET<br />
@@ -49,7 +50,7 @@ const ProblemDetailsSection = () => {
             </h2>
 
             {/* Serif Italic Quote */}
-            <p className="text-xl lg:text-2xl font-serif italic text-[#A68A77] dark:text-[#c4a997] leading-snug mb-8 max-w-lg transition-colors duration-300">
+            <p className="text-lg lg:text-xl font-serif italic text-[#A68A77] dark:text-[#c4a997] leading-snug mb-8 max-w-lg transition-colors duration-300">
               "The best jollof in school. The best gadget dealer. Zero online presence. Just whatsapp contacts"
             </p>
 

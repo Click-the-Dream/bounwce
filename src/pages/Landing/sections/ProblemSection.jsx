@@ -16,9 +16,8 @@ const ProblemSection = () => {
           <div className="w-px h-20 bg-linear-to-b from-transparent via-brand-orange/40 to-brand-orange/80 mb-[12px]"></div>
 
           {/* Main Heading Block */}
-          <h2 className="text-[2rem] md:text-[3.25rem] font-serif text-[#1A1A1A] dark:text-white transition-colors duration-300 leading-[1.15] tracking-tight">
+          <h2 className="text-[2rem] md:text-[3rem] font-serif text-[#1A1A1A] dark:text-white transition-colors duration-300 leading-[1.15] tracking-tight">
             What if your school had its own social feed — where you catch up with <br className="hidden md:block" />
-             <br />
              <span className="text-brand-orange italic font-light">every moments, every story, every gist?</span>
           </h2>
 

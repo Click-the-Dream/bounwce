@@ -75,11 +75,12 @@ const UniverseSection = () => {
         {/* Header Block */}
         <div className="mb-10">
           <p className="text-brand-orange text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] pt-10 pb-2">
-            Campus Life, Amplified
+            school life, finally online
           </p>
-          <h2 className="font-bebas text-4xl lg:text-6xl md:leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-15">
-            This is your <br />
-            universe now.
+          <h2 className="font-bebas text-4xl lg:text-6xl font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-15">
+            your school <br />
+            universe now. <br />
+            your market
           </h2>
         </div>
 
