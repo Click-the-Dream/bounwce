@@ -55,7 +55,7 @@ const CampusStageSection = () => {
           </div>
 
           {/* Right Column: Copy & Features List */}
-          <div className="flex flex-col justify-center lg:py-4">
+          <div className=" flex flex-col justify-center lg:py-4">
             
             {/* Kicker */}
             <span className="text-brand-orange text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] mb-4">
@@ -70,7 +70,7 @@ const CampusStageSection = () => {
             </h2>
 
             {/* Features List */}
-            <div className="space-y-3 md:space-y-4">
+            <div className="w-full space-y-3 md:space-y-4">
               {features.map((feature, index) => (
                 <div key={index} className="flex items-start gap-5">
                   
@@ -84,7 +84,7 @@ const CampusStageSection = () => {
                     <h4 className="text-[#1A1A1A] font-bebas dark:text-gray-100 text-sm md:text-base font-black uppercase tracking-wide transition-colors duration-300">
                       {feature.title}
                     </h4>
-                    <p className="text-[#595550] dark:text-gray-400 text-[10px] md:text-[12px] leading-relaxed max-w-md transition-colors duration-300">
+                    <p className="text-[#595550] dark:text-gray-400 text-[10px] md:text-[12px] leading-relaxed transition-colors duration-300">
                       {feature.description}
                     </p>
                   </div>

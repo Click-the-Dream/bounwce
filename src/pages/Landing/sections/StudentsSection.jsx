@@ -1,15 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { studentOne, studentTwo, studentThree, studentFour} from "../assets/images";
 
 const StudentsSection = () => {
   const [activeCard, setActiveCard] = useState(null);
+  const cardRefs = useRef([]);
+  const timerRef = useRef(null);
+
+  // The Scroll Observer Logic
+  useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 1024px)").matches;
+    if (!isMobile) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Number(entry.target.dataset.index);
+            
+            // Clear any old timers so they don't overlap
+            clearTimeout(timerRef.current);
+            
+            timerRef.current = setTimeout(() => {
+              setActiveCard(index);
+            }, 2000); 
+          }
+        });
+      },
+      { rootMargin: "-30% 0px -30% 0px" }
+    );
+
+    cardRefs.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timerRef.current); // Cleanup on unmount
+    };
+  }, []);
 
   const students = [
     {
       id: "01",
       badgeFront: "THE social student",
       badgeBack: "THE social student",
-      name: "Leemah F.",
+      name: "Leemah",
       roleFront: "300L, knows everyone, seen everywhere",
       roleBack: "300L",
       quote: `"I scroll Instagram & TikTok seeing people I'll never meet. I want to see what's actually happening on my school — who's posting, what events are coming, vibe and party"`,
@@ -19,11 +54,11 @@ const StudentsSection = () => {
     },
     {
       id: "02",
-      badgeFront: "THE food vendor",
-      badgeBack: "THE food vendor",
-      name: "Favour O.",
+      badgeFront: "THE baker",
+      badgeBack: "THE baker",
+      name: "Ayoleyi",
       roleFront: "Jollof and small chops - cooking since 200L",
-      roleBack: "300L",
+      roleBack: "400L",
       quote: `"Everyone on my floor knows my jollof. Three blocks away — nobody. My whole business stops where my WhatsApp contacts end."`,
       painPoints: ["New customers can't find him", "orders come in chaos, no structure", "no way to build reputation beyond his circle"],
       unlocks: "A verified school storefront. She posts on the feed — the whole school sees her food. Orders come in. Reviews build trust she keeps forever.",
@@ -33,7 +68,7 @@ const StudentsSection = () => {
      id: "03",
       badgeFront: "THE thrift vendor",
       badgeBack: "THE thrift vendor",
-      name: "Francisca B.",
+      name: "Francisca",
       roleFront: "Thrifts & vintage fits. Selling since year 1",
       roleBack: "Thrift seller",
       quote: `"I post on my story. 24 hours later it's gone. The best pieces sell to people who happened to be online. Everyone else misses out and I lose buyers."`,
@@ -45,7 +80,7 @@ const StudentsSection = () => {
       id: "03",
       badgeFront: "THE gadgets vendor",
       badgeBack: "THE gadgets vendor",
-      name: "Bryan O.",
+      name: "Bryan",
       roleFront: "School creative. posts everything. sells sometimes",
       roleBack: "Entrepreneur",
       quote: `"I post. People know my brand. But my social life and my hustle are on different apps and nobody connects the two unless I manually send them a link"`,
@@ -57,7 +92,7 @@ const StudentsSection = () => {
 
   return (
     <>
-      <section className="w-full pt-20 lg:pt-32 bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300">
+      <section className="w-full pb-10 lg:pb-0 pt-20 lg:pt-32 bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300">
         <div className="max-w-[90rem] mx-auto px-5 lg:px-10">
 
           <div className="mb-16">
@@ -77,9 +112,24 @@ const StudentsSection = () => {
             {students.map((student, index) => (
               <div
                 key={student.id}
+                ref={(el) => (cardRefs.current[index] = el)}
+                data-index={index}
                 className="relative h-[32rem] md:h-[38rem] xl:h-[34rem] w-full cursor-pointer group overflow-hidden"
-                onMouseEnter={() => setActiveCard(index)}
-                onMouseLeave={() => setActiveCard(null)}
+                onClick={() => {
+                  clearTimeout(timerRef.current);
+                  setActiveCard(activeCard === index ? null : index);
+                }}
+
+                onMouseEnter={() => {
+                  if (window.matchMedia("(max-width: 1024px)").matches) return;
+                  clearTimeout(timerRef.current);
+                  timerRef.current = setTimeout(() => setActiveCard(index), 2000); 
+                }}
+                onMouseLeave={() => {
+                  if (window.matchMedia("(max-width: 1024px)").matches) return;
+                  clearTimeout(timerRef.current);
+                  setActiveCard(null);
+                }}
               >
                 {/* FRONT SIDE (The Image Base) */}
                 <div className="absolute inset-0 w-full h-full bg-gray-900">
@@ -100,9 +150,11 @@ const StudentsSection = () => {
                   </div>
                 </div>
 
-
                 <div
-                  className={`absolute inset-0 z-20 w-full h-full bg-black/60 backdrop-blur-md transition-all duration-500 flex flex-col p-5 md:p-6 border-t-[6px] border-brand-orange overflow-y-auto custom-scrollbar ${activeCard === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+                  className={`absolute inset-0 z-20 w-full h-full bg-black/60 backdrop-blur-md transition-all duration-500 flex flex-col p-5 md:p-6 border-t-[6px] border-brand-orange overflow-y-auto custom-scrollbar 
+                    ${activeCard === index 
+                      ? 'opacity-100 translate-y-0 scale-100 blur-none' 
+                      : 'opacity-0 translate-y-20 scale-80 blur-sm pointer-events-none'
                     }`}
                 >
 
