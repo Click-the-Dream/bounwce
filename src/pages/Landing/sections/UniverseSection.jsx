@@ -121,8 +121,8 @@ const UniverseSection = () => {
             how it works
           </p>
           <h2 className="font-bebas text-4xl lg:text-5xl font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300">
-            Join. Post <br className="hidden md:block" />
-            connect <br />
+            Join. Post. <br/>
+            connect. <br />
             sell and buy
           </h2>
         </div>
@@ -142,7 +142,7 @@ const UniverseSection = () => {
                   {step.id}
                 </span> */}
 
-              <div className="text-2xl my-6 text-brand-orange">
+              <div className="text-2xl mb-6 text-brand-orange">
                 {step.icon}
               </div>
 

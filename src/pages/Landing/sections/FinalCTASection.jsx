@@ -67,7 +67,7 @@ const FinalCTASection = () => {
               school <br />
               online.
             </h2>
-            <p className="text-white/90 text-[13px] md:text-sm leading-relaxed max-w-xs">
+            <p className="text-white/90 text-[13px] md:text-sm leading-relaxed">
               The social app your school has been missing. Post, connect, belong — and if you sell, your whole school is already your market.
             </p>
           </div>
@@ -76,7 +76,7 @@ const FinalCTASection = () => {
         {/* RIGHT COLUMN: Form & Social Proof */}
         <div className="w-full xl:w-1/2 p-10 lg:p-14 flex flex-col justify-center bg-white dark:bg-neutral-900 transition-colors duration-300">
           
-          <div className="max-w-sm">
+          <div className="">
             {/* Kicker */}
             <p className="text-brand-orange text-[9px] font-bold uppercase tracking-[0.2em] mb-2">
               Secure Your Spot
@@ -103,7 +103,7 @@ const FinalCTASection = () => {
             
             {/* Disclaimer */}
             <p className="text-[10px] text-gray-400 dark:text-gray-500 transition-colors duration-300 mt-3 text-left flex items-center gap-2">
-              <span className="text-gray-300 dark:text-gray-600">—</span> No spam. Just your invite when we launch.
+              <span className="text-brand-orange font-bold">—</span> No spam. Just your invite when we launch.
             </p>
 
             {/* Social Proof: Avatars & Count */}
