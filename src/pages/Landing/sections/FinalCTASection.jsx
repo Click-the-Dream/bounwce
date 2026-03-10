@@ -46,10 +46,10 @@ const FinalCTASection = () => {
     <section className="w-full py-20 lg:py-32 bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300 flex justify-center px-5">
       
       {/* The Main Card Container */}
-      <div className="w-full max-w-5xl bg-white dark:bg-neutral-900 shadow-2xl dark:shadow-brand-orange/5 transition-all duration-300 rounded-sm overflow-hidden flex flex-col md:flex-row relative z-10">
+      <div className="w-full max-w-5xl bg-white dark:bg-neutral-900 shadow-2xl dark:shadow-brand-orange/5 transition-all duration-300 rounded-sm overflow-hidden flex flex-col xl:flex-row relative z-10">
         
         {/* LEFT COLUMN: Image & Gradient */}
-        <div className="relative w-full md:w-1/2 p-10 lg:p-14 flex flex-col justify-end min-h-[400px] md:min-h-[500px]">
+        <div className="relative w-full xl:w-1/2 p-10 lg:p-14 flex flex-col justify-end h-[300px] lg:h-[400px] xl:h-[500px]">
           
           {/* Background Image */}
           <img 
@@ -62,7 +62,7 @@ const FinalCTASection = () => {
 
           {/* Text Content */}
           <div className="relative z-20">
-            <h2 className="text-white font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase mb-5">
+            <h2 className="text-white font-bebas text-3xl lg:text-5xl font-black uppercase mb-5">
               YOUR <br />
               school <br />
               online.
@@ -74,7 +74,7 @@ const FinalCTASection = () => {
         </div>
 
         {/* RIGHT COLUMN: Form & Social Proof */}
-        <div className="w-full md:w-1/2 p-10 lg:p-14 flex flex-col justify-center bg-white dark:bg-neutral-900 transition-colors duration-300">
+        <div className="w-full xl:w-1/2 p-10 lg:p-14 flex flex-col justify-center bg-white dark:bg-neutral-900 transition-colors duration-300">
           
           <div className="max-w-sm">
             {/* Kicker */}
@@ -83,7 +83,7 @@ const FinalCTASection = () => {
             </p>
 
             {/* Heading */}
-            <h2 className="font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-4">
+            <h2 className="font-bebas text-3xl lg:text-5xl font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-4">
               Join The <br />
               Waitlist
             </h2>
