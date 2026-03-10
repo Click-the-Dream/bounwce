@@ -9,8 +9,8 @@ const Header = () => {
   return (
     <div className="flex justify-between items-center gap-2 fixed w-full z-50 bg-white dark:bg-gray-900 border-b border-b-gray-300 dark:border-gray-800 px-4 py-7 lg:py-6 transition-colors duration-300">
         
-        <a href="/" className="text-xl md:text-2xl lg:text-[2rem] font-sthupo lowercase font-black tracking-[0.15em] text-[#1A1A1A] dark:text-white transition-colors duration-300">
-            BOU<span className="text-brand-orange">W</span>NCE
+        <a href="/" className="text-md md:text-xl lg:text-[1.75rem] font-sthupo lowercase font-black tracking-[0.15em] text-[#1A1A1A] dark:text-white transition-colors duration-300">
+            bou<span className="text-brand-orange">w</span>nce
         </a>
 
         {/* Wrap buttons in a flex container */}

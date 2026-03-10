@@ -57,7 +57,7 @@ const Hero = () => {
       }, [joinedCount]);
 
   return (
-    <section className="relative px-5 py-28 lg:px-10 min-h-[80vh] flex items-center overflow-hidden bg-[#FCFAF5] dark:bg-neutral-950 transition-colors duration-300">
+    <section className="relative px-8 py-28 lg:px-14 lg:pl-20 min-h-[80vh] flex items-center overflow-hidden bg-[#FCFAF5] dark:bg-neutral-950 transition-colors duration-300">
 
       {/* Left: Main Content */}
       <div className="w-full lg:w-1/2 gap-6 space-y-5 relative z-10">

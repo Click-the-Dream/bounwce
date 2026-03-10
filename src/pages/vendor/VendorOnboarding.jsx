@@ -284,7 +284,7 @@ const VendorOnboarding = () => {
             Vendor Onboarding
           </h1>
           <p className="text-orange text-sm">
-            Complete your setup to start selling on our platform
+            Complete your setup to start selling on Bouwnce
           </p>
         </div>
 

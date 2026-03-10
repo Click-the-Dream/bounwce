@@ -8,6 +8,7 @@ export const UNIVERSITIES = [
     label: "Olabisi Onabanjo University",
     value: "Olabisi Onabanjo University",
   },
+  { label: "Koladaisi University", value: "Koladaisi University" },
   { label: "University of Ibadan", value: "University of Ibadan" },
   { label: "Obafemi Awolowo University", value: "Obafemi Awolowo University" },
   { label: "University of Lagos", value: "University of Lagos" },
