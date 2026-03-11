@@ -5,7 +5,6 @@ import { useModal } from "../context/ModalContext";
 
 const FinalCTASection = () => {
   const { openModal } = useModal();
-  // Array to quickly map out the overlapping avatar images
   const avatars = [
     avatarOne,
     avatarTwo,

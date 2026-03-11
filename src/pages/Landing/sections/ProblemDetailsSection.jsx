@@ -7,7 +7,7 @@ const ProblemDetailsSection = () => {
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 lg:gap-20 items-center">
 
           {/* Left Column: Editorial Image Card */}
-          <div className="relative w-full aspect-[3/2] xl:aspect-[4/5] lg:max-w-none overflow-hidden shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
+          <div className="relative w-full aspect-[3/3] lg:aspect-[3/2] xl:aspect-[4/5] lg:max-w-none overflow-hidden shadow-2xl dark:shadow-brand-orange/5 transition-shadow duration-300">
 
             {/* Main Image */}
             <img
@@ -22,7 +22,6 @@ const ProblemDetailsSection = () => {
             </div>
 
             {/* Bottom Gradient Overlay & Text */}
-            {/* 2. GRADIENT HEIGHT: Changed pt-24 to pt-12 lg:pt-24 so it doesn't cover the whole mobile image */}
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pt-12 lg:pt-24 pb-6 lg:pb-8 px-6 lg:px-8 z-10 font-bebas">
               <h3 className="text-white text-2xl md:text-3xl font-black uppercase mb-2">
                 School life is interesting it's just invisible
@@ -49,7 +48,6 @@ const ProblemDetailsSection = () => {
               HAS NO STRUCTURE.
             </h2>
 
-            {/* Serif Italic Quote */}
             <p className="text-lg lg:text-xl font-serif italic text-[#A68A77] dark:text-[#c4a997] leading-snug mb-8 max-w-lg transition-colors duration-300">
               "The best jollof in school. The best gadget dealer. Zero online presence. Just whatsapp contacts"
             </p>
@@ -65,17 +63,17 @@ const ProblemDetailsSection = () => {
             </div>
 
             {/* Pill Badges Section */}
-            <div className="flex flex-wrap gap-2.5">
-              <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-brand-orange/20 bg-[#f8e7df] dark:bg-brand-orange/10 text-brand-orange text-xs font-bold tracking-wide transition-colors duration-300">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-2 gap-2.5">
+              <span className="inline-flex items-center px-2 py-1.5 rounded-full border border-brand-orange/20 bg-[#f8e7df] dark:bg-brand-orange/10 text-brand-orange text-[7px] lg:text-xs font-bold tracking-wide transition-colors duration-300">
                 No school-only social feed
               </span>
-              <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-brand-orange/20 bg-[#f8e7df] dark:bg-brand-orange/10 text-brand-orange text-xs font-bold tracking-wide transition-colors duration-300">
+              <span className="inline-flex items-center px-2 py-1.5 rounded-full border border-brand-orange/20 bg-[#f8e7df] dark:bg-brand-orange/10 text-brand-orange text-[7px] lg:text-xs font-bold tracking-wide transition-colors duration-300">
                 Whatsapp is not a market
               </span>
-              <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-brand-orange/20 bg-[#f8e7df] dark:bg-brand-orange/10 text-brand-orange text-xs font-bold tracking-wide transition-colors duration-300">
+              <span className="inline-flex items-center px-2 py-1.5 rounded-full border border-brand-orange/20 bg-[#f8e7df] dark:bg-brand-orange/10 text-brand-orange text-[7px] lg:text-xs font-bold tracking-wide transition-colors duration-300">
                 No Vendor discovery
               </span>
-              <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-brand-orange/20 bg-[#f8e7df] dark:bg-brand-orange/10 text-brand-orange text-xs font-bold tracking-wide transition-colors duration-300">
+              <span className="inline-flex items-center px-2 py-1.5 rounded-full border border-brand-orange/20 bg-[#f8e7df] dark:bg-brand-orange/10 text-brand-orange text-[7px] lg:text-xs font-bold tracking-wide transition-colors duration-300">
                 No trust or reviews
               </span>
             </div>

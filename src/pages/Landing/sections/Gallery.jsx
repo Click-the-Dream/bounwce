@@ -2,7 +2,7 @@ import { oneCampus, withBouwnce } from "../assets/images";
 
 const Gallery = () => {
     return (
-        // 1. MAIN CONTAINER:
+        //MAIN CONTAINER:
         <section className="w-full flex flex-col xl:flex-row h-auto xl:h-[85vh]">
 
             {/* Left Side: Before Bouwnce */}

@@ -59,7 +59,7 @@ const StudentsSection = () => {
       name: "Ayoleyi",
       roleFront: "Jollof and small chops - cooking since 200L",
       roleBack: "400L",
-      quote: `"Everyone on my floor knows my jollof. Three blocks away — nobody. My whole business stops where my WhatsApp contacts end."`,
+      quote: `"Everyone on my floor knows i bake. Three blocks away — nobody. My whole business stops where my WhatsApp contacts end."`,
       painPoints: ["New customers can't find him", "orders come in chaos, no structure", "no way to build reputation beyond his circle"],
       unlocks: "A verified school storefront. She posts on the feed — the whole school sees her food. Orders come in. Reviews build trust she keeps forever.",
       image: studentTwo
