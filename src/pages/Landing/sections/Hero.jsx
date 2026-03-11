@@ -89,7 +89,7 @@ const Hero = () => {
         <div className="pt-2">
           <button
             onClick={openModal}
-            className="bg-brand-orange hover:opacity-90 transition-opacity text-white px-8 py-3 font-semibold tracking-wide shadow-lg shadow-brand-orange/20"
+            className="bg-brand-orange font-bebas hover:opacity-90 transition-opacity text-white px-8 py-3 tracking-[2px] shadow-lg shadow-brand-orange/20"
           >
             Claim My Spot
           </button>
@@ -105,7 +105,6 @@ const Hero = () => {
                 key={index}
                 src={src}
                 alt={`Waitlist member ${index + 1}`}
-                // Notice the border-[#FF4F33] so it matches the banner background perfectly!
                 className="w-6 h-6 md:w-7 md:h-7 rounded-full border-[1.5px] border-[#FF4F33] object-cover relative"
                 style={{ zIndex: avatars.length - index }}
               />
