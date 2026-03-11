@@ -40,7 +40,7 @@ function App() {
           <ModalProvider>          
             <div className="font-inter">
               <Suspense fallback={<Fallback />}>
-                <AnimatedRoutes />
+                <MainRoutes />
               </Suspense>
             </div>
 
@@ -59,11 +59,10 @@ function App() {
 }
 
 // ----- Animated Routes -----
-const AnimatedRoutes = () => {
+const MainRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         {/* Public Routes */}
         <Route element={<AuthLayout />}>
@@ -142,7 +141,6 @@ const AnimatedRoutes = () => {
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </AnimatePresence>
   );
 };
 
