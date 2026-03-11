@@ -12,15 +12,15 @@ const Header = () => {
         
         <a 
             href="/" 
-            className="flex items-center text-md md:text-xl lg:text-[1.75rem] font-sthupo lowercase font-black tracking-[0.15em] text-[#1A1A1A] dark:text-white transition-colors duration-300">
-            <span>bou<span className="text-brand-orange">w</span>nce</span>
-            <span className="-ml-1.5 md:-ml-2 -mt-0.2  flex items-center">
+            className="flex items-center text-md md:text-xl lg:text-[1.75rem] font-sthupo lowercase font-black tracking-[0.15em] text-[rgb(26,26,26)] dark:text-white transition-colors duration-300">
+            <span className="-mr-[7px] md:-mr-2 -mt-0.5 flex items-center">
                 <img 
                     src={theme === "dark" ? logoWhite : logoDark}
                     alt="logo"
-                    className="w-[24px] md:w-[40px] shrink-0 object-contain"
+                    className="w-[30px] md:w-[40px] shrink-0 object-contain"
                 />
             </span>
+            <span>ou<span className="text-brand-orange">w</span>nce</span>            
         </a>
 
         <div className="flex items-center gap-3 md:gap-5">
