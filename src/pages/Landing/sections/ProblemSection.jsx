@@ -2,12 +2,12 @@ const ProblemSection = () => {
   return (
     <section className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300">
 
-      <div
+      {/* <div
         className="absolute inset-0 pointer-events-none transition-opacity duration-300 dark:opacity-0"
         style={{
           backgroundImage: 'radial-gradient(circle at top center, #FFFFFF 0%, #FAF6F0 50%, #F5EFE5 100%)'
         }}
-      />
+      /> */}
 
       <div className="relative z-10 w-full flex flex-col items-center">
 
