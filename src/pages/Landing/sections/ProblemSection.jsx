@@ -9,7 +9,7 @@ const ProblemSection = () => {
         }}
       /> */}
 
-      <div className="relative z-10 w-full flex flex-col items-center py-10">
+      <div className="relative z-10 w-full flex flex-col items-center py-14">
 
         <div className="max-w-4xl mx-auto px-5 text-center flex flex-col items-center">
           {/* Fading Vertical Divider */}
@@ -38,7 +38,7 @@ const ProblemSection = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="max-w-6xl mx-auto px-5 w-full pb-20">
+        <div className="max-w-6xl mx-auto px-5 w-full pb-20 mt-14">
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-6 text-center">
 
