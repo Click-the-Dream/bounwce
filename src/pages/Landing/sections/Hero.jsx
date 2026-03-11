@@ -78,7 +78,7 @@ const Hero = () => {
         </p>
 
         <h1 className="font-bold font-bebas text-6xl lg:text-7xl uppercase text-gray-900 dark:text-white transition-colors duration-300">
-          Redifining the campus <span className="text-brand-orange font-instrument uppercase italic font-normal text-6xl lg:text-7xl">Experience</span>
+          Redefining the campus <span className="text-brand-orange font-instrument uppercase italic font-normal text-6xl lg:text-7xl">Experience</span>
         </h1>
 
         <p className="text-[12px] lg:text-base text-gray-500 dark:text-gray-400 tracking-wide transition-colors duration-300">
