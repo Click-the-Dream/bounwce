@@ -13,7 +13,7 @@ const ProblemSection = () => {
 
         <div className="max-w-4xl mx-auto px-5 text-center flex flex-col items-center">
           {/* Fading Vertical Divider */}
-          <div className="w-[1px] h-24 md:h-32 bg-gradient-to-b from-transparent via-brand-orange/50 to-transparent mb-10 my-16"></div>
+          {/* <div className="w-[1px] h-24 md:h-32 bg-gradient-to-b from-transparent via-brand-orange/50 to-transparent mb-10 my-16"></div> */}
 
           {/* Main Heading Block */}
           <h2 className="text-[32px] lg:text-[50px] font-instrument text-[#1A1A1A] dark:text-white transition-colors duration-300 leading-[1.15] tracking-tight">
