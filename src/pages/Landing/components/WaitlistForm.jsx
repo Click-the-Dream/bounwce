@@ -56,7 +56,7 @@ const WaitlistForm = () => {
     <div className="w-full">
       <motion.form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-4 mt-2 flex flex-col w-full p-6 md:p-8 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/30"
+        className="space-y-4 mt-2 flex flex-col w-full p-6 md:p-8 rounded-2xl bg-white/10 dark:bg-black/20 backdrop-blur-xl border border-white/30 dark:border-white/10 transition-colors duration-300"
         initial="hidden"
         animate="visible"
         variants={{
@@ -133,9 +133,9 @@ const WaitlistForm = () => {
                 error={errors.institution?.message}
                 borderFocusClass=""
                 borderClass="border border-brand-orange"
-                bgClass="bg-white/50 backdrop-blur-md"
+                bgClass="bg-white/50 dark:bg-neutral-900/50 backdrop-blur-md transition-colors duration-300"
                 radiusClass="rounded-full"
-                dropdownClass="rounded-lg border-brand-orange"
+                dropdownClass="rounded-lg border-brand-orange dark:bg-neutral-900 dark:text-white"
                 searchable={true}
                 searchPlaceholder="Search institution..."
                 allowCustomOptions={true}
@@ -154,7 +154,6 @@ const WaitlistForm = () => {
             type="submit"
             isLoading={joinWaitlist.isPending}
             disabled={joinWaitlist.isPending}
-            
           />
         </motion.div>
       </motion.form>

@@ -27,12 +27,14 @@ const WaitlistModal = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="relative w-full max-w-md bg-[#EDE7DE] rounded-xl shadow-2xl p-6 md:p-8 z-10 border-t-[6px] border-brand-orange"
+            // ADDED: dark:bg-neutral-900 and transition-colors
+            className="relative w-full max-w-md bg-[#EDE7DE] dark:bg-neutral-900 rounded-xl shadow-2xl p-6 md:p-8 z-10 border-t-[6px] border-brand-orange transition-colors duration-300"
           >
             
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 text-gray-500 bg-black/5 hover:bg-black/10 transition-colors p-1.5 rounded-full"
+              // ADDED: dark:text-gray-400, dark:bg-white/5, dark:hover:bg-white/10
+              className="absolute top-4 right-4 text-gray-500 dark:text-gray-400 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors p-1.5 rounded-full"
             >
               <LuX size={18} />
             </button>
@@ -41,7 +43,8 @@ const WaitlistModal = () => {
               <p className="text-brand-orange text-[10px] font-bold uppercase tracking-widest mb-1 flex items-center gap-2">
                 <span className="w-4 h-[2px] bg-brand-orange"></span> JOIN THE WAITLIST
               </p>
-              <p className="text-[#8C857B] text-[13px] font-medium mt-1">
+              {/* ADDED: dark:text-gray-400 */}
+              <p className="text-[#8C857B] dark:text-gray-400 text-[13px] font-medium mt-1 transition-colors duration-300">
                 Be first in when we launch and get early access.
               </p>
             </div>
@@ -52,7 +55,8 @@ const WaitlistModal = () => {
             </div>
 
             {/* Bottom Lock Footer */}
-            <div className="mt-5 flex justify-center items-center gap-1.5 text-[9px] text-[#A69E93] font-medium">
+            {/* ADDED: dark:text-gray-500 */}
+            <div className="mt-5 flex justify-center items-center gap-1.5 text-[9px] text-[#A69E93] dark:text-gray-500 font-medium transition-colors duration-300">
               <span className="text-brand-orange"><CiLock /></span> Bouwnce. Get Access.
             </div>
 
