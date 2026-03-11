@@ -51,7 +51,7 @@ const ProblemSection = () => {
             </p>
           </div>
 
-          {/* Stat 2: 73% */}
+          {/* Stat 2 */}
           <div className="col-span-1 flex flex-col items-center">
             <h3 className="text-[3rem] md:text-6xl font-bebas text-brand-orange uppercase mb-3">
               73%
@@ -61,7 +61,7 @@ const ProblemSection = () => {
             </p>
           </div>
 
-          {/* Stat 3: 0 */}
+          {/* Stat 3 */}
           <div className="col-span-1 flex flex-col items-center">
             <h3 className="text-[3rem] md:text-6xl font-bebas text-brand-orange uppercase mb-3">
               0

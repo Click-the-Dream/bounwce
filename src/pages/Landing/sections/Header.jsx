@@ -14,16 +14,15 @@ const Header = () => {
             href="/" 
             className="flex items-center text-md md:text-xl lg:text-[1.75rem] font-sthupo lowercase font-black tracking-[0.15em] text-[#1A1A1A] dark:text-white transition-colors duration-300">
             <span>bou<span className="text-brand-orange">w</span>nce</span>
-            <span>
+            <span className="-ml-1.5 md:-ml-2 -mt-0.2  flex items-center">
                 <img 
                     src={theme === "dark" ? logoWhite : logoDark}
                     alt="logo"
-                    className="w-[30px]"
+                    className="w-[24px] md:w-[40px] shrink-0 object-contain"
                 />
             </span>
         </a>
 
-        {/* Wrap buttons in a flex container */}
         <div className="flex items-center gap-3 md:gap-5">
             
             {/* The Theme Toggle Button */}

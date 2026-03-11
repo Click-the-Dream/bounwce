@@ -25,7 +25,7 @@ const CampusStageSection = () => {
     {
       icon: <FiAward size={20} />,
       title: "The Quad",
-      description: "Explore the exclusive features of your school alone"
+      description: "Explore the exclusive features for your school alone"
     }
   ];
 
