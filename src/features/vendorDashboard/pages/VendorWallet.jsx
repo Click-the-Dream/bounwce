@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { PiHandWithdraw } from "react-icons/pi";
 import WithdrawalHistoryCard from "../components/ui/WithdrawalHistoryCard";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
-import {noHistoryImg, walletDebitImg, walletRefundImg} from "../../../assets"
+import { noHistoryImg, walletDebitImg, walletRefundImg } from "../../../assets"
 import WithdrawFunds from "../components/ui/WithdrawFunds";
 import { useGetWalletSummary } from "../../../hooks/useVendor";
 import { vendorWalletConfig } from "../../../utils/vendorWalletMapper";
@@ -36,8 +36,8 @@ const VendorWallet = () => {
     <main>
       <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mb-[1rem]">
         {
-          walletStats.map((stat) => (            
-            <WalletStatsCard 
+          walletStats.map((stat) => (
+            <WalletStatsCard
               key={stat.key}
               image={stat.image}
               title={stat.label}
@@ -57,14 +57,14 @@ const VendorWallet = () => {
           <PiHandWithdraw />
           <span className="text-[11px]">Withdraw Funds</span>
         </button>
-      </section> 
+      </section>
 
-      <WithdrawFunds 
+      <WithdrawFunds
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
 
-      <section className="border-[2px] rounded-[12.75px] p-5 w-full">
+      <section className="border-[0.53px] rounded-[12px] p-5 w-full bg-white">
         <h1 className="text-[12px] font-medium">Withdrawal History</h1>
         <p className="text-[11px] text-ash mb-5">Track all your withdrawal transactions</p>
 
@@ -72,7 +72,7 @@ const VendorWallet = () => {
           {/* check if user had made any withdrawals */}
           {
             withdrawalData.length === 0 ? (
-              <img 
+              <img
                 src={noHistoryImg}
                 alt="no withdrawals"
                 className="w-[120px] h-[120px]"
@@ -80,10 +80,10 @@ const VendorWallet = () => {
             ) : (
               withdrawalData.map((data) => {
                 let statusImg = "";
-                statusImg = data.action === "debit" ? walletDebitImg :  walletRefundImg;
-                
+                statusImg = data.action === "debit" ? walletDebitImg : walletRefundImg;
+
                 return (
-                <WithdrawalHistoryCard 
+                  <WithdrawalHistoryCard
                     key={data.label}
                     label={data.label}
                     icon={data.icon}
@@ -92,13 +92,13 @@ const VendorWallet = () => {
                     date={data.date}
                     statusIcon={IoCheckmarkDoneCircleOutline}
                     statusImg={statusImg}
-                />
+                  />
                 )
               })
             )
           }
-        </article>       
-      </section>     
+        </article>
+      </section>
     </main>
   )
 }

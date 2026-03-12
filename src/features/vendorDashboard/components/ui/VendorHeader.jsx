@@ -20,7 +20,7 @@ const VendorHeader = ({
   rightIcon: RightIcon,
 }) => {
   return (
-    <header className="bg-white shadow py-5 px-[1rem] md:px-[3rem] lg:px-[140px] 2xl:px-[175px] flex justify-between gap-2">
+    <header className="bg-white shadow py-5 px-[1rem] md:px-[3rem] lg:px-[140px] 2xl:px-[175px] flex justify-between items-center gap-2">
       <div className="flex gap-3 items-center">
         {isBackButton && (
           <button
@@ -34,23 +34,23 @@ const VendorHeader = ({
           <img
             src={userImage}
             alt="user_image"
-            className="w-[35px] aspect-square rounded-full object-cover"
+            className="w-14 aspect-square rounded-full object-cover"
           />
         </div>
 
         <div className="hidden md:block">
           <div className="flex gap-1 items-center">
             <TbHome />
-            <p className="text-[10px]">
+            <p className="text-[16px] font-semibold">
               <span>{storeName}</span> - {header}
             </p>
           </div>
-          <p className="text-[9px]">{headerDetails}</p>
+          <p className="text-[13px] text-[#717182]">{headerDetails}</p>
         </div>
       </div>
 
       {storeLabel && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 h-max">
           <button
             className="flex items-center gap-2 py-[6px] px-[11px] border-[2px] rounded-md"
             onClick={onFirstClick}
@@ -61,7 +61,7 @@ const VendorHeader = ({
           </button>
 
           <button
-            className={`relative border-[2px] py-[6px] px-[12px] flex items-center rounded-md ${bgColor}`}
+            className={`relative border-[2px] py-2 px-[12px] flex items-center rounded-md ${bgColor}`}
             onClick={onSecondClick}
           >
             {Icon && <Icon />}

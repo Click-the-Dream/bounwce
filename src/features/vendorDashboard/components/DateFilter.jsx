@@ -219,7 +219,7 @@ export default function DateFilter({ value, onChange, className }) {
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={cx(
-          "flex justify-between items-center gap-2 rounded-lg border border-gray-200 bg-white min-w-40",
+          "flex items-center gap-2 rounded-lg border border-gray-200 bg-white",
           "px-3 py-1.5 shadow-sm hover:bg-gray-50",
           "focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-300"
         )}
@@ -228,7 +228,7 @@ export default function DateFilter({ value, onChange, className }) {
       >
         <CalendarIcon className="h-4 w-4" />
         <span className="">{displayLabel}</span>
-        <ChevronDownIcon className="h-3.5 w-3.5" />
+
       </button>
 
       {/* Popover */}
@@ -239,8 +239,8 @@ export default function DateFilter({ value, onChange, className }) {
           aria-label="Date filter"
           className={cx(
             // --- Responsive container: centered on mobile, aligned under trigger on ≥sm
-            "absolute z-50 mt-2 transform  md:left-0 md:translate-x-0",
-            "w-[calc(100vw-5rem)] lg:w-[640px] max-w-lg",
+            "absolute z-50 mt-2 transform  md:right-0 md:translate-x-0",
+            "w-[calc(100vw-5rem)] max-w-lg",
             "rounded-lg border border-gray-200 bg-white shadow-xl"
           )}
         >
@@ -338,8 +338,8 @@ export default function DateFilter({ value, onChange, className }) {
                     "relative flex h-9 w-9 items-center justify-center rounded-full text-sm",
                     inMonth ? "text-gray-800" : "text-gray-400",
                     !isSelected &&
-                      !isRangeMiddle &&
-                      "hover:bg-gray-100 focus:outline-none",
+                    !isRangeMiddle &&
+                    "hover:bg-gray-100 focus:outline-none",
                     isSelected && "bg-rose-500 text-white",
                     isRangeMiddle && "bg-rose-50 text-rose-700"
                   );

@@ -2,7 +2,10 @@ import Navbar from "../../components/buyer/Navbar";
 import Header from "../../components/buyer/Header";
 import ProductCard from "../../components/buyer/ProductCard";
 import { products } from "../../utils/dummies";
+import useProduct from "../../hooks/useProduct";
 const MarketPlace = () => {
+  const { useGetAllProducts } = useProduct();
+  const { data } = useGetAllProducts();
   return (
     <div className="bg-[#ECECF080] min-h-screen">
       <Navbar />

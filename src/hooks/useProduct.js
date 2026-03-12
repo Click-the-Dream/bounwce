@@ -41,7 +41,7 @@ const useProduct = () => {
     onSuccess: () => {
       handleSuccess(
         "Category Creation",
-        "Product category created successfully!"
+        "Product category created successfully!",
       );
       queryClient.invalidateQueries(["product-categories"]);
     },
@@ -56,7 +56,7 @@ const useProduct = () => {
     onSuccess: () => {
       handleSuccess(
         "Category Deletion",
-        "Product category deleted successfully!"
+        "Product category deleted successfully!",
       );
       queryClient.invalidateQueries(["product-categories"]);
     },
@@ -69,7 +69,9 @@ const useProduct = () => {
     useQuery({
       queryKey: ["products", filters],
       queryFn: async () => {
-        const response = await client.get("/products/", { params: filters });
+        const response = await client.get("/store/products/", {
+          params: filters,
+        });
         return response.data.data;
       },
       enabled: !!authDetails?.access_token,
@@ -159,7 +161,7 @@ const useProduct = () => {
     onSuccess: (_, id) => {
       handleSuccess(
         "Toggle Product State",
-        "Product state updated successfully!"
+        "Product state updated successfully!",
       );
       queryClient.invalidateQueries(["product", id]);
       queryClient.invalidateQueries(["products", "my-products"]);
