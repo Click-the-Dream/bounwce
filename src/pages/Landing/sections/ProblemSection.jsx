@@ -2,18 +2,18 @@ const ProblemSection = () => {
   return (
     <section className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300">
 
-      <div
+      {/* <div
         className="absolute inset-0 pointer-events-none transition-opacity duration-300 dark:opacity-0"
         style={{
           backgroundImage: 'radial-gradient(circle at top center, #FFFFFF 0%, #FAF6F0 50%, #F5EFE5 100%)'
         }}
-      />
+      /> */}
 
-      <div className="relative z-10 w-full flex flex-col items-center">
+      <div className="relative z-10 w-full flex flex-col items-center py-14">
 
         <div className="max-w-4xl mx-auto px-5 text-center flex flex-col items-center">
           {/* Fading Vertical Divider */}
-          <div className="w-[1px] h-24 md:h-32 bg-gradient-to-b from-transparent via-brand-orange/50 to-transparent mb-10 my-16"></div>
+          {/* <div className="w-[1px] h-24 md:h-32 bg-gradient-to-b from-transparent via-brand-orange/50 to-transparent mb-10 my-16"></div> */}
 
           {/* Main Heading Block */}
           <h2 className="text-[32px] lg:text-[50px] font-instrument text-[#1A1A1A] dark:text-white transition-colors duration-300 leading-[1.15] tracking-tight">
@@ -33,12 +33,12 @@ const ProblemSection = () => {
           </div>
 
           {/* Fading Vertical Divider */}
-          <div className="w-[1px] h-24 md:h-32 bg-gradient-to-b from-transparent via-brand-orange/50 to-transparent mb-10 my-16"></div>
+          {/* <div className="w-[1px] h-24 md:h-32 bg-gradient-to-b from-transparent via-brand-orange/50 to-transparent mb-10 my-16"></div> */}
 
         </div>
 
         {/* Stats Section */}
-        <div className="max-w-6xl mx-auto px-5 w-full pb-20">
+        <div className="max-w-6xl mx-auto px-5 w-full pb-20 mt-14">
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-6 text-center">
 

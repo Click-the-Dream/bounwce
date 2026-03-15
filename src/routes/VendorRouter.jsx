@@ -14,8 +14,6 @@ const VendorRouter = () => {
     <Routes>
       <Route path="" element={<VendorLayout />}>
         <Route index element={<VendorOverview />} />
-
-        <Route path="store" element={<StoreManagementDashboard />} />
         <Route path="addproduct" element={<AddProductPage />} />
 
         <Route path="customers" element={<VendorCustomers />} />
@@ -23,6 +21,7 @@ const VendorRouter = () => {
         <Route path="wallet" element={<VendorWallet />} />
         <Route path="analytics" element={<VendorAnalytics />} />
       </Route>
+      <Route path="store" element={<StoreManagementDashboard />} />
     </Routes>
   );
 };

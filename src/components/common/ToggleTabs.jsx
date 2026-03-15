@@ -5,7 +5,7 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex w-full gap-1 rounded-full bg-[#ECECF033]/30 border border-gray-300 mb-5 p-1 overflow-hidden">
+    <div className="flex w-full max-w-lg gap-1 rounded-full bg-white border-[0.83px] border-gray-300 mb-5 p-1 overflow-hidden">
       {tabs.map((tab, index) => {
         const isActive = tab.path === activePath;
 
@@ -13,12 +13,11 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
           <button
             key={tab.path || index}
             onClick={() => (onChange ? onChange(tab) : navigate(tab.path))}
-            className={`flex items-center justify-center gap-2 py-2 px-3 sm:px-4 rounded-full text-[12px] sm:text-sm font-medium 
+            className={`flex items-center justify-center gap-2 py-2 px-3 sm:px-4 rounded-full text-[12px] sm:text-sm font-semibold 
               transition-all duration-300 ease-in-out min-w-0 flex-1 
-              ${
-                isActive
-                  ? " bg-orange text-white"
-                  : "bg-transparent text-black hover:bg-orange/10"
+              ${isActive
+                ? " bg-orange text-white"
+                : "bg-transparent text-black hover:bg-orange/10"
               }
               md:flex-1
             `}
@@ -44,9 +43,8 @@ const ToggleTabs = ({ tabs = [], activePath, onChange }) => {
 
             {/* Label */}
             <span
-              className={`transition-all text-[8px] sm:text-[9px] lg:text-[10px] duration-300 ease-in-out text-xs break-words text-center ${
-                tab.icon ? "hidden md:block" : "block"
-              }`}
+              className={`transition-all text-[8px] sm:text-[9px] lg:text-[10px] duration-300 ease-in-out text-xs break-words text-center ${tab.icon ? "hidden md:block" : "block"
+                }`}
             >
               {tab.label}
             </span>

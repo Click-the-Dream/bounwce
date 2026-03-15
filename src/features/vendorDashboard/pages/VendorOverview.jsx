@@ -10,12 +10,12 @@ import DateFilter from "../components/DateFilter";
 import { mapDateFilter, getComparisonLabel } from "../components/mapDateFilter";
 
 const VendorOverview = () => {
- const [ selectedFilter, setSelectedFilter ] = useState(null);
- const apiParams = mapDateFilter(selectedFilter);
- const comparisonLabel = getComparisonLabel(selectedFilter);
- const { data: dashboardData, isLoading } = useGetDashboardOverview(apiParams);
- console.log(dashboardData);  
- console.log(apiParams);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const apiParams = mapDateFilter(selectedFilter);
+  const comparisonLabel = getComparisonLabel(selectedFilter);
+  const { data: dashboardData, isLoading } = useGetDashboardOverview(apiParams);
+  console.log(dashboardData);
+  console.log(apiParams);
 
   const overviewCards = overviewCardConfig.map((config) => {
     const amount = dashboardData?.[config.dataKey] || 0;
@@ -26,9 +26,9 @@ const VendorOverview = () => {
       : "N/A"
 
     const isTrendUp = changePercent > 0;
-      const TrendIcon = isTrendUp
-        ? IoTrendingUpOutline
-        : IoTrendingDownOutline;
+    const TrendIcon = isTrendUp
+      ? IoTrendingUpOutline
+      : IoTrendingDownOutline;
     const TrendColor = isTrendUp ? "text-[#38C066]" : "text-[#FF4B2B]";
 
     const formattedAmount = config.isCurrency
@@ -49,15 +49,15 @@ const VendorOverview = () => {
   });
 
   return (
-    <>
-      <DateFilter
+    <div className="">
+      <div className="flex justify-end"> <DateFilter
         onChange={(val) => {
           // Do something with the selection
           setSelectedFilter(val);
           console.log("DateFilter changed:", val);
         }}
         value={selectedFilter}
-      />
+      /></div>
       <main className="space-y-[21px] mt-5">
         <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[21px]">
           {overviewCards.map((data) => {
@@ -86,7 +86,7 @@ const VendorOverview = () => {
           <QuickActionSection />
         </section>
       </main>
-    </>
+    </div>
   );
 };
 

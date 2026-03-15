@@ -16,7 +16,7 @@ const VendorLayout = () => {
   const { data, isLoading } = useGetMyStore();
   return (
     <PageTransition>
-      <main className="bg-[#ECECF080]">
+      <main className="bg-[#ECECF080] max-w-[1400px] mx-auto">
         <section className="mb-7 ">
           <VendorHeader
             storeName={isLoading ? "-" : data?.name || "-"}
