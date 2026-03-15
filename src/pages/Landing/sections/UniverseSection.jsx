@@ -46,8 +46,8 @@ const UniverseSection = () => {
     {
       id: "01",
       icon: <FaUser />,
-      title: "join with your student id",
-      description: "Sign up. Get verified. Your school tag is set — every post, every interaction, every sales is rooted in your school from day one."
+      title: "join with your personal details",
+      description: "Sign up. Get verified. Every post, every interaction, every sales is rooted in your school from day one."
     },
     {
       id: "02",
