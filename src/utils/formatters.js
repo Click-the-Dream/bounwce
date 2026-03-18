@@ -1,3 +1,5 @@
+import { vendors } from "./dummies";
+
 export const extractErrorMessage = (error) => {
   try {
     // 1. Dig into the response data (where FastAPI's detail lives)
@@ -127,3 +129,5 @@ export const statusStyles = {
 };
 
 export const formatCurrency = (amount) => `₦${amount.toLocaleString("en-NG")}`;
+
+export const getVendor = (vendorId) => vendors.find((v) => v.id === vendorId);
