@@ -100,8 +100,8 @@ const ShoppingCart = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-8">
-            {cart.map((vendor, idx) => (
-              <CartItem key={idx} vendor={vendor} />
+            {cart.map((vendor, vIdx) => (
+              <CartItem key={vIdx} vIdx={vIdx} vendor={vendor} openItem={openItem} removeItem={removeItem} updateQuantity={updateQuantity} toggleItem={toggleItem} />
             ))}
           </div>
 

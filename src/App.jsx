@@ -1,7 +1,7 @@
 import { Suspense, lazy, useContext } from "react";
 import { Navigate, Routes, Route, useLocation } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 import AuthLayout from "./features/auth/AuthLayout";
 import Fallback from "./components/Fallback";
@@ -9,7 +9,6 @@ import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { ToastContainer, Slide } from "react-toastify";
 import SecureRoute from "./routes/SecureRoute";
 import { StoreProvider } from "./context/storeContext";
-import ProductDetails from "./pages/buyer/ProductDetails";
 import { ThemeProvider } from "../src/pages/Landing/context/ThemeContext";
 import { ModalProvider } from "../src/pages/Landing/context/ModalContext";
 
@@ -32,12 +31,13 @@ const PublicRoute = ({ children }) => {
   return children;
 };
 
+
 function App() {
   return (
     <AuthProvider>
       <StoreProvider>
         <ThemeProvider>
-          <ModalProvider>          
+          <ModalProvider>
             <div className="font-inter">
               <Suspense fallback={<Fallback />}>
                 <MainRoutes />
@@ -51,7 +51,7 @@ function App() {
               transition={Slide}
               theme="light"
             />
-        </ModalProvider>
+          </ModalProvider>
         </ThemeProvider>
       </StoreProvider>
     </AuthProvider>
@@ -63,101 +63,72 @@ const MainRoutes = () => {
   const location = useLocation();
 
   return (
-      <Routes location={location} key={location.pathname}>
-        {/* Public Routes */}
-        <Route element={<AuthLayout />}>
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <PageWrapper>
-                  <LoginPage />
-                </PageWrapper>
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicRoute>
-                <PageWrapper>
-                  <CreateAccount />
-                </PageWrapper>
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/email_verification"
-            element={
-              <PublicRoute>
-                <PageWrapper>
-                  <VerifyAccount />
-                </PageWrapper>
-              </PublicRoute>
-            }
-          />
-        </Route>
-
-        {/* NEW LANDING PAGE */}
+    <Routes location={location} key={location.pathname}>
+      {/* Public Routes */}
+      <Route element={<AuthLayout />}>
         <Route
-          path="/"
+          path="/login"
           element={
-            <PageWrapper>
-              <LandingPage />
-            </PageWrapper>
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <CreateAccount />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/email_verification"
+          element={
+            <PublicRoute>
+              <VerifyAccount />
+            </PublicRoute>
+          }
+        />
+      </Route>
+
+      {/* NEW LANDING PAGE */}
+      <Route
+        path="/"
+        element={
+          <LandingPage />
+        }
+      />
+
+      {/* Waitlist */}
+      <Route
+        path="/waitlist"
+        element={
+          <Waitlist />
+        }
+      />
+
+      {/* Protected Routes */}
+      <Route path="/" element={<SecureRoute />}>
+        <Route
+          path="/vendor/*"
+          element={
+            <VendorRouter />
           }
         />
 
-        {/* Waitlist */}
+        <Route path="/vendor/setup" element={<VendorOnboarding />} />
         <Route
-          path="/waitlist"
+          path="/buyer/*"
           element={
-            <PageWrapper>
-              <Waitlist />
-            </PageWrapper>
+            <BuyerRouter />
           }
         />
-
-        {/* Protected Routes */}
-        <Route path="/" element={<SecureRoute />}>
-          <Route
-            path="/vendor/*"
-            element={
-              <PageWrapper>
-                <VendorRouter />
-              </PageWrapper>
-            }
-          />
-
-          <Route path="/vendor/setup" element={<VendorOnboarding />} />
-          <Route
-            path="/buyer/*"
-            element={
-              <PageWrapper>
-                <BuyerRouter />
-              </PageWrapper>
-            }
-          />
-        </Route>
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 };
 
-// ----- Page Wrapper for animations -----
-const PageWrapper = ({ children }) => {
-  return (
-    <motion.div
-      key={Math.random()} // Ensures AnimatePresence triggers on route change
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.2 }}
-      className="w-full h-full"
-    >
-      {children}
-    </motion.div>
-  );
-};
 
 export default App;

@@ -67,6 +67,11 @@ const AddProductPage = ({ onClose }) => {
       formData.append("amount", Number(data.price) || 0);
       formData.append("stock", Number(data.stockQuantity) || 0);
 
+      //add images
+      if (data.images && data.images.length > 0) {
+        data.images.forEach(file => formData.append("images", file));
+      }
+
       // Add tags
       if (data.tags && data.tags.length > 0) {
         data.tags.forEach((tag) => {

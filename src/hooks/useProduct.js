@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { axiosClient } from "../services/axios-client";
 import { AuthContext } from "../context/AuthContext";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { extractErrorMessage } from "../utils/formatters";
+import api from "../services/api";
 
 const useProduct = () => {
   const { authDetails } = useContext(AuthContext);
-  const client = axiosClient(authDetails?.access_token);
+  const client = api;
   const queryClient = useQueryClient();
 
   const handleFailure = (action, error) => {
@@ -155,7 +155,7 @@ const useProduct = () => {
 
   const toggleProductState = useMutation({
     mutationFn: async (id) => {
-      const response = await client.patch(`/products/${id}/toggle-state`);
+      const response = await client.patch(`/store/products/${id}/toggle-state`);
       return response.data.data;
     },
     onSuccess: (_, id) => {

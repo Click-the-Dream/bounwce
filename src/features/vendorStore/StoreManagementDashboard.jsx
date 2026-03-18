@@ -12,9 +12,13 @@ import SearchActionsBar from "./SearchActionsBar";
 import { useNavigate } from "react-router-dom";
 import PageTransition from "../../components/common/PageTransition";
 import useProduct from "../../hooks/useProduct";
+import useStore from "../../hooks/useStore";
 
 const StoreManagementDashboard = () => {
   const { useGetMyProducts } = useProduct();
+  const { useGetMyStore } = useStore();
+  const { data: store } = useGetMyStore();
+
   const { data, isLoading, error } = useGetMyProducts();
   const products = data?.products ?? [];
 
@@ -25,20 +29,23 @@ const StoreManagementDashboard = () => {
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -20 },
   };
-  // eslint-disable-next-line no-unused-vars
-  const [dummyStat, setDummyStat] = useState([
-    { label: "Total Products", amount: "1", icon: MdOutlineDashboard },
-    { label: "Active Products", amount: "0", icon: MdOutlineDashboard },
-    { label: "Draft Products", amount: "1", icon: MdOutlineDashboard },
-    { label: "Low Stock Items", amount: "0", icon: MdOutlineDashboard },
-  ]);
+  const totalProducts = data?.total ?? products.length;
+  const activeProducts = products.filter(p => p.state !== "draft").length;
+  const draftProducts = products.filter(p => p.state === "draft").length;
+
+  const stats = [
+    { label: "Total Products", amount: totalProducts, icon: MdOutlineDashboard },
+    { label: "Active Products", amount: activeProducts, icon: MdOutlineDashboard },
+    { label: "Draft Products", amount: draftProducts, icon: MdOutlineDashboard },
+    { label: "Low Stock Items", amount: products.filter(p => p.stock < 5).length, icon: MdOutlineDashboard },
+  ];
 
   return (
     <PageTransition>
       <main className="min-h-screen bg-[#ECECF080]">
         <header className="mb-6">
           <VendorHeader
-            header={"Store Management"}
+            header={store?.name || "My store"}
             headerDetails={"Manage your products and inventory"}
             icon={MdOutlineDashboard}
             label={"Go to Dashboard"}
@@ -58,7 +65,7 @@ const StoreManagementDashboard = () => {
           {isLoading && <div>Loading products...</div>}
           {/* stats card */}
           <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[21px]">
-            {dummyStat.map((data, index) => (
+            {stats.map((data, index) => (
               <VendorOverviewCard
                 key={index}
                 label={data.label}
@@ -74,9 +81,8 @@ const StoreManagementDashboard = () => {
           {/* Tabs */}
           <div className="bg-[#ECECF0] rounded-[20px] border-[1px] border-[#0000001A] p-1 inline-flex gap-3 text-[13px]">
             <button
-              className={`py-2 px-2 rounded-[16px] transition-colors duration-500  ${
-                activeTab === "product" ? "bg-orange text-white" : ""
-              }`}
+              className={`py-2 px-2 rounded-[16px] transition-colors duration-500  ${activeTab === "product" ? "bg-orange text-white" : ""
+                }`}
               onClick={() => setActiveTab("product")}
             >
               <span>Active Products</span>
@@ -84,9 +90,8 @@ const StoreManagementDashboard = () => {
             </button>
 
             <button
-              className={`py-2 px-2 rounded-[16px] transition-colors duration-500 ${
-                activeTab === "drafts" ? "bg-orange text-white" : ""
-              }`}
+              className={`py-2 px-2 rounded-[16px] transition-colors duration-500 ${activeTab === "drafts" ? "bg-orange text-white" : ""
+                }`}
               onClick={() => setActiveTab("drafts")}
             >
               <span>Drafts</span>
