@@ -29,7 +29,7 @@ const OrderSummary = ({ orderSummary }) => {
                         : null;
 
                     return (
-                        <div key={v.name} className="p-4 pb-1 border-[0.53px] rounded-lg">
+                        <div key={v.name} className="p-4 pb-1 border-[0.53px] rounded">
                             {/* Vendor Name */}
                             <span className="text-[13px] font-medium">{v.name}</span>
 
