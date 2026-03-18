@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { formatCurrency } from "../../utils/formatters"
+import { formatCurrency } from "../../utils/formatters";
 import { RiArrowDownWideLine, RiArrowUpWideLine } from "react-icons/ri";
 
 const OrderSummary = ({ orderSummary }) => {
-    console.log(orderSummary);
     const [expandedVendors, setExpandedVendors] = useState({});
+
     const toggleVendor = (vendorName) => {
         setExpandedVendors((prev) => ({
             ...prev,
@@ -12,9 +12,8 @@ const OrderSummary = ({ orderSummary }) => {
         }));
     };
 
-
     return (
-        <div className="md:sticky md:top-0 bg-white rounded-xl p-6 h-fit shadow-sm">
+        <div className="md:sticky md:overflow-y-auto md:max-h-screen md:top-0 bg-white rounded-xl p-6 h-fit shadow-sm">
             <h2 className="text-[13px] font-medium mb-6">Order Summary</h2>
 
             <p className="text-[13px] font-semibold text-orange mb-4">
@@ -22,40 +21,44 @@ const OrderSummary = ({ orderSummary }) => {
             </p>
 
             <div className="space-y-3 text-xs mb-6">
-                {orderSummary.vendorTotals.map((v) => {
+                {orderSummary.vendorTotals.filter((v) => v.total > 0).map((v) => {
                     const isExpanded = expandedVendors[v.name];
-                    const visibleProducts = isExpanded
-                        ? v.products
-                        : null;
 
                     return (
                         <div key={v.name} className="p-4 pb-1 border-[0.53px] rounded">
-                            {/* Vendor Name */}
-                            <span className="text-[13px] font-medium">{v.name}</span>
+                            {/* Vendor Name with Total (only if not expanded) */}
+                            <div className="flex justify-between items-center">
+                                <span className="text-[13px] font-medium">{v.name}</span>
+                                {!isExpanded && (
+                                    <span className="text-[13px] font-semibold">
+                                        {formatCurrency(v.total)}
+                                    </span>
+                                )}
+                            </div>
 
-                            {/* Products */}
-                            {visibleProducts && <section className="flex flex-col gap-2 mt-2 mb-2">
-                                {visibleProducts?.map((p) => (
+                            {/* Products with smooth transition */}
+                            <div
+                                className={`overflow-hidden transition-all duration-300`}
+                                style={{
+                                    maxHeight: isExpanded ? `${v.products.length * 40 + 20}px` : "0",
+                                }}
+                            >
+                                {v.products.map((p) => (
                                     <div
                                         key={p.id}
-                                        className="border-l border-[#767676] pl-2 flex items-center justify-between"
+                                        className="border-l border-[#767676] pl-2 flex items-center justify-between mt-2"
                                     >
                                         <span className="text-[13px] text-[#767676] truncate">
                                             {p.name}
                                         </span>
-
-                                        {/* FIXED: use product total, not vendor total */}
-                                        <span className="text-[13px]">
-                                            {formatCurrency(p.total)}
-                                        </span>
+                                        <span className="text-[13px]">{formatCurrency(p.total)}</span>
                                     </div>
                                 ))}
-                            </section>}
-
+                            </div>
 
                             <button
                                 onClick={() => toggleVendor(v.name)}
-                                className="flex items-center justify-center w-full text-center text-gray-400 hover:text-black text-sm"
+                                className="flex items-center justify-center w-full text-center text-gray-400 hover:text-black text-sm mt-2"
                             >
                                 {isExpanded ? <RiArrowUpWideLine /> : <RiArrowDownWideLine />}
                             </button>
@@ -77,7 +80,7 @@ const OrderSummary = ({ orderSummary }) => {
                 </div>
             </div>
 
-            <div className="border-t mt-4 pt-4 flex justify-between text-sm">
+            <div className="border-t mt-4 pt-4 flex justify-between text-xs">
                 <span className="font-semibold">Total</span>
                 <span className="font-bold">
                     {formatCurrency(orderSummary.subtotal)}
@@ -88,7 +91,7 @@ const OrderSummary = ({ orderSummary }) => {
                 Proceed to Checkout
             </button>
         </div>
-    )
-}
+    );
+};
 
-export default OrderSummary
+export default OrderSummary;

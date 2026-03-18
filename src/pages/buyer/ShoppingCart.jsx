@@ -51,6 +51,22 @@ const ShoppingCart = () => {
     );
   };
 
+  const saveForLater = (vIdx, iIdx) => {
+    setCart((prev) =>
+      prev.map((vendor, v) =>
+        v !== vIdx
+          ? vendor
+          : {
+            ...vendor,
+            items: vendor.items.map((it, i) =>
+              i !== iIdx
+                ? it
+                : { ...it, status: "saved" },
+            ),
+          },
+      ),
+    )
+  }
   const savedItems = cart.flatMap((v) =>
     v.items
       .filter((i) => i.status === "saved")
@@ -103,7 +119,7 @@ const ShoppingCart = () => {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-8">
             {cart.map((vendor, vIdx) => (
-              <CartItem key={vIdx} vIdx={vIdx} vendor={vendor} openItem={openItem} removeItem={removeItem} updateQuantity={updateQuantity} toggleItem={toggleItem} />
+              <CartItem key={vIdx} vIdx={vIdx} vendor={vendor} openItem={openItem} removeItem={removeItem} updateQuantity={updateQuantity} toggleItem={toggleItem} saveForLater={saveForLater} />
             ))}
           </div>
 
