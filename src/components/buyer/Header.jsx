@@ -5,15 +5,9 @@ import { useStore } from "../../context/storeContext";
 
 const Header = ({ title = "" }) => {
   const navigate = useNavigate();
-  const { cart } = useStore();
+  const { carts } = useStore();
 
-  const orderSummary = {
-    totalItems: cart.reduce(
-      (sum, vendor) =>
-        sum + vendor.items.reduce((iSum, i) => iSum + i.quantity, 0),
-      0
-    ),
-  };
+
 
   return (
     <div className="mt-4 mb-8 flex items-center justify-between">
@@ -25,7 +19,7 @@ const Header = ({ title = "" }) => {
       >
         <FaCartShopping size={20} />
         <span className="absolute -top-[6px] -right-[6px] h-4 w-4 rounded-full bg-red-500 text-white text-[8px] flex items-center justify-center">
-          {orderSummary.totalItems}
+          {carts?.length || 0}
         </span>
       </div>
     </div>

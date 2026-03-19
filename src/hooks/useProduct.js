@@ -69,10 +69,10 @@ const useProduct = () => {
     useQuery({
       queryKey: ["products", filters],
       queryFn: async () => {
-        const response = await client.get("/store/products/", {
+        const { data } = await client.get("/store/products/", {
           params: filters,
         });
-        return response.data.data;
+        return data?.data;
       },
       enabled: !!authDetails?.access_token,
       onError: (error) => handleFailure("Fetch Products", error),

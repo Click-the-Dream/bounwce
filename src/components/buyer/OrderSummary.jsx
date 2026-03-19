@@ -3,6 +3,8 @@ import { formatCurrency } from "../../utils/formatters";
 import { RiArrowDownWideLine, RiArrowUpWideLine } from "react-icons/ri";
 
 const OrderSummary = ({ orderSummary }) => {
+    console.log(orderSummary);
+
     const [expandedVendors, setExpandedVendors] = useState({});
 
     const toggleVendor = (vendorName) => {
@@ -17,11 +19,11 @@ const OrderSummary = ({ orderSummary }) => {
             <h2 className="text-[13px] font-medium mb-6">Order Summary</h2>
 
             <p className="text-[13px] font-semibold text-orange mb-4">
-                {orderSummary.vendorTotals.length} VENDORS
+                {orderSummary?.vendorTotals?.length} VENDORS
             </p>
 
             <div className="space-y-3 text-xs mb-6">
-                {orderSummary.vendorTotals.filter((v) => v.total > 0).map((v) => {
+                {orderSummary?.vendorTotals?.filter((v) => v.total > 0).map((v) => {
                     const isExpanded = expandedVendors[v.name];
 
                     return (

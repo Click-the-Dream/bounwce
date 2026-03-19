@@ -9,15 +9,14 @@ import { FiShield, FiShoppingCart } from "react-icons/fi";
 import { LuBox, LuStore } from "react-icons/lu";
 import { CiStar } from "react-icons/ci";
 import { useStore } from "../../context/storeContext";
-import useCart from "../../hooks/useCart"
 import Header from "../../components/buyer/Header";
 import { IoClose } from "react-icons/io5";
+import ProductImageDisplay from '../../components/common/ProductImageDisplay'
 
 const ProductDetails = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { cart, setCart } = useStore();
-    const { addToCart, removeFromCart } = useCart();
     const [quantity, setQuantity] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -143,32 +142,9 @@ const ProductDetails = () => {
             <div className="flex flex-col lg:flex-row gap-4 items-center justify-center mb-6 max-w-5xl mx-auto px-6">
                 {/* left side - image gallery */}
                 <div className="flex flex-col gap-4 w-full lg:w-[50%]">
-                    <div className="w-full h-[500px] bg-white border-gray-200 border rounded-md flex items-center justify-center p-2">
-                        <div
-                            onClick={() => setIsModalOpen(true)}
-                        >
-                            <img
-                                src={activeImage}
-                                className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
-                            />
-                        </div>
-
-                    </div>
-
-                    <div className="flex gap-2 items-center">
-                        {
-                            imageList.map((img) => (
-                                <button
-                                    onClick={() => setActiveImage(img)}
-                                    className="rounded-md border border-gray-200 bg-white"
-                                >
-                                    <img
-                                        src={img}
-                                        className="w-full h-[40]"
-                                    />
-                                </button>
-                            ))
-                        }
+                    <div
+                        onClick={() => setIsModalOpen(true)} className="w-full bg-white border-gray-200 border rounded-md flex items-center justify-center p-2">
+                        <ProductImageDisplay images={product?.images} height="h-[500px]" thumbSize="h-24" />
                     </div>
                 </div>
 
@@ -183,7 +159,7 @@ const ProductDetails = () => {
                         <span className="flex gap-2 items-center">
                             <img src={stockIcon} />12 items in stock
                         </span>
-                        <span className="text-[28px] font-semibold">{formatCurrency(product.price)}</span>
+                        <span className="text-[28px] font-semibold">{formatCurrency(product?.amount)}</span>
                     </div>
 
                     <div className="flex flex-col gap-2 mb-5">
@@ -326,44 +302,28 @@ const ProductDetails = () => {
             {/* Modal implementation */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center">
-                    <div className="bg-white w-[50%] rounded-xl">
-                        <div className="flex justify-between items-center px-4">
-                            <h1 className="text-[14px]">Product Images</h1>
+                    <div className="bg-white w-full max-w-[700px] h-[500px] rounded-[23px] flex flex-col overflow-hidden">
+
+                        {/* Header */}
+                        <div className="flex justify-between items-center px-4 py-2 shrink-0">
+                            <h1 className="text-[14px] font-medium">Product Images</h1>
                             <button
                                 onClick={() => setIsModalOpen(false)}
-                                className=" text-black p-2 hover:bg-white/10 rounded-full transition-colors z-50"
+                                className="p-2 rounded-full hover:bg-gray-100"
                             >
                                 <IoClose size={24} />
                             </button>
                         </div>
 
-                        {/* Large Image Area */}
+                        {/* Content */}
                         <div className="flex-1 w-full flex items-center justify-center overflow-hidden">
-                            <img
-                                src={activeImage}
-                                className="w-[70%] object-contain"
-                                alt="Full View"
+                            <ProductImageDisplay
+                                images={product?.images}
+
+                                thumbSize="w-20 h-20"
                             />
                         </div>
 
-                        {/* Thumbnails Inside Modal */}
-                        <div className="w-full flex items-center justify-center gap-4 mt-4 mb-2">
-                            {imageList.map((img, idx) => (
-                                <button
-                                    key={idx}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setActiveImage(img);
-                                    }}
-                                    className={`
-                                w-16 h-16 rounded-md overflow-hidden border-2 transition-all
-                                ${activeImage === img ? 'border-orange scale-110 opacity-100' : 'border-transparent opacity-50 hover:opacity-100'}
-                            `}
-                                >
-                                    <img src={img} className="w-full h-full object-cover" />
-                                </button>
-                            ))}
-                        </div>
                     </div>
                 </div>
             )}

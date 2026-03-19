@@ -12,13 +12,12 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-export const setupInterceptors = (getAuth) => {
+export const setupInterceptors = (user, parseToken) => {
   // REQUEST INTERCEPTOR
   api.interceptors.request.use((config) => {
-    const user = getAuth();
-
-    if (user?.access_token) {
-      config.headers.Authorization = `Bearer ${user.access_token}`;
+    const auth = user();
+    if (auth?.access_token) {
+      config.headers.Authorization = `Bearer ${auth.access_token}`;
     }
 
     // Handle multipart automatically
@@ -54,18 +53,23 @@ export const setupInterceptors = (getAuth) => {
         isRefreshing = true;
 
         try {
-          const res = await axios.post(
+          const { data } = await axios.post(
             `${import.meta.env.VITE_BASE_URL}/api/v1/auth/refresh-token`,
+            {},
+            {
+              withCredentials: true,
+            },
           );
 
-          const newUser = res.data;
+          parseToken(data?.data?.access_token);
 
-          processQueue(null, newUser.access_token);
+          processQueue(null, data?.data?.access_token);
 
-          originalRequest.headers.Authorization = `Bearer ${newUser.access_token}`;
+          originalRequest.headers.Authorization = `Bearer ${data?.data?.access_token}`;
 
           return api(originalRequest);
         } catch (err) {
+          parseToken(null);
           processQueue(err, null);
           return Promise.reject(err);
         } finally {

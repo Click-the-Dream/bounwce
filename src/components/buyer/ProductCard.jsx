@@ -3,15 +3,19 @@ import { formatCurrency } from "../../utils/formatters";
 import { useStore } from "../../context/storeContext";
 import { useNavigate } from "react-router-dom";
 import { vendors } from "../../utils/dummies";
+import useCart from "../../hooks/useCart";
+import ProductImageDisplay from "../common/ProductImageDisplay";
 
 const ProductCard = ({ product }) => {
-  const { cart, setCart } = useStore();
+  const { carts } = useStore();
+  const { addToCart, removeFromCart } = useCart();
   const navigate = useNavigate();
+
 
   if (!product) return null;
 
-  const foundVendorIndex = cart.findIndex((vendor) =>
-    vendor.items.some(item => item.id === product.id)
+  const foundVendorIndex = carts?.findIndex((cart) =>
+    cart.product.id === product?.id
   );
 
   const isInCart = foundVendorIndex !== -1;
@@ -24,7 +28,7 @@ const ProductCard = ({ product }) => {
       state: {
         product: product,
         vendorInfo: {
-          name: vendors.find(v => v.id === product.vendorId)?.name,
+          name: vendors.find(v => v.id === product?.vendorId)?.name,
         }
       }
     })
@@ -34,44 +38,45 @@ const ProductCard = ({ product }) => {
     e.stopPropagation(); // Stop clicking the card
 
     if (action === "add") {
-      setCart((prevCart) => {
-        const cartClone = [...prevCart];
+      addToCart.mutate({ product_id: product?.id, quantity: 1 })
+      // setCart((prevCart) => {
+      //   const cartClone = [...prevCart];
 
-        const vendorData = vendors.find(v => v.id === product.vendorId);
-        const vendorName = vendorData?.name || "Unknown Vendor";
+      //   const vendorData = vendors.find(v => v.id === product?.vendorId);
+      //   const vendorName = vendorData?.name || "Unknown Vendor";
 
-        const vendorIndex = cartClone.findIndex(v => v.name === vendorName);
+      //   const vendorIndex = cartClone.findIndex(v => v.name === vendorName);
 
-        if (vendorIndex > -1) {
-          const itemIndex = cartClone[vendorIndex].items.findIndex(
-            (item) => item.id === product.id
-          );
+      //   if (vendorIndex > -1) {
+      //     const itemIndex = cartClone[vendorIndex].items.findIndex(
+      //       (item) => item.id === product?.id
+      //     );
 
-          if (itemIndex > -1) {
-            // Increase quantity instead of duplicating
-            cartClone[vendorIndex].items[itemIndex].quantity += 1;
-          } else {
-            cartClone[vendorIndex].items.push({
-              ...product,
-              quantity: 1,
-              status: "cart",
-            });
-          }
-        } else {
-          cartClone.push({
-            name: vendorName,
-            items: [
-              {
-                ...product,
-                quantity: 1,
-                status: "cart",
-              },
-            ],
-          });
-        }
+      //     if (itemIndex > -1) {
+      //       // Increase quantity instead of duplicating
+      //       cartClone[vendorIndex].items[itemIndex].quantity += 1;
+      //     } else {
+      //       cartClone[vendorIndex].items.push({
+      //         ...product,
+      //         quantity: 1,
+      //         status: "cart",
+      //       });
+      //     }
+      //   } else {
+      //     cartClone.push({
+      //       name: vendorName,
+      //       items: [
+      //         {
+      //           ...product,
+      //           quantity: 1,
+      //           status: "cart",
+      //         },
+      //       ],
+      //     });
+      //   }
 
-        return cartClone;
-      });
+      //   return cartClone;
+      // });
     } else {
       // REMOVE LOGIC
       if (isInCart) {
@@ -84,7 +89,7 @@ const ProductCard = ({ product }) => {
               return {
                 ...vendor,
                 // Filter out the specific product ID
-                items: vendor.items.filter((item) => item.id !== product.id),
+                items: vendor.items.filter((item) => item.id !== product?.id),
               }
             })
             .filter((vendor) => vendor.items.length > 0) // Clean up empty vendors
@@ -106,37 +111,31 @@ const ProductCard = ({ product }) => {
     >
       {/* Image wrapper */}
       <div className="overflow-hidden rounded-t-xl">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="
-            h-36 w-full object-cover object-top
-            transition-transform duration-500
-            group-hover:scale-105 mb-4
-          "
-        />
+        <ProductImageDisplay images={product?.images} height="h-36" thumbSize="w-10 h-10" />
       </div>
 
       <section className="px-4 pb-4 flex flex-col flex-1">
         <h2 className="font-medium text-sm mb-1 line-clamp-2">
-          {product.name}
+          {product?.name}
         </h2>
 
         <div className="flex items-center gap-2 text-[13px] text-gray-500 mb-2">
-          <span>{product.category}</span>
+          <span>{product?.category}</span>
           <span className="flex items-center gap-1 text-yellow-500">
-            <FaStar size={12} /> {product.rating.toFixed(1)}
+            <FaStar size={12} /> {(product?.rating || 3)?.toFixed(1)}
           </span>
         </div>
 
         <p className="mb-1 text-[13px] font-semibold">
-          {formatCurrency(product.price)}
+          {formatCurrency(product?.amount)}
         </p>
 
         {/* Action */}
         <div className="mt-auto flex justify-end">
           {isInCart ? (
             <button
+
+              disabled={removeFromCart.isPending}
               onClick={(e) => handleCartAction(e, "remove")}
               className="
                 opacity-0 translate-y-3 pointer-events-none
@@ -147,10 +146,11 @@ const ProductCard = ({ product }) => {
                 py-1 px-2 md:p-2 rounded-md
               "
             >
-              Remove from Cart
+              {removeFromCart.isPending ? "Processing..." : "Remove from Cart"}
             </button>
           ) : (
             <button
+              disabled={addToCart.isPending}
               onClick={(e) => handleCartAction(e, "add")}
               className="
                 opacity-0 translate-y-3 pointer-events-none
@@ -159,9 +159,10 @@ const ProductCard = ({ product }) => {
                 bg-orange hover:bg-orange-600
                 text-white text-[10px] md:text-xs
                 py-1 px-2 md:p-2 rounded-md
+                disabled:opacity-50
               "
             >
-              Add to Cart
+              {addToCart.isPending ? "Processing..." : "Add to Cart"}
             </button>
           )}
         </div>

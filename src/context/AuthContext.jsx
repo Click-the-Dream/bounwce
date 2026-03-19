@@ -33,10 +33,14 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     setupInterceptors(
       () => authDetails,
-      (user) => console.log(user)
+      (token) => {
+        console.log(token);
+        if (!token) updateAuth(null)
+        else updateAuth(() => ({ ...authDetails, access_token: token }));
+      }
 
     );
-  }, [authDetails]);
+  }, []);
 
   const scheduleRefresh = (token) => {
     const expiry = getTokenExpiry(token);
@@ -59,45 +63,48 @@ export const AuthProvider = ({ children }) => {
 
   const refreshToken = async () => {
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/refresh-token`);
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/refresh-token`, {}, {
+        withCredentials: true
+      });
+
+      updateAuth({
+        ...authDetails,
+        access_token: data?.data?.access_token
+      })
 
     } catch (err) {
       console.error("Refresh failed:", err);
+      updateAuth(null)
     }
   };
 
   const updateAuth = (newUser) => {
-    setAuthDetails(newUser);
+    setAuthDetails(prev => {
+      const resolved = typeof newUser === "function" ? newUser(prev) : newUser;
 
-    if (newUser) {
-      console.log("new user", newUser);
-
-      sessionStorage.setItem("authUser", JSON.stringify(newUser));
-
-      if (newUser.access_token) {
-        scheduleRefresh(newUser.access_token);
+      if (resolved) {
+        sessionStorage.setItem("authUser", JSON.stringify(resolved));
+        if (resolved.access_token) scheduleRefresh(resolved.access_token);
+      } else {
+        sessionStorage.removeItem("authUser");
+        queryClient.removeQueries(["authUser"]);
+        if (refreshTimeoutRef.current) clearTimeout(refreshTimeoutRef.current);
       }
-    } else {
-      sessionStorage.removeItem("authUser");
-      queryClient.removeQueries(["authUser"]);
 
-      if (refreshTimeoutRef.current) {
-        clearTimeout(refreshTimeoutRef.current);
-      }
-    }
+      return resolved;
+    });
   };
+  // useEffect(() => {
+  //   if (authDetails?.access_token) {
+  //     scheduleRefresh(authDetails.access_token);
+  //   }
 
-  useEffect(() => {
-    if (authDetails?.access_token) {
-      scheduleRefresh(authDetails.access_token);
-    }
-
-    return () => {
-      if (refreshTimeoutRef.current) {
-        clearTimeout(refreshTimeoutRef.current);
-      }
-    };
-  }, [authDetails?.access_token]);
+  //   return () => {
+  //     if (refreshTimeoutRef.current) {
+  //       clearTimeout(refreshTimeoutRef.current);
+  //     }
+  //   };
+  // }, [authDetails?.access_token]);
 
   return (
     <AuthContext.Provider

@@ -1,25 +1,20 @@
 /* eslint-disable react-refresh/only-export-components */
 import { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
+import useCart from "../hooks/useCart";
 
 export const StoreContext = createContext();
 export const StoreProvider = ({ children }) => {
-  const [cart, setCart] = useState(() => {
-    try {
-      const stored = localStorage.getItem("marketplace_cart");
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
+  const { getCarts } = useCart();
+  const { data: carts } = getCarts()
 
   // Persist cart to localStorage
-  useEffect(() => {
-    localStorage.setItem("marketplace_cart", JSON.stringify(cart));
-  }, [cart]);
+  // useEffect(() => {
+  //   localStorage.setItem("marketplace_cart", JSON.stringify(cart));
+  // }, [cart]);
 
   return (
-    <StoreContext.Provider value={{ cart, setCart }}>
+    <StoreContext.Provider value={{ carts }}>
       {children}
     </StoreContext.Provider>
   );
