@@ -14,7 +14,7 @@ const ProductSection = ({ products }) => {
           {products?.map((product, idx) => (
             <ProductCard
               key={product?.id || idx}
-              stockAmount={product.stock}
+              product={product}
               status={"Live"}
             />
           ))}

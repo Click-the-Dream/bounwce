@@ -1,21 +1,16 @@
-import { useMemo } from "react";
-// eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
+import { useMemo } from "react"
 import { FiShoppingBag, FiTrash2 } from "react-icons/fi";
-
 import Navbar from "../../components/buyer/Navbar";
 import Header from "../../components/buyer/Header";
 import { formatCurrency } from "../../utils/formatters";
 import { useStore } from "../../context/storeContext";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import CartItem from "../../components/buyer/CartItem";
+import OrderSummary from "../../components/buyer/OrderSummary";
 
 const ShoppingCart = () => {
   const { cart, setCart } = useStore(); // use global cart
   const [openItem, setOpenItem] = useState(null);
-  const navigate = useNavigate();
-  console.log(cart);
 
   const toggleItem = (vIdx, iIdx) => {
     const key = `${vIdx}-${iIdx}`;
@@ -56,6 +51,22 @@ const ShoppingCart = () => {
     );
   };
 
+  const saveForLater = (vIdx, iIdx) => {
+    setCart((prev) =>
+      prev.map((vendor, v) =>
+        v !== vIdx
+          ? vendor
+          : {
+            ...vendor,
+            items: vendor.items.map((it, i) =>
+              i !== iIdx
+                ? it
+                : { ...it, status: "saved" },
+            ),
+          },
+      ),
+    )
+  }
   const savedItems = cart.flatMap((v) =>
     v.items
       .filter((i) => i.status === "saved")
@@ -69,6 +80,12 @@ const ShoppingCart = () => {
 
       return {
         name: vendor.name,
+        products: cartOnly.map((item) => ({
+          id: item.id,
+          name: item.name,
+          quantity: item.quantity,
+          total: item.price * item.quantity,
+        })),
         total: cartOnly.reduce(
           (sum, item) => sum + item.price * item.quantity,
           0,
@@ -90,6 +107,7 @@ const ShoppingCart = () => {
     return { vendorTotals, subtotal, totalItems };
   }, [cart]);
 
+
   return (
     <div className="bg-[#ECECF080] min-h-screen">
       <Navbar />
@@ -100,52 +118,13 @@ const ShoppingCart = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-8">
-            {cart.map((vendor, idx) => (
-              <CartItem key={idx} vendor={vendor} />
+            {cart.map((vendor, vIdx) => (
+              <CartItem key={vIdx} vIdx={vIdx} vendor={vendor} openItem={openItem} removeItem={removeItem} updateQuantity={updateQuantity} toggleItem={toggleItem} saveForLater={saveForLater} />
             ))}
           </div>
 
           {/* Order Summary */}
-          <div className="md:sticky md:top-0 bg-white rounded-xl p-6 h-fit shadow-sm">
-            <h2 className="text-sm font-medium mb-4">Order Summary</h2>
-
-            <p className="text-xs font-semibold text-gray-500 mb-4">
-              {orderSummary.vendorTotals.length} VENDORS
-            </p>
-
-            <div className="space-y-3 text-xs mb-6">
-              {orderSummary.vendorTotals.map((v) => (
-                <div key={v.name} className="flex justify-between">
-                  <span>{v.name}</span>
-                  <span className="font-bold">{formatCurrency(v.total)}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="border-t pt-4 space-y-3 text-xs">
-              <div className="flex justify-between text-gray-500">
-                <span>Subtotal</span>
-                <span className="font-bold text-black">
-                  {formatCurrency(orderSummary.subtotal)}
-                </span>
-              </div>
-              <div className="flex justify-between text-gray-500">
-                <span>Delivery Fee</span>
-                <span className="text-black">Free</span>
-              </div>
-            </div>
-
-            <div className="border-t mt-4 pt-4 flex justify-between text-sm">
-              <span className="font-semibold">Total</span>
-              <span className="font-bold">
-                {formatCurrency(orderSummary.subtotal)}
-              </span>
-            </div>
-
-            <button className="mt-6 w-full bg-black text-white py-3 rounded-lg text-[10px]">
-              Proceed to Checkout
-            </button>
-          </div>
+          <OrderSummary orderSummary={orderSummary} />
         </div>
 
         {savedItems.length > 0 && (

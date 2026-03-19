@@ -1,25 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { axiosClient } from "../services/axios-client";
+import api from "../services/api";
 
-const useAxios = () => {
-  const { authDetails } = useContext(AuthContext);
-  return axiosClient(authDetails?.access_token);
-};
-
-// dashboard overview
 export const useGetDashboardOverview = (apiParams) => {
-  const client = useAxios();
+  const client = api;
   const { authDetails } = useContext(AuthContext);
-  const params = apiParams || {}
-  
-  const queryString = Object.keys(params)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-    .join('&');
+  const params = apiParams || {};
 
-  const endpoint = `/store/dashboard/overview${queryString ? '?' + queryString : ''}`;  
-  console.log("Fetching dashboard data with endpoint:", endpoint);
+  const queryString = Object.keys(params)
+    .map(
+      (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`,
+    )
+    .join("&");
+
+  const endpoint = `/store/dashboard/overview${queryString ? "?" + queryString : ""}`;
 
   return useQuery({
     queryKey: ["vendor", "dashboard", "overview", params],

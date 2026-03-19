@@ -458,6 +458,29 @@ export const cartItems = [
   },
 ];
 
+export const vendors = [
+  {
+    id: 1,
+    name: "Urban Threads",
+    category: "Fashion",
+  },
+  {
+    id: 2,
+    name: "Elite Accessories",
+    category: "Accessories",
+  },
+  {
+    id: 3,
+    name: "Stride Footwear",
+    category: "Footwear",
+  },
+  {
+    id: 4,
+    name: "Tech Haven",
+    category: "Tech Gadgets",
+  },
+];
+
 export const products = [
   {
     id: 1,
@@ -466,6 +489,7 @@ export const products = [
     price: 12500,
     rating: 4.5,
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
+    vendorId: 1, // Urban Threads
   },
   {
     id: 2,
@@ -474,6 +498,7 @@ export const products = [
     price: 28500,
     rating: 4.7,
     image: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c",
+    vendorId: 2, // Elite Accessories
   },
   {
     id: 3,
@@ -482,6 +507,7 @@ export const products = [
     price: 32000,
     rating: 4.6,
     image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+    vendorId: 3, // Stride Footwear
   },
   {
     id: 4,
@@ -490,6 +516,7 @@ export const products = [
     price: 45000,
     rating: 4.8,
     image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad",
+    vendorId: 4, // Tech Haven
   },
   {
     id: 5,
@@ -498,6 +525,7 @@ export const products = [
     price: 18000,
     rating: 4.4,
     image: "https://images.unsplash.com/photo-1514996937319-344454492b37",
+    vendorId: 1, // Urban Threads
   },
   {
     id: 6,
@@ -506,6 +534,7 @@ export const products = [
     price: 22000,
     rating: 4.6,
     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+    vendorId: 2, // Elite Accessories
   },
   {
     id: 7,
@@ -514,6 +543,7 @@ export const products = [
     price: 15000,
     rating: 4.5,
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+    vendorId: 4, // Tech Haven (better grouping)
   },
   {
     id: 8,
@@ -522,6 +552,7 @@ export const products = [
     price: 85000,
     rating: 4.9,
     image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+    vendorId: 4, // Tech Haven
   },
   {
     id: 9,
@@ -530,7 +561,8 @@ export const products = [
     price: 40000,
     rating: 4.6,
     image:
-      "https://images.unsplash.com/photo-1573253803478-d7146d61d09e?auto=format&fit=crop&w=500&q=80", // formal leather shoe
+      "https://images.unsplash.com/photo-1573253803478-d7146d61d09e?auto=format&fit=crop&w=500&q=80",
+    vendorId: 3, // Stride Footwear
   },
   {
     id: 10,
@@ -539,7 +571,8 @@ export const products = [
     price: 9500,
     rating: 4.3,
     image:
-      "https://images.unsplash.com/photo-1593032465171-4b5062bc6bbd?auto=format&fit=crop&w=500&q=80", // polo‑style shirt
+      "https://images.unsplash.com/photo-1593032465171-4b5062bc6bbd?auto=format&fit=crop&w=500&q=80",
+    vendorId: 1, // Urban Threads
   },
   {
     id: 11,
@@ -549,6 +582,7 @@ export const products = [
     rating: 4.7,
     image:
       "https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=500&q=80",
+    vendorId: 4, // Tech Haven
   },
   {
     id: 12,
@@ -557,6 +591,7 @@ export const products = [
     price: 7000,
     rating: 4.2,
     image:
-      "https://images.unsplash.com/photo-1594737625785-d6f0d7beef26?auto=format&fit=crop&w=500&q=80", // running shorts style
+      "https://images.unsplash.com/photo-1594737625785-d6f0d7beef26?auto=format&fit=crop&w=500&q=80",
+    vendorId: 1, // Urban Threads
   },
 ];

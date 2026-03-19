@@ -2,6 +2,7 @@ import { FaStar } from "react-icons/fa6";
 import { formatCurrency } from "../../utils/formatters";
 import { useStore } from "../../context/storeContext";
 import { useNavigate } from "react-router-dom";
+import { vendors } from "../../utils/dummies";
 
 const ProductCard = ({ product }) => {
   const { cart, setCart } = useStore();
@@ -9,21 +10,21 @@ const ProductCard = ({ product }) => {
 
   if (!product) return null;
 
-  const foundVendorIndex = cart.findIndex((vendor) => 
+  const foundVendorIndex = cart.findIndex((vendor) =>
     vendor.items.some(item => item.id === product.id)
   );
-  
+
   const isInCart = foundVendorIndex !== -1;
 
   const handleCardClick = (e) => {
     // Prevent navigation if clicking buttons
-    if(e.target.closest("button")) return;
+    if (e.target.closest("button")) return;
 
     navigate("/buyer/product-details", {
       state: {
         product: product,
         vendorInfo: {
-          name: isInCart ? cart[foundVendorIndex].name : (product.vendor || "Tech Gadgets"),
+          name: vendors.find(v => v.id === product.vendorId)?.name,
         }
       }
     })
@@ -35,37 +36,58 @@ const ProductCard = ({ product }) => {
     if (action === "add") {
       setCart((prevCart) => {
         const cartClone = [...prevCart];
-        const vendorName = product.vendor || "Tech Gadgets";
+
+        const vendorData = vendors.find(v => v.id === product.vendorId);
+        const vendorName = vendorData?.name || "Unknown Vendor";
+
         const vendorIndex = cartClone.findIndex(v => v.name === vendorName);
 
         if (vendorIndex > -1) {
-            // Vendor exists, push item
-            cartClone[vendorIndex].items.push({ ...product, quantity: 1, status: "cart" });
-        } else {
-            // New Vendor
-            cartClone.push({
-                name: vendorName,
-                items: [{ ...product, quantity: 1, status: "cart" }]
+          const itemIndex = cartClone[vendorIndex].items.findIndex(
+            (item) => item.id === product.id
+          );
+
+          if (itemIndex > -1) {
+            // Increase quantity instead of duplicating
+            cartClone[vendorIndex].items[itemIndex].quantity += 1;
+          } else {
+            cartClone[vendorIndex].items.push({
+              ...product,
+              quantity: 1,
+              status: "cart",
             });
+          }
+        } else {
+          cartClone.push({
+            name: vendorName,
+            items: [
+              {
+                ...product,
+                quantity: 1,
+                status: "cart",
+              },
+            ],
+          });
         }
+
         return cartClone;
       });
     } else {
       // REMOVE LOGIC
       if (isInCart) {
         setCart((prev) =>
-            prev
-                .map((vendor, vIdx) => {
-                    // Only modify the vendor that contains this product
-                    if (vIdx !== foundVendorIndex) return vendor;
-                    
-                    return {
-                        ...vendor,
-                        // Filter out the specific product ID
-                        items: vendor.items.filter((item) => item.id !== product.id),
-                    }
-                })
-                .filter((vendor) => vendor.items.length > 0) // Clean up empty vendors
+          prev
+            .map((vendor, vIdx) => {
+              // Only modify the vendor that contains this product
+              if (vIdx !== foundVendorIndex) return vendor;
+
+              return {
+                ...vendor,
+                // Filter out the specific product ID
+                items: vendor.items.filter((item) => item.id !== product.id),
+              }
+            })
+            .filter((vendor) => vendor.items.length > 0) // Clean up empty vendors
         );
       }
     }
@@ -129,7 +151,7 @@ const ProductCard = ({ product }) => {
             </button>
           ) : (
             <button
-               onClick={(e) => handleCartAction(e, "add")}
+              onClick={(e) => handleCartAction(e, "add")}
               className="
                 opacity-0 translate-y-3 pointer-events-none
                 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto

@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { axiosClient } from "../services/axios-client";
 import { AuthContext } from "../context/AuthContext";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { extractErrorMessage } from "../utils/formatters";
+import api from "../services/api";
 
 const useShipping = () => {
   const { authDetails } = useContext(AuthContext);
-  const client = axiosClient(authDetails?.access_token);
+  const client = api;
   const queryClient = useQueryClient();
 
   const handleFailure = (action, error) => {

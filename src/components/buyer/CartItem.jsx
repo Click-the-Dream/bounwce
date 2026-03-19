@@ -2,7 +2,7 @@ import { FiTrash2 } from "react-icons/fi";
 import { formatCurrency } from "../../utils/formatters";
 import { motion } from "framer-motion";
 
-const CartItem = ({ vendor }) => {
+const CartItem = ({ vIdx, vendor, openItem, removeItem, updateQuantity, toggleItem, saveForLater }) => {
     return (
         <div key={vendor.name} className="space-y-4">
             {vendor.items.filter((i) => i.status !== "saved").length >
@@ -148,22 +148,7 @@ const CartItem = ({ vendor }) => {
                                         View Details
                                     </button>
                                     <button
-                                        onClick={() =>
-                                            setCart((prev) =>
-                                                prev.map((vendor, v) =>
-                                                    v !== vIdx
-                                                        ? vendor
-                                                        : {
-                                                            ...vendor,
-                                                            items: vendor.items.map((it, i) =>
-                                                                i !== iIdx
-                                                                    ? it
-                                                                    : { ...it, status: "saved" },
-                                                            ),
-                                                        },
-                                                ),
-                                            )
-                                        }
+                                        onClick={() => saveForLater(vIdx, iIdx)}
                                         className="flex-1 border rounded-lg py-2 text-[11px] font-semibold hover:bg-gray-50"
                                     >
                                         Save for Later

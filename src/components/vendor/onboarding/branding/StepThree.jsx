@@ -192,17 +192,16 @@ const StepThree = () => {
         {/* Delivery Method */}
         <div>
           <label className="block text-xs font-medium mb-2">
-            Delivery Method *
+            Delivery Location *
           </label>
           <input
             type="text"
             {...register("shipping_address", {
               required: "Delivery method is required",
             })}
-            className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
-              errors.shipping_address ? "border border-red-500" : ""
-            }`}
-            placeholder="e.g., Pickup, Door Delivery"
+            className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${errors.shipping_address ? "border border-red-500" : ""
+              }`}
+            placeholder="e.g., Ago Garage, Pepsi, Pickup Available"
           />
           {errors.shipping_address && (
             <p className="text-red-500 text-xs mt-1">
@@ -224,9 +223,8 @@ const StepThree = () => {
                 required: "Shipping cost is required",
                 min: { value: 0, message: "Cost must be greater than 0" },
               })}
-              className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
-                errors.delivery_fee ? "border border-red-500" : ""
-              }`}
+              className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${errors.delivery_fee ? "border border-red-500" : ""
+                }`}
               placeholder="0"
             />
             {errors.delivery_fee && (
@@ -246,9 +244,8 @@ const StepThree = () => {
                 required: "Estimated delivery is required",
                 min: { value: 1, message: "Must be at least 1 day" },
               })}
-              className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-sm ${
-                errors.delivery_time ? "border border-red-500" : ""
-              }`}
+              className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-sm ${errors.delivery_time ? "border border-red-500" : ""
+                }`}
               placeholder="e.g. 3"
             />
             {errors.delivery_time && (
@@ -270,8 +267,8 @@ const StepThree = () => {
               ? "Updating..."
               : "Update Shipping"
             : createShipment.isPending
-            ? "Saving..."
-            : "Add Shipping"}
+              ? "Saving..."
+              : "Add Shipping"}
         </button>
       </div>
     </div>
