@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { formatCurrency } from "../../utils/formatters";
 import { RiArrowDownWideLine, RiArrowUpWideLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 const OrderSummary = ({ orderSummary }) => {
     const [expandedVendors, setExpandedVendors] = useState({});
+    const navigate = useNavigate();
 
     const toggleVendor = (vendorName) => {
         setExpandedVendors((prev) => ({
@@ -87,7 +89,10 @@ const OrderSummary = ({ orderSummary }) => {
                 </span>
             </div>
 
-            <button className="mt-6 w-full bg-black text-white py-3 rounded-lg text-[10px]">
+            <button 
+                className="mt-6 w-full bg-black text-white py-3 rounded-lg text-[10px]"
+                onClick={() => navigate("/buyer/checkout")}
+            >
                 Proceed to Checkout
             </button>
         </div>

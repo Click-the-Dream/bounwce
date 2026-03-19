@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import MarketPlace from "../pages/buyer/MarketPlace";
 import ShoppingCart from "../pages/buyer/ShoppingCart";
 import ProductDetails from "../pages/buyer/ProductDetails";
+import Checkout from "../pages/buyer/Checkout";
 
 const BuyerRouter = () => {
   return (
@@ -14,6 +15,7 @@ const BuyerRouter = () => {
       <Route path="marketplace" element={<MarketPlace />} />
       <Route path="cart" element={<ShoppingCart />} />
       <Route path="product-details" element={<ProductDetails />} />
+      <Route path="checkout" element={<Checkout /> } />
     </Routes>
   );
 };
