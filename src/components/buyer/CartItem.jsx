@@ -1,3 +1,7 @@
+import { FiTrash2 } from "react-icons/fi";
+import { formatCurrency } from "../../utils/formatters";
+import { motion } from "framer-motion";
+
 const CartItem = ({ vendor }) => {
     return (
         <div key={vendor.name} className="space-y-4">

@@ -130,7 +130,8 @@ const MainRoutes = () => {
           />
 
           <Route path="/vendor/setup" element={<VendorOnboarding />} />
-          <Route
+          
+        </Route><Route
             path="/buyer/*"
             element={
               <PageWrapper>
@@ -138,7 +139,6 @@ const MainRoutes = () => {
               </PageWrapper>
             }
           />
-        </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
   );
