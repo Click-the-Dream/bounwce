@@ -13,7 +13,7 @@ export default function ProductImageDisplay({
     return (
         <section className="relative w-full h-full flex flex-col">
             {/* MAIN IMAGE */}
-            <div className={`flex-1 bg-white ${height} flex items-center justify-center`}>
+            <div className={`flex-1 bg-white rounded-xl ${height} flex items-center justify-center`}>
                 {images?.[mainIndex] ? (
                     <img
                         src={images[mainIndex].url}
@@ -34,7 +34,7 @@ export default function ProductImageDisplay({
                                 key={idx}
                                 src={img.url}
                                 alt={`thumbnail-${idx}`}
-                                className={`${thumbSize} object-cover aspect-square bg-white rounded cursor-pointer border-2 ${idx === mainIndex
+                                className={`${thumbSize} object-cover aspect-square bg-white rounded-xl cursor-pointer border-2 ${idx === mainIndex
                                     ? "border-orange/70"
                                     : "border-gray-200"
                                     }`}

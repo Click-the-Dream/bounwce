@@ -22,7 +22,7 @@ const VerifyAccount = () => {
   const [timer, setTimer] = useState(0);
   const otpRef = useRef(null);
 
-  // 🧭 Prevent reloads or accidental exits while timer is running
+  // Prevent reloads or accidental exits while timer is running
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (timer > 0) {
@@ -36,18 +36,18 @@ const VerifyAccount = () => {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [timer]);
 
-  // 🎯 Autofocus OTP field
+  //Autofocus OTP field
   useEffect(() => {
     if (userEmail && otpRef.current) otpRef.current.focus();
   }, [userEmail]);
 
-  // ⏱️ Start countdown once
+  // Start countdown once
   useEffect(() => {
     if (!userEmail) return;
     if (timer === 0) setTimer(30);
   }, [userEmail]);
 
-  // 🔁 Decrease timer every second
+  // Decrease timer every second
   useEffect(() => {
     if (timer <= 0) return;
     const countdown = setTimeout(() => setTimer((prev) => prev - 1), 1000);
@@ -129,10 +129,16 @@ const VerifyAccount = () => {
         <Input
           ref={otpRef}
           placeholder="6 digit OTP code"
-          type="number"
+          type="text"
+          inputMode="numeric"
           icon={<CiKeyboard size={18} className="text-gray-400" />}
           value={otp}
-          onChange={(e) => setOtp(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (/^\d*$/.test(value) && value.length <= 6) {
+              setOtp(value);
+            }
+          }}
         />
       </motion.div>
 

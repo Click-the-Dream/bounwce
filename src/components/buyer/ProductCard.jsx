@@ -27,6 +27,7 @@ const ProductCard = ({ product }) => {
     navigate("/buyer/product-details", {
       state: {
         product: product,
+        isInCart: isInCart,
         vendorInfo: {
           name: vendors.find(v => v.id === product?.vendorId)?.name,
         }
@@ -39,61 +40,11 @@ const ProductCard = ({ product }) => {
 
     if (action === "add") {
       addToCart.mutate({ product_id: product?.id, quantity: 1 })
-      // setCart((prevCart) => {
-      //   const cartClone = [...prevCart];
 
-      //   const vendorData = vendors.find(v => v.id === product?.vendorId);
-      //   const vendorName = vendorData?.name || "Unknown Vendor";
-
-      //   const vendorIndex = cartClone.findIndex(v => v.name === vendorName);
-
-      //   if (vendorIndex > -1) {
-      //     const itemIndex = cartClone[vendorIndex].items.findIndex(
-      //       (item) => item.id === product?.id
-      //     );
-
-      //     if (itemIndex > -1) {
-      //       // Increase quantity instead of duplicating
-      //       cartClone[vendorIndex].items[itemIndex].quantity += 1;
-      //     } else {
-      //       cartClone[vendorIndex].items.push({
-      //         ...product,
-      //         quantity: 1,
-      //         status: "cart",
-      //       });
-      //     }
-      //   } else {
-      //     cartClone.push({
-      //       name: vendorName,
-      //       items: [
-      //         {
-      //           ...product,
-      //           quantity: 1,
-      //           status: "cart",
-      //         },
-      //       ],
-      //     });
-      //   }
-
-      //   return cartClone;
-      // });
     } else {
       // REMOVE LOGIC
       if (isInCart) {
-        setCart((prev) =>
-          prev
-            .map((vendor, vIdx) => {
-              // Only modify the vendor that contains this product
-              if (vIdx !== foundVendorIndex) return vendor;
 
-              return {
-                ...vendor,
-                // Filter out the specific product ID
-                items: vendor.items.filter((item) => item.id !== product?.id),
-              }
-            })
-            .filter((vendor) => vendor.items.length > 0) // Clean up empty vendors
-        );
       }
     }
   };
@@ -111,7 +62,7 @@ const ProductCard = ({ product }) => {
     >
       {/* Image wrapper */}
       <div className="overflow-hidden rounded-t-xl">
-        <ProductImageDisplay images={product?.images} height="h-36" thumbSize="w-10 h-10" />
+        <ProductImageDisplay images={product?.images} height="h-36" thumbSize="w-10 h-10" showThumbnails={false} />
       </div>
 
       <section className="px-4 pb-4 flex flex-col flex-1">

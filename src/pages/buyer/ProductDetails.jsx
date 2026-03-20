@@ -16,11 +16,10 @@ import ProductImageDisplay from '../../components/common/ProductImageDisplay'
 const ProductDetails = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { cart, setCart } = useStore();
     const [quantity, setQuantity] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { product, vendorInfo } = location.state || {};
+    const { product, vendorInfo, isInCart } = location.state || {};
     console.log("location state: ", location.state);
     console.log("product data: ", product);
 
@@ -32,7 +31,7 @@ const ProductDetails = () => {
         product?.image
     ]
     const specifications = [
-        { label: "Category", value: product.category },
+        { label: "Category", value: product?.category },
         { label: "Stock", value: "12 items available" },
         { label: "Availability", value: "in stock" },
         { label: "Rating", value: `${product.rating}/5.0 (203 reviews)` }
@@ -48,10 +47,6 @@ const ProductDetails = () => {
 
     if (!product) return null;
 
-    // check if product is in cart
-    const isInCart = cart?.some((vendor) =>
-        vendor.items.find((item) => item.id === product.id)
-    );
 
     // update product quantity
     const updateQuantity = (vendorIndex, itemIndex, delta) => {
@@ -91,16 +86,6 @@ const ProductDetails = () => {
     let currentItemIndex = -1;
     let currentQuantity = 1;
 
-    if (cart && isInCart) {
-        cart.forEach((vendor, vIdx) => {
-            const iIdx = vendor.items.findIndex((item) => item.id === product.id)
-            if (iIdx !== -1) {
-                currentVendorIndex = vIdx;
-                currentItemIndex = iIdx;
-                currentQuantity = vendor.items[iIdx].quantity;
-            }
-        })
-    }
 
     const handleAddToCart = () => {
         setCart((prevCart) => {
@@ -139,11 +124,11 @@ const ProductDetails = () => {
 
 
             {/* main layout */}
-            <div className="flex flex-col lg:flex-row gap-4 items-center justify-center mb-6 max-w-5xl mx-auto px-6">
+            <div className="flex flex-col lg:flex-row gap-4 mb-6 max-w-5xl mx-auto px-6">
                 {/* left side - image gallery */}
-                <div className="flex flex-col gap-4 w-full lg:w-[50%]">
+                <div className="flex flex-col w-full lg:w-[50%]">
                     <div
-                        onClick={() => setIsModalOpen(true)} className="w-full bg-white border-gray-200 border rounded-md flex items-center justify-center p-2">
+                        onClick={() => setIsModalOpen(true)} className="w-full rounded-md flex items-center justify-center">
                         <ProductImageDisplay images={product?.images} height="h-[500px]" thumbSize="h-24" />
                     </div>
                 </div>
