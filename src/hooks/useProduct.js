@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { axiosClient } from "../services/axios-client";
 import { AuthContext } from "../context/AuthContext";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { extractErrorMessage } from "../utils/formatters";
+import api from "../services/api";
 
 const useProduct = () => {
   const { authDetails } = useContext(AuthContext);
-  const client = axiosClient(authDetails?.access_token);
+  const client = api;
   const queryClient = useQueryClient();
 
   const handleFailure = (action, error) => {
@@ -41,7 +41,7 @@ const useProduct = () => {
     onSuccess: () => {
       handleSuccess(
         "Category Creation",
-        "Product category created successfully!"
+        "Product category created successfully!",
       );
       queryClient.invalidateQueries(["product-categories"]);
     },
@@ -56,7 +56,7 @@ const useProduct = () => {
     onSuccess: () => {
       handleSuccess(
         "Category Deletion",
-        "Product category deleted successfully!"
+        "Product category deleted successfully!",
       );
       queryClient.invalidateQueries(["product-categories"]);
     },
@@ -69,8 +69,10 @@ const useProduct = () => {
     useQuery({
       queryKey: ["products", filters],
       queryFn: async () => {
-        const response = await client.get("/products/", { params: filters });
-        return response.data.data;
+        const { data } = await client.get("/store/products/", {
+          params: filters,
+        });
+        return data?.data;
       },
       enabled: !!authDetails?.access_token,
       onError: (error) => handleFailure("Fetch Products", error),
@@ -153,13 +155,13 @@ const useProduct = () => {
 
   const toggleProductState = useMutation({
     mutationFn: async (id) => {
-      const response = await client.patch(`/products/${id}/toggle-state`);
+      const response = await client.patch(`/store/products/${id}/toggle-state`);
       return response.data.data;
     },
     onSuccess: (_, id) => {
       handleSuccess(
         "Toggle Product State",
-        "Product state updated successfully!"
+        "Product state updated successfully!",
       );
       queryClient.invalidateQueries(["product", id]);
       queryClient.invalidateQueries(["products", "my-products"]);

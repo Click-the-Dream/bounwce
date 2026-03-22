@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { axiosClient } from "../services/axios-client";
 import { AuthContext } from "../context/AuthContext";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { extractErrorMessage } from "../utils/formatters";
+import api from "../services/api";
 
 const useStore = () => {
   const { authDetails } = useContext(AuthContext);
-  const client = axiosClient(authDetails?.access_token);
+  const client = api;
   const queryClient = useQueryClient();
 
   const handleFailure = (action, error) => {
@@ -54,7 +54,7 @@ const useStore = () => {
     onSuccess: (data) => {
       handleSuccess(
         "Store Creation",
-        "Your store has been created successfully!"
+        "Your store has been created successfully!",
       );
       queryClient.setQueryData(["store", data.id], data);
       queryClient.setQueryData(["store", "my-store"], data);
@@ -110,7 +110,7 @@ const useStore = () => {
     onSuccess: (data) => {
       handleSuccess(
         "Brand Image Deletion",
-        "Brand image deleted successfully!"
+        "Brand image deleted successfully!",
       );
       queryClient.setQueryData(["store", data.id], data);
       queryClient.setQueryData(["store", "my-store"], data);
@@ -194,10 +194,6 @@ const useStore = () => {
     onError: (error) => handleFailure("Contact Deletion", error),
   });
 
-  // ===========================
-  // STORE PAYOUT INFORMATION
-  // ===========================
-
   const useGetPayoutInfo = (userId) =>
     useQuery({
       queryKey: ["store", "payout", userId],
@@ -217,7 +213,7 @@ const useStore = () => {
     onSuccess: () => {
       handleSuccess(
         "Payout Creation",
-        "Payout information added successfully!"
+        "Payout information added successfully!",
       );
       queryClient.invalidateQueries(["my-store"]);
     },
@@ -232,7 +228,7 @@ const useStore = () => {
     onSuccess: (data) => {
       handleSuccess(
         "Payout Update",
-        "Payout information updated successfully!"
+        "Payout information updated successfully!",
       );
       queryClient.setQueryData(["store", "payout", data.user_id], data);
     },
@@ -246,12 +242,24 @@ const useStore = () => {
     onSuccess: (_, userId) => {
       handleSuccess(
         "Payout Deletion",
-        "Payout information deleted successfully!"
+        "Payout information deleted successfully!",
       );
       queryClient.removeQueries(["store", "payout", userId]);
     },
     onError: (error) => handleFailure("Payout Deletion", error),
   });
+
+  const useGetStoreOnboardingStatus = (userId) =>
+    useQuery({
+      queryKey: ["store", "onboarding-status"],
+      queryFn: async () => {
+        const response = await client.get("/store/onboarding-status");
+        return response?.data?.data;
+      },
+      enabled:
+        !!authDetails?.access_token && authDetails?.user?.role === "vendor",
+      onError: (error) => handleFailure("Fetch Payout Info", error),
+    });
 
   return {
     useGetStoreInfo,
@@ -271,6 +279,7 @@ const useStore = () => {
     createPayout,
     updatePayout,
     deletePayout,
+    useGetStoreOnboardingStatus,
   };
 };
 

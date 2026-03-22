@@ -33,10 +33,7 @@ const AuthLayout = () => {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* --- Left Illustration Section (Animates Only Once) --- */}
-      <motion.div
-        initial="hidden"
-        animate="show"
-        variants={fadeIn("left", 0.1)}
+      <div
         className="hidden lg:block relative w-[55%] h-full"
       >
         <motion.img
@@ -73,7 +70,7 @@ const AuthLayout = () => {
             Join a community built for creators and doers.
           </p>
         </motion.div>
-      </motion.div>
+      </div>
 
       {/* --- Right Content Section (Re-animates on Route Change) --- */}
       <div

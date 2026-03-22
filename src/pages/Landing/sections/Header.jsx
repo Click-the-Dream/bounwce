@@ -1,3 +1,4 @@
+import { logoDark, logoWhite } from "../assets/images";
 import { useModal } from "../context/ModalContext";
 import { useTheme } from "../context/ThemeContext";
 import { LuSun, LuMoon } from "react-icons/lu";
@@ -9,11 +10,19 @@ const Header = () => {
   return (
     <div className="flex justify-between items-center gap-2 fixed w-full z-50 bg-white dark:bg-gray-900 border-b border-b-gray-300 dark:border-gray-800 px-4 py-7 lg:py-6 transition-colors duration-300">
         
-        <a href="/" className="text-md md:text-xl lg:text-[1.75rem] font-sthupo font-black tracking-[0.15em] text-[#1A1A1A] dark:text-white transition-colors duration-300">
-            BOU<span className="text-brand-orange">W</span>NCE
+        <a 
+            href="/" 
+            className="flex items-center text-md md:text-xl lg:text-[1.75rem] font-sthupo lowercase font-black tracking-[0.15em] text-[rgb(26,26,26)] dark:text-white transition-colors duration-300">
+            <span className="-mr-[7px] md:-mr-2 -mt-0.5 flex items-center">
+                <img 
+                    src={theme === "dark" ? logoWhite : logoDark}
+                    alt="logo"
+                    className="w-[30px] md:w-[40px] shrink-0 object-contain"
+                />
+            </span>
+            <span>ou<span className="text-brand-orange">w</span>nce</span>            
         </a>
 
-        {/* Wrap buttons in a flex container */}
         <div className="flex items-center gap-3 md:gap-5">
             
             {/* The Theme Toggle Button */}

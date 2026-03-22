@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],  
-  
-  darkMode: "class", 
-  
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+
+  darkMode: "class",
+
   theme: {
     extend: {
       screens: {
@@ -25,10 +25,11 @@ export default {
       colors: {
         ash: "#545454",
         orange: "#FF4B2B",
-        "lighter-ash": "#EBEBEB",        
-        "brand-orange": "#FF4F33", 
+        "lighter-ash": "#EBEBEB",
+        "brand-orange": "#FF4F33",
       },
       fontFamily: {
+        hugePromo: ["Huge Promo"],
         inter: ["Inter"],
         georgia: ["Georgia", "Cambria", '"Times New Roman"', "Times", "serif"],
         bebas: ['"Bebas Neue"', "sans-serif"],

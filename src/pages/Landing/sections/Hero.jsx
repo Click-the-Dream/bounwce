@@ -1,14 +1,14 @@
 import { GoDash } from "react-icons/go";
-import { motion } from "framer-motion";
 import { useModal } from "../context/ModalContext";
 import { useEffect, useState } from "react";
 import useWaitlist from "../../../hooks/useWaitlist";
+import { avatarFive, avatarFour, avatarOne, avatarThree, avatarTwo } from "../assets/images";
 const avatars = [
-  "https://i.pravatar.cc/100?img=33",
-  "https://i.pravatar.cc/100?img=47",
-  "https://i.pravatar.cc/100?img=12",
-  "https://i.pravatar.cc/100?img=32",
-  "https://i.pravatar.cc/100?img=64",
+  avatarOne,
+  avatarTwo,
+  avatarThree,
+  avatarFour,
+  avatarFive
 ];
 
 const Hero = () => {
@@ -29,40 +29,40 @@ const Hero = () => {
   ];
 
   const { waitlistUser } = useWaitlist();
-  const { data: waitlistData,} = waitlistUser;
+  const { data: waitlistData, } = waitlistUser;
 
   // Dynamic metrics based on live waitlist data
-    const joinedCount = waitlistData?.total || waitlistData?.data?.length || 0;
-    const [animatedCount, setAnimatedCount] = useState(0);
+  const joinedCount = waitlistData?.total || waitlistData?.data?.length || 0;
+  const [animatedCount, setAnimatedCount] = useState(0);
 
-    // Smooth count animation
-      useEffect(() => {
-        if (joinedCount > 0) {
-          let start = 0;
-          const duration = 1000;
-          const increment = joinedCount / (duration / 16);
-    
-          const animate = () => {
-            start += increment;
-            if (start < joinedCount) {
-              setAnimatedCount(Math.floor(start));
-              requestAnimationFrame(animate);
-            } else {
-              setAnimatedCount(joinedCount);
-            }
-          };
-    
-          animate();
+  // Smooth count animation
+  useEffect(() => {
+    if (joinedCount > 0) {
+      let start = 0;
+      const duration = 1000;
+      const increment = joinedCount / (duration / 16);
+
+      const animate = () => {
+        start += increment;
+        if (start < joinedCount) {
+          setAnimatedCount(Math.floor(start));
+          requestAnimationFrame(animate);
+        } else {
+          setAnimatedCount(joinedCount);
         }
-      }, [joinedCount]);
+      };
+
+      animate();
+    }
+  }, [joinedCount]);
 
   return (
-    <section className="relative px-5 py-28 lg:px-10 min-h-[80vh] flex items-center overflow-hidden bg-[#FCFAF5] dark:bg-neutral-950 transition-colors duration-300">
+    <section className="relative px-8 py-28 lg:px-14 lg:pl-20 min-h-[80vh] flex items-center overflow-hidden bg-[#FCFAF5] dark:bg-neutral-950 transition-colors duration-300">
 
       {/* Left: Main Content */}
       <div className="w-full lg:w-1/2 gap-6 space-y-5 relative z-10">
-        <p className="flex items-center gap-2 uppercase text-brand-orange text-sm font-semibold tracking-wider mt-10">
-          <motion.span
+        <p className="flex items-center gap-2 uppercase text-brand-orange text-[10px] font-semibold tracking-wider mt-10">
+          {/* <motion.span
             animate={{
               scale: [1, 0.5, 1],
               opacity: [1, 0.2, 1]
@@ -73,23 +73,23 @@ const Hero = () => {
               ease: "easeInOut"
             }}
             className="block h-2.5 w-2.5 rounded-full bg-brand-orange shrink-0"
-          />
-          Different schools. one platform
+          /> */}
+          School social. school market. one app
         </p>
 
-        <h1 className="font-bold font-bebas text-6xl lg:text-8xl uppercase leading-[61px] text-gray-900 dark:text-white transition-colors duration-300">
-          Access is no <br />
-          longer a <span className="text-brand-orange font-instrument lowercase italic font-normal tracking-normal text-6xl lg:text-8xl">Privilege</span>
+        <h1 className="font-bold font-bebas text-6xl lg:text-7xl uppercase text-gray-900 dark:text-white transition-colors duration-300">
+          Redefining the campus <span className="text-brand-orange font-instrument uppercase italic font-normal text-6xl lg:text-7xl">Experience</span>
         </h1>
 
-        <p className="text-sm lg:text-base text-gray-500 dark:text-gray-400 tracking-wide font-medium transition-colors duration-300">
-          Two Students. Two different schools. <br className="hidden lg:block" /> Same vibe. Same ambition
+        <p className="text-[12px] lg:text-base text-gray-500 dark:text-gray-400 tracking-wide transition-colors duration-300">
+          Share moments students in your school can relate with. Buy from the students in your school. Follow. Connect<br />
+          <span className="font-bold block mt-3">And if you sell — your storefront lives right here too</span>
         </p>
 
         <div className="pt-2">
           <button
             onClick={openModal}
-            className="bg-brand-orange hover:opacity-90 transition-opacity text-white px-8 py-3 font-semibold tracking-wide shadow-lg shadow-brand-orange/20"
+            className="bg-brand-orange font-bebas hover:opacity-90 transition-opacity text-white px-8 py-3 tracking-[2px] shadow-lg shadow-brand-orange/20"
           >
             Claim My Spot
           </button>
@@ -105,7 +105,6 @@ const Hero = () => {
                 key={index}
                 src={src}
                 alt={`Waitlist member ${index + 1}`}
-                // Notice the border-[#FF4F33] so it matches the banner background perfectly!
                 className="w-6 h-6 md:w-7 md:h-7 rounded-full border-[1.5px] border-[#FF4F33] object-cover relative"
                 style={{ zIndex: avatars.length - index }}
               />

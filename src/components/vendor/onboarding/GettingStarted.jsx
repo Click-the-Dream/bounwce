@@ -13,8 +13,8 @@ import StepFour from "./branding/StepFour";
 import { onPrompt } from "../../../utils/notifications/onPrompt";
 import useStore from "../../../hooks/useStore";
 
-const GettingStarted = ({ storeData, onNext, onBack }) => {
-  const [currentSubStep, setCurrentSubStep] = useState("branding");
+const GettingStarted = ({ storeData, onNext, onBack, initialTab }) => {
+  const [currentSubStep, setCurrentSubStep] = useState(initialTab || "branding");
   const {
     register,
     trigger,
@@ -174,13 +174,12 @@ const GettingStarted = ({ storeData, onNext, onBack }) => {
             <React.Fragment key={step.key}>
               <div className="flex flex-col items-center text-center flex-1 relative max-w-20">
                 <div
-                  className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${
-                    isCompleted
-                      ? "border-green-500 bg-green-500 text-white"
-                      : isActive
+                  className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${isCompleted
+                    ? "border-green-500 bg-green-500 text-white"
+                    : isActive
                       ? "border-black bg-white text-black"
                       : "border-gray-300 bg-gray-50 text-gray-400"
-                  }`}
+                    }`}
                 >
                   {isCompleted ? (
                     <LuCircleCheckBig size={14} />
@@ -189,9 +188,8 @@ const GettingStarted = ({ storeData, onNext, onBack }) => {
                   )}
                 </div>
                 <span
-                  className={`text-xs mt-2 ${
-                    isActive ? "text-black font-medium" : "text-gray-500"
-                  }`}
+                  className={`text-xs mt-2 ${isActive ? "text-black font-medium" : "text-gray-500"
+                    }`}
                 >
                   {step.label}
                 </span>
@@ -202,9 +200,8 @@ const GettingStarted = ({ storeData, onNext, onBack }) => {
 
               {index < brandingSteps.length - 1 && (
                 <div
-                  className={`flex-1 h-[2px] mx-2 my-auto ${
-                    index < currentIndex ? "bg-green-500" : "bg-gray-300"
-                  } transition-colors duration-300`}
+                  className={`flex-1 h-[2px] mx-2 my-auto ${index < currentIndex ? "bg-green-500" : "bg-gray-300"
+                    } transition-colors duration-300`}
                 />
               )}
             </React.Fragment>

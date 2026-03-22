@@ -1,17 +1,17 @@
 import { useContext } from "react";
 import { useMutation } from "@tanstack/react-query"; // Ensure this is from @tanstack/react-query
 import { useNavigate } from "react-router-dom";
-import { axiosClient } from "../services/axios-client";
 import { AuthContext } from "../context/AuthContext";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { queryClient } from "../services/query-client";
 import { extractErrorMessage, storedUserEmail } from "../utils/formatters";
+import api from "../services/api";
 const useAuth = () => {
   const navigate = useNavigate();
   const { authDetails, updateAuth } = useContext(AuthContext);
 
-  const client = axiosClient(authDetails?.token?.token);
+  const client = api;
 
   // Login Mutation
   const loginMutation = useMutation({
@@ -20,7 +20,6 @@ const useAuth = () => {
       return data.data;
     },
     onSuccess: (data) => {
-      console.log(data);
       //updateAuth(userData); // Immediately update auth state
       onSuccess({
         title: "Login Successful!",
@@ -99,7 +98,7 @@ const useAuth = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       if (!data && data?.status) {

@@ -1,12 +1,12 @@
-import { axiosClient } from "../services/axios-client";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { queryClient } from "../services/query-client";
 import { extractErrorMessage } from "../utils/formatters";
+import api from "../services/api";
 
 const useWaitlist = () => {
-  const client = axiosClient(null);
+  const client = api;
 
   const joinWaitlistMutation = useMutation({
     mutationFn: async (credentials) => {

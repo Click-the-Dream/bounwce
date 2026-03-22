@@ -15,17 +15,18 @@ const StoryConclusionSection = () => {
         </div>
 
         {/* Text Content */}
-        <div className="relative z-10 text-center font-serif text-[1.1rem] md:text-2xl lg:text-[1.65rem] text-[#262626] dark:text-gray-200 transition-colors duration-300 leading-relaxed md:leading-[1.6]">
+        <div className="relative z-10 text-center font-instrument text-[1.1rem] md:text-2xl lg:text-[1.65rem] text-[#262626] dark:text-gray-200 transition-colors duration-300 leading-relaxed md:leading-[1.6]">
 
           <div className="space-y-1 md:space-y-2 font-medium">
-            <p>Kofi's next client is at a campus he's never visited.</p>
-            <p>Zara's collaborator is already looking for her.</p>
-            <p>Jalen's people are already online.</p>
-            <p>Marcus's voice has no borders.</p>
+            <p>Leemah wants a feed that actually knows her school.</p>
+            <p>Bryan wants his posts seen by the people he walks past every day.</p>
+            <p>Amaka's jollof deserves a storefront, not a status update.</p>
+            <p>Francisca's thrift drops deserve a school — not a 24-hour story.</p>
           </div>
 
           <p className="text-brand-orange italic font-light pt-8 md:pt-10 text-xl md:text-3xl">
-            They just needed a way to find each other.
+            They all go to the same school. <br />
+            They all needed the same thing.
           </p>
 
           <p className="pt-10 md:pt-14 text-lg md:text-2xl font-medium tracking-wide">

@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import useWaitlist from "../../../hooks/useWaitlist";
-import { yourMoments } from "../assets/images";
+import { avatarFive, avatarFour, avatarOne, avatarThree, avatarTwo, yourMoments } from "../assets/images";
 import { useModal } from "../context/ModalContext";
 
 const FinalCTASection = () => {
   const { openModal } = useModal();
-  // Array to quickly map out the overlapping avatar images
   const avatars = [
-    "https://i.pravatar.cc/100?img=33",
-    "https://i.pravatar.cc/100?img=47",
-    "https://i.pravatar.cc/100?img=12",
-    "https://i.pravatar.cc/100?img=32",
-    "https://i.pravatar.cc/100?img=64",
+    avatarOne,
+    avatarTwo,
+    avatarThree, 
+    avatarFour,
+    avatarFive
   ];
 
   const { waitlistUser } = useWaitlist();
@@ -46,10 +45,10 @@ const FinalCTASection = () => {
     <section className="w-full py-20 lg:py-32 bg-[#F5EFE5] dark:bg-neutral-950 transition-colors duration-300 flex justify-center px-5">
       
       {/* The Main Card Container */}
-      <div className="w-full max-w-5xl bg-white dark:bg-neutral-900 shadow-2xl dark:shadow-brand-orange/5 transition-all duration-300 rounded-sm overflow-hidden flex flex-col md:flex-row relative z-10">
+      <div className="w-full max-w-5xl bg-white dark:bg-neutral-900 shadow-2xl dark:shadow-brand-orange/5 transition-all duration-300 rounded-sm overflow-hidden flex flex-col xl:flex-row relative z-10">
         
         {/* LEFT COLUMN: Image & Gradient */}
-        <div className="relative w-full md:w-1/2 p-10 lg:p-14 flex flex-col justify-end min-h-[400px] md:min-h-[500px]">
+        <div className="relative w-full xl:w-1/2 p-10 lg:p-14 flex flex-col justify-end h-[300px] lg:h-[400px] xl:h-[500px]">
           
           {/* Background Image */}
           <img 
@@ -62,35 +61,35 @@ const FinalCTASection = () => {
 
           {/* Text Content */}
           <div className="relative z-20">
-            <h2 className="text-white font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase mb-5">
+            <h2 className="text-white font-bebas text-3xl lg:text-5xl font-black uppercase mb-5">
               YOUR <br />
-              MOMENT <br />
-              IS NOW.
+              school <br />
+              online.
             </h2>
-            <p className="text-white/90 text-[13px] md:text-sm font-medium leading-relaxed max-w-xs">
-              Early members get first access, founding perks, and the chance to shape what Bouwnce becomes. The doors open once.
+            <p className="text-white/90 text-[13px] md:text-sm leading-relaxed">
+              The social app your school has been missing. Post, connect, belong — and if you sell, your whole school is already your market.
             </p>
           </div>
         </div>
 
         {/* RIGHT COLUMN: Form & Social Proof */}
-        <div className="w-full md:w-1/2 p-10 lg:p-14 flex flex-col justify-center bg-white dark:bg-neutral-900 transition-colors duration-300">
+        <div className="w-full xl:w-1/2 p-10 lg:p-14 flex flex-col justify-center bg-white dark:bg-neutral-900 transition-colors duration-300">
           
-          <div className="max-w-sm">
+          <div className="">
             {/* Kicker */}
             <p className="text-brand-orange text-[9px] font-bold uppercase tracking-[0.2em] mb-2">
               Secure Your Spot
             </p>
 
             {/* Heading */}
-            <h2 className="font-bebas text-4xl lg:text-6xl leading-[61px] font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-4">
+            <h2 className="font-bebas text-3xl lg:text-5xl font-black uppercase text-[#1A1A1A] dark:text-white transition-colors duration-300 mb-4">
               Join The <br />
               Waitlist
             </h2>
 
             {/* Subtext */}
-            <p className="text-[#595550] dark:text-gray-400 transition-colors duration-300 text-[13px] leading-relaxed mb-8 font-medium">
-              Space is limited. Be one of the first students to access the campus universe when we launch.
+            <p className="text-[#595550] dark:text-gray-400 transition-colors duration-300 text-[13px] leading-relaxed mb-8">
+              Be among the first students on the platform when we launch in your school. Early members get early access and free storefronts for vendors during the pilot.
             </p>
 
             {/* The CTA Button */}
@@ -103,7 +102,7 @@ const FinalCTASection = () => {
             
             {/* Disclaimer */}
             <p className="text-[10px] text-gray-400 dark:text-gray-500 transition-colors duration-300 mt-3 text-left flex items-center gap-2">
-              <span className="text-gray-300 dark:text-gray-600">—</span> No spam. Just your invite when we launch.
+              <span className="text-brand-orange font-bold">—</span> No spam. Just your invite when we launch.
             </p>
 
             {/* Social Proof: Avatars & Count */}
