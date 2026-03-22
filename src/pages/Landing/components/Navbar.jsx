@@ -1,11 +1,13 @@
 import { Play, Menu, X } from "lucide-react";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "../context/ThemeContext";
+
 import Logo from "./Logo";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+const { theme, toggleTheme } = useTheme();
     const navLinks = [
         { name: "About Us", href: "#" },
         { name: "Blog", href: "#" },
@@ -36,6 +38,14 @@ const Navbar = () => {
                         Sign Up
                         <Play size={10} fill="#FFC501" />
                     </button>
+
+                    <button
+                onClick={toggleTheme}
+                className="md:hidden flex items-center justify-center p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors duration-300"
+                aria-label="Toggle Dark Mode"
+            >
+                {theme === 'dark' ? <LuSun size={16} /> : <LuMoon size={16} />}
+            </button>
 
                     {/* Mobile Toggle Button */}
                     <button
