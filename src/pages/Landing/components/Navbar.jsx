@@ -37,6 +37,14 @@ const Navbar = () => {
                         <Play size={10} fill="#FFC501" />
                     </button>
 
+                    <button
+                onClick={toggleTheme}
+                className="md:hidden block p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors duration-300"
+                aria-label="Toggle Dark Mode"
+            >
+                {theme === 'dark' ? <LuSun size={16} /> : <LuMoon size={16} />}
+            </button>
+
                     {/* Mobile Toggle Button */}
                     <button
                         onClick={() => setIsOpen(!isOpen)}
