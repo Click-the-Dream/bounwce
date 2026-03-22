@@ -1,11 +1,13 @@
 import { Play, Menu, X } from "lucide-react";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "../context/ThemeContext";
+
 import Logo from "./Logo";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+const { theme, toggleTheme } = useTheme();
     const navLinks = [
         { name: "About Us", href: "#" },
         { name: "Blog", href: "#" },
