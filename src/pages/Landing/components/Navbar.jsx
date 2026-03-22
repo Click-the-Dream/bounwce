@@ -1,7 +1,8 @@
 import { Play, Menu, X } from "lucide-react";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
+import { LuSun, LuMoon } from "react-icons/lu";
 
 import Logo from "./Logo";
 
