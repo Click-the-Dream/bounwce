@@ -6,7 +6,7 @@ import SearchBar from "./SearchBar";
 const Hero = () => {
     return (
         <div
-            className="relative p-2 pb-96 min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#FCFAF5] dark:bg-neutral-950 transition-colors duration-300 bg-cover bg-center bg-no-repeat"
+            className="relative p-2 md:pb-40 lg:pb-96 min-h-screen flex flex-col items-center overflow-hidden bg-[#FCFAF5] dark:bg-neutral-950 transition-colors duration-300 bg-cover bg-center bg-no-repeat"
             style={{
                 backgroundImage: `url(${heroImg})`,
                 backgroundPosition: "bottom",
@@ -16,7 +16,7 @@ const Hero = () => {
         >
             <Navbar />
             {/* Hero content goes here */}
-            <div className="relative mt-10 text-white max-w-[653px] text-center flex flex-col items-center justify-center">
+            <div className="relative mt-14 md:mt-10 text-white w-full max-w-[653px] text-center flex flex-col items-center justify-center">
                 <h1 className="font-hugePromo text-6xl lg:text-[80px] uppercase text-gray-900 dark:text-white transition-colors duration-300">
                     Find exactly <span className="text-brand-orange">what</span> you <span className="text-brand-orange">need</span>
                 </h1>
