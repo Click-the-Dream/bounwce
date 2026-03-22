@@ -35,18 +35,13 @@ const Navbar = () => {
 
                 {/* Right Actions */}
                 <div className="flex items-center gap-3">
+
                     <button className="hidden md:flex h-[34px] justify-between items-center gap-2 text-[13px] px-[15px] py-[6px] bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none">
                         Sign Up
                         <Play size={10} fill="#FFC501" />
                     </button>
 
-                    <button
-                        onClick={toggleTheme}
-                        className="md:hidden flex items-center justify-center p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors duration-300"
-                        aria-label="Toggle Dark Mode"
-                    >
-                        {theme === 'dark' ? <LuSun size={16} /> : <LuMoon size={16} />}
-                    </button>
+
 
                     {/* Mobile Toggle Button */}
                     <button

@@ -30,10 +30,10 @@ const OrderSummary = ({ orderSummary }) => {
                     ? vendors[0].products.map((p) => (
                         <div
                             key={p.id}
-                            className="border-l border-[#767676] pl-2 flex items-center justify-between mt-2"
+                            className="pl-2 flex items-center justify-between mt-2"
                         >
-                            <span className="text-[13px]">{p.name}</span>
-                            <span className="font-bold">{formatCurrency(p.total)}</span>
+                            <span className="text-[13px] text-[#767676] ">{p.name}</span>
+                            <span className="text-[12px] font-medium">{formatCurrency(p.total)}</span>
                         </div>
                     ))
                     : vendors
