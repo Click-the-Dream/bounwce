@@ -8,7 +8,7 @@ import Logo from "./Logo";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-const { theme, toggleTheme } = useTheme();
+    const { theme, toggleTheme } = useTheme();
     const navLinks = [
         { name: "About Us", href: "#" },
         { name: "Blog", href: "#" },
@@ -41,12 +41,12 @@ const { theme, toggleTheme } = useTheme();
                     </button>
 
                     <button
-                onClick={toggleTheme}
-                className="md:hidden flex items-center justify-center p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors duration-300"
-                aria-label="Toggle Dark Mode"
-            >
-                {theme === 'dark' ? <LuSun size={16} /> : <LuMoon size={16} />}
-            </button>
+                        onClick={toggleTheme}
+                        className="md:hidden flex items-center justify-center p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors duration-300"
+                        aria-label="Toggle Dark Mode"
+                    >
+                        {theme === 'dark' ? <LuSun size={16} /> : <LuMoon size={16} />}
+                    </button>
 
                     {/* Mobile Toggle Button */}
                     <button
@@ -69,12 +69,12 @@ const { theme, toggleTheme } = useTheme();
                     >
                         <ul className="flex flex-col gap-5">
                             {navLinks.map((link) => (
-                                <li key={link.name} className="text-lg font-bold text-black border-b border-gray-100 pb-2">
+                                <li key={link.name} className="text-[13px] font-bold text-black border-b border-gray-100 pb-2">
                                     {link.name}
                                 </li>
                             ))}
                             <li>
-                                <button className="w-full h-[45px] flex justify-center items-center gap-2 bg-orange text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                <button className="text-[13px] w-full h-[45px] flex justify-center items-center gap-2 bg-orange text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                                     Sign Up <Play size={12} fill="#FFC501" />
                                 </button>
                             </li>
