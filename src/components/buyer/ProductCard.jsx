@@ -61,11 +61,11 @@ const ProductCard = ({ product }) => {
       "
     >
       {/* Image wrapper */}
-      <div className="overflow-hidden rounded-t-xl">
-        <ProductImageDisplay images={product?.images} height="h-36" thumbSize="w-10 h-10" showThumbnails={false} />
+      <div className="overflow-hidden rounded-t-xl h-60">
+        <ProductImageDisplay images={product?.images} height="h-full" showThumbnails={false} />
       </div>
 
-      <section className="px-4 pb-4 flex flex-col flex-1">
+      <section className="px-4 py-4 flex flex-col flex-1">
         <h2 className="font-medium text-sm mb-1 line-clamp-2">
           {product?.name}
         </h2>

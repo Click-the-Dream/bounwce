@@ -6,7 +6,7 @@ import useCart from "../hooks/useCart";
 export const StoreContext = createContext();
 export const StoreProvider = ({ children }) => {
   const { getCarts } = useCart();
-  const { data: carts } = getCarts()
+  const { data: carts = [] } = getCarts()
 
   // Persist cart to localStorage
   // useEffect(() => {

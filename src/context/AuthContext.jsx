@@ -16,12 +16,15 @@ export const AuthProvider = ({ children }) => {
   // Initialize interceptors ONCE
   useEffect(() => {
     setupInterceptors(
-      () => authDetails, // Getter to ensure interceptor has latest state
+      () => {
+        const stored = sessionStorage.getItem("authUser");
+        return stored ? JSON.parse(stored) : null;
+      },
       (token) => {
-        updateAuth((prev) => ({ ...prev, access_token: token }));
+        updateAuth(() => ({ ...authDetails, access_token: token }));
       }
     );
-  }, []); // Empty dependency array is fine because we use a getter function
+  }, []);
 
   const updateAuth = (newUser) => {
     if (newUser) {

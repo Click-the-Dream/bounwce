@@ -16,18 +16,30 @@ const ShoppingCart = () => {
 
   // Flatten cart items with convenient fields
   const cartItems = useMemo(() => {
-    return carts?.map((storeCart) => ({
-      storeId: storeCart.id,
-      storeName: storeCart?.product?.vendor || "Store Name", // optional if you store vendor separately
-      items: [
-        {
-          ...storeCart.product,
-          quantity: storeCart.quantity,
-          status: storeCart.status || "cart",
-          cartId: storeCart.id, // unique cart item id
-        },
-      ],
-    })) || [];
+    if (!carts) return [];
+
+    const grouped = carts.reduce((acc, cart) => {
+      const storeId = cart?.store?.id;
+
+      if (!acc[storeId]) {
+        acc[storeId] = {
+          storeId,
+          storeName: cart?.store?.name || "Store Name",
+          items: [],
+        };
+      }
+
+      acc[storeId].items.push({
+        ...cart.product,
+        quantity: cart.quantity,
+        status: cart.status || "cart",
+        cartId: cart.id,
+      });
+
+      return acc;
+    }, {});
+
+    return Object.values(grouped);
   }, [carts]);
 
   const toggleItem = (cartId) => {
@@ -52,7 +64,9 @@ const ShoppingCart = () => {
     updateCart.mutate({ cartId, data: { status: "cart" } });
   };
 
-  const savedItems = cartItems.filter((i) => i.status === "saved");
+  const savedItems = cartItems.flatMap(store =>
+    store.items.filter(item => item.status === "saved")
+  );
 
   // Compute order summary
   const orderSummary = useMemo(() => {
@@ -115,41 +129,34 @@ const ShoppingCart = () => {
             </div>
 
             <div className="grid grid-cols-responsive gap-6">
-              {savedItems.map((cart) => (
+              {savedItems.map((item) => (
                 <div
-                  key={cart?.id}
+                  key={item.cartId}
                   className="bg-white rounded-xl shadow-sm p-4 space-y-6 border"
                 >
                   <div className="flex gap-4">
                     <img
-                      src={cart?.image}
+                      src={item?.image}
                       className="w-20 h-20 rounded-lg object-cover"
                     />
                     <div>
-                      <p className="font-medium text-sm">{cart?.name}</p>
-                      <p className="text-xs text-gray-500">{cart?.vendor}</p>
+                      <p className="font-medium text-sm">{item?.name}</p>
+                      <p className="text-xs text-gray-500">{item?.store?.name}</p>
                       <p className="font-semibold mt-1">
-                        {formatCurrency(cart?.amount)}
+                        {formatCurrency(item?.amount)}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={moveToCart}
+                      onClick={() => moveToCart(item.cartId)}
                       className="w-full bg-black text-white py-2 rounded-lg text-xs flex items-center justify-center gap-2"
                     >
                       <FiShoppingBag /> Move to Cart
                     </button>
                     <button
-                      onClick={() =>
-                        removeItem(
-                          cart.findIndex((v) => v.name === item.vendor),
-                          cart
-                            .find((v) => v.name === item.vendor)
-                            .items.findIndex((i) => i.id === item.id),
-                        )
-                      }
+                      onClick={() => removeItem(item.cartId)}
                       className="text-gray-400 hover:text-red-500 border p-2 rounded-lg"
                     >
                       <FiTrash2 size={14} />

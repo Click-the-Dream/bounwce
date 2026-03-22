@@ -25,20 +25,22 @@ const isTokenExpired = (token) => {
 };
 
 export const setupInterceptors = (getAuth, parseToken) => {
-  // REQUEST: Only add token if it exists
   api.interceptors.request.use((config) => {
+    if (config.headers?.Authorization) {
+      return config;
+    }
+
     let auth = getAuth();
 
-    // 2. If state is empty (common right after login), check Storage directly
     if (!auth?.access_token) {
       const stored = sessionStorage.getItem("authUser");
-      console.log(stored);
       if (stored) auth = JSON.parse(stored);
     }
 
     if (auth?.access_token) {
       config.headers.Authorization = `Bearer ${auth.access_token}`;
     }
+
     return config;
   });
 
@@ -71,9 +73,24 @@ export const setupInterceptors = (getAuth, parseToken) => {
             {},
             { withCredentials: true },
           );
-
           const newToken = data?.data?.access_token;
-          parseToken(newToken); // Updates React State
+          const stored = sessionStorage.getItem("authUser");
+          let newUser;
+
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            newUser = { ...parsed, access_token: newToken };
+          } else {
+            // If no user data is in storage, fetch the user from backend
+            const { data: userData } = await axios.get(
+              `${import.meta.env.VITE_BASE_URL}/api/v1/auth/me`,
+              { headers: { Authorization: `Bearer ${newToken}` } },
+            );
+            newUser = { ...userData, access_token: newToken };
+          }
+
+          sessionStorage.setItem("authUser", JSON.stringify(newUser));
+          parseToken(newToken);
           processQueue(null, newToken);
 
           originalRequest.headers.Authorization = `Bearer ${newToken}`;

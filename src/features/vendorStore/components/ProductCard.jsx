@@ -6,7 +6,6 @@ import ProductImageDisplay from "../../../components/common/ProductImageDisplay"
 
 const ProductCard = ({ product, status }) => {
     const { toggleProductState } = useProduct();
-    const [mainIndex, setMainIndex] = useState(0); // current main image
     const images = product?.images || [];
 
     const handleProductState = async () => {
@@ -15,7 +14,9 @@ const ProductCard = ({ product, status }) => {
 
     return (
         <div className="w-full border rounded-lg overflow-hidden shadow-sm">
-            <ProductImageDisplay images={product?.images} />
+            <div className="h-[250px]">
+                <ProductImageDisplay height="h-full" images={product?.images} showThumbnails={false} />
+            </div>
 
             {/* PRODUCT DETAILS */}
             <div className="border-t px-5 py-4 bg-white">

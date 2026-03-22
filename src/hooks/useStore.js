@@ -194,10 +194,6 @@ const useStore = () => {
     onError: (error) => handleFailure("Contact Deletion", error),
   });
 
-  // ===========================
-  // STORE PAYOUT INFORMATION
-  // ===========================
-
   const useGetPayoutInfo = (userId) =>
     useQuery({
       queryKey: ["store", "payout", userId],
@@ -253,6 +249,18 @@ const useStore = () => {
     onError: (error) => handleFailure("Payout Deletion", error),
   });
 
+  const useGetStoreOnboardingStatus = (userId) =>
+    useQuery({
+      queryKey: ["store", "onboarding-status"],
+      queryFn: async () => {
+        const response = await client.get("/store/onboarding-status");
+        return response?.data?.data;
+      },
+      enabled:
+        !!authDetails?.access_token && authDetails?.user?.role === "vendor",
+      onError: (error) => handleFailure("Fetch Payout Info", error),
+    });
+
   return {
     useGetStoreInfo,
     useGetMyStore,
@@ -271,6 +279,7 @@ const useStore = () => {
     createPayout,
     updatePayout,
     deletePayout,
+    useGetStoreOnboardingStatus,
   };
 };
 

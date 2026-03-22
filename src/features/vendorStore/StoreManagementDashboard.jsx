@@ -14,12 +14,23 @@ import PageTransition from "../../components/common/PageTransition";
 import useProduct from "../../hooks/useProduct";
 import useStore from "../../hooks/useStore";
 
+const StatSkeleton = () => (
+  <div className="animate-pulse bg-white rounded-xl p-4 h-[80px] border border-gray-200" />
+);
+
+const SectionSkeleton = () => (
+  <div className="animate-pulse space-y-3">
+    <div className="h-10 bg-gray-200 rounded-md" />
+    <div className="h-40 bg-gray-200 rounded-md" />
+  </div>
+);
+
 const StoreManagementDashboard = () => {
   const { useGetMyProducts } = useProduct();
   const { useGetMyStore } = useStore();
-  const { data: store } = useGetMyStore();
+  const { data: store, isLoading: storeLoading } = useGetMyStore();
 
-  const { data, isLoading, error } = useGetMyProducts();
+  const { data, isLoading: productsLoading, error } = useGetMyProducts();
   const products = data?.products ?? [];
 
   const navigate = useNavigate();
@@ -30,13 +41,13 @@ const StoreManagementDashboard = () => {
     exit: { opacity: 0, y: -20 },
   };
   const totalProducts = data?.total ?? products.length;
-  const activeProducts = products.filter(p => p.state !== "draft").length;
-  const draftProducts = products.filter(p => p.state === "draft").length;
+  const activeProducts = products.filter(p => p.state !== "draft");
+  const draftProducts = products.filter(p => p.state === "draft");
 
   const stats = [
     { label: "Total Products", amount: totalProducts, icon: MdOutlineDashboard },
-    { label: "Active Products", amount: activeProducts, icon: MdOutlineDashboard },
-    { label: "Draft Products", amount: draftProducts, icon: MdOutlineDashboard },
+    { label: "Active Products", amount: activeProducts?.length, icon: MdOutlineDashboard },
+    { label: "Draft Products", amount: draftProducts?.length, icon: MdOutlineDashboard },
     { label: "Low Stock Items", amount: products.filter(p => p.stock < 5).length, icon: MdOutlineDashboard },
   ];
 
@@ -45,7 +56,7 @@ const StoreManagementDashboard = () => {
       <main className="min-h-screen bg-[#ECECF080]">
         <header className="mb-6">
           <VendorHeader
-            header={store?.name || "My store"}
+            header={storeLoading ? "Loading store..." : store?.name || "My store"}
             headerDetails={"Manage your products and inventory"}
             icon={MdOutlineDashboard}
             label={"Go to Dashboard"}
@@ -62,17 +73,18 @@ const StoreManagementDashboard = () => {
               Error loading products: {error.message}
             </div>
           )}
-          {isLoading && <div>Loading products...</div>}
           {/* stats card */}
           <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[21px]">
-            {stats.map((data, index) => (
-              <VendorOverviewCard
-                key={index}
-                label={data.label}
-                amount={data.amount}
-                icon={data.icon}
-              />
-            ))}
+            {productsLoading
+              ? Array.from({ length: 4 }).map((_, i) => <StatSkeleton key={i} />)
+              : stats.map((data, index) => (
+                <VendorOverviewCard
+                  key={index}
+                  label={data.label}
+                  amount={data.amount}
+                  icon={data.icon}
+                />
+              ))}
           </section>
 
           {/* Search & Actions */}
@@ -85,8 +97,8 @@ const StoreManagementDashboard = () => {
                 }`}
               onClick={() => setActiveTab("product")}
             >
-              <span>Active Products</span>
-              <span>({products?.length})</span>
+              <span>Active Products</span>{" "}
+              <span>({activeProducts?.length})</span>
             </button>
 
             <button
@@ -94,36 +106,61 @@ const StoreManagementDashboard = () => {
                 }`}
               onClick={() => setActiveTab("drafts")}
             >
-              <span>Drafts</span>
-              <span>(0)</span>
+              <span>Drafts</span> {" "}
+              <span>({draftProducts?.length})</span>
             </button>
           </div>
 
           {/* Active products and drafs section */}
           <AnimatePresence mode="wait">
-            {activeTab === "product" && (
+            {productsLoading ? (
+              <motion.div
+                key="loading"
+                variants={sectionVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
+                <SectionSkeleton />
+              </motion.div>
+            ) : error ? (
+              <motion.div
+                key="error"
+                className="text-red-500 bg-red-50 p-4 rounded-lg"
+              >
+                Failed to load products. Please try again.
+              </motion.div>
+            ) : activeTab === "product" ? (
               <motion.div
                 key="product"
                 variants={sectionVariants}
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                transition={{ duration: 0.3, ease: "easeInOut" }}
               >
-                <ProductSection products={products} />
+                {activeProducts?.length === 0 ? (
+                  <div className="text-center py-10 text-gray-500">
+                    No active products yet. Start by publishing one.
+                  </div>
+                ) : (
+                  <ProductSection products={activeProducts} status="active" />
+                )}
               </motion.div>
-            )}
-
-            {activeTab === "drafts" && (
+            ) : (
               <motion.div
                 key="drafts"
                 variants={sectionVariants}
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                transition={{ duration: 0.3, ease: "easeInOut" }}
               >
-                <DraftSection />
+                {draftProducts?.length === 0 ? (
+                  <div className="text-center py-10 text-gray-500">
+                    No drafts available.
+                  </div>
+                ) : (
+                  <ProductSection products={draftProducts} status="draft" />
+                )}
               </motion.div>
             )}
           </AnimatePresence>
