@@ -1,4 +1,5 @@
 import { vendors } from "./dummies";
+import { onboardingTree } from "./fields";
 
 export const extractErrorMessage = (error) => {
   try {
@@ -131,3 +132,14 @@ export const statusStyles = {
 export const formatCurrency = (amount) => `₦${amount.toLocaleString("en-NG")}`;
 
 export const getVendor = (vendorId) => vendors.find((v) => v.id === vendorId);
+
+export const getFirstMissingStep = (missingSections) => {
+  for (const [step, tabs] of Object.entries(onboardingTree)) {
+    for (const [tab, fields] of Object.entries(tabs)) {
+      if (fields.some((f) => missingSections.includes(f))) {
+        return { step: Number(step), tab };
+      }
+    }
+  }
+  return { step: 2, tab: "store" }; // default
+};

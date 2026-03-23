@@ -8,13 +8,22 @@ import OnboardingSuccess from "../../components/vendor/onboarding/OnboardingSucc
 import useStore from "../../hooks/useStore";
 import useUser from "../../hooks/useUser";
 import StoreLoader from "../../components/common/StoreLoader";
+import { useLocation } from "react-router-dom";
+import { getFirstMissingStep } from "../../utils/formatters";
 
 const tabOrder = ["store", "contact", "verification", "payout"];
 
 const VendorOnboarding = () => {
-  const [currentStep, setCurrentStep] = useState(2);
-  const [currentTab, setCurrentTab] = useState("store");
+  const location = useLocation();
+  const missingSections = location?.state?.onboarding || [];
+
+  const { step: initialStep, tab: initialTab } = getFirstMissingStep(missingSections);
+
+  const [currentStep, setCurrentStep] = useState(initialStep);
+  const [currentTab, setCurrentTab] = useState(initialTab);
   const [completedTabs, setCompletedTabs] = useState([]);
+
+
 
   const {
     createStore,
@@ -96,9 +105,9 @@ const VendorOnboarding = () => {
       case "contact":
         return Boolean(
           storeData.contact_info?.name ||
-            storeData.contact_info?.email ||
-            storeData.contact_info?.title ||
-            storeData.contact_info?.phone_number
+          storeData.contact_info?.email ||
+          storeData.contact_info?.title ||
+          storeData.contact_info?.phone_number
         );
       case "verification":
         return Boolean(verificationData?.id_number);
@@ -323,6 +332,7 @@ const VendorOnboarding = () => {
               storeData={storeData}
               onNext={() => setCurrentStep(4)}
               onBack={() => setCurrentStep(2)}
+              initialTab={initialTab}
             />
           )}
 

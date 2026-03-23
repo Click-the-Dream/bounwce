@@ -20,7 +20,7 @@ const VendorHeader = ({
   rightIcon: RightIcon,
 }) => {
   return (
-    <header className="bg-white shadow py-5 px-[1rem] md:px-[3rem] lg:px-[140px] 2xl:px-[175px] flex justify-between items-center gap-2">
+    <header className="bg-white shadow py-5 px-[1rem] md:px-[3rem] xl:px-[140px] 2xl:px-[175px] flex justify-between items-center gap-2">
       <div className="flex gap-3 items-center">
         {isBackButton && (
           <button
@@ -40,12 +40,12 @@ const VendorHeader = ({
 
         <div className="hidden md:block">
           <div className="flex gap-1 items-center">
-            <TbHome />
-            <p className="text-[16px] font-semibold">
-              <span>{storeName}</span> - {header}
+            <TbHome className="shrink-0" />
+            <p className="text-xs md:text-sm lg:text-base font-semibold capitalize">
+              <span>{storeName?.split(" ")[0]}</span> - {header}
             </p>
           </div>
-          <p className="text-[13px] text-[#717182]">{headerDetails}</p>
+          <p className="text-[10px] lg:text-[13px] text-[#717182]">{headerDetails}</p>
         </div>
       </div>
 

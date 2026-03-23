@@ -7,6 +7,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { availabilityOptions } from "../../../../utils/dummies";
 import { onPrompt } from "../../../../utils/notifications/onPrompt";
 import useProduct from "../../../../hooks/useProduct";
+import { formatCurrency } from "../../../../utils/formatters";
 
 const StepTwo = ({ register, errors, trigger }) => {
   const { setValue, watch, getValues, control } = useFormContext();
@@ -208,7 +209,7 @@ const StepTwo = ({ register, errors, trigger }) => {
                       {prod?.description}
                     </p>
                     <p className="text-xs">
-                      <b>Price:</b> ₦{prod?.amount}{" "}
+                      <b>Price:</b> {formatCurrency(prod?.amount)}{" "}
                       <b className="ml-2">Stock:</b> {prod?.stock}
                     </p>
                   </div>
@@ -243,11 +244,10 @@ const StepTwo = ({ register, errors, trigger }) => {
                   {...register("productName", {
                     required: "Product name is required",
                   })}
-                  className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
-                    errors.productName
-                      ? "border border-red-500"
-                      : "border-gray-50"
-                  }`}
+                  className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${errors.productName
+                    ? "border border-red-500"
+                    : "border-gray-50"
+                    }`}
                   placeholder="e.g., Wireless Headphones"
                 />
                 {errors.productName && (
@@ -293,9 +293,8 @@ const StepTwo = ({ register, errors, trigger }) => {
                   maxLength: { value: 1000, message: "Max 1000 characters" },
                 })}
                 rows={4}
-                className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs resize-none bg-gray-50 ${
-                  errors.description ? "border border-red-500" : ""
-                }`}
+                className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] text-xs resize-none bg-gray-50 ${errors.description ? "border border-red-500" : ""
+                  }`}
                 placeholder="Describe your product"
               />
               <div className="flex justify-between text-xs text-gray-400 text-right">
@@ -324,9 +323,8 @@ const StepTwo = ({ register, errors, trigger }) => {
                       message: "Price cannot be negative",
                     },
                   })}
-                  className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
-                    errors.amount ? "border border-red-500" : "border-gray-50"
-                  }`}
+                  className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${errors.amount ? "border border-red-500" : "border-gray-50"
+                    }`}
                   min={0}
                   placeholder="e.g., 49.99"
                 />
@@ -350,9 +348,8 @@ const StepTwo = ({ register, errors, trigger }) => {
                       message: "quantity cannot be negative",
                     },
                   })}
-                  className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${
-                    errors.stock ? "border border-red-500" : "border-gray-50"
-                  }`}
+                  className={`w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-[#737373] bg-gray-50 text-xs ${errors.stock ? "border border-red-500" : "border-gray-50"
+                    }`}
                   placeholder="e.g., 100"
                   min={0}
                 />
@@ -405,11 +402,10 @@ const StepTwo = ({ register, errors, trigger }) => {
                   return (
                     <div
                       key={slot}
-                      className={`relative aspect-video border-2 border-dashed rounded-xl flex items-center justify-center cursor-pointer ${
-                        errors.images
-                          ? "border border-red-500"
-                          : "border-gray-100 hover:border-orange-400"
-                      }`}
+                      className={`relative aspect-video border-2 border-dashed rounded-xl flex items-center justify-center cursor-pointer ${errors.images
+                        ? "border border-red-500"
+                        : "border-gray-100 hover:border-orange-400"
+                        }`}
                     >
                       <input
                         type="file"
@@ -457,21 +453,20 @@ const StepTwo = ({ register, errors, trigger }) => {
                 createProduct.isPending ||
                 updateProduct.isPending
               }
-              className={`bg-black text-white text-xs p-3 w-full rounded-lg transition-colors ${
-                isSubmitting ||
+              className={`bg-black text-white text-xs p-3 w-full rounded-lg transition-colors ${isSubmitting ||
                 createProduct.isPending ||
                 updateProduct.isPending
-                  ? "opacity-70 cursor-not-allowed"
-                  : "hover:bg-gray-800"
-              }`}
+                ? "opacity-70 cursor-not-allowed"
+                : "hover:bg-gray-800"
+                }`}
             >
               {isSubmitting ||
-              createProduct.isPending ||
-              updateProduct.isPending
+                createProduct.isPending ||
+                updateProduct.isPending
                 ? "Saving Product..."
                 : hasId
-                ? "Update Product"
-                : "Add Product"}
+                  ? "Update Product"
+                  : "Add Product"}
             </button>
           </div>
         </>

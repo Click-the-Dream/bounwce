@@ -35,25 +35,23 @@ const PublicRoute = ({ children }) => {
 function App() {
   return (
     <AuthProvider>
-      <StoreProvider>
-        <ThemeProvider>
-          <ModalProvider>
-            <div className="font-inter">
-              <Suspense fallback={<Fallback />}>
-                <MainRoutes />
-              </Suspense>
-            </div>
+      <ThemeProvider>
+        <ModalProvider>
+          <div className="font-inter">
+            <Suspense fallback={<Fallback />}>
+              <MainRoutes />
+            </Suspense>
+          </div>
 
-            <ToastContainer
-              autoClose={2000}
-              draggable
-              position="bottom-right"
-              transition={Slide}
-              theme="light"
-            />
-          </ModalProvider>
-        </ThemeProvider>
-      </StoreProvider>
+          <ToastContainer
+            autoClose={2000}
+            draggable
+            position="bottom-right"
+            transition={Slide}
+            theme="light"
+          />
+        </ModalProvider>
+      </ThemeProvider>
     </AuthProvider>
   );
 }

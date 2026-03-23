@@ -7,106 +7,97 @@ import { useStore } from "../../context/storeContext";
 import { useState } from "react";
 import CartItem from "../../components/buyer/CartItem";
 import OrderSummary from "../../components/buyer/OrderSummary";
+import useCart from "../../hooks/useCart";
 
 const ShoppingCart = () => {
-  const { cart, setCart } = useStore(); // use global cart
+  const { carts } = useStore()
+  const { addToCart, updateCart, removeCart, checkoutCarts } = useCart();
   const [openItem, setOpenItem] = useState(null);
 
-  const toggleItem = (vIdx, iIdx) => {
-    const key = `${vIdx}-${iIdx}`;
-    setOpenItem((prev) => (prev === key ? null : key));
+  // Flatten cart items with convenient fields
+  const cartItems = useMemo(() => {
+    if (!carts) return [];
+
+    const grouped = carts.reduce((acc, cart) => {
+      const storeId = cart?.store?.id;
+
+      if (!acc[storeId]) {
+        acc[storeId] = {
+          storeId,
+          storeName: cart?.store?.name || "Store Name",
+          items: [],
+        };
+      }
+
+      acc[storeId].items.push({
+        ...cart.product,
+        quantity: cart.quantity,
+        status: cart.status || "cart",
+        cartId: cart.id,
+      });
+
+      return acc;
+    }, {});
+
+    return Object.values(grouped);
+  }, [carts]);
+
+  const toggleItem = (cartId) => {
+    setOpenItem((prev) => (prev === cartId ? null : cartId));
   };
 
-  /** Update item quantity */
-  const updateQuantity = (vendorIndex, itemIndex, delta) => {
-    setCart((prev) =>
-      prev.map((vendor, vIdx) =>
-        vIdx !== vendorIndex
-          ? vendor
-          : {
-            ...vendor,
-            items: vendor.items.map((item, iIdx) =>
-              iIdx !== itemIndex
-                ? item
-                : { ...item, quantity: Math.max(1, item.quantity + delta) },
-            ),
-          },
-      ),
-    );
+  const updateQuantity = (cartId, delta) => {
+    console.log(cartId, delta);
+
+    updateCart.mutate({ cartId, data: { quantity: Math.max(1, delta) } });
   };
 
-  /** Remove an item from cart */
-  const removeItem = (vendorIndex, itemIndex) => {
-    setCart((prev) =>
-      prev
-        .map((vendor, vIdx) =>
-          vIdx !== vendorIndex
-            ? vendor
-            : {
-              ...vendor,
-              items: vendor.items.filter((_, iIdx) => iIdx !== itemIndex),
-            },
-        )
-        .filter((vendor) => vendor.items.length > 0),
-    );
+  const removeItem = (cartId) => {
+    removeCart.mutate(cartId);
   };
 
-  const saveForLater = (vIdx, iIdx) => {
-    setCart((prev) =>
-      prev.map((vendor, v) =>
-        v !== vIdx
-          ? vendor
-          : {
-            ...vendor,
-            items: vendor.items.map((it, i) =>
-              i !== iIdx
-                ? it
-                : { ...it, status: "saved" },
-            ),
-          },
-      ),
-    )
-  }
-  const savedItems = cart.flatMap((v) =>
-    v.items
-      .filter((i) => i.status === "saved")
-      .map((i) => ({ ...i, vendor: v.name })),
+  const saveForLater = (cartId) => {
+    updateCart.mutate({ cartId, data: { status: "saved" } });
+  };
+
+  const moveToCart = (cartId) => {
+    updateCart.mutate({ cartId, data: { status: "cart" } });
+  };
+
+  const savedItems = cartItems.flatMap(store =>
+    store.items.filter(item => item.status === "saved")
   );
 
-  /** Compute order summary */
+  // Compute order summary
   const orderSummary = useMemo(() => {
-    const vendorTotals = cart.map((vendor) => {
-      const cartOnly = vendor.items.filter((i) => i.status !== "saved");
+    if (!cartItems) return { subtotal: 0, totalItems: 0, items: [], vendorTotals: [] };
+
+    const vendorTotals = cartItems.map((storeCart) => {
+      const products = storeCart.items
+        .filter((i) => i.status !== "saved")
+        .map((i) => ({
+          ...i,
+          total: i.amount * i.quantity,
+        }));
+
+      const total = products.reduce((sum, p) => sum + p.total, 0);
 
       return {
-        name: vendor.name,
-        products: cartOnly.map((item) => ({
-          id: item.id,
-          name: item.name,
-          quantity: item.quantity,
-          total: item.price * item.quantity,
-        })),
-        total: cartOnly.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0,
-        ),
+        storeId: storeCart.storeId,
+        name: storeCart.storeName,
+        total,
+        products,
       };
     });
 
     const subtotal = vendorTotals.reduce((sum, v) => sum + v.total, 0);
-
-    const totalItems = cart.reduce(
-      (sum, v) =>
-        sum +
-        v.items
-          .filter((i) => i.status !== "saved")
-          .reduce((iSum, i) => iSum + i.quantity, 0),
-      0,
+    const totalItems = vendorTotals.reduce(
+      (sum, v) => sum + v.products.reduce((s, p) => s + p.quantity, 0),
+      0
     );
 
-    return { vendorTotals, subtotal, totalItems };
-  }, [cart]);
-
+    return { subtotal, totalItems, items: cartItems, vendorTotals };
+  }, [cartItems]);
 
   return (
     <div className="bg-[#ECECF080] min-h-screen">
@@ -118,8 +109,8 @@ const ShoppingCart = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-8">
-            {cart.map((vendor, vIdx) => (
-              <CartItem key={vIdx} vIdx={vIdx} vendor={vendor} openItem={openItem} removeItem={removeItem} updateQuantity={updateQuantity} toggleItem={toggleItem} saveForLater={saveForLater} />
+            {cartItems?.map((cart) => (
+              <CartItem key={cart?.id} vIdx={cart?.id} cart={cart} openItem={openItem} removeItem={removeItem} updateQuantity={updateQuantity} toggleItem={toggleItem} saveForLater={saveForLater} />
             ))}
           </div>
 
@@ -140,54 +131,32 @@ const ShoppingCart = () => {
             <div className="grid grid-cols-responsive gap-6">
               {savedItems.map((item) => (
                 <div
-                  key={item.id}
+                  key={item.cartId}
                   className="bg-white rounded-xl shadow-sm p-4 space-y-6 border"
                 >
                   <div className="flex gap-4">
                     <img
-                      src={item.image}
+                      src={item?.image}
                       className="w-20 h-20 rounded-lg object-cover"
                     />
                     <div>
-                      <p className="font-medium text-sm">{item.name}</p>
-                      <p className="text-xs text-gray-500">{item.vendor}</p>
+                      <p className="font-medium text-sm">{item?.name}</p>
+                      <p className="text-xs text-gray-500">{item?.store?.name}</p>
                       <p className="font-semibold mt-1">
-                        {formatCurrency(item.price)}
+                        {formatCurrency(item?.amount)}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() =>
-                        setCart((prev) =>
-                          prev.map((v) =>
-                            v.name !== item.vendor
-                              ? v
-                              : {
-                                ...v,
-                                items: v.items.map((it) =>
-                                  it.id === item.id
-                                    ? { ...it, status: "cart" }
-                                    : it,
-                                ),
-                              },
-                          ),
-                        )
-                      }
+                      onClick={() => moveToCart(item.cartId)}
                       className="w-full bg-black text-white py-2 rounded-lg text-xs flex items-center justify-center gap-2"
                     >
                       <FiShoppingBag /> Move to Cart
                     </button>
                     <button
-                      onClick={() =>
-                        removeItem(
-                          cart.findIndex((v) => v.name === item.vendor),
-                          cart
-                            .find((v) => v.name === item.vendor)
-                            .items.findIndex((i) => i.id === item.id),
-                        )
-                      }
+                      onClick={() => removeItem(item.cartId)}
                       className="text-gray-400 hover:text-red-500 border p-2 rounded-lg"
                     >
                       <FiTrash2 size={14} />

@@ -1,91 +1,102 @@
-import { useStore } from "../context/storeContext";
+"use client";
 
-const useCart = () => {
-  const { setCart } = useStore();
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import api from "../services/api";
 
-  const addToCart = (product) => {
-    setCart((prev) => {
-      const vendorIndex = prev.findIndex((v) => v.name === product.category);
+export const useCart = () => {
+  const { authDetails } = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
-      if (vendorIndex > -1) {
-        // Vendor exists
-        const itemIndex = prev[vendorIndex].items.findIndex(
-          (i) => i.id === product.id
-        );
+  /** ---------------- QUERIES ---------------- */
 
-        if (itemIndex > -1) {
-          // Item exists: increment quantity
-          const newCart = prev.map((vendor, vIdx) =>
-            vIdx !== vendorIndex
-              ? vendor
-              : {
-                  ...vendor,
-                  items: vendor.items.map(
-                    (item, iIdx) =>
-                      iIdx !== itemIndex
-                        ? item
-                        : {
-                            ...item,
-                            quantity: item.quantity + 1,
-                            status: "cart",
-                          } // only update quantity
-                  ),
-                }
-          );
-          return newCart;
-        } else {
-          // Add new item under vendor with quantity 1
-          const newCart = prev.map((vendor, vIdx) =>
-            vIdx !== vendorIndex
-              ? vendor
-              : {
-                  ...vendor,
-                  items: [
-                    ...vendor.items,
-                    { ...product, quantity: 1, status: "cart" },
-                  ],
-                }
-          );
-          return newCart;
-        }
-      } else {
-        // New vendor, add product with quantity 1
-        return [
-          ...prev,
-          {
-            name: product.category,
-            items: [{ ...product, quantity: 1, status: "cart" }],
-          },
-        ];
-      }
+  const getCarts = () =>
+    useQuery({
+      queryKey: ["carts"],
+      queryFn: async () => {
+        const { data } = await api.get("/users/carts/?page=1&page_size=10");
+        return data?.data?.carts;
+      },
+      enabled: !!authDetails?.access_token,
     });
-  };
 
-  const removeFromCart = (product) => {
-    setCart((prev) => {
-      const vendorIndex = prev.findIndex((v) => v.name === product.category);
-      if (vendorIndex === -1) return prev;
-
-      const itemIndex = prev[vendorIndex].items.findIndex(
-        (i) => i.id === product.id
-      );
-      if (itemIndex === -1) return prev;
-
-      // Deep clone the vendor items
-      const newVendorItems = prev[vendorIndex].items
-        .filter((_, i) => i !== itemIndex)
-        .map((item) => ({ ...item }));
-
-      const newCart = prev
-        .map((vendor, idx) =>
-          idx === vendorIndex ? { ...vendor, items: newVendorItems } : vendor
-        )
-        .filter((vendor) => vendor.items.length > 0); // Remove empty vendors
-
-      return newCart;
+  const getCartById = (cartId) =>
+    useQuery({
+      queryKey: ["cart", cartId],
+      queryFn: async () => {
+        const res = await api.get(`/users/carts/${cartId}`);
+        return res.data;
+      },
+      enabled: !!cartId && !!authDetails?.access_token,
     });
-  };
 
-  return { addToCart, removeFromCart };
+  const getShippingInfo = () =>
+    useQuery({
+      queryKey: ["cartShippingInfo"],
+      queryFn: async () => {
+        const res = await api.get("/users/carts/cart-shipping-info");
+        return res.data;
+      },
+      enabled: !!authDetails?.access_token,
+    });
+
+  /** ---------------- MUTATIONS ---------------- */
+
+  const addToCart = useMutation({
+    mutationFn: async (data) => {
+      const res = await api.post("/users/carts/", data);
+      return res.data;
+    },
+    onSuccess: () => queryClient.invalidateQueries(["carts"]),
+  });
+
+  const updateCart = useMutation({
+    mutationFn: async ({ cartId, data }) => {
+      const res = await api.put(`/users/carts/${cartId}`, data);
+      return res.data;
+    },
+    onSuccess: (_, variables) =>
+      queryClient.invalidateQueries(["cart", variables.cartId]),
+  });
+
+  const removeFromCart = useMutation({
+    mutationFn: async (cartId) => {
+      await api.delete(`/users/carts/${cartId}`);
+    },
+    onSuccess: () => queryClient.invalidateQueries(["carts"]),
+  });
+
+  const deleteAllCarts = useMutation({
+    mutationFn: async () => {
+      await api.delete("/users/carts");
+    },
+    onSuccess: () => queryClient.invalidateQueries(["carts"]),
+  });
+
+  const checkoutCarts = useMutation({
+    mutationFn: async (cartIds) => {
+      const res = await api.post("/users/carts/checkout", { cartIds });
+      return res.data;
+    },
+    onSuccess: () => queryClient.invalidateQueries(["carts"]),
+  });
+
+  /** ---------------- RETURN OBJECT ---------------- */
+
+  return {
+    // Queries
+    getCarts,
+    getCartById,
+    getShippingInfo,
+
+    // Mutations
+    addToCart,
+    updateCart,
+    removeFromCart,
+    deleteAllCarts,
+    checkoutCarts,
+  };
 };
+
 export default useCart;

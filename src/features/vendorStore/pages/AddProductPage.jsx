@@ -37,24 +37,24 @@ const AddProductPage = ({ onClose }) => {
     setSubmittingAction(action);
 
     try {
-      // --- HANDLE DRAFT ---
-      if (action === "draft") {
-        const draftData = {
-          productName: data.productName || "",
-          description: data.description || "",
-          category: data.category || "",
-          availability: data.availability || "",
-          price: data.price || "",
-          stockQuantity: data.stockQuantity || "",
-          tags: data.tags || [],
-          savedAt: new Date().toISOString(),
-        };
+      // // --- HANDLE DRAFT ---
+      // if (action === "draft") {
+      //   const draftData = {
+      //     productName: data.productName || "",
+      //     description: data.description || "",
+      //     category: data.category || "",
+      //     availability: data.availability || "",
+      //     price: data.price || "",
+      //     stockQuantity: data.stockQuantity || "",
+      //     tags: data.tags || [],
+      //     savedAt: new Date().toISOString(),
+      //   };
 
-        localStorage.setItem("draft_product", JSON.stringify(draftData));
-        alert("Draft saved successfully");
-        setSubmittingAction(null);
-        return; // Stop here if it's a draft
-      }
+      //   localStorage.setItem("draft_product", JSON.stringify(draftData));
+      //   alert("Draft saved successfully");
+      //   setSubmittingAction(null);
+      //   return; // Stop here if it's a draft
+      // }
 
       // --- HANDLE PUBLISH (FormData) ---
       const formData = new FormData();
@@ -91,7 +91,6 @@ const AddProductPage = ({ onClose }) => {
       // Make API call
       await createProduct.mutateAsync(formData);
 
-      console.log(`Product ${action}ed successfully`);
 
       // Reset form after successful submission
       methods.reset();

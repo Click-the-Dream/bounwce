@@ -1,12 +1,13 @@
 import { WaitlistModal } from "./components";
-import { CampusStageSection, FinalCTASection, Footer, Header, Hero, ProblemDetailsSection, ProblemSection, StoryConclusionSection, StudentsSection, UniverseSection, WaitlistBanner } from "./sections";
+import Hero from "./components/Hero";
+import { CampusStageSection, FinalCTASection, Footer, Header, ProblemDetailsSection, ProblemSection, StoryConclusionSection, StudentsSection, UniverseSection, WaitlistBanner } from "./sections";
 import Gallery from "./sections/Gallery";
 
 
 const LandingPage = () => {
   return (
     <div className="relative dark:bg-gray-900 min-h-screen transition-colors duration-300">
-      <Header />
+      {/* <Header /> */}
       <Hero />
       <WaitlistBanner />
       <ProblemSection />

@@ -3,8 +3,7 @@ import NoProductCard from "./components/NoProductCard"
 import ProductCard from "./components/ProductCard"
 
 
-const DraftSection = () => {
-  const [draftProducts, setDraftProducts] = useState([])
+const DraftSection = ({ draftProducts }) => {
   return (
     <div>
       {

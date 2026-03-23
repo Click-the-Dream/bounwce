@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { TbEdit } from "react-icons/tb";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import axios from "axios";
 import useProduct from "../../../hooks/useProduct";
+import ProductImageDisplay from "../../../components/common/ProductImageDisplay";
 
 const ProductCard = ({ product, status }) => {
     const { toggleProductState } = useProduct();
-    const [mainIndex, setMainIndex] = useState(0); // current main image
     const images = product?.images || [];
 
     const handleProductState = async () => {
@@ -15,40 +14,9 @@ const ProductCard = ({ product, status }) => {
 
     return (
         <div className="w-full border rounded-lg overflow-hidden shadow-sm">
-            <section className="relative">
-                {/* MAIN IMAGE */}
-                <div className="bg-gray-100 h-[250px] flex items-center justify-center">
-                    {images[mainIndex] ? (
-                        <img
-                            src={images[mainIndex].url}
-                            alt={`product-image-${mainIndex}`}
-                            className="object-cover w-full h-full"
-                        />
-                    ) : (
-                        <div className="text-gray-400">No Image</div>
-                    )}
-                </div>
-
-                {/* THUMBNAILS */}
-                <div className="absolute bottom-0 left-0 w-full">
-                    {images.length > 1 && (
-                        <div className="flex gap-2 p-2 overflow-x-auto">
-                            {images.map((img, idx) => (
-                                <img
-                                    key={idx}
-                                    src={img.url}
-                                    alt={`thumbnail-${idx}`}
-                                    className={`w-12 h-12 object-cover rounded cursor-pointer border-2 ${idx === mainIndex
-                                        ? "border-blue-500"
-                                        : "border-gray-200"
-                                        }`}
-                                    onClick={() => setMainIndex(idx)}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </section>
+            <div className="h-[250px]">
+                <ProductImageDisplay height="h-full" images={product?.images} showThumbnails={false} />
+            </div>
 
             {/* PRODUCT DETAILS */}
             <div className="border-t px-5 py-4 bg-white">

@@ -29,32 +29,32 @@ const Hero = () => {
   ];
 
   const { waitlistUser } = useWaitlist();
-  const { data: waitlistData,} = waitlistUser;
+  const { data: waitlistData, } = waitlistUser;
 
   // Dynamic metrics based on live waitlist data
-    const joinedCount = waitlistData?.total || waitlistData?.data?.length || 0;
-    const [animatedCount, setAnimatedCount] = useState(0);
+  const joinedCount = waitlistData?.total || waitlistData?.data?.length || 0;
+  const [animatedCount, setAnimatedCount] = useState(0);
 
-    // Smooth count animation
-      useEffect(() => {
-        if (joinedCount > 0) {
-          let start = 0;
-          const duration = 1000;
-          const increment = joinedCount / (duration / 16);
-    
-          const animate = () => {
-            start += increment;
-            if (start < joinedCount) {
-              setAnimatedCount(Math.floor(start));
-              requestAnimationFrame(animate);
-            } else {
-              setAnimatedCount(joinedCount);
-            }
-          };
-    
-          animate();
+  // Smooth count animation
+  useEffect(() => {
+    if (joinedCount > 0) {
+      let start = 0;
+      const duration = 1000;
+      const increment = joinedCount / (duration / 16);
+
+      const animate = () => {
+        start += increment;
+        if (start < joinedCount) {
+          setAnimatedCount(Math.floor(start));
+          requestAnimationFrame(animate);
+        } else {
+          setAnimatedCount(joinedCount);
         }
-      }, [joinedCount]);
+      };
+
+      animate();
+    }
+  }, [joinedCount]);
 
   return (
     <section className="relative px-8 py-28 lg:px-14 lg:pl-20 min-h-[80vh] flex items-center overflow-hidden bg-[#FCFAF5] dark:bg-neutral-950 transition-colors duration-300">
