@@ -27,7 +27,7 @@ const useShipping = () => {
     useQuery({
       queryKey: ["shipment", userId],
       queryFn: async () => {
-        const response = await client.get(`/store/shipment/`);
+        const response = await client.get(`/store/shipment`);
         return response.data.data;
       },
       enabled: !!authDetails?.access_token,
