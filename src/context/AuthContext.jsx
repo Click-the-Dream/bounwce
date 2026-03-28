@@ -20,9 +20,7 @@ export const AuthProvider = ({ children }) => {
         const stored = sessionStorage.getItem("authUser");
         return stored ? JSON.parse(stored) : null;
       },
-      (token) => {
-        updateAuth(() => ({ ...authDetails, access_token: token }));
-      }
+      updateAuth
     );
   }, []);
 

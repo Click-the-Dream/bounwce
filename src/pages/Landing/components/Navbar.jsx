@@ -24,6 +24,13 @@ const Navbar = () => {
                     <Logo />
                 </div>
 
+                <button
+                    onClick={toggleTheme}
+                    className="md:ml-0 ml-auto flex items-center justify-center p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors duration-300"
+                    aria-label="Toggle Dark Mode"
+                >
+                    {theme === 'dark' ? <LuSun size={16} /> : <LuMoon size={16} />}
+                </button>
                 {/* Desktop Links */}
                 <ul className="ml-auto mr-2 hidden md:flex items-center gap-6 text-gray-700 text-[13px] dark:text-gray-300 font-medium">
                     {navLinks.map((link) => (

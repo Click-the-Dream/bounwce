@@ -14,20 +14,20 @@ const ProductCard = ({ product }) => {
 
   if (!product) return null;
 
-  const foundVendorIndex = carts?.findIndex((cart) =>
+  const foundVendorIndex = carts?.find((cart) =>
     cart.product.id === product?.id
   );
 
-  const isInCart = foundVendorIndex !== -1;
+  const productInCart = foundVendorIndex;
 
   const handleCardClick = (e) => {
     // Prevent navigation if clicking buttons
     if (e.target.closest("button")) return;
 
-    navigate("/buyer/product-details", {
+    navigate(`/buyer/products/${product?.id}`, {
       state: {
         product: product,
-        isInCart: isInCart,
+        cartId: productInCart?.id,
         vendorInfo: {
           name: vendors.find(v => v.id === product?.vendorId)?.name,
         }
@@ -43,8 +43,8 @@ const ProductCard = ({ product }) => {
 
     } else {
       // REMOVE LOGIC
-      if (isInCart) {
-
+      if (!!productInCart) {
+        removeFromCart.mutate(productInCart?.id)
       }
     }
   };
@@ -83,7 +83,7 @@ const ProductCard = ({ product }) => {
 
         {/* Action */}
         <div className="mt-auto flex justify-end">
-          {isInCart ? (
+          {productInCart?.product?.id ? (
             <button
 
               disabled={removeFromCart.isPending}

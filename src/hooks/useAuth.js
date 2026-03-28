@@ -168,8 +168,6 @@ const useAuth = () => {
     onSuccess: (userData) => {
       updateAuth(userData);
 
-      console.log(userData);
-
       const user = userData?.user;
 
       // Check if user is a vendor but not yet a store owner

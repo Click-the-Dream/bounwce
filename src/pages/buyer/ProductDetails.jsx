@@ -1,116 +1,87 @@
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import Navbar from "../../components/buyer/Navbar";
 import { useEffect, useState } from "react";
 import { ratingsIcon, stockIcon } from "../../assets";
 import { formatCurrency } from "../../utils/formatters";
 import VendorFeatureCard from "../../components/buyer/VendorFeatureCard";
 import { BsTruck } from "react-icons/bs";
-import { FiShield, FiShoppingCart } from "react-icons/fi";
+import { FiDelete, FiShield, FiShoppingCart } from "react-icons/fi";
 import { LuBox, LuStore } from "react-icons/lu";
 import { CiStar } from "react-icons/ci";
-import { useStore } from "../../context/storeContext";
 import Header from "../../components/buyer/Header";
 import { IoClose } from "react-icons/io5";
 import ProductImageDisplay from '../../components/common/ProductImageDisplay'
+import useCart from "../../hooks/useCart";
+import useProduct from "../../hooks/useProduct";
+import { toast } from "react-toastify";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useMemo } from "react";
+import { useStore } from "../../context/storeContext";
+import { BiMinus, BiPlus } from "react-icons/bi";
+import ProductSkeleton from "../../components/buyer/ProductSkeleton";
+import ErrorState from "../../components/buyer/ErrorState";
 
 const ProductDetails = () => {
+    const { productId } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
+    const { carts } = useStore();
+    const { useGetProductById } = useProduct(productId);
+    const { data: product, isLoading, isError } = useGetProductById(productId)
+    const { addToCart, updateCart, removeFromCart } = useCart();
     const [quantity, setQuantity] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { vendorInfo } = location.state || {};
+    const productInCart = useMemo(() => {
+        return carts?.find(item => item?.product?.id === product?.id);
+    }, [carts, product]);
 
-    const { product, vendorInfo, isInCart } = location.state || {};
-    console.log("location state: ", location.state);
-    console.log("product data: ", product);
-
-    const [activeImage, setActiveImage] = useState(product?.image || "");
-    const imageList = [
-        product?.image,
-        product?.image,
-        product?.image,
-        product?.image
-    ]
-    const specifications = [
-        { label: "Category", value: product?.category },
-        { label: "Stock", value: "12 items available" },
-        { label: "Availability", value: "in stock" },
-        { label: "Rating", value: `${product.rating}/5.0 (203 reviews)` }
-    ]
-
-    // redirect if state is missing
     useEffect(() => {
-        if (!product) {
-            console.log("redirecting because product is missing");
+        setQuantity(productInCart?.quantity)
+    }, [productInCart])
+
+
+    useEffect(() => {
+        if (!product && !productId) {
+            toast.info("redirecting because product is missing");
             navigate("/marketplace")
         }
     }, [product, navigate])
 
-    if (!product) return null;
+    const specifications = useMemo(() => {
+        if (!product) return null;
+        return [
+            { label: "Category", value: product?.category },
+            { label: "Stock", value: `${product?.stock} items available` },
+            { label: "Availability", value: "in stock" },
+            { label: "Rating", value: `${product.rating}/5.0 (203 reviews)` }
+        ]
+    }, [product])
 
+    if (isLoading) return <ProductSkeleton />;
 
-    // update product quantity
-    const updateQuantity = (vendorIndex, itemIndex, delta) => {
-        setCart((prev) =>
-            prev.map((vendor, vIdx) =>
-                vIdx !== vendorIndex
-                    ? vendor
-                    : {
-                        ...vendor,
-                        items: vendor.items.map((item, iIdx) =>
-                            iIdx !== itemIndex
-                                ? item
-                                : { ...item, quantity: Math.max(1, item.quantity + delta) }
-                        ),
-                    }
-            )
-        );
-    };
-
-    // remove product from cart
-    const removeItem = (vendorIndex, itemIndex) => {
-        setCart((prev) =>
-            prev
-                .map((vendor, vIdx) =>
-                    vIdx !== vendorIndex
-                        ? vendor
-                        : {
-                            ...vendor,
-                            items: vendor.items.filter((_, iIdx) => iIdx !== itemIndex),
-                        }
-                )
-                .filter((vendor) => vendor.items.length > 0) // Remove empty vendors
-        );
-    };
-
-    let currentVendorIndex = -1;
-    let currentItemIndex = -1;
-    let currentQuantity = 1;
-
-
-    const handleAddToCart = () => {
-        setCart((prevCart) => {
-            const cartClone = [...prevCart];
-            const vendorName = vendorInfo?.name
-            const vendorIndex = cartClone.findIndex(v => v.name === vendorName);
-
-            if (vendorIndex > -1) {
-                const itemIndex = cartClone[vendorIndex].items.findIndex((i) => i.id === product.id);
-
-                if (itemIndex > -1) {
-                    cartClone[vendorIndex].items[itemIndex].quantity = quantity;
-                    cartClone[vendorIndex].items[itemIndex].status = "cart";
-                } else {
-                    cartClone[vendorIndex].items.push({ ...product, quantity: quantity, status: "cart" })
-                }
-            } else {
-                cartClone.push({
-                    name: vendorName,
-                    items: [{ ...product, quantity: quantity, status: "cart" }]
-                });
-            }
-            return cartClone;
-        })
+    // 3. Handle Error or Missing Product
+    if (isError || (!product && !isLoading)) {
+        return <ErrorState />;
     }
+
+
+    const handleQuantity = (qauntity) => {
+        updateCart.mutate(
+            { cartId: productInCart?.id, data: { quantity: Math.max(1, qauntity) } },
+            {
+                onSuccess: (data) => setQuantity(data?.data?.quantity),
+            }
+        );
+    };
+
+    const handleRemove = async () => {
+        removeFromCart.mutate(productInCart?.id);
+    };
+
+    const handleAddToCart = (e, action) => {
+        addToCart.mutate({ product_id: product?.id, quantity })
+    };
 
     return (
         <div className="bg-[#ECECF080] min-h-screen ">
@@ -142,7 +113,7 @@ const ProductDetails = () => {
                             <img src={ratingsIcon} />{product.rating} (203 Reviews)
                         </span>
                         <span className="flex gap-2 items-center">
-                            <img src={stockIcon} />12 items in stock
+                            <img src={stockIcon} />{product?.stock} items in stock
                         </span>
                         <span className="text-[28px] font-semibold">{formatCurrency(product?.amount)}</span>
                     </div>
@@ -164,41 +135,52 @@ const ProductDetails = () => {
 
                     <div className="bg-white rounded-md p-4 mb-5">
                         {
-                            isInCart ? (
+                            !!productInCart ? (
                                 <div className="flex gap-4 items-center">
                                     <div className="flex gap-5 items-center">
                                         <button
+                                            disabled={updateCart.isPending || removeFromCart.isPending}
                                             onClick={() => {
-                                                if (currentQuantity > 1) {
-                                                    // If > 1, update logic
-                                                    updateQuantity(currentVendorIndex, currentItemIndex, -1);
+                                                if (quantity > 1) {
+                                                    handleQuantity(quantity - 1);
                                                 } else {
-                                                    removeItem(currentVendorIndex, currentItemIndex);
+                                                    handleRemove();
                                                 }
                                             }}
-                                            className="bg-black text-white px-3 py-1 rounded-md text-[12px]"
+                                            className="bg-black text-white p-2 rounded-md text-[12px]"
                                         >
-                                            -
+                                            {(updateCart.isPending || removeFromCart.isPending) ? (
+                                                <AiOutlineLoading3Quarters className="animate-spin text-sm" />
+                                            ) : (
+                                                <BiMinus className="text-sm" />
+                                            )}
                                         </button>
 
-                                        <span className="text-[13px]">{currentQuantity}</span>
+                                        <span className="text-[13px]">{quantity}</span>
 
                                         <button
-                                            disabled={currentQuantity >= 99}
-                                            onClick={() => updateQuantity(currentVendorIndex, currentItemIndex, 1)}
-                                            className="bg-black text-white px-3 py-1 rounded-md text-[12px]"
+                                            disabled={quantity >= 99 || updateCart.isPending || removeFromCart.isPending}
+                                            onClick={() => handleQuantity(quantity + 1)}
+                                            className="bg-black text-white p-2 rounded-md text-[12px] disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            +
+                                            {updateCart.isPending ? (
+                                                <AiOutlineLoading3Quarters className="animate-spin text-sm" />
+                                            ) : (
+                                                <BiPlus className="text-sm" />
+                                            )}
+
                                         </button>
                                     </div>
 
-                                    <p className="text-[12px] text-[#00000082]">({currentQuantity} item(s) added)</p>
+                                    <p className="text-[12px] text-[#00000082]">({quantity} item(s) added)</p>
                                 </div>
                             ) : (
                                 <div className="flex gap-2">
                                     <div className="flex gap-7 items-center border border-[#0000001A] rounded-md text-[12p] p-2">
                                         <button
+                                            disabled={quantity === 1}
                                             onClick={() => setQuantity((prev) => Math.min(1, prev - 1))}
+                                            className="disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             -
                                         </button>
@@ -213,11 +195,13 @@ const ProductDetails = () => {
                                     </div>
 
                                     <button
+                                        disabled={addToCart.isPending}
                                         onClick={handleAddToCart}
-                                        className="flex justify-center items-center gap-2 bg-black text-white flex-1 rounded-md text-[12px]"
+                                        className="flex justify-center items-center gap-2 bg-black text-white flex-1 rounded-md text-[12px] disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
-                                        <FiShoppingCart />
+                                        {addToCart.isPending ? <AiOutlineLoading3Quarters className="animate-spin" /> : <FiShoppingCart />}
                                         <span>Add to cart</span>
+
                                     </button>
                                 </div>
                             )

@@ -16,7 +16,7 @@ const BuyerRouter = () => {
         {/* Relative paths */}
         <Route path="marketplace" element={<MarketPlace />} />
         <Route path="cart" element={<ShoppingCart />} />
-        <Route path="product-details" element={<ProductDetails />} />
+        <Route path="products/:productId" element={<ProductDetails />} />
       </Routes>
     </StoreProvider>
   );

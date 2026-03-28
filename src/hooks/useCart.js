@@ -9,8 +9,6 @@ export const useCart = () => {
   const { authDetails } = useContext(AuthContext);
   const queryClient = useQueryClient();
 
-  /** ---------------- QUERIES ---------------- */
-
   const getCarts = () =>
     useQuery({
       queryKey: ["carts"],
@@ -48,7 +46,10 @@ export const useCart = () => {
       const res = await api.post("/users/carts/", data);
       return res.data;
     },
-    onSuccess: () => queryClient.invalidateQueries(["carts"]),
+    onSuccess: (_, data) => {
+      queryClient.invalidateQueries(["carts"]);
+      queryClient.invalidateQueries(["product", data?.product_id]);
+    },
   });
 
   const updateCart = useMutation({

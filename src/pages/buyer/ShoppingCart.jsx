@@ -8,11 +8,13 @@ import { useState } from "react";
 import CartItem from "../../components/buyer/CartItem";
 import OrderSummary from "../../components/buyer/OrderSummary";
 import useCart from "../../hooks/useCart";
+import EmptyCartState from "../../components/buyer/EmptyCartState";
 
 const ShoppingCart = () => {
   const { carts } = useStore()
-  const { addToCart, updateCart, removeCart, checkoutCarts } = useCart();
+  const { updateCart, removeCart } = useCart();
   const [openItem, setOpenItem] = useState(null);
+  const [pendingCartId, setPendingCartId] = useState(null);
 
   // Flatten cart items with convenient fields
   const cartItems = useMemo(() => {
@@ -44,12 +46,6 @@ const ShoppingCart = () => {
 
   const toggleItem = (cartId) => {
     setOpenItem((prev) => (prev === cartId ? null : cartId));
-  };
-
-  const updateQuantity = (cartId, delta) => {
-    console.log(cartId, delta);
-
-    updateCart.mutate({ cartId, data: { quantity: Math.max(1, delta) } });
   };
 
   const removeItem = (cartId) => {
@@ -99,6 +95,13 @@ const ShoppingCart = () => {
     return { subtotal, totalItems, items: cartItems, vendorTotals };
   }, [cartItems]);
 
+  const activeItems = cartItems.flatMap(store =>
+    store.items.filter(item => item.status === "cart")
+  );
+
+  const hasActiveItems = activeItems.length > 0;
+  const hasSavedItems = savedItems.length > 0;
+
   return (
     <div className="bg-[#ECECF080] min-h-screen">
       <Navbar />
@@ -106,17 +109,22 @@ const ShoppingCart = () => {
       <div className="max-w-5xl mx-auto px-6 pb-8">
         <Header title="Shopping Cart" orderSummary={orderSummary} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-8">
-            {cartItems?.map((cart) => (
-              <CartItem key={cart?.id} vIdx={cart?.id} cart={cart} openItem={openItem} removeItem={removeItem} updateQuantity={updateQuantity} toggleItem={toggleItem} saveForLater={saveForLater} />
-            ))}
+        {hasActiveItems ? (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Cart Items */}
+            <div className="lg:col-span-2 space-y-8">
+              {cartItems?.map((cart) => (
+                <CartItem key={cart?.id} vIdx={cart?.id} cart={cart} openItem={openItem} removeItem={removeItem} toggleItem={toggleItem} saveForLater={saveForLater} pendingCartId={pendingCartId} />
+              ))}
+            </div>
+
+            {/* Order Summary */}
+            <OrderSummary orderSummary={orderSummary} />
           </div>
 
-          {/* Order Summary */}
-          <OrderSummary orderSummary={orderSummary} />
-        </div>
+        ) : (
+          <EmptyCartState />
+        )}
 
         {savedItems.length > 0 && (
           <div className="mt-12">

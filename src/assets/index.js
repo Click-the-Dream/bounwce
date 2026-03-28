@@ -19,6 +19,8 @@ import starIcon from "./star-icon.svg";
 import ratingsIcon from "./ratings-icon.svg";
 import stockIcon from "./stock-icon.svg";
 import heroImg from "./hero-image.jpg";
+import heroImgDark from "./hero-img-dark.png";
+
 export {
   walletDebitImg,
   walletRefundImg,
@@ -41,4 +43,5 @@ export {
   ratingsIcon,
   stockIcon,
   heroImg,
+  heroImgDark,
 };
