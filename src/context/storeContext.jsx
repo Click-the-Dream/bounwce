@@ -6,7 +6,7 @@ import useCart from "../hooks/useCart";
 export const StoreContext = createContext();
 export const StoreProvider = ({ children }) => {
   const { getCarts } = useCart();
-  const { data: carts = [] } = getCarts()
+  const { data: carts = [], isLoading: cartLoading, isError: isCartError, error: cartError } = getCarts()
 
   // Persist cart to localStorage
   // useEffect(() => {
@@ -14,7 +14,7 @@ export const StoreProvider = ({ children }) => {
   // }, [cart]);
 
   return (
-    <StoreContext.Provider value={{ carts }}>
+    <StoreContext.Provider value={{ carts, cartLoading, isCartError, cartError }}>
       {children}
     </StoreContext.Provider>
   );

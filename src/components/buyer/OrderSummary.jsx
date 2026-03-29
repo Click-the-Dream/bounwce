@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { formatCurrency } from "../../utils/formatters";
 import { RiArrowDownWideLine, RiArrowUpWideLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 const OrderSummary = ({ orderSummary }) => {
+    const navigate = useNavigate();
     const [expandedVendors, setExpandedVendors] = useState({});
 
     const toggleVendor = (vendorName) => {
@@ -103,7 +105,7 @@ const OrderSummary = ({ orderSummary }) => {
                 <span className="font-bold">{formatCurrency(orderSummary.subtotal)}</span>
             </div>
 
-            <button className="mt-6 w-full bg-black text-white py-3 rounded-lg text-[10px]">
+            <button onClick={() => navigate("/buyer/checkout")} className="mt-6 w-full bg-black text-white py-3 rounded-lg text-[10px]">
                 Proceed to Checkout
             </button>
         </div>

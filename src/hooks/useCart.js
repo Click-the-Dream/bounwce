@@ -34,7 +34,7 @@ export const useCart = () => {
       queryKey: ["cartShippingInfo"],
       queryFn: async () => {
         const res = await api.get("/users/carts/cart-shipping-info");
-        return res.data;
+        return res.data?.data;
       },
       enabled: !!authDetails?.access_token,
     });

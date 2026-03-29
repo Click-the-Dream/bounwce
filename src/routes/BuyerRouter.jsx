@@ -4,6 +4,7 @@ import MarketPlace from "../pages/buyer/MarketPlace";
 import ShoppingCart from "../pages/buyer/ShoppingCart";
 import ProductDetails from "../pages/buyer/ProductDetails";
 import { StoreProvider } from "../context/storeContext";
+import Checkout from "../pages/buyer/Checkout";
 
 const BuyerRouter = () => {
   return (
@@ -16,6 +17,7 @@ const BuyerRouter = () => {
         {/* Relative paths */}
         <Route path="marketplace" element={<MarketPlace />} />
         <Route path="cart" element={<ShoppingCart />} />
+        <Route path="checkout" element={<Checkout />} />
         <Route path="products/:productId" element={<ProductDetails />} />
       </Routes>
     </StoreProvider>
