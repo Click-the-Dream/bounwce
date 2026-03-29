@@ -107,7 +107,7 @@ const Checkout = () => {
                     </div>
 
                     {/* Order Summary */}
-                    <OrderSummary orderSummary={orderSummary} />
+                    <OrderSummary orderSummary={orderSummary} mode="Payment" />
                 </div>
             </div>
         </div>

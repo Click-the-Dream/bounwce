@@ -37,7 +37,7 @@ const ProductDetails = () => {
     }, [carts, product]);
 
     useEffect(() => {
-        setQuantity(productInCart?.quantity)
+        setQuantity(productInCart?.quantity || 1)
     }, [productInCart])
 
 
