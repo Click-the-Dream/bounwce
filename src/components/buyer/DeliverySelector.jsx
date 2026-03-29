@@ -2,12 +2,11 @@ import { useState } from 'react';
 import { MoreHorizontal } from 'lucide-react';
 import { RiArrowDownWideLine } from 'react-icons/ri';
 import useCart from '../../hooks/useCart';
+import { formatCurrency } from '../../utils/formatters';
 
-const DeliverySelector = ({ carts }) => {
+const DeliverySelector = ({ carts, selectedDelivery, setSelectedDelivery }) => {
     const { getShippingInfo } = useCart();
     const { data: shippingInfo, isLoading, error } = getShippingInfo();
-
-    const [selectedZones, setSelectedZones] = useState({});
     const [openVendors, setOpenVendors] = useState({});
     const [openItems, setOpenItems] = useState({});
 
@@ -25,6 +24,17 @@ const DeliverySelector = ({ carts }) => {
         setOpenItems((prev) => ({
             ...prev,
             [storeId]: !prev[storeId],
+        }));
+    };
+
+    const handleSelect = (vendorId, loc) => {
+        setSelectedDelivery(prev => ({
+            ...prev,
+            [vendorId]: {
+                id: loc.id,
+                fee: loc.delivery_fee,
+                address: loc.shipping_address
+            }
         }));
     };
 
@@ -48,12 +58,12 @@ const DeliverySelector = ({ carts }) => {
                 return (
                     <div
                         key={storeId}
-                        className="border border-gray-100 rounded-xl p-[15px] mb-6 divide-y"
+                        className={`border-gray-100 rounded-xl p-[15px] pb-0 mb-6 divide-y ${selectedDelivery[storeId] ? "border-2" : "border-[0.53px]"}`}
                     >
                         {/* Vendor Header */}
                         <div
                             className="flex justify-between mb-4 cursor-pointer"
-                            onClick={() => toggleVendor(storeId)}
+
                         >
                             <div>
                                 <h3 className="capitalize font-medium text-black text-sm">
@@ -65,7 +75,7 @@ const DeliverySelector = ({ carts }) => {
                             </div>
 
                             {isMultiVendor && (
-                                <MoreHorizontal size={18} className="text-black" />
+                                <MoreHorizontal onClick={() => toggleVendor(storeId)} size={18} className="text-black" />
                             )}
                         </div>
 
@@ -79,7 +89,7 @@ const DeliverySelector = ({ carts }) => {
                             {/* Items Section */}
                             <div className="py-2">
                                 <div
-                                    className="flex justify-between items-center p-3 cursor-pointer"
+                                    className="flex justify-between items-center p-[11px] cursor-pointer border-[0.53px] border-red-500"
                                     onClick={() => toggleItems(storeId)}
                                 >
                                     <span className="text-[13px] font-medium">
@@ -100,7 +110,7 @@ const DeliverySelector = ({ carts }) => {
                                         : 'max-h-0 opacity-0'
                                         }`}
                                 >
-                                    <div className="p-0 bg-white relative">
+                                    <div className="p-0 bg-white relative mt-2">
                                         <div className="absolute left-5 top-0 bottom-0 w-[0.83px] bg-[#0000004D]"></div>
                                         {vendor.items?.map((item) => (
                                             <div key={item.id} className="relative group">
@@ -125,12 +135,12 @@ const DeliverySelector = ({ carts }) => {
                             </div>
 
                             {/* Delivery Section */}
-                            <div className="space-y-4 p-2 py-4">
+                            <div className="space-y-4 p-2 py-4 pb-2">
                                 <h3 className="text-sm font-medium">
                                     Available Delivery Locations
                                 </h3>
 
-                                {/* ✅ Loading (ONLY here) */}
+                                {/* Loading (ONLY here) */}
                                 {isLoading && (
                                     <div className="space-y-3">
                                         {[1, 2].map((i) => (
@@ -142,7 +152,7 @@ const DeliverySelector = ({ carts }) => {
                                     </div>
                                 )}
 
-                                {/* ❌ Error */}
+                                {/* Error */}
                                 {error && (
                                     <p className="text-red-500 text-sm">
                                         Failed to load delivery options
@@ -156,33 +166,55 @@ const DeliverySelector = ({ carts }) => {
                                     </p>
                                 )}
 
-                                {/* ✅ Data */}
+                                {/* Data */}
                                 {!isLoading &&
                                     !error &&
                                     vendorLocations.map((loc) => (
                                         <div
                                             key={loc.id}
-                                            onClick={() => setSelectedZones((prev) => ({ ...prev, [vendor.id]: loc.id }))}
-                                            className={`cursor-pointer border-2 rounded-xl p-[13px] px-[20px] flex justify-between transition-all duration-300 ${selectedZones[vendor.id] === loc.id ? 'border-orange bg-white shadow-sm' : 'border-gray-100'
+                                            onClick={() => handleSelect(vendor.storeId, loc)}
+                                            className={`cursor-pointer border-2 rounded-xl p-[13px] px-[20px] flex justify-between transition-all duration-300 ${selectedDelivery[vendor.storeId]?.id === loc.id ? 'border-orange' : 'border-gray-100'
                                                 }`}
                                         >
                                             <div className="flex gap-4">
                                                 <div
-                                                    className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedZones[vendor.id] === loc.id ? 'border-orange' : 'border-gray-300'
+                                                    className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedDelivery[vendor.storeId]?.id === loc.id ? 'border-orange' : 'border-gray-300'
                                                         }`}
                                                 >
-                                                    {selectedZones[vendor.id] === loc.id && <div className="w-2.5 h-2.5 rounded-full bg-orange" />}
+                                                    {selectedDelivery[vendor.storeId]?.id === loc.id && <div className="w-2.5 h-2.5 rounded-full bg-orange" />}
                                                 </div>
                                                 <div>
                                                     <p className="font-medium text-black text-sm">{loc.shipping_address}</p>
                                                     <p className="text-[13px] text-gray-400">Delivery in {loc.delivery_time} days</p>
                                                 </div>
                                             </div>
-                                            <span className="font-medium text-black text-[13px] ">₦{loc.delivery_fee}</span>
+                                            <span className="font-medium text-black text-[13px] ">{formatCurrency(loc.delivery_fee)}</span>
                                         </div>
                                     ))}
                             </div>
                         </div>
+
+                        {/* Bottom Summary / Dots Section */}
+                        {isMultiVendor && (
+                            <div
+                                className='w-full cursor-pointer border-t border-gray-100 mt-2'
+                            >
+                                {!openVendors[storeId] && selectedDelivery[storeId] &&
+                                    <div className="flex justify-between items-center px-1 pt-2">
+                                        <div className="space-y-1">
+                                            <p className="text-[13px] text-gray-400">Selected Location</p>
+                                            <p className="text-[13px] font-medium text-black">{selectedDelivery[storeId]?.address}</p>
+                                        </div>
+                                        <p className="text-[13px] text-black">{formatCurrency(selectedDelivery[storeId]?.fee)}</p>
+                                    </div>
+                                }
+                                <div
+                                    onClick={() => toggleVendor(storeId)} className="flex justify-center pt-3 pb-2 w-full transition-all hover:bg-gray-50/50 text-2xl leading-none">
+                                    .....
+                                </div>
+
+                            </div>
+                        )}
                     </div>
                 );
             })}

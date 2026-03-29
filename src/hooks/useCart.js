@@ -76,8 +76,8 @@ export const useCart = () => {
   });
 
   const checkoutCarts = useMutation({
-    mutationFn: async (cartIds) => {
-      const res = await api.post("/users/carts/checkout", { cartIds });
+    mutationFn: async (data) => {
+      const res = await api.post("/users/carts/checkout", data);
       return res.data;
     },
     onSuccess: () => queryClient.invalidateQueries(["carts"]),

@@ -6,14 +6,42 @@ import { useStore } from '../../context/storeContext';
 import ContactForm from '../../components/buyer/ContactForm';
 import { useForm } from 'react-hook-form';
 import DeliverySelector from '../../components/buyer/DeliverySelector';
+import { useState } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import { useEffect } from 'react';
 
 const Checkout = () => {
+    const { authDetails } = useContext(AuthContext);
     const { carts, cartLoading, isCartError, cartError } = useStore();
+    const [selectedDelivery, setSelectedDelivery] = useState({});
+
+    const totalDeliveryFee = useMemo(() => {
+        return Object.values(selectedDelivery).reduce((sum, del) => sum + (del.fee || 0), 0);
+    }, [selectedDelivery]);
 
     const {
         register,
         formState: { errors },
-    } = useForm();
+        reset
+    } = useForm({
+        defaultValues: {
+            firstName: "",
+            lastName: "",
+            email: "",
+            phone_number: "",
+        }
+    });
+    useEffect(() => {
+        if (authDetails?.user) {
+            reset({
+                firstName: authDetails.user.full_name?.split(' ')[0] || "",
+                lastName: authDetails.user.full_name?.split(' ').slice(1).join(' ') || "",
+                email: authDetails.user.email,
+                phone_number: authDetails.user.phone,
+            });
+        }
+    }, [authDetails, reset]);
 
     // Group cart by vendor
     const cartItems = useMemo(() => {
@@ -102,12 +130,13 @@ const Checkout = () => {
                                 {cartError || "Failed to load cart"}
                             </div>
                         ) : (
-                            <DeliverySelector carts={cartItems} />
+                            <DeliverySelector carts={cartItems} selectedDelivery={selectedDelivery}
+                                setSelectedDelivery={setSelectedDelivery} />
                         )}
                     </div>
 
                     {/* Order Summary */}
-                    <OrderSummary orderSummary={orderSummary} mode="Payment" />
+                    <OrderSummary orderSummary={orderSummary} deliveryFee={totalDeliveryFee} selectedDelivery={selectedDelivery} mode="Payment" />
                 </div>
             </div>
         </div>
