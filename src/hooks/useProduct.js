@@ -163,8 +163,7 @@ const useProduct = () => {
         "Toggle Product State",
         "Product state updated successfully!",
       );
-      queryClient.invalidateQueries(["product", id]);
-      queryClient.invalidateQueries(["products", "my-products"]);
+      queryClient.invalidateQueries(["my-products"]);
     },
     onError: (error) => handleFailure("Toggle Product State", error),
   });

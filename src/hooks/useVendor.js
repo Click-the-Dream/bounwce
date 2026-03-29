@@ -28,7 +28,6 @@ export const useGetDashboardOverview = (apiParams) => {
 
 // wallet summary
 export const useGetWalletSummary = () => {
-  const client = useAxios();
   const { authDetails } = useContext(AuthContext);
 
   return useQuery({
