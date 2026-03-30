@@ -25,7 +25,7 @@ const MarketPlace = () => {
 
         {/*  LOADING STATE */}
         {isLoading ? (
-          <div className="grid grid-cols-responsive md:grid-cols-auto gap-3 md:gap-6 place-items-center">
+          <div className="grid grid-cols-1 md:grid-cols-auto gap-3 md:gap-6 place-items-center">
             {[...Array(8)].map((_, i) => (
               <ProductCardSkeleton key={i} />
             ))}
@@ -37,7 +37,7 @@ const MarketPlace = () => {
           </div>
         ) : (
           /* DATA */
-          <div className="grid grid-cols-responsive md:grid-cols-auto gap-3 md:gap-6 place-items-center">
+          <div className="grid grid-cols-1 md:grid-cols-auto gap-3 md:gap-6 place-items-center">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
