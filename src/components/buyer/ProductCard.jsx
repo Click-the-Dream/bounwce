@@ -52,23 +52,23 @@ const ProductCard = ({ product }) => {
   return (
     <div
       onClick={handleCardClick}
-      className="w-[220px] group relative flex flex-col bg-white
+      className="min-w-[100px] w-[220px] group relative flex flex-col bg-white
         rounded-xl border border-gray-200
         transition-all duration-300
         hover:shadow-lg hover:-translate-y-1 cursor-pointer
       "
     >
       {/* Image wrapper */}
-      <div className="overflow-hidden rounded-t-xl h-60">
+      <div className="overflow-hidden rounded-t-xl h-35 md:h-60">
         <ProductImageDisplay images={product?.images} height="h-full" showThumbnails={false} />
       </div>
 
       <section className="px-4 py-4 flex flex-col flex-1">
-        <h2 className="font-medium text-sm mb-1 line-clamp-2">
+        <h2 className="font-medium text-sm mb-1 line-clamp-1">
           {product?.name}
         </h2>
 
-        <div className="flex items-center gap-2 text-[13px] text-gray-500 mb-2">
+        <div className="flex items-center gap-2 text-[13px] text-gray-500 mb-2 line-clamp-1">
           <span>{product?.category}</span>
           <span className="flex items-center gap-1 text-yellow-500">
             <FaStar size={12} /> {(product?.rating || 3)?.toFixed(1)}
