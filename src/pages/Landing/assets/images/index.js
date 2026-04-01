@@ -19,7 +19,8 @@ import logoDark from "./bouwnce-logo-dark.png";
 import logoWhite from "./bouwnce-logo-white.png";
 import yourMoments from "./14_your_moment_is_now.jpg";
 import oneCampus from "./6_one_campus_one_bubble_no_way_out.JPG";
-
+import aboutImage from "./about-img.png";
+import aboutVector from "./about-vector.png";
 export {
   theProblem,
   studentOne,
@@ -42,4 +43,6 @@ export {
   logoWhite,
   yourMoments,
   oneCampus,
+  aboutImage,
+  aboutVector,
 };

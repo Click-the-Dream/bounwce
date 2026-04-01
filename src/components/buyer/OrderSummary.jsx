@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { formatCurrency } from "../../utils/formatters";
+import { extractErrorMessage, formatCurrency } from "../../utils/formatters";
 import { RiArrowDownWideLine, RiArrowUpWideLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import useCart from "../../hooks/useCart";
-import { toast } from "react-toastify";
 import { onPrompt } from "../../utils/notifications/onPrompt";
+import { onFailure } from "../../utils/notifications/OnFailure";
 
 const OrderSummary = ({ orderSummary, mode = "Checkout", selectedDelivery, deliveryFee }) => {
+    const [idempotencyKey] = useState(() => crypto.randomUUID());
     const navigate = useNavigate();
     const { checkoutCarts } = useCart();
     const [expandedVendors, setExpandedVendors] = useState({});
@@ -36,7 +37,7 @@ const OrderSummary = ({ orderSummary, mode = "Checkout", selectedDelivery, deliv
             }
 
 
-            checkoutCarts.mutate(payload, {
+            checkoutCarts.mutate({ payload, idempotencyKey }, {
                 onSuccess: (res) => {
                     console.log(res);
 
@@ -72,10 +73,7 @@ const OrderSummary = ({ orderSummary, mode = "Checkout", selectedDelivery, deliv
 
                 onError: (err) => {
                     console.error(err);
-                    alert(
-                        err?.response?.data?.message ||
-                        "Something went wrong during checkout"
-                    );
+                    onFailure({ title: "Checkout Failed", message: extractErrorMessage(err) || "An error occurred during checkout. Please try again." });
                 },
             });
 

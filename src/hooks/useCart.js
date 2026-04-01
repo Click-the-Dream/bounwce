@@ -76,8 +76,16 @@ export const useCart = () => {
   });
 
   const checkoutCarts = useMutation({
-    mutationFn: async (data) => {
-      const res = await api.post("/users/carts/checkout", data);
+    mutationFn: async ({ payload, idempotencyKey }) => {
+      if (!payload || payload.length === 0) {
+        throw new Error("No items to checkout");
+      }
+      const res = await api.post("/users/carts/checkout", payload, {
+        headers: {
+          "Idempotent-Key": idempotencyKey,
+        },
+      });
+
       return res.data;
     },
     onSuccess: () => queryClient.invalidateQueries(["carts"]),
