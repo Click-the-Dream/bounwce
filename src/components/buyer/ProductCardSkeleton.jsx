@@ -1,6 +1,6 @@
 const ProductCardSkeleton = () => {
     return (
-        <div className="w-[150px] md:w-[220px] bg-white rounded-xl border border-gray-200 overflow-hidden animate-pulse">
+        <div className="w-[220px] bg-white rounded-xl border border-gray-200 overflow-hidden animate-pulse">
 
             {/* Image */}
             <div className="h-60 bg-gray-200" />
