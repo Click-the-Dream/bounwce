@@ -18,7 +18,7 @@ import responseRateIcon from "./response-rate-icon.svg";
 import starIcon from "./star-icon.svg";
 import ratingsIcon from "./ratings-icon.svg";
 import stockIcon from "./stock-icon.svg";
-import heroImg from "./hero-image.jpg";
+import heroImg from "./hero-img.png";
 import heroImgDark from "./hero-img-dark.png";
 
 export {

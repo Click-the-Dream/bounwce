@@ -255,7 +255,6 @@ const GettingStarted = ({ storeData, onNext, onBack, initialTab }) => {
       <BrandingFooter currentIndex={currentIndex} />
 
       {/* Navigation */}
-      {/* Navigation */}
       <div className="flex flex-wrap justify-between gap-2 items-center mt-8 text-sm">
         <button
           type="button"
