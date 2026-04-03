@@ -3,7 +3,7 @@ const ProductCardSkeleton = () => {
         <div className="min-w-[100px] w-[250px] bg-white rounded-xl border border-gray-200 overflow-hidden animate-pulse">
 
             {/* Image */}
-            <div className="h-35 md:h-60 bg-gray-200" />
+            <div className="h-32 md:h-60 bg-gray-200" />
 
             <div className="p-4 space-y-3">
                 <div className="h-3 bg-gray-200 rounded w-3/4" />
