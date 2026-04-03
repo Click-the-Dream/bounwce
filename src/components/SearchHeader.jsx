@@ -132,7 +132,7 @@ const SearchHeader = ({
                     <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
 
                         {/* Mobile category dropdown */}
-                        <div className="md:hidden relative">
+                        <div className="md:hidden relative flex-grow-1">
                             <button
                                 className="flex items-center gap-1 px-3 py-2 bg-gray-100/80 rounded-xl border border-gray-200/50 text-sm font-bold"
                                 onClick={() => setShowCategories(!showCategories)}
@@ -168,7 +168,7 @@ const SearchHeader = ({
                         </div>
 
                         {/* Location */}
-                        <div className="flex flex-col items-start sm:items-end">
+                        <div className="flex flex-col items-start md:items-end">
                             <div
                                 className="flex items-center gap-2 mb-1"
                                 aria-busy={isFetching && !isFetchingNextPage}
