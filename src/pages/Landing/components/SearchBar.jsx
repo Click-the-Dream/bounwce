@@ -31,7 +31,7 @@ const SearchBar = () => {
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()} // Search on Enter key
-                        placeholder="e.g., A quiet coffee shop to meet a friend....."
+                        placeholder="Where can i get a shawarma"
                         className="flex-grow rounded-[8px] sm:rounded-[5px] px-4 md:px-6 py-4 md:py-3 bg-[#F4F4F5] text-gray-700 outline-none placeholder:text-gray-400 font-medium text-[13px]"
                     />
 

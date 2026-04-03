@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { Globe, MoreHorizontal, Youtube, Slack, Chrome, Ghost } from 'lucide-react';
 import Logo from '../pages/Landing/components/Logo';
+import DemoSearch from './DemoSearch';
+import DemoLoading from './DemoLoading';
 
 const BouwnceDemo = () => {
     const [step, setStep] = useState(0);
@@ -54,9 +56,31 @@ const BouwnceDemo = () => {
 
                 // Final Click
                 await cursorControls.start({ scale: 0.8, transition: { duration: 0.1 } });
-                await new Promise(r => setTimeout(r, 1500));
-                await cursorControls.start({ opacity: 0, transition: { duration: 0.5 } });
-                await new Promise(r => setTimeout(r, 500));
+                setStep(3); // Switch to Search Bar screen
+                setHoveredItem(null);
+                await cursorControls.start({ scale: 1, transition: { duration: 0.1 } });
+
+                // 4. MOVE TO SEARCH BUTTON (Step 3 to Step 4 transition)
+                // We keep the cursor visible here
+                await new Promise(r => setTimeout(r, 800));
+
+                // Move to the Search button (approx right side of the search bar)
+                await cursorControls.start({
+                    x: 140,
+                    y: 80,
+                    transition: { duration: 1.2, ease: "backOut" }
+                });
+
+                // Click the Search Button
+                await cursorControls.start({ scale: 0.8, transition: { duration: 0.1 } });
+                await new Promise(r => setTimeout(r, 200));
+
+                setStep(4); // Show the Circular Loading
+
+                // Now hide cursor while it loads
+                await cursorControls.start({ opacity: 0, transition: { duration: 0.3 } });
+
+                await new Promise(r => setTimeout(r, 3500)); // Loading time
             }
         };
         const id = requestAnimationFrame(() => runLoop());
@@ -173,6 +197,15 @@ const BouwnceDemo = () => {
                                         <AppRow name="Bouwnce" url="www.bouwnce.com" icon={<Logo onlyImage={true} size={24} />} color="" active={hoveredItem === 'bouwnce'} />
                                     </div>
                                 </motion.div>
+                            )}
+
+                            {step === 3 && (
+                                <motion.div key="search-final" className="h-full w-full">
+                                    <DemoSearch />
+                                </motion.div>
+                            )}
+                            {step === 4 && (
+                                <DemoLoading key="loading" />
                             )}
                         </motion.div>
                     </AnimatePresence>
