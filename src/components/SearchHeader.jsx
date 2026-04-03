@@ -129,7 +129,7 @@ const SearchHeader = ({
                     </div>
 
                     {/* Location + Mobile category toggle */}
-                    <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                    <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
 
                         {/* Mobile category dropdown */}
                         <div className="md:hidden relative">
@@ -143,7 +143,7 @@ const SearchHeader = ({
                             </button>
 
                             {showCategories && (
-                                <div className="absolute top-full mt-1 right-0 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
+                                <div className="absolute top-full mt-1 left-0 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
                                     <button
                                         onClick={() => { handleCategoryClick("All"); setShowCategories(false); }}
                                         className={`w-full text-left px-4 py-2 text-sm font-medium transition-all ${!urlCategory || urlCategory === "All" ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}
