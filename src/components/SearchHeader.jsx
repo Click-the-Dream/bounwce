@@ -143,7 +143,7 @@ const SearchHeader = ({
                             </button>
 
                             {showCategories && (
-                                <div className="absolute z-50 top-full mt-1 left-0 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
+                                <div className="absolute top-full mt-1 left-0 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-1000">
                                     <button
                                         onClick={() => { handleCategoryClick("All"); setShowCategories(false); }}
                                         className={`w-full text-left px-4 py-2 text-sm font-medium transition-all ${!urlCategory || urlCategory === "All" ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}
