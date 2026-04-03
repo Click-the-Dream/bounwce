@@ -15,8 +15,8 @@ const Logo = ({ onlyImage = false, size }) => {
 
     // 🔥 Dynamic margin (key fix)
     const dynamicMargin = size
-        ? { marginRight: `${-Math.round(size * 0.45)}px` }
-        : {};
+        ? { marginRight: `${-Math.round(size * 0.35)}px` }
+        : {marginRight: "-10px"};
 
     return (
         <Link
