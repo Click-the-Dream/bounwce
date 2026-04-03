@@ -17,10 +17,10 @@ const SearchHeader = ({
     const [showCategories, setShowCategories] = useState(false);
 
     return (
-        <header className="bg-white/70 backdrop-blur-xl border-b border-gray-100">
+        <header className="bg-white/70 backdrop-blur-xl border-b border-gray-100 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
 
-                {/* Top row: back + nav */}
+                {/* --- TOP ROW: NAV & LINKS --- */}
                 <div className="flex items-center justify-between gap-4 mb-6 md:mb-20">
                     <button
                         onClick={() => navigate('/')}
@@ -44,7 +44,7 @@ const SearchHeader = ({
                     </button>
                 </div>
 
-                {/* Middle row: search + tabs */}
+                {/* --- MIDDLE ROW: SEARCH BAR + TABS --- */}
                 <div className="flex flex-col md:flex-row gap-4 items-center mb-6">
                     {/* Search input */}
                     <div className="flex-1 w-full relative group">
@@ -91,8 +91,8 @@ const SearchHeader = ({
                     </div>
                 </div>
 
-                {/* Bottom row: category + location */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                {/* --- BOTTOM ROW: CATEGORY + LOCATION --- */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
 
                     {/* Categories desktop */}
                     <div className="hidden md:flex items-center gap-3 flex-1 flex-wrap">
@@ -128,59 +128,64 @@ const SearchHeader = ({
                         })}
                     </div>
 
-                    {/* Mobile categories toggle */}
-                    <div className="md:hidden w-full">
-                        <button
-                            className="w-full flex justify-between items-center px-4 py-3 bg-gray-100/80 rounded-xl border border-gray-200/50 text-sm font-bold"
-                            onClick={() => setShowCategories(!showCategories)}
-                            aria-expanded={showCategories}
-                        >
-                            {urlCategory || "Select Category"}
-                            <ChevronDown className={`transition-transform ${showCategories ? 'rotate-180' : ''}`} />
-                        </button>
+                    {/* Location + Mobile category toggle */}
+                    <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
 
-                        {showCategories && (
-                            <div className="mt-2 bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden">
-                                <button
-                                    onClick={() => { handleCategoryClick("All"); setShowCategories(false); }}
-                                    className={`w-full text-left px-4 py-2 text-sm font-medium transition-all ${!urlCategory || urlCategory === "All" ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}
-                                >
-                                    All
-                                </button>
-                                {CATEGORIES?.map((cat) => {
-                                    const categoryName = typeof cat === 'string' ? cat : cat.name;
-                                    const isActive = urlCategory === categoryName;
-                                    return (
-                                        <button
-                                            key={cat.id || categoryName}
-                                            onClick={() => { handleCategoryClick(categoryName); setShowCategories(false); }}
-                                            className={`w-full text-left px-4 py-2 text-sm font-medium transition-all ${isActive ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}
-                                        >
-                                            {categoryName}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </div>
+                        {/* Mobile category dropdown */}
+                        <div className="md:hidden relative">
+                            <button
+                                className="flex items-center gap-1 px-3 py-2 bg-gray-100/80 rounded-xl border border-gray-200/50 text-sm font-bold"
+                                onClick={() => setShowCategories(!showCategories)}
+                                aria-expanded={showCategories}
+                            >
+                                {urlCategory || "Category"}
+                                <ChevronDown className={`transition-transform ${showCategories ? 'rotate-180' : ''}`} />
+                            </button>
 
-                    {/* Location */}
-                    <div className="flex flex-col items-start sm:items-end flex-shrink-0 mt-3 sm:mt-0">
-                        <div
-                            className="flex items-center gap-2 mb-1"
-                            aria-busy={isFetching && !isFetchingNextPage}
-                        >
-                            <h1 className="text-xl font-bold tracking-tight">
-                                {urlCategory || urlSearch || 'Marketplace'}
-                            </h1>
-                            {(isFetching && !isFetchingNextPage) && (
-                                <Loader2 className="w-4 h-4 text-[#FF5C35] animate-spin" />
+                            {showCategories && (
+                                <div className="absolute top-full mt-1 right-0 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
+                                    <button
+                                        onClick={() => { handleCategoryClick("All"); setShowCategories(false); }}
+                                        className={`w-full text-left px-4 py-2 text-sm font-medium transition-all ${!urlCategory || urlCategory === "All" ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+                                    >
+                                        All
+                                    </button>
+                                    {CATEGORIES?.map((cat) => {
+                                        const categoryName = typeof cat === 'string' ? cat : cat.name;
+                                        const isActive = urlCategory === categoryName;
+                                        return (
+                                            <button
+                                                key={cat.id || categoryName}
+                                                onClick={() => { handleCategoryClick(categoryName); setShowCategories(false); }}
+                                                className={`w-full text-left px-4 py-2 text-sm font-medium transition-all ${isActive ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+                                            >
+                                                {categoryName}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
                             )}
                         </div>
-                        <div className="flex items-center gap-1.5 text-gray-400 text-xs font-medium">
-                            <MapPin size={12} className="text-[#FF5C35]" />
-                            <span>Lagos, Nigeria</span>
+
+                        {/* Location */}
+                        <div className="flex flex-col items-start sm:items-end">
+                            <div
+                                className="flex items-center gap-2 mb-1"
+                                aria-busy={isFetching && !isFetchingNextPage}
+                            >
+                                <h1 className="text-xl font-bold tracking-tight">
+                                    {urlCategory || urlSearch || 'Marketplace'}
+                                </h1>
+                                {(isFetching && !isFetchingNextPage) && (
+                                    <Loader2 className="w-4 h-4 text-[#FF5C35] animate-spin" />
+                                )}
+                            </div>
+                            <div className="flex items-center gap-1.5 text-gray-400 text-xs font-medium">
+                                <MapPin size={12} className="text-[#FF5C35]" />
+                                <span>Lagos, Nigeria</span>
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
