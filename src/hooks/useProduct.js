@@ -1,5 +1,10 @@
 import { useContext } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { AuthContext } from "../context/AuthContext";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
@@ -19,19 +24,6 @@ const useProduct = () => {
   const handleSuccess = (action, message) => {
     onSuccess({ title: `${action} Successful`, message });
   };
-
-  // PRODUCT CATEGORIES
-
-  const useGetProductCategories = () =>
-    useQuery({
-      queryKey: ["product-categories"],
-      queryFn: async () => {
-        const response = await client.get("/products/categories");
-        return response.data.data;
-      },
-      enabled: !!authDetails?.access_token,
-      onError: (error) => handleFailure("Fetch Categories", error),
-    });
 
   const createCategory = useMutation({
     mutationFn: async (categoryData) => {
@@ -63,20 +55,29 @@ const useProduct = () => {
     onError: (error) => handleFailure("Category Deletion", error),
   });
 
-  // PRODUCT QUERIES
+  const useGetAllProducts = (filters = {}) => {
+    return useInfiniteQuery({
+      // The queryKey must include all filters so it resets when search changes
+      queryKey: ["products-infinite", filters],
 
-  const useGetAllProducts = (filters = {}) =>
-    useQuery({
-      queryKey: ["products", filters],
-      queryFn: async () => {
+      queryFn: async ({ pageParam = 1 }) => {
         const { data } = await client.get("/store/products/", {
-          params: filters,
+          params: {
+            ...filters,
+            page: pageParam, // Uses the page from pageParam
+            per_page: 12, // Fixed count per scroll
+          },
         });
-        return data?.data;
+        return data?.data; // Assuming this returns the array of products
       },
-      enabled: !!authDetails?.access_token,
-      onError: (error) => handleFailure("Fetch Products", error),
+
+      // Logic to determine if there is a next page
+      getNextPageParam: (lastPage, allPages) => {
+        // If the last page had fewer items than per_page, we've reached the end
+        return lastPage.length === 12 ? allPages.length + 1 : undefined;
+      },
     });
+  };
 
   const useGetMyProducts = () =>
     useQuery({
@@ -100,14 +101,13 @@ const useProduct = () => {
       onError: (error) => handleFailure("Fetch Store Products", error),
     });
 
-  const useGetStoreCategories = () =>
+  const useGetProductCategories = () =>
     useQuery({
       queryKey: ["productCategories"],
       queryFn: async () => {
         const response = await client.get(`/store/products/categories`);
         return response.data.data;
       },
-      enabled: !!authDetails?.access_token,
       onError: (error) => handleFailure("Fetch Store Products", error),
     });
 
@@ -223,7 +223,6 @@ const useProduct = () => {
     deleteProduct,
     deleteAllMyProducts,
     deleteProductImage,
-    useGetStoreCategories,
   };
 };
 

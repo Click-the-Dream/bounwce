@@ -30,10 +30,10 @@ const StepTwo = ({ register, errors, trigger }) => {
     updateProduct,
     deleteProduct,
     useGetMyProducts,
-    useGetStoreCategories,
+    useGetProductCategories,
   } = useProduct();
   const { data: { products } = [], isLoading } = useGetMyProducts();
-  const { data: categories = [] } = useGetStoreCategories();
+  const { data: categories = [] } = useGetProductCategories();
 
   const hasId =
     getValues("id") !== null &&

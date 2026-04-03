@@ -7,6 +7,7 @@ import { ToastContainer, Slide } from "react-toastify";
 import SecureRoute from "./routes/SecureRoute";
 import { ThemeProvider } from "../src/pages/Landing/context/ThemeContext";
 import { ModalProvider } from "../src/pages/Landing/context/ModalContext"; import { StoreProvider } from "./context/storeContext";
+import NotFound from "./pages/NotFound";
 ;
 
 const VendorRouter = lazy(() => import("./routes/VendorRouter"));
@@ -98,7 +99,7 @@ const MainRoutes = () => {
       />
 
       <Route
-        path="/product"
+        path="/products"
         element={
           <ProductSearch />
         }
@@ -129,7 +130,7 @@ const MainRoutes = () => {
           }
         />
       </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

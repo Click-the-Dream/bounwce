@@ -1,133 +1,121 @@
-import { useState } from 'react';
-import { ArrowLeft, MapPin, Utensils, Users, Search } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import SearchHeader from '../components/SearchHeader';
 import ProductCard from '../components/buyer/ProductCard';
 import useProduct from '../hooks/useProduct';
 import ProductCardSkeleton from '../components/buyer/ProductCardSkeleton';
 
-const filters = ['All', 'Open Now', 'Closest', 'Top Rated', 'Verified'];
-
 const ProductSearch = () => {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const urlSearch = searchParams.get("search") || "";
+    const urlCategory = searchParams.get("category") || "";
     const [activeTab, setActiveTab] = useState('vendors');
-    const [activeFilter, setActiveFilter] = useState('All');
-    const [query, setQuery] = useState('Best jollof rice');
+    const [inputValue, setInputValue] = useState(urlSearch);
 
-    const { useGetAllProducts } = useProduct();
-    const { data, isLoading, error } = useGetAllProducts();
+    // 1. Debounced Search Logic
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (inputValue.length >= 3 || inputValue.length === 0) {
+                setSearchParams(prev => {
+                    if (!inputValue) prev.delete("search");
+                    else prev.set("search", inputValue);
+                    return prev;
+                });
+            }
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [inputValue, setSearchParams]);
 
-    const products = data?.products || [];
+    const handleCategoryClick = (category) => {
+        setSearchParams(prev => {
+            if (category === "All") {
+                prev.delete("category");
+            } else {
+                prev.set("category", category);
+            }
+            return prev;
+        });
+    };
+
+    const apiFilters = {
+        name: urlSearch.length >= 3 ? urlSearch : undefined,
+        category: urlCategory.length >= 3 ? urlCategory : undefined,
+    };
+
+    const { useGetAllProducts, useGetProductCategories } = useProduct();
+    const { data: CATEGORIES = [] } = useGetProductCategories();
+    // Destructuring fetchNextPage and hasNextPage for Infinite Scroll
+    const {
+        data,
+        isLoading,
+        isFetching,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage
+    } = useGetAllProducts(apiFilters);
+
+    const allProducts = data?.pages?.flatMap(page => page.products) || [];
 
     return (
-        <div className="min-h-screen bg-[#FAFAFA] text-[#111827] font-sans">
-            {/* HEADER */}
-            <div className="sticky top-0 z-20 bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-6 py-4">
-                    <div className="flex items-center justify-between gap-4">
-                        {/* Back */}
-                        <button
-                            onClick={() => navigate(-1)}
-                            className="flex items-center gap-2 text-gray-500 hover:text-black transition"
-                        >
-                            <ArrowLeft size={18} />
-                            <span className="font-medium">Back</span>
-                        </button>
+        <div className="min-h-screen bg-[#FCFAF5] text-[#111827]">
+            <SearchHeader
+                navigate={navigate}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                CATEGORIES={CATEGORIES}
+                urlCategory={urlCategory}
+                handleCategoryClick={handleCategoryClick}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                isFetching={isFetching}
+                isFetchingNextPage={isFetchingNextPage}
+                urlSearch={urlSearch}
+            />
 
-                        {/* Search Bar */}
-                        <div className="flex-1 max-w-2xl">
-                            <div className="flex items-center gap-3 bg-gray-100 px-4 py-3 rounded-xl focus-within:ring-2 focus-within:ring-[#FF5C35]">
-                                <Search size={18} className="text-gray-400" />
-                                <input
-                                    value={query}
-                                    onChange={(e) => setQuery(e.target.value)}
-                                    placeholder="Search food, vendors..."
-                                    className="bg-transparent w-full outline-none text-sm"
-                                />
-                            </div>
+            <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+                <AnimatePresence mode="wait">
+                    {isLoading ? (
+                        <div className="grid grid-cols-1 md:grid-cols-auto gap-8">
+                            {[...Array(8)].map((_, i) => <ProductCardSkeleton key={i} />)}
                         </div>
-                    </div>
+                    ) : allProducts.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-32">
+                            <h3 className="text-lg font-bold text-gray-400">No results found</h3>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="grid grid-cols-1 md:grid-cols-auto gap-8 gap-y-12 place-items-center">
+                                {allProducts.map((product, idx) => (
+                                    <motion.div
+                                        key={product.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: idx * 0.02 }}
+                                    >
+                                        <ProductCard product={product} />
+                                    </motion.div>
+                                ))}
+                            </div>
 
-                    {/* Title */}
-                    <div className="mt-6">
-                        <h1 className="text-2xl md:text-3xl font-semibold">
-                            Results for <span className="text-[#FF5C35]">"{query}"</span>
-                        </h1>
-                        <p className="text-gray-400 flex items-center gap-2 text-sm mt-1">
-                            <MapPin size={14} className="text-[#FF5C35]" /> Vendors near you
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {/* BODY */}
-            <div className="max-w-7xl mx-auto px-6 py-8">
-                {/* Tabs */}
-                <div className="flex gap-3 mb-6">
-                    {[
-                        { key: 'vendors', label: 'Vendors', icon: Utensils },
-                        { key: 'people', label: 'People', icon: Users },
-                    ].map((tab) => {
-                        const Icon = tab.icon;
-                        return (
-                            <button
-                                key={tab.key}
-                                onClick={() => setActiveTab(tab.key)}
-                                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition border
-                ${activeTab === tab.key
-                                        ? 'bg-[#FF5C35] text-white border-[#FF5C35] shadow-sm'
-                                        : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
-                                    }`}
-                            >
-                                <Icon size={16} /> {tab.label}
-                            </button>
-                        );
-                    })}
-                </div>
-
-                {/* Filters */}
-                <div className="flex gap-2 overflow-x-auto pb-4 mb-8">
-                    {filters.map((filter) => (
-                        <button
-                            key={filter}
-                            onClick={() => setActiveFilter(filter)}
-                            className={`px-4 py-2 rounded-full text-sm whitespace-nowrap border transition
-              ${activeFilter === filter
-                                    ? 'bg-black text-white border-black'
-                                    : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
-                                }`}
-                        >
-                            {filter}
-                        </button>
-                    ))}
-                </div>
-
-                {/* STATES */}
-                {error && (
-                    <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6 border border-red-100">
-                        Failed to load products. Please try again.
-                    </div>
-                )}
-
-                {isLoading ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {[...Array(8)].map((_, i) => (
-                            <ProductCardSkeleton key={i} />
-                        ))}
-                    </div>
-                ) : products.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-24 text-center">
-                        <div className="text-5xl mb-4">🍲</div>
-                        <p className="text-gray-500 text-lg font-medium">No results found</p>
-                        <p className="text-gray-400 text-sm mt-1">Try adjusting your search or filters</p>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {products.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
-                )}
-            </div>
+                            {/* INFINITE SCROLL BUTTON */}
+                            {hasNextPage && (
+                                <div className="mt-16 flex justify-center pb-12">
+                                    <button
+                                        onClick={() => fetchNextPage()}
+                                        disabled={isFetchingNextPage}
+                                        className="px-8 py-3 bg-black text-white rounded-full font-bold text-sm disabled:bg-gray-400 transition-transform active:scale-95"
+                                    >
+                                        {isFetchingNextPage ? "Loading more..." : "Load more items"}
+                                    </button>
+                                </div>
+                            )}
+                        </>
+                    )}
+                </AnimatePresence>
+            </main>
         </div>
     );
 };

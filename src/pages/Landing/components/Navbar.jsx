@@ -5,6 +5,8 @@ import { useTheme } from "../context/ThemeContext";
 import { LuSun, LuMoon } from "react-icons/lu";
 
 import Logo from "./Logo";
+import { Link } from "react-router-dom";
+import { Divide } from "lucide-react";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +14,7 @@ const Navbar = () => {
     const navLinks = [
         { name: "About Us", href: "#" },
         { name: "Blog", href: "#" },
-        { name: "Manifesto", href: "#" },
+        { name: "Products", href: "/products" },
     ];
 
     return (
@@ -32,21 +34,21 @@ const Navbar = () => {
                     {theme === 'dark' ? <LuSun size={16} /> : <LuMoon size={16} />}
                 </button>
                 {/* Desktop Links */}
-                <ul className="ml-auto mr-2 hidden md:flex items-center gap-6 text-gray-700 text-[13px] dark:text-gray-300 font-medium">
+                <div className="ml-auto mr-2 hidden md:flex items-center gap-6 text-gray-700 text-[13px] dark:text-gray-300 font-medium">
                     {navLinks.map((link) => (
-                        <li key={link.name} className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">
+                        <Link key={link.name} to={link.href} className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">
                             {link.name}
-                        </li>
+                        </Link>
                     ))}
-                </ul>
+                </div>
 
                 {/* Right Actions */}
                 <div className="flex items-center gap-3">
 
-                    <button className="hidden md:flex h-[34px] justify-between items-center gap-2 text-[13px] px-[15px] py-[6px] bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none">
+                    <Link to="/register" className="hidden md:flex h-[34px] justify-between items-center gap-2 text-[13px] px-[15px] py-[6px] bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none">
                         Sign Up
                         <Play size={10} fill="#FFC501" />
-                    </button>
+                    </Link>
 
 
 

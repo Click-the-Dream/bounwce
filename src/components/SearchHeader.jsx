@@ -1,0 +1,126 @@
+import { ArrowLeft, Search, X, MapPin, Loader2 } from 'lucide-react';
+
+const SearchHeader = ({
+    navigate,
+    inputValue,
+    setInputValue,
+    CATEGORIES,
+    urlCategory,
+    handleCategoryClick,
+    activeTab,
+    setActiveTab,
+    isFetching,
+    isFetchingNextPage,
+    urlSearch
+}) => {
+    return (
+        <header className="bg-white/70 backdrop-blur-xl border-b border-gray-100">
+            <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
+
+                {/* --- TOP ROW: NAV & LINKS --- */}
+                <div className="flex items-center justify-between gap-4 mb-20">
+                    <div className="flex items-center justify-between gap-6 w-full">
+                        <button
+                            onClick={() => navigate('/')}
+                            className="p-2.5 hover:bg-gray-100 rounded-full transition-all flex items-center gap-2 font-semibold text-sm"
+                        >
+                            <ArrowLeft size={20} />
+                            <span className="hidden sm:inline">Back</span>
+                        </button>
+
+                        <nav className="ml-auto  hidden md:flex items-center gap-6 text-sm font-medium text-gray-500">
+                            <button className="hover:text-black transition-colors">New Arrivals</button>
+                            <button className="hover:text-black transition-colors">Trending</button>
+                            <button className="hover:text-black transition-colors">Deals</button>
+                        </nav>
+                    </div>
+                </div>
+
+                {/* --- MIDDLE ROW: SEARCH BAR --- */}
+                <div className="flex flex-col md:flex-row gap-4 items-center mb-6">
+                    <div className="flex-1 w-full relative group">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <input
+                            type="text"
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            placeholder="Search for items..."
+                            className="w-full bg-gray-100/80 border-none rounded-2xl py-3.5 pl-12 pr-10 text-sm font-medium focus:ring-2 focus:ring-orange/20 focus:bg-white transition-all outline-none"
+                        />
+                        {inputValue && (
+                            <button onClick={() => setInputValue('')} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 rounded-full text-gray-400">
+                                <X size={14} />
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="inline-flex p-1 bg-gray-100/80 rounded-xl border border-gray-200/50 self-end md:self-auto">
+                        {['Places', 'People'].map((label) => (
+                            <button
+                                key={label}
+                                onClick={() => setActiveTab(label.toLowerCase())}
+                                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === label.toLowerCase() ? 'bg-white shadow-sm text-black' : 'text-gray-500'
+                                    }`}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* --- BOTTOM ROW: CATEGORY FILTER & LOCATION --- */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                    {/* Categories */}
+                    <div className="flex items-center gap-3 overflow-x-auto no-scrollbar flex-1">
+                        <span className="text-lg font-bold text-black capitalize tracking-wider flex-shrink-0">
+                            Popular:
+                        </span>
+
+                        <button
+                            onClick={() => handleCategoryClick("All")}
+                            className={`whitespace-nowrap px-5 py-2 rounded-xl text-xs font-bold transition-all border ${!urlCategory || urlCategory === "All"
+                                ? 'bg-black text-white border-black shadow-md'
+                                : 'bg-white text-gray-500 border-gray-100 hover:border-gray-300'
+                                }`}
+                        >
+                            All
+                        </button>
+
+                        {CATEGORIES?.map((cat) => {
+                            const categoryName = typeof cat === 'string' ? cat : cat.name;
+                            const isActive = urlCategory === categoryName;
+                            return (
+                                <button
+                                    key={cat.id || categoryName}
+                                    onClick={() => handleCategoryClick(categoryName)}
+                                    className={`whitespace-nowrap px-5 py-2 rounded-xl text-xs font-bold transition-all border ${isActive
+                                        ? 'bg-black text-white border-black shadow-md'
+                                        : 'bg-white text-gray-500 border-gray-100 hover:border-gray-300'
+                                        }`}
+                                >
+                                    {categoryName}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Location moved back here */}
+                    <div className="flex flex-col items-start sm:items-end flex-shrink-0">
+                        <div className="flex items-center gap-2 mb-1">
+                            <h1 className="text-xl font-bold tracking-tight">
+                                {urlCategory || urlSearch || 'Marketplace'}
+                            </h1>
+                            {(isFetching && !isFetchingNextPage) && <Loader2 className="w-4 h-4 text-[#FF5C35] animate-spin" />}
+                        </div>
+                        <div className="flex items-center gap-1.5 text-gray-400 text-xs font-medium">
+                            <MapPin size={12} className="text-[#FF5C35]" />
+                            <span>Lagos, Nigeria</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    );
+};
+
+export default SearchHeader;

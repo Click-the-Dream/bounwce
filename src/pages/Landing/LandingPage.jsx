@@ -1,8 +1,8 @@
 import { WaitlistModal } from "./components";
 import AboutSection from "./components/AboutSection";
+import ExploreSection from "./components/ExploreSection";
+import Footer from "./components/Footer";
 import Hero from "./components/Hero";
-import { CampusStageSection, FinalCTASection, Footer, Header, ProblemDetailsSection, ProblemSection, StoryConclusionSection, StudentsSection, UniverseSection, WaitlistBanner } from "./sections";
-import Gallery from "./sections/Gallery";
 
 
 const LandingPage = () => {
@@ -11,17 +11,8 @@ const LandingPage = () => {
       {/* <Header /> */}
       <Hero />
       <AboutSection />
-      <ProblemSection />
-      <ProblemDetailsSection />
-      <StudentsSection />
-      <Gallery />
-      <CampusStageSection />
-      <UniverseSection />
-      <StoryConclusionSection />
-      <FinalCTASection />
+      <ExploreSection />
       <Footer />
-
-      <WaitlistModal />
     </div>
   )
 }

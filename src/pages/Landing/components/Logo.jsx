@@ -1,24 +1,33 @@
-
-import { Link } from 'react-router-dom'
-import { logoDark, logoWhite } from '../assets/images'
+import { Link } from 'react-router-dom';
+import { logoDark, logoWhite } from '../assets/images';
 import { useTheme } from '../context/ThemeContext';
 
-const Logo = () => {
+const Logo = ({ onlyImage = false, size }) => {
     const { theme } = useTheme();
+
+    // Determine image size
+    const imageSize = size ? `${size}px` : "w-[30px] md:w-[40px]";
+    // Determine text size proportional to image
+    const textSize = size ? `${Math.round(size * 0.3)}px` : "text-[13px] md:text-[16px]";
+
     return (
         <Link
             to="/"
-            className="flex items-center text-[13px] font-inter lowercase font-black tracking-[0.15em] text-[rgb(26,26,26)] dark:text-white transition-colors duration-300">
-            <span className="-mr-[7px] md:-mr-2 -mt-1 flex items-center">
+            className={`flex items-center font-STHupo font-black tracking-[0.15em] lowercase text-[rgb(26,26,26)] dark:text-white transition-colors duration-300`}
+            style={size ? { fontSize: textSize } : {}}
+        >
+            <span className={`${onlyImage ? "" : "-mr-3"} flex items-center`}>
                 <img
                     src={theme === "dark" ? logoWhite : logoDark}
                     alt="logo"
-                    className="w-[30px] md:w-[40px] shrink-0 object-contain"
+                    style={size ? { width: imageSize } : {}}
+                    className={`${!size && imageSize} shrink-0 object-contain`}
                 />
             </span>
-            <span><span className="text-brand-orange">b</span>ouwnce</span>
-        </Link>
-    )
-}
 
-export default Logo
+            {!onlyImage && <span><span className="text-brand-orange font-black">b</span>ouwnce</span>}
+        </Link>
+    );
+};
+
+export default Logo;
