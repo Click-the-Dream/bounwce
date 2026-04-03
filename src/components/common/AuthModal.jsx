@@ -1,10 +1,34 @@
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Lock } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { X, ArrowLeft, Play } from "lucide-react";
 import Logo from "../../pages/Landing/components/Logo";
+import LoginPage from "../../features/auth/LoginPage";
+import CreateAccount from "../../features/auth/CreateAccount";
+import VerifyAccount from "../../features/auth/VerifyAccount";
 
 const AuthModal = ({ isOpen, onClose }) => {
-    const navigate = useNavigate();
+    const [view, setView] = useState("selection");
+    const [authData, setAuthData] = useState(null);
+
+    const handleClose = () => {
+        onClose();
+        setTimeout(() => {
+            setView("selection");
+            setAuthData(null);
+        }, 300);
+    };
+
+    const handleSuccess = (data) => {
+        setAuthData(data);
+        setView("verification");
+    };
+
+    const fadeSlide = {
+        initial: { opacity: 0, x: 20 },
+        animate: { opacity: 1, x: 0 },
+        exit: { opacity: 0, x: -20 },
+        transition: { duration: 0.3 }
+    };
 
     return (
         <AnimatePresence>
@@ -13,70 +37,95 @@ const AuthModal = ({ isOpen, onClose }) => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md"
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
                 >
-                    {/* Click outside to close */}
-                    <div
-                        className="absolute inset-0"
-                        onClick={onClose}
-                    />
+                    <div className="absolute inset-0" onClick={handleClose} />
 
-                    {/* Modal */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.96, y: 30 }}
+                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.96, y: 30 }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="relative z-10 w-[92%] max-w-md rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-gray-100"
+                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                        className="relative z-10 w-full max-w-[480px] max-h-[90vh] flex flex-col rounded-[2.5rem] bg-white shadow-2xl overflow-hidden"
                     >
-                        {/* Close button */}
-                        <button
-                            onClick={onClose}
-                            className="absolute right-4 top-4 rounded-full p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
-                        >
-                            <X size={18} />
-                        </button>
-
-                        {/* Content */}
-                        <div className="flex flex-col items-center text-center">
-
-                            {/* Logo + Icon */}
-                            <div className="mb-5 flex flex-col items-center gap-3">
-                                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-transparent">
-                                    <Logo onlyImage={true} size={60} />
-                                </div>
+                        {/* --- FIXED HEADER AREA --- */}
+                        <div className="relative w-full p-6 pb-0 flex items-center justify-between z-30 bg-white">
+                            <div className="w-10"> {/* Spacer for symmetry */}
+                                {view !== "selection" && (
+                                    <button
+                                        onClick={() => setView("selection")}
+                                        className="group flex items-center justify-center w-10 h-10 rounded-full transition-colors hover:bg-gray-100 text-orange-600"
+                                    >
+                                        <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" />
+                                    </button>
+                                )}
                             </div>
 
-                            {/* Title */}
-                            <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">
-                                Sign in to continue
-                            </h2>
+                            <button
+                                onClick={handleClose}
+                                className="w-10 h-10 flex items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-black"
+                            >
+                                <X size={24} />
+                            </button>
+                        </div>
 
-                            {/* Description */}
-                            <p className="mt-2 mb-7 text-sm leading-relaxed text-gray-500 max-w-sm">
-                                Access your account to manage your cart, follow vendors, and enjoy a seamless personalized experience.
-                            </p>
+                        {/* --- SCROLLABLE CONTENT AREA --- */}
+                        <div className="flex-1 overflow-y-auto custom-scrollbar p-8 pt-2 md:px-12 md:pb-12">
+                            <AnimatePresence mode="wait">
+                                {view === "selection" && (
+                                    <motion.div key="selection" {...fadeSlide} className="flex flex-col items-center text-center">
+                                        <Logo onlyImage={true} size={60} className="mb-6" />
+                                        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
+                                            Welcome to Bouwnce
+                                        </h2>
+                                        <p className="mt-2 mb-8 text-sm text-gray-500">
+                                            Your personalized shopping companion. Get curated product recommendations and effortlessly match with friends.
+                                        </p>
+                                        <div className="w-full space-y-4">
+                                            <button
+                                                onClick={() => setView("login")}
+                                                className="flex w-full justify-center items-center gap-2 text-sm px-[15px] py-4 bg-white text-black font-bold rounded-xl border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
+                                            >
+                                                Log In
+                                            </button>
+                                            <button
+                                                onClick={() => setView("register")}
+                                                className="flex w-full justify-center items-center gap-2 text-sm px-[15px] py-4 bg-orange text-black font-bold rounded-xl border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
+                                            >
+                                                Sign Up <Play size={10} fill="black" />
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                )}
 
-                            {/* Actions */}
-                            <div className="w-full space-y-3">
-                                <button
-                                    onClick={() => navigate("/login")}
-                                    className="w-full rounded-xl bg-black py-3.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-gray-900 active:scale-[0.97]"
-                                >
-                                    Log In
-                                </button>
+                                {(view === "login" || view === "register") && (
+                                    <motion.div key="form" {...fadeSlide}>
+                                        <div className="flex justify-center mb-6">
+                                            <Logo onlyImage={true} size={50} />
+                                        </div>
+                                        {view === "login" ? (
+                                            <LoginPage isModal={true} onSuccess={handleSuccess} />
+                                        ) : (
+                                            <CreateAccount isModal={true} onSuccess={handleSuccess} />
+                                        )}
+                                    </motion.div>
+                                )}
 
-                                <button
-                                    onClick={() => navigate("/register")}
-                                    className="w-full rounded-xl border border-gray-200 py-3.5 text-sm font-semibold text-gray-700 transition-all hover:bg-gray-50 active:scale-[0.97]"
-                                >
-                                    Create Account
-                                </button>
-                            </div>
+                                {view === "verification" && (
+                                    <motion.div key="verify" {...fadeSlide}>
+                                        <div className="flex justify-center mb-6">
+                                            <Logo onlyImage={true} size={50} />
+                                        </div>
+                                        <VerifyAccount
+                                            isModal={true}
+                                            email={authData?.email}
+                                            onFinalSuccess={handleClose}
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
 
-                            {/* Footer */}
-                            <p className="mt-6 text-xs text-gray-400">
-                                By continuing, you agree to our Terms of Service & Privacy Policy.
+                            <p className="mt-10 text-center text-[10px] uppercase tracking-[0.3em] text-gray-300 font-bold">
+                                Secured by bouwnce
                             </p>
                         </div>
                     </motion.div>

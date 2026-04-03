@@ -8,7 +8,7 @@ const Hero = () => {
     const isDark = theme === 'dark';
     return (
         <div
-            className="relative p-2 md:pb-40 lg:pb-96 min-h-screen flex flex-col items-center overflow-hidden bg-[#f7f7f7] dark:bg-neutral-950 transition-colors duration-300 bg-cover bg-center bg-no-repeat"
+            className="relative p-2 md:pb-40 lg:pb-96 min-h-screen flex flex-col items-center overflow-hidden bg-[#FAFAFA] dark:bg-neutral-950 transition-colors duration-300 bg-cover bg-center bg-no-repeat border-[0.53px] border-[#BDBDBD] border-dashed"
             style={{
                 backgroundImage: `url(${isDark ? heroImgDark : heroImg})`,
                 backgroundPosition: "bottom",

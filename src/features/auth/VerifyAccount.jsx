@@ -13,9 +13,9 @@ const fadeInUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-const VerifyAccount = () => {
+const VerifyAccount = ({ isModal, onFinalSuccess, email }) => {
   const { verifyOtp, requestOtp } = useAuth();
-  const userEmail = storedUserEmail();
+  const userEmail = storedUserEmail() || email;
 
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +58,32 @@ const VerifyAccount = () => {
     if (!otp) return;
     setIsLoading(true);
     try {
-      await verifyOtp.mutateAsync({ email: userEmail, code: otp });
+      await verifyOtp.mutateAsync({ email: userEmail, code: otp }, {
+        onSuccess: (userData) => {
+          const user = userData?.user;
+
+          if (isModal) {
+            // If they are a vendor, take them to their dashboard
+            if (user?.role === "vendor") {
+              const path = user?.is_store_owner === false ? "/vendor/setup" : "/vendor";
+              navigate(path, { replace: true });
+            }
+            // If they are a buyer, close the modal so they stay on the current page
+            else {
+              if (onFinalSuccess) onFinalSuccess();
+            }
+            return;
+          }
+
+          //Standalone Page Flow (Redirects always)
+          if (user?.role === "vendor") {
+            const path = user?.is_store_owner === false ? "/vendor/setup" : "/vendor";
+            navigate(path, { replace: true });
+          } else {
+            navigate("/buyer", { replace: true });
+          }
+        }
+      });
     } catch (err) {
       console.error("Verification failed:", err);
     } finally {

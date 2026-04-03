@@ -1,7 +1,6 @@
 import { navLinks, socialLinks } from "../../../utils/fields";
-import Logo from "./Logo";
 import { Link } from "react-router-dom";
-
+import footerLogo from "../../../assets/footer-logo.png";
 const Footer = () => {
 
   return (
@@ -10,7 +9,7 @@ const Footer = () => {
 
         {/* Logo + Navigation */}
         <div className="flex flex-col md:flex-row justify-center md:justify-between md:items-center gap-4 w-full">
-          <div className="mx-auto md:mx-0"><Logo size={60} /></div>
+          <div className="mx-auto md:mx-0"><img src={footerLogo} alt="bouwnce" className="h-[32px] md:h-[36px]" /></div>
 
           <ul className="flex flex-wrap justify-center md:justify-end items-center gap-3 text-black dark:text-white font-medium">
             {navLinks.map((link) => (

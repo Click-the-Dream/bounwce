@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BouwnceDemo from '../../../features/BouwnceDemo';
+import { useEffect } from "react";
 
 const STEPS = [
     {
@@ -26,13 +27,24 @@ const STEPS = [
 
 const AboutSection = () => {
     const [activeStep, setActiveStep] = useState(1); // default first active
+    const [isHovered, setIsHovered] = useState(false); // Pause automation on hover
+
+    useEffect(() => {
+        if (isHovered) return; // Don't auto-advance if user is interacting
+
+        const interval = setInterval(() => {
+            setActiveStep((prev) => (prev % STEPS.length) + 1);
+        }, 2000); // Changes every 5 seconds
+
+        return () => clearInterval(interval);
+    }, [isHovered]);
 
     return (
         <section className="relative flex flex-col items-center bg-white dark:bg-neutral-950 transition-colors duration-300">
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 items-center min-h-[1000px] SFPro">
+            <div className="grid grid-cols-1 xl:grid-cols-2 items-center min-h-[1000px] SFPro max-w-[1000px]">
 
                 {/* Left */}
-                <div className="flex flex-col justify-center space-y-12 bg-[#F9F9F9] max-w-[502px] h-full p-10">
+                <div className="flex flex-col justify-center space-y-12 bg-[#F9F9F9] h-full p-10 border-l-[0.53px] border-r-[0.53px] border-dashed border-[#BDBDBD]">
 
                     <header className="space-y-4">
                         <h2 className="text-xl lg:text-[25px] font-bold leading-[1.05] tracking-tight text-black Aeonik">
@@ -75,12 +87,12 @@ const AboutSection = () => {
                                     {/* Content */}
                                     <div className="space-y-1.5 flex-1">
                                         <h3
-                                            className={`text-sm tracking-tight transition-colors duration-300 text-black ${isActive ? "font-medium" : "font-normal"
+                                            className={`text-sm tracking-tight transition-colors duration-300 text-black font-medium ${isActive ? "font-bold" : "font-medium"
                                                 }`}
                                         >
                                             {step.title}
                                         </h3>
-                                        <p className="text-[13px] text-[#949494] leading-relaxed max-w-lg">
+                                        <p className={`text-[13px] leading-relaxed max-w-[350px] ${isActive ? "text-black" : "text-[#949494]"}`}>
                                             {step.description}
                                         </p>
                                     </div>
@@ -91,9 +103,11 @@ const AboutSection = () => {
                 </div>
 
                 {/* Right */}
-                <div className='p-6 rounded-[30px] bg-[#F7F7F7]'>
-                    <BouwnceDemo activeStep={activeStep} />
-                </div>
+                <section className="h-full w-full flex justify-center items-center border-r-[0.53px] border-[#BDBDBD] border-dashed p-5">
+                    <div className='p-6 rounded-[30px] bg-[#F7F7F7] w-full h-[500px]'>
+                        <BouwnceDemo activeStep={activeStep} />
+                    </div>
+                </section>
 
             </div>
         </section>

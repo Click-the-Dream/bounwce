@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
-const LoginPage = () => {
+const LoginPage = ({ isModal = false, onSuccess }) => {
   const navigate = useNavigate();
   const { requestOtp } = useAuth();
 
@@ -21,10 +21,16 @@ const LoginPage = () => {
     },
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     // Simulate API call if needed
-    await requestOtp.mutate(data, {
-      onSuccess: () => navigate("/email_verification"),
+    requestOtp.mutate(data, {
+      onSuccess: () => {
+        if (isModal && onSuccess) {
+          onSuccess(data);
+        } else {
+          navigate("/email_verification");
+        }
+      }
     });
   };
 

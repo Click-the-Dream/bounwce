@@ -168,19 +168,6 @@ const useAuth = () => {
     onSuccess: (userData) => {
       updateAuth(userData);
 
-      const user = userData?.user;
-
-      // Check if user is a vendor but not yet a store owner
-      if (user?.role === "vendor" && user?.is_store_owner === false) {
-        navigate("/vendor/setup", { replace: true });
-      } else {
-        navigate("/vendor", { replace: true });
-      }
-
-      if (user?.role === "user") {
-        navigate("/buyer", { replace: true });
-      }
-
       onSuccess({
         title: "OTP Verified!",
         message: "Proceeding to dashboard",
@@ -198,16 +185,14 @@ const useAuth = () => {
   const logoutMutation = useMutation({
     mutationFn: async () => {
       queryClient.clear(); // Clear all cached data
-    },
-    onSuccess: () => {
       updateAuth(null); // Reset auth state
-      navigate("/login", { replace: true });
       onSuccess({
         title: "Logout successful",
         message: "You have been logged out.",
       });
       window.location.reload();
     },
+    onSuccess: () => {},
     onError: (err) => {
       onFailure({ message: "Logout Failed", error: err.message });
     },

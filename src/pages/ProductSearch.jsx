@@ -47,7 +47,6 @@ const ProductSearch = () => {
 
     const { useGetAllProducts, useGetProductCategories } = useProduct();
     const { data: CATEGORIES = [] } = useGetProductCategories();
-    // Destructuring fetchNextPage and hasNextPage for Infinite Scroll
     const {
         data,
         isLoading,

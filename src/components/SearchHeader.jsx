@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useScroll, useMotionValueEvent, motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Search, X, MapPin, Loader2, Menu, ChevronDown } from 'lucide-react';
+import ProfileDropdown from './ProfileDropdown';
 
 const SearchHeader = ({
     navigate,
@@ -15,182 +17,143 @@ const SearchHeader = ({
     urlSearch,
 }) => {
     const [showCategories, setShowCategories] = useState(false);
+    const [hidden, setHidden] = useState(false);
+    const { scrollY } = useScroll();
+
+    // Smart Scroll Logic: Monitors scroll direction
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        const previous = scrollY.getPrevious();
+        // If scrolling down and passed the initial header height (150px), hide it
+        if (latest > previous && latest > 150) {
+            setHidden(true);
+            setShowCategories(false);
+        } else {
+            // If scrolling up, show it immediately
+            setHidden(false);
+        }
+    });
 
     return (
-        <header className="bg-white/70 backdrop-blur-xl border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
-
-                {/* --- TOP ROW: NAV & LINKS --- */}
-                <div className="flex items-center justify-between gap-4 mb-6 md:mb-20">
+        <>
+            <nav className="bg-white w-full z-50 pb-14">
+                {/* 1. TOP NAV: This part scrolls away and NEVER stays sticky */}
+                <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between border-b border-gray-50">
                     <button
                         onClick={() => navigate('/')}
-                        className="p-2.5 hover:bg-gray-100 rounded-full transition-all flex items-center gap-2 font-semibold text-sm"
-                        aria-label="Go back"
+                        className="p-2.5 hover:bg-gray-100 rounded-full transition-all flex items-center gap-2 font-bold text-sm"
                     >
                         <ArrowLeft size={20} />
                         <span className="hidden sm:inline">Back</span>
                     </button>
 
-                    {/* Desktop nav */}
-                    <nav className="ml-auto hidden md:flex items-center gap-6 text-sm font-medium text-gray-500">
-                        <button className="hover:text-black transition-colors">New Arrivals</button>
-                        <button className="hover:text-black transition-colors">Trending</button>
-                        <button className="hover:text-black transition-colors">Deals</button>
-                    </nav>
-
-                    {/* Mobile nav toggle */}
-                    <button className="ml-auto md:hidden p-2 hover:bg-gray-100 rounded-full" aria-label="Open menu">
-                        <Menu size={20} />
-                    </button>
-                </div>
-
-                {/* --- MIDDLE ROW: SEARCH BAR + TABS --- */}
-                <div className="flex flex-col md:flex-row gap-4 items-center mb-6">
-                    {/* Search input */}
-                    <div className="flex-1 w-full relative group">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                        <input
-                            type="text"
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            placeholder="Search for items..."
-                            aria-label="Search for items"
-                            className="w-full bg-gray-100/80 border-none rounded-2xl py-3.5 pl-12 pr-10 text-sm font-medium focus:ring-2 focus:ring-orange/20 focus:bg-white transition-all outline-none"
-                        />
-                        {inputValue && (
-                            <button
-                                onClick={() => setInputValue('')}
-                                aria-label="Clear search"
-                                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 rounded-full text-gray-400"
-                            >
-                                <X size={14} />
-                            </button>
-                        )}
-                    </div>
-
-                    {/* Tabs */}
-                    <div
-                        className="inline-flex p-1 bg-gray-100/80 rounded-xl border border-gray-200/50 self-end md:self-auto"
-                        role="tablist"
-                    >
+                    <div className=" hidden mx-auto md:inline-flex p-1 bg-gray-100/80 rounded-xl border border-gray-200/50">
                         {['Places', 'People'].map((label) => (
                             <button
                                 key={label}
                                 onClick={() => setActiveTab(label.toLowerCase())}
-                                role="tab"
-                                aria-selected={activeTab === label.toLowerCase()}
-                                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                                    activeTab === label.toLowerCase()
-                                        ? 'bg-white shadow-sm text-black'
-                                        : 'text-gray-500'
-                                }`}
+                                className={`px-5 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === label.toLowerCase() ? 'bg-white shadow-sm text-black' : 'text-gray-500'
+                                    }`}
                             >
                                 {label}
                             </button>
                         ))}
                     </div>
+
+                    <div className='ml-auto md:ml-0'><ProfileDropdown fullMode={true} /></div>
+
+                    <button className="p-2 hover:bg-gray-100 rounded-full">
+                        <Menu size={20} />
+                    </button>
                 </div>
+            </nav>
 
-                {/* --- BOTTOM ROW: CATEGORY + LOCATION --- */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            {/* 2. THE SMART STICKY ROW: This handles the sticky behavior */}
+            <motion.div
+                variants={{
+                    visible: { y: 0 },
+                    hidden: { y: "-100%" },
+                }}
+                animate={hidden ? "hidden" : "visible"}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm"
+            >
+                <div className="max-w-7xl mx-auto px-4 md:px-8 py-3">
+                    <div className="flex flex-col md:flex-row items-center gap-4">
 
-                    {/* Categories desktop */}
-                    <div className="hidden md:flex items-center gap-3 flex-1 flex-wrap">
-                        <span className="text-lg font-bold text-black capitalize tracking-wider flex-shrink-0">
-                            Popular:
-                        </span>
-
-                        <button
-                            onClick={() => handleCategoryClick("All")}
-                            className={`whitespace-nowrap px-5 py-2 rounded-xl text-xs font-bold transition-all border ${!urlCategory || urlCategory === "All"
-                                ? 'bg-black text-white border-black shadow-md'
-                                : 'bg-white text-gray-500 border-gray-100 hover:border-gray-300'
-                                }`}
-                        >
-                            All
-                        </button>
-
-                        {CATEGORIES?.map((cat) => {
-                            const categoryName = typeof cat === 'string' ? cat : cat.name;
-                            const isActive = urlCategory === categoryName;
-                            return (
-                                <button
-                                    key={cat.id || categoryName}
-                                    onClick={() => handleCategoryClick(categoryName)}
-                                    className={`whitespace-nowrap px-5 py-2 rounded-xl text-xs font-bold transition-all border ${isActive
-                                        ? 'bg-black text-white border-black shadow-md'
-                                        : 'bg-white text-gray-500 border-gray-100 hover:border-gray-300'
-                                        }`}
-                                >
-                                    {categoryName}
+                        {/* Search Input Field */}
+                        <div className="relative flex-1 w-full group">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-black transition-colors" size={18} />
+                            <input
+                                type="text"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                placeholder="Quick search..."
+                                className="w-full bg-gray-100/80 border-none rounded-xl py-3 pl-12 pr-10 text-sm font-medium focus:ring-2 focus:ring-black/5 focus:bg-white outline-none transition-all"
+                            />
+                            {inputValue && (
+                                <button onClick={() => setInputValue('')} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-black">
+                                    <X size={14} />
                                 </button>
-                            );
-                        })}
-                    </div>
-
-                    {/* Location + Mobile category toggle */}
-                    <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
-
-                        {/* Mobile category dropdown */}
-                        <div className="md:hidden relative flex-1">
-                            <button
-                                className="flex items-center gap-1 px-3 py-2 bg-gray-100/80 rounded-xl border border-gray-200/50 text-sm font-bold"
-                                onClick={() => setShowCategories(!showCategories)}
-                                aria-expanded={showCategories}
-                            >
-                                {urlCategory || "Category"}
-                                <ChevronDown className={`transition-transform ${showCategories ? 'rotate-180' : ''}`} />
-                            </button>
-
-                            {showCategories && (
-                                <div className="absolute top-full mt-1 left-0 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-1000">
-                                    <button
-                                        onClick={() => { handleCategoryClick("All"); setShowCategories(false); }}
-                                        className={`w-full text-left px-4 py-2 text-sm font-medium transition-all ${!urlCategory || urlCategory === "All" ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}
-                                    >
-                                        All
-                                    </button>
-                                    {CATEGORIES?.map((cat) => {
-                                        const categoryName = typeof cat === 'string' ? cat : cat.name;
-                                        const isActive = urlCategory === categoryName;
-                                        return (
-                                            <button
-                                                key={cat.id || categoryName}
-                                                onClick={() => { handleCategoryClick(categoryName); setShowCategories(false); }}
-                                                className={`w-full text-left px-4 py-2 text-sm font-medium transition-all ${isActive ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}
-                                            >
-                                                {categoryName}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
                             )}
                         </div>
 
-                        {/* Location */}
-                        <div className="flex flex-col items-start md:items-end">
-                            <div
-                                className="flex items-center gap-2 mb-1"
-                                aria-busy={isFetching && !isFetchingNextPage}
-                            >
-                                <h1 className="text-xl font-bold tracking-tight">
-                                    {urlCategory || urlSearch || 'Marketplace'}
-                                </h1>
-                                {(isFetching && !isFetchingNextPage) && (
-                                    <Loader2 className="w-4 h-4 text-[#FF5C35] animate-spin" />
-                                )}
+                        {/* Category Toggle & Title */}
+                        <div className="flex items-center justify-between w-full md:w-auto gap-4">
+                            <div className="relative">
+                                <button
+                                    className="flex items-center gap-3 px-5 py-3 bg-black text-white rounded-xl text-xs font-bold whitespace-nowrap shadow-lg shadow-black/10 active:scale-95 transition-transform"
+                                    onClick={() => setShowCategories(!showCategories)}
+                                >
+                                    {urlCategory || "All Categories"}
+                                    <ChevronDown size={14} className={`transition-transform duration-200 ${showCategories ? 'rotate-180' : ''}`} />
+                                </button>
+
+                                <AnimatePresence>
+                                    {showCategories && (
+                                        <>
+                                            <div className="fixed inset-0 z-10" onClick={() => setShowCategories(false)} />
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                className="absolute top-full mt-2 left-0 w-60 bg-white border border-gray-200 rounded-2xl shadow-2xl z-20 overflow-hidden p-2"
+                                            >
+                                                <button
+                                                    onClick={() => { handleCategoryClick("All"); setShowCategories(false); }}
+                                                    className={`w-full text-left px-4 py-3 text-sm rounded-xl mb-1 ${!urlCategory || urlCategory === "All" ? 'bg-gray-100 font-bold' : 'hover:bg-gray-50 font-medium'}`}
+                                                >
+                                                    All Products
+                                                </button>
+                                                {CATEGORIES?.map((cat) => (
+                                                    <button
+                                                        key={cat.id}
+                                                        onClick={() => { handleCategoryClick(cat.name); setShowCategories(false); }}
+                                                        className={`w-full text-left px-4 py-3 text-sm rounded-xl ${urlCategory === cat.name ? 'bg-gray-100 font-bold' : 'hover:bg-gray-50 font-medium'}`}
+                                                    >
+                                                        {cat.name}
+                                                    </button>
+                                                ))}
+                                            </motion.div>
+                                        </>
+                                    )}
+                                </AnimatePresence>
                             </div>
-                            <div className="flex items-center gap-1.5 text-gray-400 text-xs font-medium">
-                                <MapPin size={12} className="text-[#FF5C35]" />
-                                <span>Lagos, Nigeria</span>
+
+                            <div className="flex flex-col items-end shrink-0">
+                                <div className="flex items-center gap-2">
+                                    <h1 className="text-sm font-black tracking-tight">{urlCategory || 'MarketPlace'}</h1>
+                                    {isFetching && !isFetchingNextPage && <Loader2 size={12} className="animate-spin text-orange-500" />}
+                                </div>
+                                <div className="flex items-center gap-1 text-gray-400 text-[10px] font-bold">
+                                    <MapPin size={10} className="text-orange-500" />
+                                    <span>LAGOS</span>
+                                </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-            </div>
-        </header>
+            </motion.div>
+        </>
     );
 };
 

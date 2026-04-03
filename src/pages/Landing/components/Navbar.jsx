@@ -3,10 +3,8 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 import { LuSun, LuMoon } from "react-icons/lu";
-
-import Logo from "./Logo";
+import navLogo from "../../../assets/nav-logo.png";
 import { Link } from "react-router-dom";
-import { Divide } from "lucide-react";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -19,11 +17,13 @@ const Navbar = () => {
 
     return (
         <div className="relative w-full flex justify-center px-4">
-            <nav className="w-full bg-white mt-4 rounded-[15px] border-[0.83px] border-[#0000001A] shadow-md max-w-[900px] min-h-[45px] dark:bg-neutral-900 py-2 px-4 md:px-8 flex items-center justify-between gap-4 z-50">
+            <nav style={{
+                boxShadow: '22px 18px 8px 0px #00000000, 0px 0px 4px 0px #00000040 inset'
+            }} className="w-full bg-white mt-4 rounded-[15px] border-[0.83px] border-[#0000001A] max-w-[1000px] h-[46px] dark:bg-neutral-900 py-[9px] px-[6px] flex items-center justify-between gap-4 z-50">
 
                 {/* Logo */}
-                <div className="flex items-center gap-2">
-                    <Logo />
+                <div className="flex items-center gap-2 ml-2">
+                    <img src={navLogo} alt="bouwnce" className="h-[16px] md:h-[20px]" />
                 </div>
 
                 <button
@@ -45,7 +45,7 @@ const Navbar = () => {
                 {/* Right Actions */}
                 <div className="flex items-center gap-3">
 
-                    <Link to="/register" className="hidden md:flex h-[34px] justify-between items-center gap-2 text-[13px] px-[15px] py-[6px] bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none">
+                    <Link to="/register" className="hidden md:flex h-[34px] justify-between items-center gap-2 text-[13px] px-[25px] py-[6px] bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none">
                         Sign Up
                         <Play size={10} fill="#FFC501" />
                     </Link>
