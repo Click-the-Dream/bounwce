@@ -78,7 +78,7 @@ const ProductSearch = () => {
             <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
                 <AnimatePresence mode="wait">
                     {isLoading ? (
-                        <div className="grid grid-cols-1 md:grid-cols-auto gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-auto gap-8 place-items-center">
                             {[...Array(8)].map((_, i) => <ProductCardSkeleton key={i} />)}
                         </div>
                     ) : allProducts.length === 0 ? (
