@@ -78,9 +78,9 @@ const Navbar = () => {
                                 </li>
                             ))}
                             <li>
-                                <button className="text-[13px] w-full h-[45px] flex justify-center items-center gap-2 bg-orange text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                <Link to="/register" className="text-[13px] w-full h-[45px] flex justify-center items-center gap-2 bg-orange text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                                     Sign Up <Play size={12} fill="#FFC501" />
-                                </button>
+                                </Link>
                             </li>
                         </ul>
                     </motion.div>
