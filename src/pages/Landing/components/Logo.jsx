@@ -25,7 +25,7 @@ const Logo = ({ onlyImage = false, size }) => {
                 />
             </span>
 
-            {!onlyImage && <span>bou<span className="text-brand-orange font-black">w</span>nce</span>}
+            {!onlyImage && <span>bou<span className="text-brand-orange">w</span>nce</span>}
         </Link>
     );
 };
