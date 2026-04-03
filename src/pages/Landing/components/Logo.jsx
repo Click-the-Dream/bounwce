@@ -16,7 +16,7 @@ const Logo = ({ onlyImage = false, size }) => {
             className={`flex items-center font-STHupo font-black tracking-[0.15em] lowercase text-[rgb(26,26,26)] dark:text-white transition-colors duration-300`}
             style={size ? { fontSize: textSize } : {}}
         >
-            <span className={`${onlyImage ? "" : "-mr-2"} flex items-center`}>
+            <span className={`${onlyImage ? "" : "-mr-3"} flex items-center`}>
                 <img
                     src={theme === "dark" ? logoWhite : logoDark}
                     alt="logo"
@@ -25,7 +25,7 @@ const Logo = ({ onlyImage = false, size }) => {
                 />
             </span>
 
-            {!onlyImage && <span>bou<span className="text-brand-orange">w</span>nce</span>}
+            {!onlyImage && <span>ou<span className="text-brand-orange">w</span>nce</span>}
         </Link>
     );
 };
