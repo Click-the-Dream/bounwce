@@ -17,7 +17,7 @@ const SearchHeader = ({
     const [showCategories, setShowCategories] = useState(false);
 
     return (
-        <header className="bg-white/70 backdrop-blur-xl border-b border-gray-100 sticky top-0 z-50">
+        <header className="bg-white/70 backdrop-blur-xl border-b border-gray-100">
             <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
 
                 {/* --- TOP ROW: NAV & LINKS --- */}
