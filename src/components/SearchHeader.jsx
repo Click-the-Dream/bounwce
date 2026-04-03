@@ -1,4 +1,5 @@
-import { ArrowLeft, Search, X, MapPin, Loader2, Menu } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowLeft, Search, X, MapPin, Loader2, Menu, ChevronDown } from 'lucide-react';
 
 const SearchHeader = ({
     navigate,
@@ -13,37 +14,37 @@ const SearchHeader = ({
     isFetchingNextPage,
     urlSearch,
 }) => {
+    const [showCategories, setShowCategories] = useState(false);
+
     return (
-        <header className="bg-white/70 backdrop-blur-xl border-b border-gray-100 sticky top-0 z-50">
+        <header className="bg-white/70 backdrop-blur-xl border-b border-gray-100">
             <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
 
-                {/* --- TOP ROW: NAV & LINKS --- */}
+                {/* Top row: back + nav */}
                 <div className="flex items-center justify-between gap-4 mb-6 md:mb-20">
-                    <div className="flex items-center gap-6 w-full">
-                        <button
-                            onClick={() => navigate('/')}
-                            className="p-2.5 hover:bg-gray-100 rounded-full transition-all flex items-center gap-2 font-semibold text-sm"
-                            aria-label="Go back"
-                        >
-                            <ArrowLeft size={20} />
-                            <span className="hidden sm:inline">Back</span>
-                        </button>
+                    <button
+                        onClick={() => navigate('/')}
+                        className="p-2.5 hover:bg-gray-100 rounded-full transition-all flex items-center gap-2 font-semibold text-sm"
+                        aria-label="Go back"
+                    >
+                        <ArrowLeft size={20} />
+                        <span className="hidden sm:inline">Back</span>
+                    </button>
 
-                        {/* Desktop nav */}
-                        <nav className="ml-auto hidden md:flex items-center gap-6 text-sm font-medium text-gray-500">
-                            <button className="hover:text-black transition-colors">New Arrivals</button>
-                            <button className="hover:text-black transition-colors">Trending</button>
-                            <button className="hover:text-black transition-colors">Deals</button>
-                        </nav>
+                    {/* Desktop nav */}
+                    <nav className="ml-auto hidden md:flex items-center gap-6 text-sm font-medium text-gray-500">
+                        <button className="hover:text-black transition-colors">New Arrivals</button>
+                        <button className="hover:text-black transition-colors">Trending</button>
+                        <button className="hover:text-black transition-colors">Deals</button>
+                    </nav>
 
-                        {/* Mobile nav (hamburger) */}
-                        <button className="ml-auto md:hidden p-2 hover:bg-gray-100 rounded-full" aria-label="Open menu">
-                            <Menu size={20} />
-                        </button>
-                    </div>
+                    {/* Mobile nav toggle */}
+                    <button className="ml-auto md:hidden p-2 hover:bg-gray-100 rounded-full" aria-label="Open menu">
+                        <Menu size={20} />
+                    </button>
                 </div>
 
-                {/* --- MIDDLE ROW: SEARCH BAR + TABS --- */}
+                {/* Middle row: search + tabs */}
                 <div className="flex flex-col md:flex-row gap-4 items-center mb-6">
                     {/* Search input */}
                     <div className="flex-1 w-full relative group">
@@ -90,12 +91,12 @@ const SearchHeader = ({
                     </div>
                 </div>
 
-                {/* --- BOTTOM ROW: CATEGORY FILTER & LOCATION --- */}
+                {/* Bottom row: category + location */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
 
-                    {/* Categories */}
-                    <div className="flex items-center gap-3 overflow-x-auto no-scrollbar flex-1 py-2">
-                        <span className="text-lg font-bold text-black capitalize tracking-wider flex-shrink-0 px-2">
+                    {/* Categories desktop */}
+                    <div className="hidden sm:flex items-center gap-3 flex-1 flex-wrap">
+                        <span className="text-lg font-bold text-black capitalize tracking-wider flex-shrink-0">
                             Popular:
                         </span>
 
@@ -127,8 +128,44 @@ const SearchHeader = ({
                         })}
                     </div>
 
+                    {/* Mobile categories toggle */}
+                    <div className="sm:hidden w-full">
+                        <button
+                            className="w-full flex justify-between items-center px-4 py-3 bg-gray-100/80 rounded-xl border border-gray-200/50 text-sm font-bold"
+                            onClick={() => setShowCategories(!showCategories)}
+                            aria-expanded={showCategories}
+                        >
+                            {urlCategory || "Select Category"}
+                            <ChevronDown className={`transition-transform ${showCategories ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {showCategories && (
+                            <div className="mt-2 bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden">
+                                <button
+                                    onClick={() => { handleCategoryClick("All"); setShowCategories(false); }}
+                                    className={`w-full text-left px-4 py-2 text-sm font-medium transition-all ${!urlCategory || urlCategory === "All" ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+                                >
+                                    All
+                                </button>
+                                {CATEGORIES?.map((cat) => {
+                                    const categoryName = typeof cat === 'string' ? cat : cat.name;
+                                    const isActive = urlCategory === categoryName;
+                                    return (
+                                        <button
+                                            key={cat.id || categoryName}
+                                            onClick={() => { handleCategoryClick(categoryName); setShowCategories(false); }}
+                                            className={`w-full text-left px-4 py-2 text-sm font-medium transition-all ${isActive ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+                                        >
+                                            {categoryName}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+
                     {/* Location */}
-                    <div className="flex flex-col items-start sm:items-end flex-shrink-0">
+                    <div className="flex flex-col items-start sm:items-end flex-shrink-0 mt-3 sm:mt-0">
                         <div
                             className="flex items-center gap-2 mb-1"
                             aria-busy={isFetching && !isFetchingNextPage}
