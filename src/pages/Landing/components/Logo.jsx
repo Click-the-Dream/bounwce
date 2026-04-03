@@ -21,7 +21,8 @@ const Logo = ({ onlyImage = false, size }) => {
     return (
         <Link
             to="/"
-            className="flex items-center font-STHupo font-semibold lowercase text-[rgb(26,26,26)] dark:text-white transition-colors duration-300"
+            style={size ? textStyle : {}}
+            className="flex items-center font-STHupo font-semibold tracking-[0.53px] lowercase text-[rgb(26,26,26)] dark:text-white transition-colors duration-300"
         >
             <span
                 style={!onlyImage ? dynamicMargin : {}}
@@ -37,7 +38,6 @@ const Logo = ({ onlyImage = false, size }) => {
 
             {!onlyImage && (
                 <span
-                    style={size ? textStyle : {}}
                     className={!size ? defaultTextClass : ""}
                 >
                     ou<span className="text-brand-orange">w</span>nce
