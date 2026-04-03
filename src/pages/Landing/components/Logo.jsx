@@ -14,7 +14,7 @@ const Logo = ({ onlyImage = false, size }) => {
         <Link
             to="/"
             className={`flex items-center font-STHupo font-black lowercase text-[rgb(26,26,26)] dark:text-white transition-colors duration-300`}
-            style={size ? { fontSize: textSize } : {}}
+            
         >
             <span className={`${onlyImage ? "" : "-mr-[12px]"} flex items-center`}>
                 <img
@@ -25,7 +25,7 @@ const Logo = ({ onlyImage = false, size }) => {
                 />
             </span>
 
-            {!onlyImage && <span>ou<span className="text-brand-orange">w</span>nce</span>}
+            {!onlyImage && <span style={size ? { fontSize: textSize } : {}}>ou<span className="text-brand-orange">w</span>nce</span>}
         </Link>
     );
 };
