@@ -16,7 +16,7 @@ const Logo = ({ onlyImage = false, size }) => {
             className={`flex items-center font-STHupo font-black lowercase text-[rgb(26,26,26)] dark:text-white transition-colors duration-300`}
             
         >
-            <span className={`${onlyImage ? "" : "-mr-[12px]"} flex items-center`}>
+            <span className={`${onlyImage ? "" : "-mr-[10px]"} flex items-center`}>
                 <img
                     src={theme === "dark" ? logoWhite : logoDark}
                     alt="logo"
