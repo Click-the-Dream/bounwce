@@ -45,7 +45,7 @@ const AboutSection = () => {
 
                     {/* Timeline */}
                     <div className="relative space-y-8">
-                        <div className="absolute left-[13px] top-10 bottom-10 w-[1px] bg-[#C9C9C9]" />
+                        <div className="absolute left-[13px] top-10 bottom-20 md:bottom-10 w-[1px] bg-[#C9C9C9]" />
 
                         {STEPS.map((step) => {
                             const isActive = activeStep === step.id;
@@ -68,7 +68,7 @@ const AboutSection = () => {
                                         </div>
 
                                         {isActive && step.id !== STEPS.length && (
-                                            <div className="w-[1px] h-24 bg-[#FF4B2B] -mb-20 transition-all duration-300" />
+                                            <div className="w-[1px] h-[120px] md:h-24 bg-[#FF4B2B] -mb-20 transition-all duration-300" />
                                         )}
                                     </div>
 
