@@ -92,10 +92,10 @@ const SearchHeader = ({
                 </div>
 
                 {/* Bottom row: category + location */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
 
                     {/* Categories desktop */}
-                    <div className="hidden sm:flex items-center gap-3 flex-1 flex-wrap">
+                    <div className="hidden md:flex items-center gap-3 flex-1 flex-wrap">
                         <span className="text-lg font-bold text-black capitalize tracking-wider flex-shrink-0">
                             Popular:
                         </span>
@@ -129,7 +129,7 @@ const SearchHeader = ({
                     </div>
 
                     {/* Mobile categories toggle */}
-                    <div className="sm:hidden w-full">
+                    <div className="md:hidden w-full">
                         <button
                             className="w-full flex justify-between items-center px-4 py-3 bg-gray-100/80 rounded-xl border border-gray-200/50 text-sm font-bold"
                             onClick={() => setShowCategories(!showCategories)}
