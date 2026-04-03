@@ -5,27 +5,44 @@ import { useTheme } from '../context/ThemeContext';
 const Logo = ({ onlyImage = false, size }) => {
     const { theme } = useTheme();
 
-    // Determine image size
-    const imageSize = size ? `${size}px` : "w-[30px] md:w-[40px]";
-    // Determine text size proportional to image
-    const textSize = size ? `${Math.round(size * 0.3)}px` : "text-[13px] md:text-[16px]";
+    // Default sizes
+    const defaultImageClass = "w-[30px] md:w-[40px]";
+    const defaultTextClass = "text-[13px] md:text-[16px]";
+
+    // Dynamic sizing
+    const imageStyle = size ? { width: `${size}px` } : {};
+    const textStyle = size ? { fontSize: `${Math.round(size * 0.3)}px` } : {};
+
+    // 🔥 Dynamic margin (key fix)
+    const dynamicMargin = size
+        ? { marginRight: `${-Math.round(size * 0.25)}px` }
+        : {};
 
     return (
         <Link
             to="/"
-            className={`flex items-center font-STHupo font-black lowercase text-[rgb(26,26,26)] dark:text-white transition-colors duration-300`}
-            
+            className="flex items-center font-STHupo font-semibold lowercase text-[rgb(26,26,26)] dark:text-white transition-colors duration-300"
         >
-            <span className={`${onlyImage ? "" : "-mr-[10px]"} flex items-center`}>
+            <span
+                style={!onlyImage ? dynamicMargin : {}}
+                className="flex items-center"
+            >
                 <img
                     src={theme === "dark" ? logoWhite : logoDark}
                     alt="logo"
-                    style={size ? { width: imageSize } : {}}
-                    className={`${!size && imageSize} shrink-0 object-contain`}
+                    style={imageStyle}
+                    className={`${!size ? defaultImageClass : ""} shrink-0 object-contain`}
                 />
             </span>
 
-            {!onlyImage && <span style={size ? { fontSize: textSize } : {}}>ou<span className="text-brand-orange">w</span>nce</span>}
+            {!onlyImage && (
+                <span
+                    style={size ? textStyle : {}}
+                    className={!size ? defaultTextClass : ""}
+                >
+                    ou<span className="text-brand-orange">w</span>nce
+                </span>
+            )}
         </Link>
     );
 };
