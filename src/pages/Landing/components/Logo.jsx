@@ -15,14 +15,14 @@ const Logo = ({ onlyImage = false, size }) => {
 
     // 🔥 Dynamic margin (key fix)
     const dynamicMargin = size
-        ? { marginRight: `${-Math.round(size * 0.35)}px` }
+        ? { marginRight: `${-Math.round(size * 0.30)}px` }
         : {marginRight: "-10px"};
 
     return (
         <Link
             to="/"
             style={size ? textStyle : {}}
-            className="flex items-center font-STHupo font-semibold tracking-[0.53px] lowercase text-[rgb(26,26,26)] dark:text-white transition-colors duration-300"
+            className="flex items-center font-STHupo font-bold tracking-[0.53px] lowercase text-[rgb(26,26,26)] dark:text-white transition-colors duration-300"
         >
             <span
                 style={!onlyImage ? dynamicMargin : {}}
