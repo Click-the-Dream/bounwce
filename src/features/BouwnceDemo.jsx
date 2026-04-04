@@ -91,7 +91,7 @@ const BouwnceDemo = () => {
                 //if (!isInView) break;
             }
         };
-        const id = requestAnimationFrame(() => runLoop());
+        //const id = requestAnimationFrame(() => runLoop());
 
         
             runLoop();
