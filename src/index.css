@@ -20,7 +20,7 @@
 }
 @font-face {
   font-family: "STHupo";
-  src: url("/public/fonts/chinese.sthupo.woff") format("truetype");
+  src: url("/fonts/chinese.sthupo.woff") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -28,19 +28,19 @@
 
 @font-face {
   font-family: "SFPro";
-  src: url("/public/fonts/SFProText-Bold.ttf") format("ttf");
+  src: url("/fonts/SFProText-Bold.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: "SFPro";
-  src: url("/public/fonts/SFProText-Medium.ttf") format("ttf");
+  src: url("/fonts/SFProText-Medium.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: "SFPro";
-  src: url("/public/fonts/SFProText-Regular.ttf") format("ttf");
+  src: url("/fonts/SFProText-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
