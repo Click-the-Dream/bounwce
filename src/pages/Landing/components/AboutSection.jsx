@@ -12,16 +12,6 @@ const STEPS = [
 const INTERVAL_TIME = 4000;
 
 const AboutSection = () => {
-    const [activeStep, setActiveStep] = useState(1);
-    const [isInView, setIsInView] = useState(false);
-
-    useEffect(() => {
-        if (!isInView) return;
-        const interval = setInterval(() => {
-            setActiveStep((prev) => (prev % STEPS.length) + 1);
-        }, INTERVAL_TIME);
-        return () => clearInterval(interval);
-    }, [isInView]);
 
     return (
         <motion.section onViewportEnter={() => setIsInView(true)}
@@ -122,15 +112,12 @@ const AboutSection = () => {
 
                 {/* Right Side: The Phone Mockup */}
                 <section className="h-full w-full flex justify-center items-center border-r-[0.53px] border-[#BDBDBD] border-dashed p-3 md:p-5">
-                    <motion.div
-                        key={activeStep}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5 }}
+                    <div
+                        
                         className='p-4 md:p-6 rounded-[40px] bg-[#F7F7F7] w-full h-[550px] shadow-inner'
                     >
-                        <BouwnceDemo activeStep={activeStep} />
-                    </motion.div>
+                        <BouwnceDemo />
+                    </div>
                 </section>
             </div>
         </motion.section>
