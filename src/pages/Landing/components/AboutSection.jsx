@@ -107,7 +107,7 @@ const isCompleted = activeStep > step.id
                     )}
                 </AnimatePresence>
             </motion.div>
-        </div>
+        
                                     </div>
 
                                     {/* The Content */}
