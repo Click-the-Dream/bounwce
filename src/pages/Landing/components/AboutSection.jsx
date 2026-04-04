@@ -12,7 +12,17 @@ const STEPS = [
 const INTERVAL_TIME = 4000;
 
 const AboutSection = () => {
-   const [activeStep, setActiveStep]= useState(1)
+    const [activeStep, setActiveStep] = useState(1);
+    const [isInView, setIsInView] = useState(false);
+
+    useEffect(() => {
+        if (!isInView) return;
+        const interval = setInterval(() => {
+            setActiveStep((prev) => (prev % STEPS.length) + 1);
+        }, INTERVAL_TIME);
+        return () => clearInterval(interval);
+    }, [isInView]);
+    
     return (
         <motion.section className="relative flex flex-col items-center bg-white dark:bg-neutral-950 transition-colors duration-300 overflow-hidden">
             <div className="grid grid-cols-1 xl:grid-cols-2 items-center min-h-[1000px] max-w-[1000px]">
