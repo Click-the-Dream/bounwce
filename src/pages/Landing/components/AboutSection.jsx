@@ -14,8 +14,7 @@ const INTERVAL_TIME = 4000;
 const AboutSection = () => {
 
     return (
-        <motion.section onViewportEnter={() => setIsInView(true)}
-            onViewportLeave={() => setIsInView(false)} className="relative flex flex-col items-center bg-white dark:bg-neutral-950 transition-colors duration-300 overflow-hidden">
+        <motion.section className="relative flex flex-col items-center bg-white dark:bg-neutral-950 transition-colors duration-300 overflow-hidden">
             <div className="grid grid-cols-1 xl:grid-cols-2 items-center min-h-[1000px] max-w-[1000px]">
 
 
