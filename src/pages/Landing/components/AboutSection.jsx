@@ -79,7 +79,7 @@ const AboutSection = () => {
                                         <motion.div
                                             animate={{
                                                 backgroundColor: isActive ? "#FF4B2B" : "#C9C9C9",
-                                                color: isActive || activeStep > step.id ? "#fff" : "#949494"
+                                                color: step.id <= activeStep? "#fff" : "#949494"
                                             }}
                                             className="w-7 h-7 flex items-center justify-center text-xs font-bold shadow-sm"
                                         >
