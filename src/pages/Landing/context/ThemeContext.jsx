@@ -23,8 +23,11 @@ export const ThemeProvider = ({ children }) => {
   }, [theme]);
 
   const toggleTheme = () => {
+    console.log("changing theme", theme === 'light' ? 'dark' : 'light');
+
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
+
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

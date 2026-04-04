@@ -8,7 +8,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .pompiere {
   font-family: "Pompiere", sans-serif;
   font-weight: 400;
@@ -29,19 +28,19 @@
 
 @font-face {
   font-family: "SFPro";
-  src: url("/fonts/SFPro/SFProText-Bold.ttf") format("ttf");
+  src: url("/public/fonts/SFProText-Bold.ttf") format("ttf");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: "SFPro";
-  src: url("/fonts/SFPro/SFProText-Medium.ttf") format("ttf");
+  src: url("/public/fonts/SFProText-Medium.ttf") format("ttf");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: "SFPro";
-  src: url("/fonts/SFPro/SFProText-Regular.ttf") format("ttf");
+  src: url("/public/fonts/SFProText-Regular.ttf") format("ttf");
   font-weight: 400;
   font-style: normal;
 }
