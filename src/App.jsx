@@ -8,6 +8,7 @@ import SecureRoute from "./routes/SecureRoute";
 import { ThemeProvider } from "../src/pages/Landing/context/ThemeContext";
 import { ModalProvider } from "../src/pages/Landing/context/ModalContext"; import { StoreProvider } from "./context/storeContext";
 import NotFound from "./pages/NotFound";
+import FloatingNav from "./components/FloatingNav";
 ;
 
 const VendorRouter = lazy(() => import("./routes/VendorRouter"));
@@ -41,6 +42,7 @@ function App() {
               <Suspense fallback={<Fallback />}>
                 <MainRoutes />
               </Suspense>
+              <FloatingNav />
             </div>
 
             <ToastContainer
