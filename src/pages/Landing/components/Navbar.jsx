@@ -1,18 +1,21 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Play, Menu, X } from "lucide-react";
-import { LuSun, LuMoon } from "react-icons/lu";
 import navLogo from "../../../assets/nav-logo.png";
 import { Link } from "react-router-dom";
 import { useScroll, useMotionValueEvent } from "framer-motion";
+import { AuthContext } from "../../../context/AuthContext";
+import { useContext } from "react";
 
 const Navbar = () => {
+    const { authDetails } = useContext(AuthContext);
+    const user = authDetails?.user;
     const [isOpen, setIsOpen] = useState(false);
     const [isFixed, setIsFixed] = useState(false);
     const navRef = useRef(null);
     const navLinks = [
         { name: "About Us", href: "#" },
         { name: "Blog", href: "#" },
-        { name: "Products", href: "/products" },
+        { name: "Marketplace", href: "/marketplace" },
     ];
 
     const { scrollY } = useScroll();
@@ -59,13 +62,13 @@ const Navbar = () => {
 
                     {/* Right Actions */}
                     <div className="flex items-center gap-3">
-                        <Link
+                        {!user && <Link
                             to="/register"
                             className="hidden md:flex h-[34px] justify-between items-center gap-2 text-[13px] px-[25px] py-[6px] bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
                         >
                             Sign Up
                             <Play size={10} fill="#FFC501" />
-                        </Link>
+                        </Link>}
 
                         {/* Mobile Toggle */}
                         <button
@@ -87,12 +90,12 @@ const Navbar = () => {
                                 </li>
                             ))}
                             <li>
-                                <Link
+                                {!user && <Link
                                     to="/register"
                                     className="text-[13px] w-full h-[45px] flex justify-center items-center gap-2 bg-orange text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                                 >
                                     Sign Up <Play size={12} fill="#FFC501" />
-                                </Link>
+                                </Link>}
                             </li>
                         </ul>
                     </div>

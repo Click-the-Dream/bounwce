@@ -101,7 +101,7 @@ const MainRoutes = () => {
       />
 
       <Route
-        path="/products"
+        path="/marketplace"
         element={
           <ProductSearch />
         }

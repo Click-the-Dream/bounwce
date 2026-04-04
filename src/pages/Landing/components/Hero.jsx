@@ -19,11 +19,11 @@ const Hero = () => {
             <Navbar />
             {/* Hero content goes here */}
             <div className="relative mt-14 md:mt-10 text-white w-full max-w-[653px] text-center flex flex-col items-center justify-center">
-                <h1 className="font-hugePromo text-6xl lg:text-[80px] uppercase text-gray-900 dark:text-white transition-colors duration-300">
+                <h1 className="text-6xl lg:text-[80px] font-black uppercase text-gray-900 dark:text-white transition-colors duration-300">
                     Find exactly <span className="text-brand-orange">what</span> you <span className="text-brand-orange">need</span>
                 </h1>
 
-                <p className="max-w-[500px] mt-4 text-[13px] text-[#4E4E4E]">
+                <p className="max-w-[500px] mt-4 text-[13px] text-[#4E4E4E] font-medium">
                     Describe what you're looking for—a quiet cafe, a vintage store, or a lively bar. bouwnce will instantly recommend the perfect spots nearby.
                 </p>
 

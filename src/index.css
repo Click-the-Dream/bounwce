@@ -5,16 +5,31 @@
 @tailwind components;
 @tailwind utilities;
 
-.SFPro {
-  font-family: "SF Pro", sans-serif;
-}
-
 @font-face {
   font-family: "STHupo";
   src: url("/public/fonts/chinese.sthupo.woff") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+@font-face {
+  font-family: "SFPro";
+  src: url("./public/fonts/SFPro/SFProText-Bold.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "SFPro";
+  src: url("./public/fonts/SFPro/SFProText-Medium.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "SFPro";
+  src: url("./public/fonts/SFPro/SFProText-Regular.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
 }
 
 * {

@@ -15,7 +15,7 @@ const DemoSearch = () => (
         </div>
 
         {/* The Search Bar */}
-        <div className="w-full max-w-md flex items-center border border-gray-200/50 bg-white text-gray-700 p-1 shadow-sm overflow-hidden rounded-[2.5px]">
+        <div className="w-full max-w-md flex items-center border border-gray-200/50 bg-white text-gray-700 px-1 py-[2px] shadow-sm overflow-hidden rounded-[2.5px]">
             <div className="bg-[#F4F4F5] text-gray-700 flex items-center w-full rounded-[2.5px] px-2 py-1">
                 <div className="pl-3 pr-2 text-gray-400">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -29,7 +29,7 @@ const DemoSearch = () => (
                 />
             </div>
             <button
-                className="ml-1 bg-[#FF5030] hover:bg-[#e4462a] text-black font-semibold px-2 md:px-4 py-1 rounded border-2 border-black transition-all active:scale-[0.98] text-[8px] md:text-[10px] flex items-center justify-center"
+                className="ml-1 bg-[#FF5030] hover:bg-[#e4462a] text-black font-semibold px-2 md:px-4 py-1 rounded border border-black transition-all active:scale-[0.98] text-[8px] md:text-[10px] flex items-center justify-center"
             >
                 <span className='lg:block'>Search</span>
             </button>

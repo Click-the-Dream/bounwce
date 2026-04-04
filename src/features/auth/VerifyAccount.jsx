@@ -120,7 +120,8 @@ const VerifyAccount = ({ isModal, onFinalSuccess, email }) => {
 
   return (
     <motion.div
-      className="w-full flex flex-col justify-center items-center mx-auto gap-3 flex-1 px-4 py-8 h-screen"
+      className="w-full flex flex-col justify-center items-center mx-auto gap-3 flex-1 px-4 py-8"
+      style={{ height: isModal ? "auto" : "100vh" }}
       initial="hidden"
       animate="show"
       variants={fadeInUp}

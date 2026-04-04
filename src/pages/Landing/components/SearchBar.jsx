@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Added useState
+import { useState } from 'react'; // Added useState
 import { Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import CategoryList from './CategoryList';
@@ -9,10 +9,9 @@ const SearchBar = () => {
 
     const handleSearch = () => {
         if (query.trim()) {
-            // Navigates to /products?search=your_query
-            navigate(`/products?search=${encodeURIComponent(query)}`);
+            navigate(`/marketplace?search=${encodeURIComponent(query)}`);
         } else {
-            navigate(`/products`);
+            navigate(`/marketplace`);
         }
     };
 

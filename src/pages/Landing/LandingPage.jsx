@@ -7,7 +7,7 @@ import Hero from "./components/Hero";
 
 const LandingPage = () => {
   return (
-    <div className="relative dark:bg-gray-900 min-h-screen transition-colors duration-300">
+    <div className="relative dark:bg-gray-900 min-h-screen transition-colors duration-300 font-SFPro">
       {/* <Header /> */}
       <Hero />
       <AboutSection />

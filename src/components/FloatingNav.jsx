@@ -1,26 +1,40 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Import useNavigate
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Home, Search, Settings, User, LayoutGrid } from 'lucide-react';
+import { X, Home, Settings, User, LayoutGrid } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
+import { Store } from 'lucide-react';
 
 const CircularFloatingNav = () => {
+    const { authDetails } = useContext(AuthContext);
+    const user = authDetails?.user && authDetails?.user?.role !== "vendor"
     const [isOpen, setIsOpen] = useState(false);
     const [direction, setDirection] = useState("up-left");
 
+    const navigate = useNavigate();
+
     const navItems = [
-        { icon: <Home size={20} />, label: 'Home' },
-        { icon: <Search size={20} />, label: 'Search' },
-        { icon: <Settings size={20} />, label: 'Settings' },
-        { icon: <User size={20} />, label: 'Profile' },
+        { icon: <Home size={20} />, label: 'Home', path: '/buyer' },
+        {
+            icon: <Store size={20} />,
+            label: 'Marketplace',
+            path: '/marketplace'
+        },
+        { icon: <Settings size={20} />, label: 'Settings', path: '/settings' },
+        { icon: <User size={20} />, label: 'Profile', path: '/profile' },
     ];
 
     const DISTANCE = 110;
 
-    // Detect best expansion direction
+    const handleNavigation = (path) => {
+        setIsOpen(false)
+        navigate(path);
+    };
+
     useEffect(() => {
         const updateDirection = () => {
             const x = window.innerWidth - 80;
             const y = window.innerHeight - 80;
-
             const isRight = x > window.innerWidth / 2;
             const isBottom = y > window.innerHeight / 2;
 
@@ -35,7 +49,6 @@ const CircularFloatingNav = () => {
         return () => window.removeEventListener("resize", updateDirection);
     }, []);
 
-    // Angle ranges per direction
     const getAngleRange = () => {
         switch (direction) {
             case "up-left": return [180, 270];
@@ -53,7 +66,6 @@ const CircularFloatingNav = () => {
     const getCoords = (i) => {
         const angle = START + i * step;
         const rad = (angle * Math.PI) / 180;
-
         return {
             angle,
             x: Math.cos(rad) * DISTANCE,
@@ -62,19 +74,14 @@ const CircularFloatingNav = () => {
         };
     };
 
-    // ✅ Smart tooltip positioning (prevents overlap)
     const getTooltipStyle = (angle) => {
-        if (angle >= 180 && angle <= 270) {
-            return "right-full mr-3 top-1/2 -translate-y-1/2";
-        }
-        if (angle > 270 && angle <= 360) {
-            return "left-full ml-3 top-1/2 -translate-y-1/2";
-        }
-        if (angle >= 90 && angle < 180) {
+        if ((angle >= 180 && angle <= 270) || (angle >= 90 && angle < 180)) {
             return "right-full mr-3 top-1/2 -translate-y-1/2";
         }
         return "left-full ml-3 top-1/2 -translate-y-1/2";
     };
+
+    if (!user) return null;
 
     return (
         <>
@@ -82,28 +89,42 @@ const CircularFloatingNav = () => {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        // Start as a small dot at the button's position
+                        initial={{
+                            clipPath: 'circle(0% at calc(100% - 40px) calc(100% - 40px))',
+                            opacity: 0
+                        }}
+                        // Expand the circle to cover the whole screen
+                        animate={{
+                            clipPath: 'circle(150% at calc(100% - 40px) calc(100% - 40px))',
+                            opacity: 1
+                        }}
+                        // Shrink back to the button on close
+                        exit={{
+                            clipPath: 'circle(0% at calc(100% - 40px) calc(100% - 40px))',
+                            opacity: 0
+                        }}
+                        transition={{
+                            duration: 0.6,
+                            ease: [0.4, 0, 0.2, 1] // Custom cubic-bezier for a "sleek" feel
+                        }}
                         onClick={() => setIsOpen(false)}
-                        className="fixed inset-0 bg-black/40 backdrop-blur-md z-[90]"
+                        className="fixed inset-0 bg-black/40 backdrop-blur-md z-[90] pointer-events-auto"
                     />
                 )}
             </AnimatePresence>
 
             <div className="fixed bottom-10 right-10 z-[100] w-16 h-16">
-
-                {/* Menu */}
+                {/* Menu Items */}
                 <AnimatePresence>
                     {isOpen && (
                         <div className="relative w-full h-full flex items-center justify-center">
                             {navItems.map((item, i) => {
                                 const { x, y, scale, angle } = getCoords(i);
-
                                 return (
                                     <motion.div
                                         key={i}
-                                        style={{ zIndex: 100 + i }} // ✅ prevents stacking issues
+                                        style={{ zIndex: 100 + i }}
                                         initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
                                         animate={{ opacity: 1, x, y, scale }}
                                         exit={{ opacity: 0, x: 0, y: 0, scale: 0 }}
@@ -118,6 +139,7 @@ const CircularFloatingNav = () => {
                                         <motion.button
                                             whileHover={{ scale: 1.2, y: -4 }}
                                             whileTap={{ scale: 0.95 }}
+                                            onClick={() => handleNavigation(item.path)} // 4. Attach click handler
                                             className="group relative w-12 h-12 flex items-center justify-center 
                                             rounded-full bg-white dark:bg-neutral-800 
                                             text-neutral-600 dark:text-neutral-300
@@ -128,8 +150,7 @@ const CircularFloatingNav = () => {
                                             {item.icon}
 
                                             {/* Tooltip */}
-                                            <span
-                                                className={`absolute ${getTooltipStyle(angle)}
+                                            <span className={`absolute ${getTooltipStyle(angle)}
                                                 px-2.5 py-1 text-[11px] rounded-md
                                                 bg-black/90 backdrop-blur-sm text-white
                                                 opacity-0 group-hover:opacity-100
@@ -147,7 +168,7 @@ const CircularFloatingNav = () => {
                     )}
                 </AnimatePresence>
 
-                {/* FAB */}
+                {/* Main FAB Toggle */}
                 <motion.button
                     onClick={() => setIsOpen(!isOpen)}
                     animate={isOpen ? { rotate: 135, scale: 0.9 } : { rotate: 0, scale: 1 }}

@@ -1,100 +1,118 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import BouwnceDemo from '../../../features/BouwnceDemo';
-import { useEffect } from "react";
 
 const STEPS = [
-    {
-        id: 1,
-        title: "Find Exactly What You Need",
-        description: `Where can I buy a vintage leather jacket?" Spotter knows local inventory and will point you straight to the stores that have it in stock.`,
-    },
-    {
-        id: 2,
-        title: "Discover Experiences",
-        description: "Stop guessing where to go. Tell us what you want, and we'll point you to the local favorites that match your request perfectly.",
-    },
-    {
-        id: 3,
-        title: "Meet a Friend",
-        description: "Surface the places that are best for buying, easiest for meeting up, and strongest overall.",
-    },
-    {
-        id: 4,
-        title: "Surface options your team can trust",
-        description: "A single view shows which places are best for meeting up, which are best for buying, and which are strongest overall.",
-    },
+    { id: 1, title: "Find Your People", description: "Want to go out, hit the gym, attend an event, or just not be bored?\nJust type it, Bouwnce connects you with people who share your vibe." },
+    { id: 2, title: "See What’s Happening", description: "Discover things you can actually do right now: Places to visit, Events to attend and opportunities." },
+    { id: 3, title: "Get What You Need", description: "Looking for food, accessories, services, or something to buy?\nBouwnce shows you the right vendors." },
+    { id: 4, title: "Make It Happen", description: "Chat, plan, link up, buy, show up. \nEverything flows in one place, from thoughts to results." },
 ];
 
+const INTERVAL_TIME = 4000;
+
 const AboutSection = () => {
-    const [activeStep, setActiveStep] = useState(1); // default first active
-    const [isHovered, setIsHovered] = useState(false); // Pause automation on hover
+    const [activeStep, setActiveStep] = useState(1);
+    const [isInView, setIsInView] = useState(false);
 
     useEffect(() => {
-        if (isHovered) return; // Don't auto-advance if user is interacting
-
+        if (!isInView) return;
         const interval = setInterval(() => {
             setActiveStep((prev) => (prev % STEPS.length) + 1);
-        }, 2000); // Changes every 5 seconds
-
+        }, INTERVAL_TIME);
         return () => clearInterval(interval);
-    }, [isHovered]);
+    }, [isInView]);
 
     return (
-        <section className="relative flex flex-col items-center bg-white dark:bg-neutral-950 transition-colors duration-300">
-            <div className="grid grid-cols-1 xl:grid-cols-2 items-center min-h-[1000px] SFPro max-w-[1000px]">
+        <motion.section onViewportEnter={() => setIsInView(true)}
+            onViewportLeave={() => setIsInView(false)} className="relative flex flex-col items-center bg-white dark:bg-neutral-950 transition-colors duration-300 overflow-hidden">
+            <div className="grid grid-cols-1 xl:grid-cols-2 items-center min-h-[1000px] max-w-[1000px]">
 
-                {/* Left */}
-                <div className="flex flex-col justify-center space-y-12 bg-[#F9F9F9] h-full p-10 border-l-[0.53px] border-r-[0.53px] border-dashed border-[#BDBDBD]">
 
+                <div
+                    className="flex flex-col justify-center space-y-12 bg-[#F9F9F9] h-full p-10 border-l-[0.53px] border-r-[0.53px] border-dashed border-[#BDBDBD]"
+
+                >
                     <header className="space-y-4">
-                        <h2 className="text-xl lg:text-[25px] font-bold leading-[1.05] tracking-tight text-black Aeonik">
-                            Find the Perfect Picks for Every <br /> Occasion and Match with Friends.
-                        </h2>
-                        <p className="text-sm text-neutral-500 leading-relaxed max-w-2xl pompiere">
-                            Bouwnce gives you curated recommendations for every occasion and helps you match effortlessly with friends.
+                        <motion.h2
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            className="text-xl lg:text-[25px] font-bold leading-[1.05] tracking-tight text-black"
+                        >
+                            How It Works
+                        </motion.h2>
+                        <p className="text-sm text-[#949494] font-medium">
+                            Bouwnce brings your world together. Stop searching and start living.
                         </p>
                     </header>
 
-                    {/* Timeline */}
-                    <div className="relative space-y-8">
-                        <div className="absolute left-[13px] top-10 bottom-20 md:bottom-10 w-[1px] bg-[#C9C9C9]" />
-
-                        {STEPS.map((step) => {
+                    <div className="relative flex flex-col">
+                        {STEPS.map((step, index) => {
                             const isActive = activeStep === step.id;
+                            const isLast = index === STEPS.length - 1;
 
                             return (
                                 <div
                                     key={step.id}
-                                    onMouseEnter={() => setActiveStep(step.id)}
-                                    className="relative flex gap-4 cursor-pointer"
+                                    onClick={() => setActiveStep(step.id)}
+                                    className="relative flex gap-6 cursor-pointer min-h-[130px] group"
                                 >
-                                    {/* Number */}
-                                    <div className="relative flex flex-col items-center flex-shrink-0 pt-1">
-                                        <div
-                                            className={`w-7 h-7 flex items-center justify-center text-xs font-bold transition-all duration-300 ${isActive
-                                                ? "bg-[#FF4B2B] text-white scale-110"
-                                                : "bg-[#C9C9C9] text-[#949494]"
-                                                }`}
+                                    {/* The Line Logic */}
+                                    {!isLast && (
+                                        <div className="absolute left-[13.5px] top-8 bottom-0 w-[1px] bg-[#E5E5E5]">
+                                            {/* This is the "Filling" Progress Bar */}
+                                            {isActive && (
+                                                <motion.div
+                                                    initial={{ height: 0 }}
+                                                    animate={{ height: "100%" }}
+                                                    transition={{ duration: INTERVAL_TIME / 1000, ease: "linear" }}
+                                                    className="w-full bg-[#FF4B2B]"
+                                                />
+                                            )}
+                                            {activeStep > step.id && (
+                                                <div className="absolute inset-0 bg-[#FF4B2B]" />
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {/* The Number Circle */}
+                                    <div className="relative z-10 flex-shrink-0 pt-1">
+                                        <motion.div
+                                            animate={{
+                                                backgroundColor: isActive ? "#FF4B2B" : "#C9C9C9",
+                                                color: isActive ? "#fff" : "#949494"
+                                            }}
+                                            className="w-7 h-7 flex items-center justify-center text-xs font-bold shadow-sm"
                                         >
                                             {step.id}
-                                        </div>
-
-                                        {isActive && step.id !== STEPS.length && (
-                                            <div className="w-[1px] h-[120px] md:h-24 bg-[#FF4B2B] -mb-20 transition-all duration-300" />
-                                        )}
+                                        </motion.div>
                                     </div>
 
-                                    {/* Content */}
-                                    <div className="space-y-1.5 flex-1">
-                                        <h3
-                                            className={`text-sm tracking-tight transition-colors duration-300 text-black font-medium ${isActive ? "font-bold" : "font-medium"
-                                                }`}
+                                    {/* The Content */}
+                                    <div className="flex-1 pb-10">
+                                        <motion.h3
+                                            className={`text-sm tracking-tight text-black ${isActive ? "font-bold" : "font-medium"}`}
                                         >
                                             {step.title}
-                                        </h3>
-                                        <p className={`text-[13px] leading-relaxed max-w-[350px] ${isActive ? "text-black" : "text-[#949494]"}`}>
-                                            {step.description}
-                                        </p>
+                                        </motion.h3>
+
+                                        <AnimatePresence mode="wait">
+                                            {isActive && (
+                                                <motion.p
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0, x: 5 }}
+                                                    className="text-[13px] leading-relaxed max-w-[350px] whitespace-pre-line mt-2 text-[#949494]"
+                                                >
+                                                    {step.description}
+                                                </motion.p>
+                                            )}
+                                            {!isActive && (
+                                                <p className="text-[13px] leading-relaxed max-w-[350px] mt-2 text-[#949494] opacity-40">
+                                                    {step.description.split('\n')[0]}...
+                                                </p>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
                                 </div>
                             );
@@ -102,15 +120,20 @@ const AboutSection = () => {
                     </div>
                 </div>
 
-                {/* Right */}
-                <section className="h-full w-full flex justify-center items-center border-r-[0.53px] border-[#BDBDBD] border-dashed p-5">
-                    <div className='p-6 rounded-[30px] bg-[#F7F7F7] w-full h-[500px]'>
+                {/* Right Side: The Phone Mockup */}
+                <section className="h-full w-full flex justify-center items-center border-r-[0.53px] border-[#BDBDBD] border-dashed p-3 md:p-5">
+                    <motion.div
+                        key={activeStep}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className='p-4 md:p-6 rounded-[40px] bg-[#F7F7F7] w-full h-[550px] shadow-inner'
+                    >
                         <BouwnceDemo activeStep={activeStep} />
-                    </div>
+                    </motion.div>
                 </section>
-
             </div>
-        </section>
+        </motion.section>
     );
 };
 

@@ -112,7 +112,7 @@ const AuthModal = ({ isOpen, onClose }) => {
 
                                 {view === "verification" && (
                                     <motion.div key="verify" {...fadeSlide}>
-                                        <div className="flex justify-center mb-6">
+                                        <div className="flex justify-center">
                                             <Logo onlyImage={true} size={50} />
                                         </div>
                                         <VerifyAccount

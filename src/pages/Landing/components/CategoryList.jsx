@@ -8,7 +8,7 @@ const CategoryList = () => {
 
     const handleCategoryClick = (categoryName) => {
         // Navigates to /products?category=CategoryName
-        navigate(`/products?category=${encodeURIComponent(categoryName)}`);
+        navigate(`/marketplace?category=${encodeURIComponent(categoryName)}`);
     };
 
     return (
