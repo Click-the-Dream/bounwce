@@ -11,7 +11,6 @@ const BouwnceDemo = () => {
     const [step, setStep] = useState(0);
     const [hoveredItem, setHoveredItem] = useState(null);
     const cursorControls = useAnimation();
-    const containerRef = useRef(null);
     /*const isInView = useInView(containerRef, {
         amount: 0.5,
         once: false
@@ -91,10 +90,10 @@ const BouwnceDemo = () => {
                 //if (!isInView) break;
             }
         };
-        const id = requestAnimationFrame(() => runLoop());
+        //const id = requestAnimationFrame(() => runLoop());
 
         runLoop();
-        return () => { isMounted = false; cancelAnimationFrame(id); };
+        return () => { isMounted = false;} // cancelAnimationFrame(id); };
     }, [cursorControls]);
 
     return (
