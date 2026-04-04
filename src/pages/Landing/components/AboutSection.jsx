@@ -49,7 +49,7 @@ const AboutSection = () => {
                         {STEPS.map((step, index) => {
                             const isActive = activeStep === step.id;
                             const isLast = index === STEPS.length - 1;
-
+const isCompleted = activeStep > step.id
                             return (
                                 <div
                                     key={step.id}
@@ -68,7 +68,7 @@ const AboutSection = () => {
                                                     className="w-full bg-[#FF4B2B]"
                                                 />
                                             )}
-                                            {activeStep > step.id && (
+                                            {isCompleted && (
                                                 <div className="absolute inset-0 bg-[#FF4B2B]" />
                                             )}
                                         </div>
@@ -76,15 +76,38 @@ const AboutSection = () => {
 
                                     {/* The Number Circle */}
                                     <div className="relative z-10 flex-shrink-0 pt-1">
-                                        <motion.div
-                                            animate={{
-                                                backgroundColor: isActive ? "#FF4B2B" : "#C9C9C9",
-                                                color: step.id <= activeStep? "#fff" : "#949494"
-                                            }}
-                                            className="w-7 h-7 flex items-center justify-center text-xs font-bold shadow-sm"
-                                        >
-                                            {step.id}
-                                        </motion.div>
+            <motion.div
+                initial={false}
+                animate={{
+                    backgroundColor: (isActive || isCompleted) ? "#FF4B2B" : "#C9C9C9",
+                    scale: isActive ? 1.1 : 1,
+                }}
+                className="w-7 h-7 flex items-center justify-center text-xs font-bold shadow-sm transition-colors"
+            >
+                <AnimatePresence mode="wait">
+                    {isCompleted ? (
+                        <motion.div
+                            key="check"
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0, opacity: 0 }}
+                        >
+                            <Check size={14} strokeWidth={3} color="white" />
+                        </motion.div>
+                    ) : (
+                <motion.span
+                            key="number"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            style={{ color: isActive ? "#fff" : "#949494" }}
+                        >
+                            {step.id}
+                        </motion.span>
+                    )}
+                </AnimatePresence>
+            </motion.div>
+        </div>
                                     </div>
 
                                     {/* The Content */}
