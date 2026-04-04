@@ -90,10 +90,10 @@ const BouwnceDemo = () => {
                 //if (!isInView) break;
             }
         };
-        //const id = requestAnimationFrame(() => runLoop());
+        const id = requestAnimationFrame(() => runLoop());
 
         runLoop();
-        return () => { isMounted = false;} // cancelAnimationFrame(id); };
+        return () => { isMounted = false;  cancelAnimationFrame(id); };
     }, [cursorControls]);
 
     return (
