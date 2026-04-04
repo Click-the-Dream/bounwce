@@ -91,16 +91,15 @@ const BouwnceDemo = () => {
                 //if (!isInView) break;
             }
         };
-        //const id = requestAnimationFrame(() => runLoop());
+        const id = requestAnimationFrame(() => runLoop());
 
         
             runLoop();
-        return () => { isMounted = false; }
-                      //cancelAnimationFrame(id); };
+        return () => { isMounted = false; cancelAnimationFrame(id); };
     }, [cursorControls]);
 
     return (
-        <div ref={containerRef} style={{
+        <div style={{
             boxShadow: `0px 10px 13.4px -1px #0000000D, 0px 0px 4px 0px #00000040 inset`
 
         }} className="relative w-full h-[380px] bg-white rounded-3xl border border-gray-200 overflow-hidden font-sans text-sm shadow-2xl mx-auto select-none flex flex-col items-center justify-center">
