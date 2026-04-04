@@ -68,7 +68,7 @@ const AboutSection = () => {
                                                     className="w-full bg-[#FF4B2B]"
                                                 />
                                             )}
-                                            {activeStep > step.id && (
+                                            {activeStep === step.id && (
                                                 <div className="absolute inset-0 bg-[#FF4B2B]" />
                                             )}
                                         </div>
