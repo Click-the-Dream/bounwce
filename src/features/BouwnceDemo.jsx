@@ -12,17 +12,17 @@ const BouwnceDemo = () => {
     const [hoveredItem, setHoveredItem] = useState(null);
     const cursorControls = useAnimation();
     const containerRef = useRef(null);
-    const isInView = useInView(containerRef, {
+    /*const isInView = useInView(containerRef, {
         amount: 0.5,
         once: false
     });
-
+*/
     useEffect(() => {
         let isMounted = true;
 
         const runLoop = async () => {
-            if (!isMounted || !isInView) return;
-            while (isMounted && isInView) {
+            if (!isMounted) return;
+            while (isMounted) {
                 // RESET
                 await cursorControls.start({ opacity: 0, transition: { duration: 0.5 } });
 
@@ -93,13 +93,13 @@ const BouwnceDemo = () => {
         };
         const id = requestAnimationFrame(() => runLoop());
 
-        if (isInView) {
+        if(isMounted){
             runLoop();
         } else {
             cursorControls.stop();
         }
         return () => { isMounted = false; cancelAnimationFrame(id); };
-    }, [cursorControls, isInView]);
+    }, [cursorControls]);
 
     return (
         <div ref={containerRef} style={{
