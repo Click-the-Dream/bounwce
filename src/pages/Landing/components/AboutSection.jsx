@@ -68,7 +68,7 @@ const AboutSection = () => {
                                                     className="w-full bg-[#FF4B2B]"
                                                 />
                                             )}
-                                            {activeStep === step.id && (
+                                            {activeStep < step.id && (
                                                 <div className="absolute inset-0 bg-[#FF4B2B]" />
                                             )}
                                         </div>
@@ -79,7 +79,7 @@ const AboutSection = () => {
                                         <motion.div
                                             animate={{
                                                 backgroundColor: isActive ? "#FF4B2B" : "#C9C9C9",
-                                                color: isActive ? "#fff" : "#949494"
+                                                color: isActive || activeStep < step.id ? "#fff" : "#949494"
                                             }}
                                             className="w-7 h-7 flex items-center justify-center text-xs font-bold shadow-sm"
                                         >
