@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BouwnceDemo from '../../../features/BouwnceDemo';
-
+import { Check } from 'lucide-react'; // Or any icon library you use
 const STEPS = [
     { id: 1, title: "Find Your People", description: "Want to go out, hit the gym, attend an event, or just not be bored?\nJust type it, Bouwnce connects you with people who share your vibe." },
     { id: 2, title: "See What’s Happening", description: "Discover things you can actually do right now: Places to visit, Events to attend and opportunities." },
