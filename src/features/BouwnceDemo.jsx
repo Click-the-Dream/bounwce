@@ -15,8 +15,8 @@ const BouwnceDemo = () => {
     /*const isInView = useInView(containerRef, {
         amount: 0.5,
         once: false
-    });
-*/
+    });*/
+
     useEffect(() => {
         let isMounted = true;
 
@@ -88,16 +88,13 @@ const BouwnceDemo = () => {
                 await cursorControls.start({ opacity: 0, transition: { duration: 0.3 } });
 
                 await new Promise(r => setTimeout(r, 900)); // Loading time
-                if (!isInView) break;
+                //if (!isInView) break;
             }
         };
         const id = requestAnimationFrame(() => runLoop());
 
-        if(isMounted){
+        
             runLoop();
-        } else {
-            cursorControls.stop();
-        }
         return () => { isMounted = false; cancelAnimationFrame(id); };
     }, [cursorControls]);
 
