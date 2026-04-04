@@ -94,7 +94,7 @@ const BouwnceDemo = () => {
         const id = requestAnimationFrame(() => runLoop());
 
         
-            runLoop();
+            //runLoop();
         return () => { isMounted = false; cancelAnimationFrame(id); };
     }, [cursorControls]);
 
