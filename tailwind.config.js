@@ -35,7 +35,7 @@ export default {
         bebas: ['"Bebas Neue"', "sans-serif"],
         instrument: ['"Instrument Serif"', "serif"],
         sthupo: ['"STHupo"', "cursive", "sans-serif"],
-        SFPro: ["SFPro", "sans-serif"],
+        SFPro: ["SFPro"],
       },
       gridTemplateColumns: {
         auto: "repeat(auto-fill, minmax(220px, 1fr))",
