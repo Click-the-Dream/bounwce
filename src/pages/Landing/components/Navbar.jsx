@@ -32,7 +32,7 @@ const Navbar = () => {
         <>
             <div
                 ref={navRef}
-                className={`w-full flex justify-center px-4 transition-all duration-300 ${isFixed ? "fixed top-0 left-0 z-50 " : "relative mt-4"
+                className={`w-full flex justify-center px-4 transition-all duration-300 ${isFixed ? "fixed top-3 left-0 z-50 " : "relative mt-4"
                     }`}
             >
                 <nav
