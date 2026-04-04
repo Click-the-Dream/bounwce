@@ -10,6 +10,7 @@ const AuthModal = ({ isOpen, onClose }) => {
     const [view, setView] = useState("selection");
     const [authData, setAuthData] = useState(null);
 
+
     const handleClose = () => {
         onClose();
         setTimeout(() => {
@@ -99,8 +100,8 @@ const AuthModal = ({ isOpen, onClose }) => {
 
                                 {(view === "login" || view === "register") && (
                                     <motion.div key="form" {...fadeSlide}>
-                                        <div className="flex justify-center mb-6">
-                                            <Logo onlyImage={true} size={50} />
+                                        <div className="flex justify-center mb-5">
+                                            <Logo onlyImage={true} size={60} />
                                         </div>
                                         {view === "login" ? (
                                             <LoginPage isModal={true} onSuccess={handleSuccess} />

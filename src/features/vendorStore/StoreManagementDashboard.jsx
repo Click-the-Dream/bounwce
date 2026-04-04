@@ -4,8 +4,6 @@ import { IoEyeOutline } from "react-icons/io5";
 import VendorOverviewCard from "../vendorDashboard/components/ui/VendorOverviewCard";
 import { useState } from "react";
 import ProductSection from "./ProductSection";
-import DraftSection from "./DraftSection";
-// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import StoreQuickActionsSection from "./StoreQuickActionsSection";
 import SearchActionsBar from "./SearchActionsBar";
@@ -13,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import PageTransition from "../../components/common/PageTransition";
 import useProduct from "../../hooks/useProduct";
 import useStore from "../../hooks/useStore";
+import { useMemo } from "react";
 
 const StatSkeleton = () => (
   <div className="animate-pulse bg-white rounded-xl p-4 h-[80px] border border-gray-200" />
@@ -29,26 +28,40 @@ const StoreManagementDashboard = () => {
   const { useGetMyProducts } = useProduct();
   const { useGetMyStore } = useStore();
   const { data: store, isLoading: storeLoading } = useGetMyStore();
-
-  const { data, isLoading: productsLoading, error } = useGetMyProducts();
-  const products = data?.products ?? [];
-
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("product");
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data, isLoading: productsLoading, error } = useGetMyProducts();
+  const products = data?.products ?? [];
+  const filteredProducts = useMemo(() => {
+    if (!searchTerm) return products;
+
+    const lowerSearch = searchTerm.toLowerCase();
+    return products.filter((p) =>
+      p.name.toLowerCase().includes(lowerSearch)
+    );
+  }, [products, searchTerm]);
+
+
   const sectionVariants = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -20 },
   };
   const totalProducts = data?.total ?? products.length;
-  const activeProducts = products.filter(p => p.state !== "draft");
-  const draftProducts = products.filter(p => p.state === "draft");
+  const activeProducts = useMemo(() =>
+    filteredProducts.filter(p => p.state !== "draft"),
+    [filteredProducts]);
+
+  const draftProducts = useMemo(() =>
+    filteredProducts.filter(p => p.state === "draft"),
+    [filteredProducts]);
 
   const stats = [
     { label: "Total Products", amount: totalProducts, icon: MdOutlineDashboard },
     { label: "Active Products", amount: activeProducts?.length, icon: MdOutlineDashboard },
     { label: "Draft Products", amount: draftProducts?.length, icon: MdOutlineDashboard },
-    { label: "Low Stock Items", amount: products.filter(p => p.stock < 5).length, icon: MdOutlineDashboard },
+    { label: "Low Stock Items", amount: filteredProducts.filter(p => p.stock < 5).length, icon: MdOutlineDashboard },
   ];
 
   return (
@@ -88,7 +101,7 @@ const StoreManagementDashboard = () => {
           </section>
 
           {/* Search & Actions */}
-          <SearchActionsBar />
+          <SearchActionsBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
           {/* Tabs */}
           <div className="bg-[#ECECF0] rounded-[20px] border-[1px] border-[#0000001A] p-1 inline-flex gap-3 text-[13px]">
@@ -130,7 +143,7 @@ const StoreManagementDashboard = () => {
               >
                 Failed to load products. Please try again.
               </motion.div>
-            ) : activeTab === "product" ? (
+            ) : (
               <motion.div
                 key="product"
                 variants={sectionVariants}
@@ -138,28 +151,18 @@ const StoreManagementDashboard = () => {
                 animate="animate"
                 exit="exit"
               >
-                {activeProducts?.length === 0 ? (
-                  <div className="text-center py-10 text-gray-500">
-                    No active products yet. Start by publishing one.
-                  </div>
+                {activeTab === "product" ? (
+                  activeProducts.length > 0 ? (
+                    <ProductSection products={activeProducts} status="active" />
+                  ) : (
+                    <div className="text-center py-10 text-gray-400">No matching active products.</div>
+                  )
                 ) : (
-                  <ProductSection products={activeProducts} status="active" />
-                )}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="drafts"
-                variants={sectionVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-              >
-                {draftProducts?.length === 0 ? (
-                  <div className="text-center py-10 text-gray-500">
-                    No drafts available.
-                  </div>
-                ) : (
-                  <ProductSection products={draftProducts} status="draft" />
+                  draftProducts.length > 0 ? (
+                    <ProductSection products={draftProducts} status="draft" />
+                  ) : (
+                    <div className="text-center py-10 text-gray-400">No matching drafts.</div>
+                  )
                 )}
               </motion.div>
             )}

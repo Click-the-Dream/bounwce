@@ -167,11 +167,6 @@ const useAuth = () => {
     },
     onSuccess: (userData) => {
       updateAuth(userData);
-
-      onSuccess({
-        title: "OTP Verified!",
-        message: "Proceeding to dashboard",
-      });
     },
 
     onError: (err) => {

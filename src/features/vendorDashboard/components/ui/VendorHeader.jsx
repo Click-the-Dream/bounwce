@@ -1,6 +1,9 @@
 import { TbHome } from "react-icons/tb";
-import { IoSettingsOutline } from "react-icons/io5";
+import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import userImage from "../../../../assets/createpic.jpg";
+import { useState, useEffect } from "react";
+import { useRef } from "react";
+import useAuth from "../../../../hooks/useAuth";
 
 const VendorHeader = ({
   storeName,
@@ -19,6 +22,19 @@ const VendorHeader = ({
   leftIcon: LeftIcon,
   rightIcon: RightIcon,
 }) => {
+  const { logout } = useAuth()
+  const [showSettings, setShowSettings] = useState(false);
+  const dropdownRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowSettings(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <header className="bg-white shadow py-5 px-[1rem] md:px-[3rem] xl:px-[140px] 2xl:px-[175px] flex justify-between items-center gap-2">
       <div className="flex gap-3 items-center">
@@ -75,12 +91,31 @@ const VendorHeader = ({
             )}
           </button>
 
-          <button
-            className="border-[2px] py-[6px] px-[12px] flex items-center rounded-md"
-            onClick={onThirdClick}
-          >
-            <IoSettingsOutline />
-          </button>
+          <div className="relative" ref={dropdownRef}>
+            <button
+              className={`border-[2px] py-[6px] px-[12px] flex items-center rounded-md transition-colors ${showSettings ? "bg-gray-100 border-gray-400" : "bg-white"
+                }`}
+              onClick={() => setShowSettings(!showSettings)}
+            >
+              <IoSettingsOutline className={showSettings ? "rotate-45 transition-transform" : "transition-transform"} />
+            </button>
+
+            {/* Logout Dropdown */}
+            {showSettings && (
+              <div className="absolute right-0 mt-2 w-40 bg-white border border-[#0000001A] rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <button
+                  onClick={() => {
+                    setShowSettings(false);
+                    if (logout) logout.mutate();
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  <IoLogOutOutline size={18} />
+                  <span className="font-medium">Logout</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </header>

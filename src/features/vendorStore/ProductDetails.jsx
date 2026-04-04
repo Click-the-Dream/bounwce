@@ -5,46 +5,46 @@ import useProduct from "../../hooks/useProduct";
 import Dropdown from "../../components/common/Dropdown";
 
 const ProductDetails = () => {
-    const { control, register, formState: {errors} } = useFormContext();   
-    const { useGetStoreCategories } = useProduct();
-    const { data: categories = [] } = useGetStoreCategories();
+    const { control, register, formState: { errors } } = useFormContext();
+    const { useGetProductCategories } = useProduct();
+    const { data: categories = [] } = useGetProductCategories();
     const categoryOptions = (categories ?? []).map((cat) => ({
         value: cat?.name,
         label: cat?.name,
         description: cat?.description,
     }))
-  return (
-    <div className="bg-white rounded-[10px] p-5">
-        <h1 className="text-[14px]">Basic Information</h1>
-        <p className="text-[13px] text-[#717182] mb-4">Essential details about your product</p>
+    return (
+        <div className="bg-white rounded-[10px] p-5">
+            <h1 className="text-[14px]">Basic Information</h1>
+            <p className="text-[13px] text-[#717182] mb-4">Essential details about your product</p>
 
             <div className="mb-2">
-                <InputField 
+                <InputField
                     label={"Product Name *"}
                     type={"text"}
                     placeholder={"Enter product name"}
                     error={errors.productName}
                     {...register("productName", { required: "Product Name is required" })}
-                />  
+                />
             </div>
-            
+
             <div>
-               <InputField 
+                <InputField
                     label={"Description *"}
                     type={"textarea"}
                     placeholder={"Describe your product in detail..."}
                     error={errors.description}
                     {...register("description", { required: "Product Description is required" })}
-                /> 
+                />
             </div>
-            
+
             <div className="flex flex-col lg:flex-row gap-2 w-full">
                 <div className="mb-2 flex-1">
                     <label className="text-[13px]">Category *</label>
-                    <Controller 
+                    <Controller
                         name="category"
                         control={control}
-                        rules={{ required: "Product Category is required"}}
+                        rules={{ required: "Product Category is required" }}
                         render={({ field, fieldState }) => (
                             <Dropdown
                                 value={field.value || ""}
@@ -57,16 +57,16 @@ const ProductDetails = () => {
                                 searchable
                                 error={fieldState.error?.message}
                             />
-                        )}  
+                        )}
                     />
                 </div>
-                
+
                 <div className="flex-1">
                     <label className="text-[13px]">Availability *</label>
-                    <Controller 
+                    <Controller
                         name="availability"
                         control={control}
-                        rules={{ required: "Product availability is required"}}
+                        rules={{ required: "Product availability is required" }}
                         render={({ field, fieldState }) => (
                             <Dropdown
                                 value={field.value || ""}
@@ -79,12 +79,12 @@ const ProductDetails = () => {
                                 searchable
                                 error={fieldState.error?.message}
                             />
-                        )}  
+                        )}
                     />
-                </div>                
+                </div>
             </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default ProductDetails

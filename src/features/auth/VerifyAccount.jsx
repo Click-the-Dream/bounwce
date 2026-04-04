@@ -7,6 +7,8 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import useAuth from "../../hooks/useAuth";
 import { storedUserEmail } from "../../utils/formatters";
+import { useNavigate } from "react-router-dom";
+import { onSuccess } from "../../utils/notifications/OnSuccess";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -14,6 +16,7 @@ const fadeInUp = {
 };
 
 const VerifyAccount = ({ isModal, onFinalSuccess, email }) => {
+  const navigate = useNavigate();
   const { verifyOtp, requestOtp } = useAuth();
   const userEmail = storedUserEmail() || email;
 
@@ -62,20 +65,31 @@ const VerifyAccount = ({ isModal, onFinalSuccess, email }) => {
         onSuccess: (userData) => {
           const user = userData?.user;
 
+          // Define dynamic messages
+          let successMessage = "Your account has been verified.";
+          if (user?.role === "vendor" && user?.is_store_owner === false) {
+            successMessage = "Verified! Let's set up your store.";
+          } else if (isModal) {
+            successMessage = "Verification successful!";
+          }
+
+          // Trigger the notification here
+          onSuccess({
+            title: "OTP Verified!",
+            message: successMessage,
+          });
+
+          // Handle Redirection Logic
           if (isModal) {
-            // If they are a vendor, take them to their dashboard
             if (user?.role === "vendor") {
               const path = user?.is_store_owner === false ? "/vendor/setup" : "/vendor";
               navigate(path, { replace: true });
-            }
-            // If they are a buyer, close the modal so they stay on the current page
-            else {
+            } else {
               if (onFinalSuccess) onFinalSuccess();
             }
             return;
           }
 
-          //Standalone Page Flow (Redirects always)
           if (user?.role === "vendor") {
             const path = user?.is_store_owner === false ? "/vendor/setup" : "/vendor";
             navigate(path, { replace: true });
@@ -97,7 +111,9 @@ const VerifyAccount = ({ isModal, onFinalSuccess, email }) => {
       await requestOtp.mutateAsync(
         { email: userEmail },
         {
-          onSuccess: () => setTimer(30),
+          onSuccess: () => {
+            setTimer(30); setOtp("")
+          },
         }
       );
     } catch (err) {

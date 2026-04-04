@@ -5,7 +5,7 @@ const Footer = () => {
 
   return (
     <footer className="w-full py-10 lg:py-12 bg-white dark:bg-gray-900">
-      <div className="max-w-[1000px] mx-auto flex flex-col items-center gap-6">
+      <div className="w-[90%] max-w-[1000px] mx-auto flex flex-col items-center gap-6">
 
         {/* Logo + Navigation */}
         <div className="flex flex-col md:flex-row justify-center md:justify-between md:items-center gap-4 w-full">

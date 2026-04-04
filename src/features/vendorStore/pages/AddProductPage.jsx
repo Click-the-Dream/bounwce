@@ -81,9 +81,6 @@ const AddProductPage = ({ onClose }) => {
 
       // Add status based on submit mode
       formData.append("status", action);
-
-      // Debug FormData
-      console.log("FormData contents:");
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
