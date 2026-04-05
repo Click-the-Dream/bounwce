@@ -17,7 +17,7 @@ const CategoryList = () => {
                 <button
                     key={index}
                     onClick={() => handleCategoryClick(cat?.name)}
-                    className="cursor-pointer px-5 py-2 text-[12px] font-medium border border-gray-300 rounded-full bg-white/50 hover:bg-white transition-all text-gray-700 dark:text-gray-300 dark:border-neutral-700 dark:bg-neutral-900 active:scale-95"
+                    className="cursor-pointer px-5 py-2 text-[12px] font-medium border border-gray-300 rounded-full bg-white/50 hover:bg-white transition-all text-gray-700 active:scale-95"
                 >
                     {cat?.name}
                 </button>

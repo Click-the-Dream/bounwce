@@ -13,7 +13,7 @@ const ExploreSection = ({ onSignUp }) => {
     };
 
     return (
-        <div className="flex justify-center items-center h-full md:min-h-screen pt-24 md:pt-32">
+        <div className="flex justify-center items-center h-full md:min-h-screen pt-24 md:pt-32 bg-white">
             <div className="flex flex-col md:flex-row items-center w-full max-w-[1000px] min-h-[353px] bg-white rounded md:rounded-3xl py-10 md:py-12 px-5 md:px-8 lg:px-[60px] text-center md:text-left transition-all duration-200 hover:scale-[1.01] shadow-[26px_0px_100px_0px_rgba(0,0,0,0.10),-32px_0px_100px_0px_rgba(0,0,0,0.10),0px_-5px_12px_0px_rgba(0,0,0,0.10),0px_-33px_100px_0px_rgba(0,0,0,0.09),0px_49px_100px_0px_rgba(0,0,0,0.05),0px_22px_100px_0px_rgba(0,0,0,0.09)]">
 
                 {/* Image Container */}

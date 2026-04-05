@@ -13,9 +13,9 @@ const Navbar = () => {
     const [isFixed, setIsFixed] = useState(false);
     const navRef = useRef(null);
     const navLinks = [
-        { name: "About Us", href: "#" },
-        { name: "Blog", href: "#" },
-        { name: "Marketplace", href: "/marketplace" },
+        // { name: "About Us", href: "#" },
+        // { name: "Blog", href: "#" },
+        // { name: "Marketplace", href: "/marketplace" },
     ];
 
     const { scrollY } = useScroll();
@@ -48,12 +48,12 @@ const Navbar = () => {
 
 
                     {/* Desktop Links */}
-                    <div className="ml-auto mr-2 hidden md:flex items-center gap-6 text-gray-700 text-[13px] dark:text-gray-300 font-medium">
+                    <div className="ml-auto mr-2 hidden md:flex items-center gap-6 text-gray-700 text-[13px] font-medium">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}
                                 to={link.href}
-                                className="hover:text-black dark:hover:text-white cursor-pointer transition-colors"
+                                className="hover:text-black  cursor-pointer transition-colors"
                             >
                                 {link.name}
                             </Link>
