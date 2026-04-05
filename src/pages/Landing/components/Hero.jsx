@@ -24,8 +24,7 @@ const Hero = () => {
                 </h1>
 
                 <p className="max-w-[500px] mt-4 text-[13px] text-[#4E4E4E] font-medium">
-                    Describe what you're looking for—a quiet cafe, a vintage store, or a lively bar. bouwnce will instantly recommend the perfect spots nearby.
-                </p>
+                    Describe what you need — Bouwnce connects you with people who share your interests, and the right places</p>
 
 
                 <SearchBar />
