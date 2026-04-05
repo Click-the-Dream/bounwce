@@ -156,7 +156,7 @@ const Waitlist = () => {
               variants={fadeIn("up", 0.3)}
               className="text-orange text-2xl md:text-3xl font-medium mb-2 tracking-tight text-center"
             >
-              Something big is about to shake campus life.
+    Be the first to experience Bouwnce.
             </motion.h1>
 
             <motion.p
