@@ -163,7 +163,7 @@ const Waitlist = () => {
               variants={fadeIn("up", 0.4)}
               className="text-sm mb-6 text-center font-medium"
             >
-              Find the right people early and have access to what you need
+              Find the right people early — and everything you need along the way.
             </motion.p>
 
             {/* --- Waitlist Form --- */}
