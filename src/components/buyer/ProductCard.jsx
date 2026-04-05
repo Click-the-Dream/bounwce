@@ -5,29 +5,48 @@ import { useNavigate } from "react-router-dom";
 import { vendors } from "../../utils/dummies";
 import useCart from "../../hooks/useCart";
 import ProductImageDisplay from "../common/ProductImageDisplay";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
+import { useState } from "react";
+import AuthModal from "../common/AuthModal";
 
 const ProductCard = ({ product }) => {
+  const { authDetails } = useContext(AuthContext);
   const { carts } = useStore();
   const { addToCart, removeFromCart } = useCart();
   const navigate = useNavigate();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  // Check if user is authenticated
+  const isAuthenticated = !!authDetails?.access_token;
 
+  // Professional Guard Function
+  const checkAuth = (e) => {
+    e.stopPropagation();
+    if (!isAuthenticated) {
+      setShowAuthModal(true);
+      return false;
+    }
+    return true;
+  };
 
   if (!product) return null;
 
-  const foundVendorIndex = carts?.findIndex((cart) =>
+  const foundVendorIndex = carts?.find((cart) =>
     cart.product.id === product?.id
   );
 
-  const isInCart = foundVendorIndex !== -1;
+  const productInCart = foundVendorIndex;
 
   const handleCardClick = (e) => {
     // Prevent navigation if clicking buttons
     if (e.target.closest("button")) return;
 
-    navigate("/buyer/product-details", {
+    if (!checkAuth(e)) return;
+
+    navigate(`/buyer/products/${product?.id}`, {
       state: {
         product: product,
-        isInCart: isInCart,
+        cartId: productInCart?.id,
         vendorInfo: {
           name: vendors.find(v => v.id === product?.vendorId)?.name,
         }
@@ -38,57 +57,58 @@ const ProductCard = ({ product }) => {
   const handleCartAction = (e, action) => {
     e.stopPropagation(); // Stop clicking the card
 
+    if (!checkAuth(e)) return;
+
     if (action === "add") {
       addToCart.mutate({ product_id: product?.id, quantity: 1 })
 
     } else {
       // REMOVE LOGIC
-      if (isInCart) {
-
+      if (!!productInCart) {
+        removeFromCart.mutate(productInCart?.id)
       }
     }
   };
 
   return (
-    <div
-      onClick={handleCardClick}
-      className="
-        group relative flex flex-col bg-white
+    <>
+      <div
+        onClick={handleCardClick}
+        className="min-w-[100px] w-[250px] group relative flex flex-col bg-white
         rounded-xl border border-gray-200
-        w-[150px] md:w-[220px]
         transition-all duration-300
         hover:shadow-lg hover:-translate-y-1 cursor-pointer
       "
-    >
-      {/* Image wrapper */}
-      <div className="overflow-hidden rounded-t-xl h-60">
-        <ProductImageDisplay images={product?.images} height="h-full" showThumbnails={false} />
-      </div>
-
-      <section className="px-4 py-4 flex flex-col flex-1">
-        <h2 className="font-medium text-sm mb-1 line-clamp-2">
-          {product?.name}
-        </h2>
-
-        <div className="flex items-center gap-2 text-[13px] text-gray-500 mb-2">
-          <span>{product?.category}</span>
-          <span className="flex items-center gap-1 text-yellow-500">
-            <FaStar size={12} /> {(product?.rating || 3)?.toFixed(1)}
-          </span>
+      >
+        {/* Image wrapper */}
+        <div className="overflow-hidden rounded-t-xl h-32 md:h-60">
+          <ProductImageDisplay images={product?.images} height="h-full" showThumbnails={false} />
         </div>
 
-        <p className="mb-1 text-[13px] font-semibold">
-          {formatCurrency(product?.amount)}
-        </p>
+        <section className="px-4 py-4 flex flex-col flex-1">
+          <h2 className="font-medium text-sm mb-1 line-clamp-1">
+            {product?.name}
+          </h2>
 
-        {/* Action */}
-        <div className="mt-auto flex justify-end">
-          {isInCart ? (
-            <button
+          <div className="flex items-center gap-2 text-[13px] text-gray-500 mb-2 line-clamp-1">
+            <span>{product?.category}</span>
+            <span className="flex items-center gap-1 text-yellow-500">
+              <FaStar size={12} /> {(product?.rating || 3)?.toFixed(1)}
+            </span>
+          </div>
 
-              disabled={removeFromCart.isPending}
-              onClick={(e) => handleCartAction(e, "remove")}
-              className="
+          <p className="mb-1 text-[13px] font-semibold">
+            {formatCurrency(product?.amount)}
+          </p>
+
+          {/* Action */}
+          <div className="mt-auto flex justify-end">
+            {productInCart?.product?.id ? (
+              <button
+
+                disabled={removeFromCart.isPending}
+                onClick={(e) => handleCartAction(e, "remove")}
+                className="
                 opacity-0 translate-y-3 pointer-events-none
                 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
                 transition-all duration-300
@@ -96,14 +116,14 @@ const ProductCard = ({ product }) => {
                 text-white text-[10px] md:text-xs
                 py-1 px-2 md:p-2 rounded-md
               "
-            >
-              {removeFromCart.isPending ? "Processing..." : "Remove from Cart"}
-            </button>
-          ) : (
-            <button
-              disabled={addToCart.isPending}
-              onClick={(e) => handleCartAction(e, "add")}
-              className="
+              >
+                {removeFromCart.isPending ? "Processing..." : "Remove from Cart"}
+              </button>
+            ) : (
+              <button
+                disabled={addToCart.isPending}
+                onClick={(e) => handleCartAction(e, "add")}
+                className="
                 opacity-0 translate-y-3 pointer-events-none
                 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
                 transition-all duration-300
@@ -112,13 +132,18 @@ const ProductCard = ({ product }) => {
                 py-1 px-2 md:p-2 rounded-md
                 disabled:opacity-50
               "
-            >
-              {addToCart.isPending ? "Processing..." : "Add to Cart"}
-            </button>
-          )}
-        </div>
-      </section>
-    </div>
+              >
+                {addToCart.isPending ? "Processing..." : "Add to Cart"}
+              </button>
+            )}
+          </div>
+        </section>
+      </div>
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
+    </>
   );
 };
 

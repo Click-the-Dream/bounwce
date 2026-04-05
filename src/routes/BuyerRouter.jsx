@@ -1,24 +1,26 @@
-import React from "react";
+import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import MarketPlace from "../pages/buyer/MarketPlace";
-import ShoppingCart from "../pages/buyer/ShoppingCart";
-import ProductDetails from "../pages/buyer/ProductDetails";
 import { StoreProvider } from "../context/storeContext";
+
+const BuyerDashboard = lazy(() => import("../pages/buyer/BuyerDashboard"));
+const ShoppingCart = lazy(() => import("../pages/buyer/ShoppingCart"));
+const ProductDetails = lazy(() => import("../pages/buyer/ProductDetails"));
+const Checkout = lazy(() => import("../pages/buyer/Checkout"));
+import Fallback from "../components/Fallback";
 
 const BuyerRouter = () => {
   return (
-
-    <StoreProvider>
+    <Suspense fallback={<Fallback />}>
       <Routes>
-        {/* Redirect /buyer to /buyer/marketplace */}
-        <Route path="" element={<Navigate to="marketplace" replace />} />
+        <Route path="" element={<Navigate to="home" replace />} />
 
-        {/* Relative paths */}
-        <Route path="marketplace" element={<MarketPlace />} />
+        {/* Lazy-loaded routes */}
+        <Route path="home" element={<BuyerDashboard />} />
         <Route path="cart" element={<ShoppingCart />} />
-        <Route path="product-details" element={<ProductDetails />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="products/:productId" element={<ProductDetails />} />
       </Routes>
-    </StoreProvider>
+    </Suspense>
   );
 };
 

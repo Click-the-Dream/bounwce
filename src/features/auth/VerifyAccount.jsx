@@ -7,15 +7,18 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import useAuth from "../../hooks/useAuth";
 import { storedUserEmail } from "../../utils/formatters";
+import { useNavigate } from "react-router-dom";
+import { onSuccess } from "../../utils/notifications/OnSuccess";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-const VerifyAccount = () => {
+const VerifyAccount = ({ isModal, onFinalSuccess, email }) => {
+  const navigate = useNavigate();
   const { verifyOtp, requestOtp } = useAuth();
-  const userEmail = storedUserEmail();
+  const userEmail = storedUserEmail() || email;
 
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +61,43 @@ const VerifyAccount = () => {
     if (!otp) return;
     setIsLoading(true);
     try {
-      await verifyOtp.mutateAsync({ email: userEmail, code: otp });
+      await verifyOtp.mutateAsync({ email: userEmail, code: otp }, {
+        onSuccess: (userData) => {
+          const user = userData?.user;
+
+          // Define dynamic messages
+          let successMessage = "Your account has been verified.";
+          if (user?.role === "vendor" && user?.is_store_owner === false) {
+            successMessage = "Verified! Let's set up your store.";
+          } else if (isModal) {
+            successMessage = "Verification successful!";
+          }
+
+          // Trigger the notification here
+          onSuccess({
+            title: "OTP Verified!",
+            message: successMessage,
+          });
+
+          // Handle Redirection Logic
+          if (isModal) {
+            if (user?.role === "vendor") {
+              const path = user?.is_store_owner === false ? "/vendor/setup" : "/vendor";
+              navigate(path, { replace: true });
+            } else {
+              if (onFinalSuccess) onFinalSuccess();
+            }
+            return;
+          }
+
+          if (user?.role === "vendor") {
+            const path = user?.is_store_owner === false ? "/vendor/setup" : "/vendor";
+            navigate(path, { replace: true });
+          } else {
+            navigate("/buyer", { replace: true });
+          }
+        }
+      });
     } catch (err) {
       console.error("Verification failed:", err);
     } finally {
@@ -72,7 +111,9 @@ const VerifyAccount = () => {
       await requestOtp.mutateAsync(
         { email: userEmail },
         {
-          onSuccess: () => setTimer(30),
+          onSuccess: () => {
+            setTimer(30); setOtp("")
+          },
         }
       );
     } catch (err) {
@@ -95,7 +136,8 @@ const VerifyAccount = () => {
 
   return (
     <motion.div
-      className="w-full flex flex-col justify-center items-center mx-auto gap-3 flex-1 px-4 py-8 h-screen"
+      className="w-full flex flex-col justify-center items-center mx-auto gap-3 flex-1 px-4 py-8"
+      style={{ height: isModal ? "auto" : "100vh" }}
       initial="hidden"
       animate="show"
       variants={fadeInUp}

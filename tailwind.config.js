@@ -35,11 +35,12 @@ export default {
         bebas: ['"Bebas Neue"', "sans-serif"],
         instrument: ['"Instrument Serif"', "serif"],
         sthupo: ['"STHupo"', "cursive", "sans-serif"],
+        SFPro: ["SFPro"],
       },
       gridTemplateColumns: {
         auto: "repeat(auto-fill, minmax(220px, 1fr))",
         responsive: "repeat(auto-fill, minmax(300px, 1fr))",
-        mobile: "repeat(auto-fill, minmax(150px, 1fr))",
+        mobile: "repeat(auto-fill, minmax(100px, 1fr))",
       },
     },
   },

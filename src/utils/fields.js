@@ -1,5 +1,13 @@
 import { IoColorPaletteOutline, IoRocketOutline } from "react-icons/io5";
 import { BsBox, BsTruck } from "react-icons/bs";
+import {
+  FaXTwitter,
+  FaInstagram,
+  FaTiktok,
+  FaLinkedinIn,
+  FaYoutube,
+} from "react-icons/fa6";
+
 export const brandingSteps = [
   {
     icon: IoColorPaletteOutline,
@@ -50,3 +58,38 @@ export const onboardingTree = {
     success: [],
   },
 };
+
+export const socialLinks = [
+  {
+    name: "TikTok",
+    url: "https://www.tiktok.com/@bouwnceofficial?_r=1&_t=ZS-94bAoiIcJv7",
+    icon: FaTiktok,
+  },
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/bouwnceofficial?igsh=MXQzdmN6cTNvcThvaQ==",
+    icon: FaInstagram,
+  },
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/company/bouwnce-official/",
+    icon: FaLinkedinIn,
+  },
+  {
+    name: "X (Twitter)",
+    url: "https://x.com/bouwnceofficial?s=21",
+    icon: FaXTwitter,
+  },
+  // {
+  //   name: "YouTube",
+  //   url: "https://youtube.com/@bouwnceofficial?",
+  //   icon: FaYoutube,
+  // },
+];
+
+export const navLinks = [
+  { name: "About us", path: "/about" },
+  { name: "Privacy Policy", path: "/privacy-policy" },
+  { name: "Terms of Service", path: "/terms" },
+  { name: "Contact", path: "/contact" },
+];

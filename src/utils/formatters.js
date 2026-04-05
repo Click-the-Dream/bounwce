@@ -129,7 +129,8 @@ export const statusStyles = {
   Completed: "bg-[#F0FDF4] text-[#38C066]",
 };
 
-export const formatCurrency = (amount) => `₦${amount.toLocaleString("en-NG")}`;
+export const formatCurrency = (amount) =>
+  `₦${Number(amount || 0).toLocaleString("en-NG")}`;
 
 export const getVendor = (vendorId) => vendors.find((v) => v.id === vendorId);
 

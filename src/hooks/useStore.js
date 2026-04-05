@@ -249,7 +249,7 @@ const useStore = () => {
     onError: (error) => handleFailure("Payout Deletion", error),
   });
 
-  const useGetStoreOnboardingStatus = (userId) =>
+  const useGetStoreOnboardingStatus = () =>
     useQuery({
       queryKey: ["store", "onboarding-status"],
       queryFn: async () => {

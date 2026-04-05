@@ -24,7 +24,7 @@ const isTokenExpired = (token) => {
   }
 };
 
-export const setupInterceptors = (getAuth, parseToken) => {
+export const setupInterceptors = (getAuth, updateAuth) => {
   api.interceptors.request.use((config) => {
     if (config.headers?.Authorization) {
       return config;
@@ -79,25 +79,16 @@ export const setupInterceptors = (getAuth, parseToken) => {
 
           if (stored) {
             const parsed = JSON.parse(stored);
-            newUser = { ...parsed, access_token: newToken };
-          } else {
-            // If no user data is in storage, fetch the user from backend
-            const { data: userData } = await axios.get(
-              `${import.meta.env.VITE_BASE_URL}/api/v1/auth/me`,
-              { headers: { Authorization: `Bearer ${newToken}` } },
-            );
-            newUser = { ...userData, access_token: newToken };
+            const updatedUser = { ...parsed, access_token: newToken };
+
+            updateAuth(updatedUser);
+
+            processQueue(null, newToken);
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            return api(originalRequest);
           }
-
-          sessionStorage.setItem("authUser", JSON.stringify(newUser));
-          parseToken(newToken);
-          processQueue(null, newToken);
-
-          originalRequest.headers.Authorization = `Bearer ${newToken}`;
-          return api(originalRequest);
         } catch (err) {
-          processQueue(err, null);
-          // Optional: trigger logout here if refresh token is also dead
+          updateAuth(null);
           return Promise.reject(err);
         } finally {
           isRefreshing = false;

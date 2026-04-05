@@ -9,8 +9,6 @@ export const useCart = () => {
   const { authDetails } = useContext(AuthContext);
   const queryClient = useQueryClient();
 
-  /** ---------------- QUERIES ---------------- */
-
   const getCarts = () =>
     useQuery({
       queryKey: ["carts"],
@@ -36,7 +34,7 @@ export const useCart = () => {
       queryKey: ["cartShippingInfo"],
       queryFn: async () => {
         const res = await api.get("/users/carts/cart-shipping-info");
-        return res.data;
+        return res.data?.data;
       },
       enabled: !!authDetails?.access_token,
     });
@@ -48,7 +46,10 @@ export const useCart = () => {
       const res = await api.post("/users/carts/", data);
       return res.data;
     },
-    onSuccess: () => queryClient.invalidateQueries(["carts"]),
+    onSuccess: (_, data) => {
+      queryClient.invalidateQueries(["carts"]);
+      queryClient.invalidateQueries(["product", data?.product_id]);
+    },
   });
 
   const updateCart = useMutation({
@@ -75,8 +76,16 @@ export const useCart = () => {
   });
 
   const checkoutCarts = useMutation({
-    mutationFn: async (cartIds) => {
-      const res = await api.post("/users/carts/checkout", { cartIds });
+    mutationFn: async ({ payload, idempotencyKey }) => {
+      if (!payload || payload.length === 0) {
+        throw new Error("No items to checkout");
+      }
+      const res = await api.post("/users/carts/checkout", payload, {
+        headers: {
+          "Idempotent-Key": idempotencyKey,
+        },
+      });
+
       return res.data;
     },
     onSuccess: () => queryClient.invalidateQueries(["carts"]),

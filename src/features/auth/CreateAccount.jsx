@@ -13,7 +13,7 @@ import { fadeUp } from "../../utils/formatters";
 import { allSchools } from "nigerian-institutions";
 import Dropdown from "../../components/common/Dropdown";
 
-const CreateAccount = () => {
+const CreateAccount = ({ isModal = false, onSuccess }) => {
   //const navigate = useNavigate();
   const { signUp } = useAuth();
 
@@ -41,6 +41,12 @@ const CreateAccount = () => {
     await signUp.mutateAsync({
       ...data,
       role: data?.vendor === "yes" ? "vendor" : "user",
+    }, {
+      onSuccess: () => {
+        if (isModal && onSuccess) {
+          onSuccess(data);
+        }
+      }
     });
   };
 

@@ -1,18 +1,16 @@
 import { Suspense, lazy, useContext } from "react";
 import { Navigate, Routes, Route, useLocation } from "react-router-dom";
-// eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
-
 import AuthLayout from "./features/auth/AuthLayout";
 import Fallback from "./components/Fallback";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { ToastContainer, Slide } from "react-toastify";
 import SecureRoute from "./routes/SecureRoute";
-import { StoreProvider } from "./context/storeContext";
 import { ThemeProvider } from "../src/pages/Landing/context/ThemeContext";
-import { ModalProvider } from "../src/pages/Landing/context/ModalContext";
+import { ModalProvider } from "../src/pages/Landing/context/ModalContext"; import { StoreProvider } from "./context/storeContext";
+import NotFound from "./pages/NotFound";
+import FloatingNav from "./components/FloatingNav";
+;
 
-// Lazy-loaded routers & pages
 const VendorRouter = lazy(() => import("./routes/VendorRouter"));
 const BuyerRouter = lazy(() => import("./routes/BuyerRouter"));
 const LoginPage = lazy(() => import("./features/auth/LoginPage"));
@@ -20,6 +18,7 @@ const CreateAccount = lazy(() => import("./features/auth/CreateAccount"));
 const VerifyAccount = lazy(() => import("./features/auth/VerifyAccount"));
 const Waitlist = lazy(() => import("./pages/Waitlist"));
 const LandingPage = lazy(() => import("./pages/Landing/LandingPage"));
+const ProductSearch = lazy(() => import("./pages/ProductSearch"));
 
 const VendorOnboarding = lazy(() => import("./pages/vendor/VendorOnboarding"));
 
@@ -36,27 +35,30 @@ function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <ModalProvider>
-          <div className="font-inter">
-            <Suspense fallback={<Fallback />}>
-              <MainRoutes />
-            </Suspense>
-          </div>
 
-          <ToastContainer
-            autoClose={2000}
-            draggable
-            position="bottom-right"
-            transition={Slide}
-            theme="light"
-          />
-        </ModalProvider>
+        <StoreProvider>
+          <ModalProvider>
+            <div className="font-inter">
+              <Suspense fallback={<Fallback />}>
+                <MainRoutes />
+              </Suspense>
+              <FloatingNav />
+            </div>
+
+            <ToastContainer
+              autoClose={2000}
+              draggable
+              position="bottom-right"
+              transition={Slide}
+              theme="light"
+            />
+          </ModalProvider>
+        </StoreProvider>
       </ThemeProvider>
     </AuthProvider>
   );
 }
 
-// ----- Animated Routes -----
 const MainRoutes = () => {
   const location = useLocation();
 
@@ -98,6 +100,13 @@ const MainRoutes = () => {
         }
       />
 
+      <Route
+        path="/marketplace"
+        element={
+          <ProductSearch />
+        }
+      />
+
       {/* Waitlist */}
       <Route
         path="/waitlist"
@@ -123,7 +132,7 @@ const MainRoutes = () => {
           }
         />
       </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

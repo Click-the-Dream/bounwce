@@ -5,12 +5,14 @@ import { useState } from "react";
 import Modal from "./components/Modal";
 import AddProductPage from "./pages/AddProductPage";
 
-const SearchActionsBar = () => {
+const SearchActionsBar = ({ searchTerm, setSearchTerm }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="w-full bg-white p-2 flex flex-col md:flex-row gap-3 items-center justify-between space-x-2 rounded-[12.75px]">
       <input
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         type="text"
         placeholder="Search Product..."
         className="w-full px-4 py-2 rounded-[12.75px] text-[13px] bg-[#ECECF080]"

@@ -3,6 +3,7 @@ import { TbEdit } from "react-icons/tb";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import useProduct from "../../../hooks/useProduct";
 import ProductImageDisplay from "../../../components/common/ProductImageDisplay";
+import { formatCurrency } from "../../../utils/formatters";
 
 const ProductCard = ({ product, status }) => {
     const { toggleProductState } = useProduct();
@@ -38,7 +39,7 @@ const ProductCard = ({ product, status }) => {
                     </p>
                     <p className="text-[11px] flex justify-between">
                         <span className="font-medium">Price:</span>
-                        <span>${product?.amount}</span>
+                        <span>{formatCurrency(product?.amount || 0)}</span>
                     </p>
                     <p className="text-[11px] flex justify-between">
                         <span className="font-medium">Stock:</span>

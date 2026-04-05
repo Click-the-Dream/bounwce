@@ -81,10 +81,10 @@ const StoreForm = ({
   const nextButtonLabel = isLoading
     ? "Please wait..."
     : hasExistingData
-    ? "Update"
-    : isLastTab
-    ? "Continue to Getting Started"
-    : "Next";
+      ? "Update"
+      : isLastTab
+        ? "Continue to Getting Started"
+        : "Next";
 
   return (
     <form onSubmit={handleNext} className="space-y-6 pt-2">
@@ -98,21 +98,20 @@ const StoreForm = ({
       )}
 
       <div className="flex flex-wrap justify-between gap-2 pt-6 text-sm">
-        <button
+        {currentTab !== "store" && <button
           type="button"
           onClick={onBack}
           disabled={currentTab === "store"}
-          className={`flex gap-2 items-center px-6 py-2 border rounded-md text-gray-700 transition-colors ${
-            currentTab === "store"
-              ? "bg-gray-200 cursor-not-allowed"
-              : "bg-gray-50 hover:bg-gray-100"
-          }`}
+          className={`flex gap-2 items-center px-6 py-2 border rounded-md text-gray-700 transition-colors disabled:opacity-50 ${currentTab === "store"
+            ? "bg-gray-200 cursor-not-allowed"
+            : "bg-gray-50 hover:bg-gray-100"
+            }`}
         >
           <FaArrowLeft /> Back
-        </button>
+        </button>}
 
         <div className="flex gap-3 ml-auto">
-          {/* ✅ Show Skip only when allowed */}
+          {/* Show Skip only when allowed */}
           {canSkip && (
             <button
               type="button"
