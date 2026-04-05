@@ -69,20 +69,20 @@ const Navbar = () => {
                             :
                             <Link
                                 to="/waitlist"
-                                className="hidden md:flex h-[34px] justify-between items-center gap-2 text-[13px] px-[25px] py-[6px] bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
+                                className="flex h-[34px] justify-between items-center gap-2 text-[13px] px-[25px] py-[6px] bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
                             >
                                 Join Us
                                 <Play size={10} fill="#FFC501" />
                             </Link>
                         }
 
-                        {/* Mobile Toggle */}
+                        {/* Mobile Toggle 
                         <button
                             onClick={() => setIsOpen(!isOpen)}
                             className="md:hidden flex items-center justify-center w-[34px] h-[34px] rounded-lg border-2 border-black bg-white transition-all active:scale-90"
                         >
                             {isOpen ? <X size={18} strokeWidth={2.5} /> : <Menu size={18} strokeWidth={2.5} />}
-                        </button>
+                        </button>*/}
                     </div>
                 </nav>
 
