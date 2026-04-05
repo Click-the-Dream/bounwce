@@ -38,11 +38,11 @@ const ExploreSection = ({ onSignUp }) => {
                     </h1>
 
                     <p className="text-sm text-black leading-relaxed max-w-[540px] my-5">
-                        Sign Up on Bouwnce today and never struggle to find a perfect spot or match.
+                        Join the waitlist today and be the first to experience the future of local discovery with Bouwnce.
                     </p>
 
                     <Link
-                        to="/register"
+                        to="/waitlist"
                         className="flex md:flex w-max h-[34px] justify-between items-center gap-2 text-[13px] px-[25px] py-[6px] bg-orange text-black font-medium rounded-lg border-[0.53px] border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
                         style={{
                             boxShadow: `
@@ -53,7 +53,7 @@ const ExploreSection = ({ onSignUp }) => {
   `
                         }}
                     >
-                        Sign Up
+                        Join Us
                         <Play size={10} fill="#FFFFFF" />
                     </Link>
                 </section>

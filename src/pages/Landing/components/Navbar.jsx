@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useScroll, useMotionValueEvent } from "framer-motion";
 import { AuthContext } from "../../../context/AuthContext";
 import { useContext } from "react";
+import ProfileDropdown from "../../../components/ProfileDropdown";
 
 const Navbar = () => {
     const { authDetails } = useContext(AuthContext);
@@ -62,13 +63,18 @@ const Navbar = () => {
 
                     {/* Right Actions */}
                     <div className="flex items-center gap-3">
-                        {!user && <Link
-                            to="/register"
-                            className="hidden md:flex h-[34px] justify-between items-center gap-2 text-[13px] px-[25px] py-[6px] bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
-                        >
-                            Sign Up
-                            <Play size={10} fill="#FFC501" />
-                        </Link>}
+                        {user ?
+
+                            <ProfileDropdown fullMode={false} />
+                            :
+                            <Link
+                                to="/waitlist"
+                                className="hidden md:flex h-[34px] justify-between items-center gap-2 text-[13px] px-[25px] py-[6px] bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
+                            >
+                                Join Us
+                                <Play size={10} fill="#FFC501" />
+                            </Link>
+                        }
 
                         {/* Mobile Toggle */}
                         <button
@@ -91,10 +97,10 @@ const Navbar = () => {
                             ))}
                             <li>
                                 {!user && <Link
-                                    to="/register"
+                                    to="/waitlist"
                                     className="text-[13px] w-full h-[45px] flex justify-center items-center gap-2 bg-orange text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                                 >
-                                    Sign Up <Play size={12} fill="#FFC501" />
+                                    Join Us <Play size={12} fill="#FFC501" />
                                 </Link>}
                             </li>
                         </ul>

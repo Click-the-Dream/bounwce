@@ -20,7 +20,7 @@ const SearchBar = () => {
             <CategoryList />
             <div className="w-full max-w-4xl px-4 py-5">
                 <div
-                    className="flex flex-col md:flex-row items-stretch md:items-center gap-2 bg-white rounded-[15px] md:rounded-[10px] p-2 md:p-1 border border-gray-200/50 transition-all duration-300"
+                    className="flex flex-row items-stretch md:items-center gap-2 bg-white rounded-[15px] md:rounded-[10px] p-2 md:p-1 border border-gray-200/50 transition-all duration-300"
                     style={{
                         boxShadow: `1px 1px 2px 0px rgba(0, 0, 0, 0.10), 3px 3px 5px 0px rgba(0, 0, 0, 0.09), 8px 7px 6px 0px rgba(0, 0, 0, 0.05), 14px 12px 7px 0px rgba(0, 0, 0, 0.01)`
                     }}
