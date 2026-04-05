@@ -16,7 +16,7 @@ const Footer = () => {
               <li key={link.name}>
                 <Link
                   to={link.path}
-                  className="hover:text-brand-orange transition-colors duration-300 text-xs"
+                  className="hover:text-brand-orange transition-colors duration-300 text-xs md:text-sm"
                 >
                   {link.name}
                 </Link>
