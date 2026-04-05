@@ -14,7 +14,8 @@ import { onPrompt } from "../../../utils/notifications/onPrompt";
 import useStore from "../../../hooks/useStore";
 
 const GettingStarted = ({ storeData, onNext, onBack, initialTab }) => {
-  const [currentSubStep, setCurrentSubStep] = useState(initialTab || "branding");
+  const isValidTab = brandingSteps.some((s) => s.key === initialTab);
+  const [currentSubStep, setCurrentSubStep] = useState(isValidTab ? initialTab : "branding");
   const {
     register,
     trigger,
