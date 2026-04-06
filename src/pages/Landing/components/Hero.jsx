@@ -16,7 +16,7 @@ const Hero = () => {
             <Navbar />
             {/* Hero content goes here */}
             <div className="relative mt-14 md:mt-10 text-black w-full max-w-[653px] text-center flex flex-col items-center justify-center">
-                <h1 className="text-6xl lg:text-[80px] uppercase text-gray-900nsition-colors duration-300 font-hugePromo">
+                <h1 className="text-4xl lg:text-[80px] uppercase text-gray-900nsition-colors duration-300 font-hugePromo">
                     Find exactly <span className="text-brand-orange">what</span> you <span className="text-brand-orange">need</span>
                 </h1>
 
