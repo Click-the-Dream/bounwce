@@ -8,7 +8,7 @@ const WaitlistInsight = ({ isLoading, joinedCount, animatedCount, progressPercen
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.6, ease: "easeOut" }}
             viewport={{ amount: 0.4 }}
-            className={`pt-10 ${!hideAnalytics ? 'absolute bottom-10 left-0 right-0 bg-black/40 text-white' : 'sticky bottom-0 bg-white text-black'}  h-max w-full max-w-sm mx-auto text-center px-6`}
+            className={`pt-10 md:absolute md:bottom-10 md:left-0 md:right-0 md:bg-black/40 md:text-white sticky bottom-0 bg-white text-black  h-max w-full max-w-sm mx-auto text-center px-6`}
         >
             {isLoading ? (
                 <div className="flex items-center justify-center gap-3 text-sm text-gray-300">
