@@ -5,7 +5,7 @@ import Button from "./Button";
 import Dropdown from "./Dropdown";
 import { LuUserRound } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
-import { Phone } from "lucide-react";
+import { Phone, MapPin } from "lucide-react";
 import { TbSchool } from "react-icons/tb";
 import { useMemo } from "react";
 import { allSchools } from "nigerian-institutions";
@@ -24,7 +24,7 @@ const WaitlistForm = () => {
       full_name: "",
       email: "",
       phone_number: "",
-      institution: "",
+      location: "",
     },
   });
 
@@ -60,19 +60,19 @@ const WaitlistForm = () => {
         initial="hidden"
         animate="visible"
         variants={{
-          hidden: { 
-            opacity: 0, 
+          hidden: {
+            opacity: 0,
             scale: 0.95,
-            boxShadow: "0px 0px 0px rgba(255, 79, 51, 0)" 
+            boxShadow: "0px 0px 0px rgba(255, 79, 51, 0)"
           },
-          visible: { 
-            opacity: 1, 
+          visible: {
+            opacity: 1,
             scale: 1,
             boxShadow: "0px 0px 30px rgba(255, 79, 51, 0.4), inset 0px 0px 10px rgba(255, 79, 51, 0.1)",
-            transition: { 
-              duration: 0.6, 
+            transition: {
+              duration: 0.6,
               ease: "easeOut",
-              staggerChildren: 0.12 
+              staggerChildren: 0.12
             },
           },
         }}
@@ -127,9 +127,9 @@ const WaitlistForm = () => {
             rules={{ required: "Select your institution" }}
             render={({ field }) => (
               <Dropdown
-                icon={<TbSchool size={15} />}
-                options={UNIVERSITIES}
-                placeholder="Select Institution"
+                icon={<Location size={15} />}
+                options={[]}
+                placeholder="Enter your location (e.g. Lagos)"
                 error={errors.institution?.message}
                 borderFocusClass=""
                 borderClass="border border-brand-orange"
@@ -137,9 +137,9 @@ const WaitlistForm = () => {
                 radiusClass="rounded-full"
                 dropdownClass="rounded-lg border-brand-orange dark:bg-neutral-900 dark:text-white"
                 searchable={true}
-                searchPlaceholder="Search institution..."
+                searchPlaceholder="Search cities or areas..."
                 allowCustomOptions={true}
-                customOptionText="Add institution"
+                customOptionText="Add Location"
                 enableInternetSearch={true}
                 internetSearchText="Search online for"
                 {...field}

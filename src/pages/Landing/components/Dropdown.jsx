@@ -27,7 +27,7 @@ const Dropdown = ({
   radiusClass = "rounded-md",
   searchable = false,
   searchPlaceholder = "Search...",
-  noResultsText = "No options found",
+  noResultsText = "Keep typing to find your area...",
   enableInternetSearch = false,
   ...props
 }) => {
@@ -46,31 +46,45 @@ const Dropdown = ({
       return;
     }
 
-    const searchInstitutions = async () => {
+    const searchLocations = async () => {
       setIsSearching(true);
       try {
-        // Using a free API for educational institutions
+        // Nominatim requires a User-Agent header or identifying string to avoid blocks
         const response = await fetch(
-          `https://corsproxy.io/?http://universities.hipolabs.com/search?name=${encodeURIComponent(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
             searchTerm
-          )}&limit=5`
+          )}&format=json&addressdetails=1&countrycodes=ng&limit=5`,
+          {
+            headers: {
+              "Accept-Language": "en",
+            },
+          }
         );
 
         if (response.ok) {
           const data = await response.json();
-          setSearchResults(data.slice(0, 5)); // Limit to 5 results
+
+          // Map the OSN data to a format your dropdown understands
+          const formattedResults = data.map((item) => ({
+            name: item.display_name,
+            // We can simplify the display name to remove "Nigeria" if it's redundant
+            shortName: item.display_name.split(",").slice(0, 3).join(","),
+            value: item.display_name,
+          }));
+
+          setSearchResults(formattedResults);
         } else {
           setSearchResults([]);
         }
       } catch (error) {
-        console.error("Search failed:", error);
+        console.error("Location search failed:", error);
         setSearchResults([]);
       } finally {
         setIsSearching(false);
       }
     };
 
-    const timeoutId = setTimeout(searchInstitutions, 500); // Debounce 500ms
+    const timeoutId = setTimeout(searchLocations, 500); // 500ms debounce
     return () => clearTimeout(timeoutId);
   }, [searchTerm, enableInternetSearch, isOpen]);
 
@@ -264,10 +278,9 @@ const Dropdown = ({
                           handleSelect(opt);
                         }}
                         className={`px-4 py-2 text-sm hover:bg-gray-100 transition-colors flex justify-between items-center
-                          ${
-                            isSelected
-                              ? "bg-gray-100 font-medium text-[#737373]"
-                              : "text-gray-700"
+                          ${isSelected
+                            ? "bg-gray-100 font-medium text-[#737373]"
+                            : "text-gray-700"
                           } ${itemClass}`}
                       >
                         <span>{optionLabel}</span>
@@ -292,32 +305,20 @@ const Dropdown = ({
                       Searching online...
                     </li>
                   ) : (
-                    searchResults.map((institution, idx) => (
+                    searchResults.map((location, idx) => (
                       <li
                         key={`search-${idx}`}
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleSelectSearchResult(institution);
+                          handleSelect(location.value); // Use the full display name or value
                         }}
-                        className={`px-4 py-2 text-sm hover:bg-green-50 transition-colors flex items-center text-green-700 ${itemClass}`}
+                        className={`px-4 py-2 text-sm hover:bg-orange-50 transition-colors flex items-center text-gray-700 ${itemClass}`}
                       >
-                        <ExternalLink
-                          size={14}
-                          className="mr-2 flex-shrink-0"
-                        />
+                        <MapPin size={14} className="mr-2 flex-shrink-0 text-brand-orange" />
                         <div className="min-w-0 flex-1">
                           <div className="font-medium truncate">
-                            {institution.name}
+                            {location.shortName || location.name}
                           </div>
-                          {institution.country && (
-                            <div className="text-xs text-green-600 truncate">
-                              {institution.country}
-                              {institution.domains &&
-                                institution.domains[0] && (
-                                  <span> • {institution.domains[0]}</span>
-                                )}
-                            </div>
-                          )}
                         </div>
                       </li>
                     ))
