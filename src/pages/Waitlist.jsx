@@ -210,10 +210,10 @@ const Waitlist = () => {
 
                       if (!phone.isValid()) return "Invalid phone number for selected country";
 
-                      // Optional: enforce exact national number length (Nigeria: 10 digits)
-                      /*if (phone.country === "NG" && phone.nationalNumber.length !== 10) {
+                      //Optional: enforce exact national number length (Nigeria: 10 digits)
+                      if (phone.country === "NG" && phone.nationalNumber.length !== 10) {
                         return "Phone number must be 10 digits long";
-                      }*/
+                      }
 
                       return true;
                     },
