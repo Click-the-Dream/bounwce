@@ -9,7 +9,7 @@ const SearchBar = () => {
     const [query, setQuery] = useState(""); // Track search input
 
     const handleSearch = () => {
-        navigate(`/marketplace`);
+        navigate(`/waitlist`);
         // if (query.trim()) {
         //     navigate(`/marketplace?search=${encodeURIComponent(query)}`);
         // } else {
