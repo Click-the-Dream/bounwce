@@ -47,7 +47,7 @@ const WaitlistInsight = ({ isLoading, joinedCount, animatedCount, progressPercen
                         <div className="w-px h-8 bg-gradient-to-b from-transparent via-gray-600/60 to-transparent"></div>
 
                         {/* Daily Growth */}
-                        <div className="flex flex-wrap items-center gap-3 group">
+                        {/* <div className="flex flex-wrap items-center gap-3 group">
                             <div className="relative">
                                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-lime-500/50 md:from-lime-500/20 to-emerald-600/50 md:to-emerald-600/20 border border-lime-400/30 flex items-center justify-center backdrop-blur-sm">
                                     <TrendingUp className="h-4 w-4 text-gray-700 md:text-lime-300" />
@@ -62,7 +62,7 @@ const WaitlistInsight = ({ isLoading, joinedCount, animatedCount, progressPercen
                                     Today
                                 </p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Progress Indicator */}
