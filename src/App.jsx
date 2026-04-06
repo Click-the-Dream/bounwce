@@ -65,7 +65,7 @@ const MainRoutes = () => {
   return (
     <Routes location={location} key={location.pathname}>
       {/* Public Routes */}
-      {/* <Route element={<AuthLayout />}>
+      <Route element={<AuthLayout />}>
         <Route
           path="/login"
           element={
@@ -90,7 +90,7 @@ const MainRoutes = () => {
             </PublicRoute>
           }
         />
-      </Route> */}
+      </Route>
 
       {/* NEW LANDING PAGE */}
       <Route
@@ -116,7 +116,7 @@ const MainRoutes = () => {
       />
 
       {/* Protected Routes */}
-      {/* <Route path="/" element={<SecureRoute />}>
+      <Route path="/" element={<SecureRoute />}>
         <Route
           path="/vendor/*"
           element={
@@ -131,7 +131,7 @@ const MainRoutes = () => {
             <BuyerRouter />
           }
         />
-      </Route> */}
+      </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

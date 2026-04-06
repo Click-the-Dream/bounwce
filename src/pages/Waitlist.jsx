@@ -156,16 +156,14 @@ const Waitlist = () => {
               variants={fadeIn("up", 0.3)}
               className="text-orange text-2xl md:text-3xl font-medium mb-2 tracking-tight text-center"
             >
-              Something big is about to shake campus life.
+    Be the first to experience Bouwnce.
             </motion.h1>
 
             <motion.p
               variants={fadeIn("up", 0.4)}
               className="text-sm mb-6 text-center font-medium"
             >
-              It's social. It's a marketplace.{" "}
-              <span className="text-orange">It's bouwnce.</span> Join the
-              waitlist — don’t hear it from others.
+              Find the right people early — and everything you need along the way.
             </motion.p>
 
             {/* --- Waitlist Form --- */}
