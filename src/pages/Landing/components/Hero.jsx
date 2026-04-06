@@ -1,16 +1,13 @@
-import { heroImg, heroImgDark } from "../../../assets";
+import { heroImg } from "../../../assets";
 import Navbar from "./Navbar";
 import SearchBar from "./SearchBar";
-import { useTheme } from "../context/ThemeContext";
 
 const Hero = () => {
-    const { theme } = useTheme();
-    const isDark = theme === 'dark';
     return (
         <div
             className="relative p-2 md:pb-40 lg:pb-96 min-h-screen flex flex-col items-center overflow-hidden bg-[#FAFAFA] transition-colors duration-300 bg-cover bg-center bg-no-repeat border-[0.53px] border-[#BDBDBD] border-dashed"
             style={{
-                backgroundImage: `url(${isDark ? heroImgDark : heroImg})`,
+                backgroundImage: `url(${heroImg})`,
                 backgroundPosition: "bottom",
                 backgroundSize: "90%",
 
