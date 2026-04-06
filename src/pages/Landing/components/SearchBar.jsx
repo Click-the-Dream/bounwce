@@ -5,7 +5,6 @@ import CategoryList from './CategoryList';
 import { onPrompt } from '../../../utils/notifications/onPrompt';
 
 const SearchBar = () => {
-    const navigate = useNavigate();
     const [query, setQuery] = useState(""); // Track search input
 
     const handleSearch = () => {
@@ -22,7 +21,7 @@ const SearchBar = () => {
 
     return (
         <>
-            <CategoryList />
+            <CategoryList setQuery={setQuery} />
             <div className="w-full max-w-4xl px-4 py-5">
                 <div
                     className="flex flex-row items-stretch md:items-center gap-2 bg-white rounded-[15px] md:rounded-[10px] p-2 md:p-1 border border-gray-200/50 transition-all duration-300"

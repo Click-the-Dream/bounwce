@@ -6,16 +6,16 @@ import { fadeIn, fadeUp } from "../utils/formatters";
 import Input from "../components/common/Input";
 import { LuUserRound } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
-import { TbSchool } from "react-icons/tb";
 import Button from "../components/common/Button";
-import { Phone } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Dropdown from "../components/common/Dropdown";
 import useWaitlist from "../hooks/useWaitlist";
-import { allSchools } from "nigerian-institutions";
 import { useEffect, useState } from "react";
 import { useMemo } from "react";
 import navLogo from "../assets/nav-logo.png";
 import WaitlistInsight from "./Landing/components/WaitlistInsight";
+import PhoneNumberInput from "../components/common/PhoneNumberInput";
+import parsePhoneNumberFromString from "libphonenumber-js";
 
 const Waitlist = () => {
   const {
@@ -30,26 +30,16 @@ const Waitlist = () => {
       full_name: "",
       email: "",
       phone_number: "",
-      institution: "",
+      location: ""
     },
   });
 
   const { joinWaitlist, waitlistUser } = useWaitlist();
   const { data: waitlistData, isLoading } = waitlistUser;
 
-  // Institutions in Nigeria
-  const UNIVERSITIES = useMemo(() => {
-    return [
-      ...allSchools().map((school) => ({
-        label: school.name,
-        value: school.name,
-      })),
-      { label: "Koladaisi University", value: "Koladaisi University" }, // Added manually
-    ].sort((a, b) => a.label.localeCompare(b.label));
-  }, []);
 
   // Dynamic metrics based on live waitlist data
-  const joinedCount = waitlistData?.total || waitlistData?.data?.length || 0;
+  const joinedCount = waitlistData?.total + 4000 || 0;
   const [animatedCount, setAnimatedCount] = useState(0);
 
   // Smooth count animation
@@ -116,6 +106,7 @@ const Waitlist = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
+
           <img
             src={navLogo}
             alt="bouwnce"
@@ -156,7 +147,7 @@ const Waitlist = () => {
               variants={fadeIn("up", 0.3)}
               className="text-orange text-2xl md:text-3xl font-medium mb-2 tracking-tight text-center"
             >
-    Be the first to experience Bouwnce.
+              Be the first to experience Bouwnce.
             </motion.h1>
 
             <motion.p
@@ -169,7 +160,7 @@ const Waitlist = () => {
             {/* --- Waitlist Form --- */}
             <motion.form
               onSubmit={handleSubmit(onSubmit)}
-              className="space-y-4 mt-2 flex flex-col w-full max-w-[331px]"
+              className="space-y-4 mt-2 flex flex-col w-full max-w-[331px] pb-10"
               initial="hidden"
               animate="visible"
               variants={{
@@ -206,40 +197,57 @@ const Waitlist = () => {
               </motion.div>
 
               <motion.div variants={fadeUp}>
-                <Input
-                  type="text"
-                  placeholder="Phone number"
-                  icon={<Phone size={15} />}
-                  error={errors.phone_number?.message}
-                  {...register("phone_number", {
-                    required: "Phone number is required",
-                    onChange: (e) => {
-                      e.target.value = e.target.value.replace(/\D/g, "");
+                <Controller
+                  name="phone_number"
+                  control={control}
+                  rules={{
+                    required: "Whatsapp number is required",
+                    validate: (value) => {
+                      if (!value) return "Phone number is required";
+
+                      const phone = parsePhoneNumberFromString("+" + value);
+                      if (!phone) return "Invalid phone number format";
+
+                      if (!phone.isValid()) return "Invalid phone number for selected country";
+
+                      // Optional: enforce exact national number length (Nigeria: 10 digits)
+                      if (phone.country === "NG" && phone.nationalNumber.length !== 10) {
+                        return "Phone number must be 10 digits long";
+                      }
+
+                      return true;
                     },
-                  })}
+                  }}
+                  render={({ field }) => (
+                    <PhoneNumberInput
+                      {...field}
+                      placeholder="Whatsapp number"
+                      error={errors.phone_number?.message}
+                    />
+                  )}
                 />
               </motion.div>
 
               <motion.div variants={fadeUp}>
                 <Controller
-                  name="institution"
+                  name="location"
                   control={control}
-                  rules={{ required: "Select your institution" }}
+                  rules={{ required: "Select your location" }}
                   render={({ field }) => (
                     <Dropdown
-                      icon={<TbSchool size={15} />}
-                      options={UNIVERSITIES}
-                      placeholder="Select Institution"
-                      error={errors.institution?.message}
+                      icon={<MapPin size={15} />}
+                      options={[]}
+                      placeholder="Enter your location (e.g. Lagos)"
+                      error={errors.location?.message}
                       borderFocusClass=""
-                      borderClass="border border-orange"
-                      bgClass="bg-white"
+                      borderClass="border border-brand-orange"
+                      bgClass="bg-white/50 dark:bg-neutral-900/50 backdrop-blur-md transition-colors duration-300"
                       radiusClass="rounded-full"
-                      dropdownClass="rounded-lg border-orange"
+                      dropdownClass="rounded-lg border-brand-orange dark:bg-neutral-900 dark:text-white"
                       searchable={true}
-                      searchPlaceholder="Search institution..."
+                      searchPlaceholder="Search cities or areas..."
                       allowCustomOptions={true}
-                      customOptionText="Add institution"
+                      customOptionText="Add Location"
                       enableInternetSearch={true}
                       internetSearchText="Search online for"
                       {...field}
@@ -257,9 +265,7 @@ const Waitlist = () => {
                 disabled={joinWaitlist.isPending}
               />
             </motion.form>
-            <div className="text-xs text-gray-400 mt-3 text-center block md:hidden">
-              <WaitlistInsight isLoading={isLoading} joinedCount={joinedCount} animatedCount={animatedCount} progressPercent={progressPercent} waitlistData={waitlistData} hideAnalytics={true} />
-            </div>
+
           </motion.div>
         </div>
       </div>
