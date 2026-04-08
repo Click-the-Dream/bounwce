@@ -13,6 +13,7 @@
     "axios": "^1.14.0",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.38.0",
+    "libphonenumber-js": "^1.12.41",
     "lucide-react": "^1.7.0",
     "next": "16.2.2",
     "nigerian-institutions": "^1.0.3",
@@ -20,6 +21,7 @@
     "react-dom": "19.2.4",
     "react-hook-form": "^7.72.1",
     "react-icons": "^5.6.0",
+    "react-phone-input-2": "^2.15.1",
     "react-toastify": "^11.0.5"
   },
   "devDependencies": {

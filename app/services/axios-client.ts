@@ -75,7 +75,7 @@ export const setupInterceptors = (
 
         try {
           const { data } = await axios.post(
-            `${process.env.NEXT_API_URL}/api/v1/auth/refresh-token`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/refresh-token`,
             {},
             { withCredentials: true },
           );

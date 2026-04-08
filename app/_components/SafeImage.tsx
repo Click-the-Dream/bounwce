@@ -7,12 +7,14 @@ const SafeImage = ({
   width,
   height,
   className,
+  style,
 }: {
   src: string;
   alt: string;
   width: number;
   height: number;
   className?: string;
+  style?: any;
 }) => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -24,6 +26,8 @@ const SafeImage = ({
       width={width}
       height={height}
       className={className}
+      unoptimized
+      style={style}
     />
   );
 };

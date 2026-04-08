@@ -1,3 +1,4 @@
+import { Variants } from "framer-motion";
 import { onboardingTree } from "./fields";
 
 export const extractErrorMessage = (
@@ -75,7 +76,7 @@ export const containerVariants = {
   },
 };
 
-export const itemVariants = {
+export const itemVariants: Variants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
@@ -114,7 +115,7 @@ export const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
 };
 
-export const fadeIn = (direction = "up", delay = 0) => ({
+export const fadeIn = (direction = "up", delay = 0): Variants => ({
   hidden: {
     opacity: 0,
     y: direction === "up" ? 20 : direction === "down" ? -20 : 0,
@@ -128,9 +129,9 @@ export const fadeIn = (direction = "up", delay = 0) => ({
   },
 });
 
-export const statusStyles = {
+export const statusStyles: any = {
   Processing: "bg-yellow-100 text-yellow-700",
-  "Ready for Shipment": "bg-blue-100 text-blue-700",
+  Ready_for_Shipment: "bg-blue-100 text-blue-700",
   Shipped: "bg-purple-100 text-purple-700",
   Completed: "bg-[#F0FDF4] text-[#38C066]",
 };

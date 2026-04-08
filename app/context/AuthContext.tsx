@@ -1,4 +1,5 @@
 "use client";
+
 import { createContext, useContext, useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { setupInterceptors } from "../services/axios-client";
@@ -10,12 +11,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [logoutSignal, setLogoutSignal] = useState(false);
 
   const [authDetails, setAuthDetails] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true); // 🔹 new
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("authUser");
     if (storedUser) {
       setAuthDetails(JSON.parse(storedUser));
     }
+
     // Initialize interceptors
     setupInterceptors(
       () => {
@@ -24,6 +27,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       },
       (newUser) => updateAuth(newUser),
     );
+
+    setIsLoading(false); // 🔹 done loading
   }, []);
 
   const updateAuth = (newUser: any) => {
@@ -41,9 +46,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const getCurrentUser = () => {
-    return authDetails;
-  };
+  const getCurrentUser = () => authDetails;
+
   return (
     <AuthContext.Provider
       value={{
@@ -52,6 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         logoutSignal,
         setLogoutSignal,
         getCurrentUser,
+        isLoading, // 🔹 expose loading
       }}
     >
       {children}

@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 import Logo from "@/app/_components/common/Logo";
 import navLogo from "../../assets/nav-logo.png";
 import Image from "next/image";
-import ToggleTabs from "@/app/(dashboard)/vendor/_components/ToggleTabs";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import ToggleTabs from "@/app/(dashboard)/vendor/_components/ToggleTabs";
 
 // Animation variants for smooth fade-in effects
 const fadeIn = (direction = "up", delay = 0) => ({
@@ -53,10 +53,11 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           className="w-full h-full relative"
         >
           <Image
-            src={createPicImg}
+            src={createPicImg.src}
             alt="workspace"
-            fill
-            className="[clip-path:polygon(0_0,100%_0,80%_100%,0_100%)] object-cover"
+            width={500}
+            height={800}
+            className="[clip-path:polygon(0_0,100%_0,80%_100%,0_100%)] object-cover w-full h-full"
           />
         </motion.div>
 
@@ -74,8 +75,8 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
             <Image
               src={navLogo.src}
               alt="bouwnce"
-              width={50}
-              height={20}
+              width={100}
+              height={40}
               loading="eager"
               className="h-6 w-auto mb-4 hidden md:block invert brightness-0"
             />

@@ -47,7 +47,7 @@ const useStore = () => {
   // STORE MUTATIONS
 
   const createStore = useMutation({
-    mutationFn: async (storeData) => {
+    mutationFn: async (storeData: any) => {
       const response = await client.post("/store/", storeData);
       return response.data.data;
     },
@@ -67,7 +67,7 @@ const useStore = () => {
   });
 
   const updateStore = useMutation({
-    mutationFn: async (storeData) => {
+    mutationFn: async (storeData: any) => {
       const response = await client.put("/store/", storeData);
       return response.data.data;
     },
@@ -147,7 +147,6 @@ const useStore = () => {
     },
     onSuccess: (data) => {
       handleSuccess("Store Activation", "Store activated successfully!");
-      queryClient.setQueryData(["store", data.id], data);
       queryClient.setQueryData(["store", "my-store"], data);
     },
     onError: (
@@ -187,7 +186,7 @@ const useStore = () => {
     });
 
   const createContact = useMutation({
-    mutationFn: async (contactData) => {
+    mutationFn: async (contactData: any) => {
       const response = await client.post("/store/contact/", contactData);
       return response.data.data;
     },
@@ -203,7 +202,7 @@ const useStore = () => {
   });
 
   const updateContact = useMutation({
-    mutationFn: async (contactData) => {
+    mutationFn: async (contactData: any) => {
       const response = await client.put("/store/contact/", contactData);
       return response.data.data;
     },
@@ -244,7 +243,7 @@ const useStore = () => {
     });
 
   const createPayout = useMutation({
-    mutationFn: async (payoutData) => {
+    mutationFn: async (payoutData: any) => {
       const response = await client.post("/store/payout/", payoutData);
       return response.data.data;
     },
@@ -263,7 +262,7 @@ const useStore = () => {
   });
 
   const updatePayout = useMutation({
-    mutationFn: async (payoutData) => {
+    mutationFn: async (payoutData: any) => {
       const response = await client.put("/store/payout/", payoutData);
       return response.data.data;
     },
@@ -299,7 +298,7 @@ const useStore = () => {
     ) => handleFailure("Payout Deletion", error),
   });
 
-  const useGetStoreOnboardingStatus = () =>
+  const useGetStoreOnboardingStatus = (id: any) =>
     useQuery({
       queryKey: ["store", "onboarding-status"],
       queryFn: async () => {

@@ -10,6 +10,18 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**", // allow all paths under res.cloudinary.com
       },
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com",
+        port: "",
+        pathname: "/**", // allow all paths under res.cloudinary.com
+      },
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+        port: "",
+        pathname: "/**", // allow all paths under res.cloudinary.com
+      },
     ],
   },
   /* config options here */

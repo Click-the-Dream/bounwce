@@ -1,3 +1,4 @@
+"use client";
 import useStore from "@/app/hooks/use-store";
 import withdrawBackgroudImg from "../../../../assets/withdraw-background.png";
 import { CgDanger } from "react-icons/cg";

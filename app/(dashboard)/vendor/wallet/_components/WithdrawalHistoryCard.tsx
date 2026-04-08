@@ -1,3 +1,4 @@
+"use client";
 const WithdrawalHistoryCard = ({
   statusImg,
   statusIcon: StatusIcon,
@@ -7,7 +8,7 @@ const WithdrawalHistoryCard = ({
   status,
 }: any) => {
   return (
-    <div className="flex justify-between items-center gap-2 w-full p-2 rounded-lg border">
+    <div className="flex justify-between items-center gap-2 w-full p-2 rounded-lg border border-[#0000001A]">
       <div className="flex gap-2 items-center">
         <div>
           <img src={statusImg} alt={label} />

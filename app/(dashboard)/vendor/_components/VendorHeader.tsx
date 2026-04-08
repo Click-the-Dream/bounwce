@@ -72,7 +72,7 @@ const VendorHeader = ({
       {storeLabel && (
         <div className="flex gap-2 h-max">
           <button
-            className="flex items-center gap-2 py-1.5 px-2.75 border-2 border-[#00000036] rounded-md"
+            className="cursor-pointer flex items-center gap-2 py-1.5 px-2.75 border-2 border-[#00000036] rounded-md"
             onClick={onFirstClick}
           >
             {LeftIcon && <LeftIcon size={15} />}

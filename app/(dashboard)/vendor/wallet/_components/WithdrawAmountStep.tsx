@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import withdrawBackgroudImg from "../../../../assets/withdraw-background.png";
 

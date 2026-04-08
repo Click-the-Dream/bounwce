@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { PiHandWithdraw } from "react-icons/pi";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
@@ -42,7 +43,7 @@ const VendorWallet = () => {
         {walletStats.map((stat) => (
           <WalletStatsCard
             key={stat.key}
-            image={stat.image}
+            image={stat.image?.src}
             title={stat.label}
             subtext={stat.subtext}
             amount={stat.amount}
@@ -66,7 +67,7 @@ const VendorWallet = () => {
         onClose={() => setIsModalOpen(false)}
       />
 
-      <section className="border-[0.53px] rounded-xl p-5 w-full bg-white">
+      <section className="border border-[#0000001A] rounded-xl p-5 w-full bg-white">
         <h1 className="text-[12px] font-medium">Withdrawal History</h1>
         <p className="text-[11px] text-ash mb-5">
           Track all your withdrawal transactions

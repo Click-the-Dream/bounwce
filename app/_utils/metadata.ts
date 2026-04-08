@@ -49,7 +49,7 @@ export function generatePageMetadata({
 
     robots: noIndex ? "noindex, nofollow" : "index, follow",
 
-    manifest: "/manifest.json",
+    //manifest: "/manifest.json",
 
     icons: {
       icon: "/logo-white.png",

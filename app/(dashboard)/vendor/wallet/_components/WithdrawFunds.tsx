@@ -1,3 +1,4 @@
+"use client";
 import { PiHandWithdrawFill } from "react-icons/pi";
 import { MdOutlineVerifiedUser } from "react-icons/md";
 import { useRef, useState } from "react";
