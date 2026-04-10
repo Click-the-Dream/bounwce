@@ -42,7 +42,7 @@ const BouwnceDemo = () => {
 
         // 1. Move to Applications Sidebar
         await cursorControls.start({
-          x: -130,
+          x: -100,
           y: -130,
           transition: { duration: 1.5, ease: "easeInOut" },
         });
@@ -63,7 +63,7 @@ const BouwnceDemo = () => {
         // Center-aligned coordinates for the Category row
         await cursorControls.start({
           x: 20,
-          y: 0,
+          y: -10,
           transition: { duration: 1.2, ease: "easeInOut" },
         });
         setHoveredItem("socials");
@@ -82,7 +82,7 @@ const BouwnceDemo = () => {
         await new Promise((r) => setTimeout(r, 800));
         await cursorControls.start({
           x: 20,
-          y: 70,
+          y: 60,
           transition: { duration: 1.2, ease: "easeInOut" },
         });
         setHoveredItem("bouwnce");
