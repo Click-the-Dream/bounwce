@@ -1,6 +1,6 @@
 import api from "@/app/services/api";
 
-export const productFetcher = async ({ filters }: any) => {
+export const marketFetcher = async ({ filters }: any) => {
   const { data } = await api.get("/store/products/", {
     params: {
       ...filters,
@@ -10,4 +10,10 @@ export const productFetcher = async ({ filters }: any) => {
   });
   // Ensure we return an array even if data is undefined
   return data?.data || [];
+};
+
+export const productFetcher = async (id: string) => {
+  const { data } = await api.get(`/store/products/${id}`);
+  // Ensure we return an array even if data is undefined
+  return data?.data || {};
 };

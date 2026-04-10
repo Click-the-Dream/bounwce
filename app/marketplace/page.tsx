@@ -2,13 +2,13 @@ import { Suspense } from "react";
 import ProductSearch from "./_components/ProductSearch";
 import LoadingFallback from "../_components/LoadingFallback";
 import { generatePageMetadata } from "../_utils/metadata";
-import { productFetcher } from "../_utils/server_functions/fetchers";
+import { marketFetcher } from "../_utils/server_functions/fetchers";
 
 export const generateMetadata = async ({ params }: any) => {
   const search = params?.search || "";
   const category = params?.category || "";
 
-  const data = await productFetcher({
+  const data = await marketFetcher({
     name: search,
     category,
   });
