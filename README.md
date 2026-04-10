@@ -1,8 +1,8 @@
-# 🚀 Bouwnce
+# Bouwnce
 
 Bouwnce is a modern platform designed to simplify how people connect, collaborate, and grow through curated opportunities, communities, and intelligent discovery.
 
-## ✨ Overview
+## Overview
 
 Bouwnce helps users:
 
@@ -14,29 +14,29 @@ Whether you're a learner, creator, or professional, Bouwnce provides the tools t
 
 ---
 
-## 🧩 Features
+## Features
 
-- 🔍 **Smart Discovery**
+- **Smart Discovery**
   - Personalized recommendations based on user activity and interests
 
-- 👥 **Community & Groups**
+- **Community & Groups**
   - Join or create groups and collaborate with others
 
-- 📅 **Meetings & Events**
+- **Meetings & Events**
   - Schedule, manage, and join meetings seamlessly
 
-- 💬 **Real-time Messaging**
+- **Real-time Messaging**
   - Instant communication powered by real-time infrastructure
 
-- 🎯 **Opportunity Matching**
+- **Opportunity Matching**
   - Find jobs, gigs, or learning paths tailored to you
 
-- ⚡ **Modern UX**
+- **Modern UX**
   - Fast, responsive, and user-friendly interface
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 
