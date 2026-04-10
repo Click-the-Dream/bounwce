@@ -23,8 +23,7 @@ export function generatePageMetadata({
   openGraph = {},
   twitter = {},
 }: PageMetadataOptions = {}): Metadata {
-  const finalTitle =
-    title || "Bouwnce | Find your people. Get what you need.";
+  const finalTitle = title || "Bouwnce | Find your people. Get what you need.";
 
   const finalDescription =
     description ||
@@ -53,8 +52,8 @@ export function generatePageMetadata({
 
     icons: {
       icon: "/logo-white.png",
-      apple: "/icons/apple-touch-icon.png",
-      shortcut: "/icons/favicon-192.png",
+      apple: "/bouwnce.png",
+      shortcut: "/bouwnce.png",
     },
 
     alternates: {
