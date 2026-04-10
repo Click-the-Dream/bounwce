@@ -238,7 +238,7 @@ export default function DateFilter({ value, onChange, className }: any) {
           aria-label="Date filter"
           className={cx(
             // --- Responsive container: centered on mobile, aligned under trigger on ≥sm
-            "absolute z-50 mt-2 transform  md:right-0 md:translate-x-0",
+            "absolute z-50 mt-2 transform  right-0 md:translate-x-0",
             "w-[calc(100vw-5rem)] max-w-lg",
             "rounded-lg border border-gray-200 bg-white shadow-xl",
           )}

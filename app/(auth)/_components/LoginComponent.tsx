@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 
 const LoginComponents = ({
   isModal = false,
-  onSuccess,
+  onSuccess: handleSuccess,
 }: {
   isModal?: boolean;
   onSuccess?: (data: any) => void;
@@ -31,8 +31,8 @@ const LoginComponents = ({
     // Simulate API call if needed
     requestOtp.mutate(data, {
       onSuccess: () => {
-        if (isModal && onSuccess) {
-          onSuccess(data);
+        if (isModal && handleSuccess) {
+          handleSuccess(data);
         } else {
           router.push("/email_verification");
         }
