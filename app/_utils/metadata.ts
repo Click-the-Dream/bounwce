@@ -24,7 +24,7 @@ export function generatePageMetadata({
   twitter = {},
 }: PageMetadataOptions = {}): Metadata {
   const finalTitle =
-    title || "Bouwnce | Redefining the Campus Experience for Students";
+    title || "Bouwnce | Find your people. Get what you need.";
 
   const finalDescription =
     description ||
