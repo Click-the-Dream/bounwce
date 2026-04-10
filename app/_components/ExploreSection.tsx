@@ -13,6 +13,7 @@ const ExploreSection = () => {
           <Image
             src={bouwnce}
             alt="Bouwnce Logo"
+            loading="eager"
             className="w-50 md:w-65 lg:w-100 h-auto absolute -top-24 md:-top-40 bottom-0 left-auto right-auto md:left-0 md:right-0"
           />
         </div>
@@ -29,13 +30,13 @@ const ExploreSection = () => {
           </p>
 
           <Link
-            href="/register"
+            href="/waitlist"
             className="flex md:flex w-max h-8.5 justify-between items-center gap-2 text-[13px] px-6.25 py-1.5 bg-orange text-black font-medium rounded-lg border-[0.53px] border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
             style={{
               boxShadow: `0px -14px 6px 0px #0000004D inset, 0px 3px 4px 0px #0000004D inset, 3px 0px 4px 0px #00000080 inset, -3px 0px 4px 0px #00000080 inset`,
             }}
           >
-            Sign Up
+            Join Us
             <Play size={10} fill="#FFFFFF" />
           </Link>
         </section>

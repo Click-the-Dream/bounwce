@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { Globe, MoreHorizontal } from "lucide-react";
 import DemoSearch from "./DemoSearch";
 import DemoLoading from "./DemoLoading";
 import { useInView } from "framer-motion";
+import { useRef } from "react";
 import bouwnceBrowse from "../assets/bouwnce-browse.png";
 import Image from "next/image";
 
@@ -62,7 +63,7 @@ const BouwnceDemo = () => {
         // Center-aligned coordinates for the Category row
         await cursorControls.start({
           x: 20,
-          y: 20,
+          y: 0,
           transition: { duration: 1.2, ease: "easeInOut" },
         });
         setHoveredItem("socials");
@@ -81,7 +82,7 @@ const BouwnceDemo = () => {
         await new Promise((r) => setTimeout(r, 800));
         await cursorControls.start({
           x: 20,
-          y: 90,
+          y: 70,
           transition: { duration: 1.2, ease: "easeInOut" },
         });
         setHoveredItem("bouwnce");
@@ -197,7 +198,9 @@ const BouwnceDemo = () => {
             <Image
               src={bouwnceBrowse}
               alt="Mac Header"
-              className="h-full rounded-t-3xl"
+              width={400}
+              height={30}
+              className="h-full w-full rounded-t-3xl"
             />
           </div>
         )}
@@ -224,9 +227,7 @@ const BouwnceDemo = () => {
                     <span className="font-bold text-gray-800 text-[9px] pl-2">
                       Applications
                     </span>
-                    <span className="ml-auto text-[9px] rounded-full border">
-                      20
-                    </span>
+                    <span className="ml-auto text-[9px]">20</span>
                   </>
                 )}
               </AnimatePresence>
@@ -490,7 +491,6 @@ const BouwnceDemo = () => {
   );
 };
 
-// Reusable Rows with the specific design tokens
 const CategoryRow = ({
   name,
   color,

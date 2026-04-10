@@ -1,3 +1,4 @@
+"use client";
 import Navbar from "./Navbar";
 import SearchBar from "./SearchBar";
 import heroImg from "../assets/hero-img.png";
@@ -14,15 +15,15 @@ const Hero = () => {
     >
       <Navbar />
       {/* Hero content goes here */}
-      <div className="relative mt-14 md:mt-10 text-white w-full max-w-163.25 text-center flex flex-col items-center justify-center">
-        <h1 className="text-6xl lg:text-[80px] uppercase text-gray-900 transition-colors duration-300 font-hugePromo">
+      <div className="relative mt-14 md:mt-10 text-black w-full max-w-163.25 text-center flex flex-col items-center justify-center">
+        <h1 className="text-6xl lg:text-[80px] uppercase text-gray-900nsition-colors duration-300 font-hugePromo">
           Find exactly <span className="text-brand-orange">what</span> you{" "}
           <span className="text-brand-orange">need</span>
         </h1>
 
         <p className="max-w-125 mt-4 text-[13px] text-[#4E4E4E] font-medium">
-          Describe what you're looking for—a quiet cafe, a vintage store, or a
-          lively bar. bouwnce will instantly recommend the perfect spots nearby.
+          Describe what you need — Bouwnce connects you with people who share
+          your interests, and the right places
         </p>
 
         <SearchBar />

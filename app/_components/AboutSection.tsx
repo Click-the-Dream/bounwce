@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react"; // Or any icon library you use
 import BouwnceDemo from "./BouwnceDemo";
+
 const STEPS = [
   {
     id: 1,

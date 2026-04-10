@@ -261,7 +261,6 @@ const Waitlist = () => {
                       dropdownClass="rounded-lg border-brand-orange"
                       searchable={true}
                       searchPlaceholder="Search cities or areas..."
-                      customOptionText="Add Location"
                       enableInternetSearch={true}
                       internetSearchText="Search online for"
                       {...field}

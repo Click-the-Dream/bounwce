@@ -49,7 +49,7 @@ const Navbar = () => {
             <Image
               src={navLogo}
               alt="bouwnce"
-              className="h-4 md:h-5"
+              className="h-4 w-auto md:h-5"
               width={100}
               height={20}
             />
@@ -72,10 +72,10 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             {!user && (
               <Link
-                href="/register"
+                href="/waitlist"
                 className="hidden md:flex h-8.5 justify-between items-center gap-2 text-[13px] px-6.25 py-1.5 bg-orange text-black font-bold rounded-lg border-2 border-black transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
               >
-                Sign Up
+                Join Us
                 <Play size={10} fill="#FFC501" />
               </Link>
             )}
@@ -109,10 +109,10 @@ const Navbar = () => {
               <li>
                 {!user && (
                   <Link
-                    href="/register"
+                    href="/waitlist"
                     className="text-[13px] w-full h-11.25 flex justify-center items-center gap-2 bg-orange text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                   >
-                    Sign Up <Play size={12} fill="#FFC501" />
+                    Join Us <Play size={12} fill="#FFC501" />
                   </Link>
                 )}
               </li>
