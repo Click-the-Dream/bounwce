@@ -51,8 +51,8 @@ const AboutSection = () => {
       onViewportLeave={() => setIsInView(false)}
       className="relative flex flex-col items-center bg-white transition-colors duration-300 overflow-hidden"
     >
-      <div className="grid grid-cols-1 xl:grid-cols-2 items-center min-h-250 max-w-250">
-        <div className="flex flex-col max-w-125.5 justify-center space-y-12 bg-[#F9F9F9] h-full p-10 border-l-[0.53px] border-r-[0.53px] border-dashed border-[#BDBDBD]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-center min-h-250 max-w-250">
+        <div className="flex flex-col max-w-100.5 md:max-w-125.5 justify-center space-y-12 bg-[#F9F9F9] h-full p-10 border-l-[0.53px] border-r-[0.53px] border-dashed border-[#BDBDBD]">
           <header className="space-y-4">
             <motion.h2
               initial={{ opacity: 0, y: 10 }}
@@ -168,7 +168,7 @@ const AboutSection = () => {
         </div>
 
         {/* Right Side: The Phone Mockup */}
-        <section className="h-full w-full max-w-125.5 flex justify-center items-center border-r-[0.53px] border-[#BDBDBD] border-dashed p-3 md:p-5">
+        <section className="h-full w-full max-w-100.5 md:max-w-125.5 flex justify-center items-center border-r-[0.53px] border-[#BDBDBD] border-dashed p-3 md:p-5">
           <div className="p-4 md:p-6 rounded-[40px] bg-[#F7F7F7] w-full h-137.5 shadow-inner">
             <BouwnceDemo />
           </div>
