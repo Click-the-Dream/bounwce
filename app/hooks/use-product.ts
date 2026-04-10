@@ -116,7 +116,7 @@ const useProduct = () => {
         const response = await client.get(`/store/products/${id}`);
         return response.data.data;
       },
-      enabled: !!id && !!authDetails?.access_token,
+      enabled: !!id,
     });
 
   // PRODUCT MUTATIONS
