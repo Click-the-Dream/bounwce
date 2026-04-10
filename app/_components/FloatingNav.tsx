@@ -20,8 +20,12 @@ const FloatingNav = () => {
       label: "Marketplace",
       path: "/marketplace",
     },
-    { icon: <Settings size={20} />, label: "Settings", path: "/settings" },
-    { icon: <User size={20} />, label: "Profile", path: "/profile" },
+    {
+      icon: <Settings size={20} />,
+      label: "Settings",
+      path: "/buyer/settings",
+    },
+    { icon: <User size={20} />, label: "Profile", path: "/buyer/profile" },
   ];
 
   const DISTANCE = 110;
@@ -119,7 +123,7 @@ const FloatingNav = () => {
         )}
       </AnimatePresence>
 
-      <div className="fixed bottom-10 right-10 z-100 w-16 h-16">
+      <div className="fixed bottom-10 right-10 z-100 w-12 h-12">
         {/* Menu Items */}
         <AnimatePresence>
           {isOpen && (
@@ -189,7 +193,7 @@ const FloatingNav = () => {
               : "0px 12px 30px rgba(255,75,43,0.45)",
           }}
         >
-          {isOpen ? <X size={24} /> : <LayoutGrid size={26} />}
+          {isOpen ? <X size={20} /> : <LayoutGrid size={20} />}
         </motion.button>
       </div>
     </>

@@ -26,7 +26,7 @@ const Navbar = ({ onMenuClick }: { onMenuClick: () => void }) => (
     </div>
 
     {/* RIGHT SECTION */}
-    <div className="flex items-center gap-3 text-black ml-4">
+    <div className="flex items-center gap-3 text-black mx-4">
       <MessageCircleReply
         strokeWidth={1.5}
         className="shrink-0 size-5 cursor-pointer"

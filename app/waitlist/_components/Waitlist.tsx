@@ -262,7 +262,6 @@ const Waitlist = () => {
                       searchable={true}
                       searchPlaceholder="Search cities or areas..."
                       enableInternetSearch={true}
-                      internetSearchText="Search online for"
                       {...field}
                     />
                   )}
