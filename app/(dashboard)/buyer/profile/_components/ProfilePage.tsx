@@ -3,6 +3,7 @@ import { useState } from "react";
 import IdentityCard from "./IdentityCard";
 import Image from "next/image";
 import profileBg from "../../../../assets/buyer/profile-bg.jpg";
+import { ImageIcon } from "lucide-react";
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("Posts");
@@ -17,7 +18,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <main className="w-full h-full mx-auto flex flex-col md:flex-row justify-center p-4 md:p-8 pt-40 md:pt-4.75 overflow-y-auto">
+    <main className="w-full h-full mx-auto flex flex-col md:flex-row justify-center p-4 md:p-8 pt-40 md:pt-4.75 overflow-y-auto bg-white">
       {/* Left Column */}
       <div className="w-full md:max-w-76.25 relative top-auto md:sticky md:top-0">
         <IdentityCard data={userData} />
@@ -27,16 +28,21 @@ export default function ProfilePage() {
       <div className="md:flex-1 space-y-6 max-w-143 w-full">
         <div className="bg-white">
           {/* Colored Banner Header */}
-          <Image
-            src={profileBg.src}
-            alt="profile-banner"
-            width={500}
-            height={130}
-            className="w-full h-31.25"
-          />
+          <div className="relative">
+            <Image
+              src={profileBg.src}
+              alt="profile-banner"
+              width={500}
+              height={130}
+              className="w-full h-31.25"
+            />
+            <div className="w-5 h-5 absolute flex items-center justify-center top-1.25 right-2 bg-[#D9D9D9] p-1.5 rounded-md shadow-md border border-white">
+              <ImageIcon size={10} className="text-black" />
+            </div>
+          </div>
 
           {/* Profile Details Content */}
-          <div className="px-8.75 py-5">
+          <div className="px-4 md:pl-8.75 md:pr-0 py-5">
             <h2 className="text-[16px] font-semibold text-black mb-1">
               {userData.name}
             </h2>
