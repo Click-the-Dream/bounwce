@@ -12,7 +12,7 @@ const ActionButton = ({
 }: any) => {
   return (
     <button
-      className={`w-full px-4 py-2 font-medium text-gray-700 border border-gray-300 rounded-md flex items-center justify-center space-x-2 whitespace-nowrap ${
+      className={`cursor-pointer w-full px-4 py-2 font-medium text-gray-700 border border-gray-300 rounded-md flex items-center justify-center space-x-2 whitespace-nowrap ${
         className || ""
       }`}
       onClick={onClick}

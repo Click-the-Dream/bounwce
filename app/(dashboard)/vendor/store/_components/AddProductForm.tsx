@@ -9,6 +9,7 @@ import ProductImages from "./ProductImages";
 import ProductTags from "./ProductTags";
 import ProductActions from "./ProductActions";
 import HelpSection from "./HelpSection";
+import ProductInfo from "./ProductInfo";
 
 const AddProductForm = ({ onClose }: any) => {
   const { createProduct } = useProduct();
@@ -129,7 +130,7 @@ const AddProductForm = ({ onClose }: any) => {
           {/* LEFT COLUMN */}
           <div className="flex flex-col gap-4 w-full xl:w-[70%]">
             <div>
-              <ProductDetails />
+              <ProductInfo />
             </div>
 
             <div>
