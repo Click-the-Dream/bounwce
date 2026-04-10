@@ -4,7 +4,7 @@ import AppProvider from "./context/AppProvider";
 import { generatePageMetadata } from "./_utils/metadata";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Bouwnce | Redefining the Campus Experience for Students",
+  title: "Bouwnce | Find your people. Get what you need.",
   description:
     "Bouwnce redefines how students experience campus life — connect, learn, and grow in a smarter digital environment designed for collaboration and success.",
   path: "/",
