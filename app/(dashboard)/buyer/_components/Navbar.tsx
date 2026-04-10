@@ -3,7 +3,7 @@ import userImg from "../../../assets/buyer/user.jpg";
 import Image from "next/image";
 
 const Navbar = ({ onMenuClick }: { onMenuClick: () => void }) => (
-  <header className="h-13.75 flex items-center justify-between py-2.25 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#00000033] sticky top-0 z-10">
+  <header className="h-13.75 flex items-center justify-between py-2.25 px-4 md:px-6 lg:px-8 bg-white border-b border-[#00000033] sticky top-0 z-10">
     {/* LEFT SECTION */}
     <div className="flex items-center gap-3 w-full">
       {/* Mobile Menu Button */}
@@ -26,7 +26,7 @@ const Navbar = ({ onMenuClick }: { onMenuClick: () => void }) => (
     </div>
 
     {/* RIGHT SECTION */}
-    <div className="flex items-center gap-3 text-black mx-4">
+    <div className="flex items-center gap-3 text-black mx-4 mr-8 md:mr-4">
       <MessageCircleReply
         strokeWidth={1.5}
         className="shrink-0 size-5 cursor-pointer"
