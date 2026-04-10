@@ -81,7 +81,7 @@ const VendorHeader = ({
           </button>
 
           <button
-            className={`relative border-2 border-[#0000001A] py-2 px-3 flex items-center rounded-md ${bgColor}`}
+            className={`cursor-pointer relative border-2 border-[#0000001A] py-2 px-3 flex items-center rounded-md ${bgColor}`}
             onClick={onSecondClick}
           >
             {Icon && <Icon />}
@@ -97,7 +97,7 @@ const VendorHeader = ({
 
           <div className="relative" ref={dropdownRef}>
             <button
-              className={`border-2 py-1.5 px-3 flex items-center rounded-md transition-colors border-[#0000001A] ${
+              className={`cursor-pointer border-2 py-1.5 px-3 flex items-center rounded-md transition-colors border-[#0000001A] ${
                 showSettings ? "bg-gray-100 border-gray-400" : "bg-white "
               }`}
               onClick={() => setShowSettings(!showSettings)}
@@ -119,7 +119,7 @@ const VendorHeader = ({
                     setShowSettings(false);
                     if (logout) logout.mutate();
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  className="cursor-pointer w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
                 >
                   <IoLogOutOutline size={18} />
                   <span className="font-medium">Logout</span>

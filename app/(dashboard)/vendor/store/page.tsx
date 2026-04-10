@@ -1,5 +1,7 @@
+import ManageStore from "./_components/ManageStore";
+
 const page = () => {
-  return <div>page</div>;
+  return <ManageStore />;
 };
 
 export default page;
