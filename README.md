@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Bouwnce
 
-## Getting Started
+Bouwnce is a modern platform designed to simplify how people connect, collaborate, and grow through curated opportunities, communities, and intelligent discovery.
 
-First, run the development server:
+## ✨ Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Bouwnce helps users:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Discover relevant opportunities (jobs, learning, collaborations)
+- Connect with like-minded individuals and communities
+- Engage in a seamless, intuitive digital experience
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Whether you're a learner, creator, or professional, Bouwnce provides the tools to “bounce” into the right opportunities faster.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧩 Features
 
-To learn more about Next.js, take a look at the following resources:
+- 🔍 **Smart Discovery**
+  - Personalized recommendations based on user activity and interests
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 👥 **Community & Groups**
+  - Join or create groups and collaborate with others
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- 📅 **Meetings & Events**
+  - Schedule, manage, and join meetings seamlessly
 
-## Deploy on Vercel
+- 💬 **Real-time Messaging**
+  - Instant communication powered by real-time infrastructure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- 🎯 **Opportunity Matching**
+  - Find jobs, gigs, or learning paths tailored to you
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- ⚡ **Modern UX**
+  - Fast, responsive, and user-friendly interface
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+### Backend
+
+- FAST (API)
+
+### Other Tools
+
+- Axios (API requests)
+- React Hook Form
+- Framer Motion (animations)
+- Tanstack Query
