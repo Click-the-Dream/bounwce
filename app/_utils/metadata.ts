@@ -51,9 +51,9 @@ export function generatePageMetadata({
     //manifest: "/manifest.json",
 
     icons: {
-      icon: "/logo-white.png",
-      apple: "/bouwnce.png",
-      shortcut: "/bouwnce.png",
+      icon: "/favicon.ico",
+      apple: "/favicon.ico",
+      shortcut: "/favicon.ico",
     },
 
     alternates: {
