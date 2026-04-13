@@ -595,3 +595,86 @@ export const products = [
     vendorId: 1, // Urban Threads
   },
 ];
+
+export const SEARCH_RESULTS = {
+  matched: [
+    {
+      id: 1,
+      name: "John Doe",
+      handle: "b-john33333",
+      type: "image",
+      src: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+      tags: ["gym", "partner", "fitness"],
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      handle: "j-smith99",
+      type: "image",
+      src: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
+      tags: ["social", "gaming"],
+    },
+  ],
+  suggestions: [
+    {
+      id: 3,
+      name: "Victor Williams",
+      handle: "v-will",
+      type: "initials",
+      initials: "VW",
+      tags: ["gym", "partner"],
+    },
+    {
+      id: 4,
+      name: "Alex Rivera",
+      handle: "rivera_fit",
+      type: "initials",
+      initials: "AR",
+      tags: ["gym", "social"],
+    },
+    {
+      id: 5,
+      name: "Sarah Connor",
+      handle: "s-connor",
+      type: "image",
+      src: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+      tags: ["social", "partner"],
+    },
+  ],
+};
+
+export const CHATS = [
+  {
+    id: 1,
+    name: "Zara Okafor",
+    msg: "Hi Victor, how are you doing...",
+    time: "2m",
+    active: true,
+  },
+  {
+    id: 2,
+    name: "Zara Okafor",
+    msg: "Hi Victor, how are you doing...",
+    time: "2m",
+  },
+  {
+    id: 3,
+    name: "Zara Hadid",
+    msg: "Hi Victor, how are you doing...",
+    time: "2m",
+  },
+  {
+    id: 4,
+    name: "John Doe",
+    msg: "Hi Victor, how are you doing...",
+    time: "2m",
+  },
+  {
+    id: 5,
+    name: "Zara Okafor",
+    msg: "Hi Victor, how are you doing...",
+    time: "2m",
+    type: "initials",
+    initials: "JD",
+  },
+];
