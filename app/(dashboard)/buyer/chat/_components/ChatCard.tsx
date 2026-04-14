@@ -1,10 +1,16 @@
+"use client";
 import SafeImage from "@/app/_components/SafeImage";
+import { useParams, useRouter } from "next/navigation";
 
 const ChatCard = ({ chat }: any) => {
+  const { chatId } = useParams();
+  const router = useRouter();
+
   return (
     <div
+      onClick={() => router.push(`/buyer/chat/${chat.id}`)}
       key={chat?.id}
-      className={`flex items-center gap-3 pt-3.25 pb-4.75 px-1 cursor-pointer hover:bg-gray-50 border-b-[0.53px] border-[#00000033] h-15.75 ${chat.active ? "bg-gray-50" : ""}`}
+      className={`flex items-center gap-3 pt-3.25 pb-4.75 px-1 cursor-pointer hover:bg-gray-50 border-b-[0.53px] border-[#00000033] h-15.75 ${chatId === chat.id ? "bg-gray-50" : ""}`}
     >
       <div
         className="relative shrink-0 rounded-[10px]  border border-white"

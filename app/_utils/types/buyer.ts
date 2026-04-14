@@ -12,3 +12,10 @@ interface ProfileData {
   badges: number;
   tags: string[];
 }
+
+export interface Message {
+  id: number;
+  text: string;
+  timestamp: string;
+  isSender: boolean;
+}

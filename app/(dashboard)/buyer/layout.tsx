@@ -1,5 +1,6 @@
 import { generatePageMetadata } from "@/app/_utils/metadata";
 import BuyerLayout from "./_components/BuyerLayout";
+import SecureRoute from "@/app/protocols/SecureRoutes";
 
 export const metadata = generatePageMetadata({
   title: "Buyer Dashboard | Bouwnce",
@@ -8,7 +9,11 @@ export const metadata = generatePageMetadata({
 });
 
 const layout = ({ children }: { children: React.ReactNode }) => {
-  return <BuyerLayout children={children} />;
+  return (
+    <SecureRoute>
+      <BuyerLayout children={children} />
+    </SecureRoute>
+  );
 };
 
 export default layout;

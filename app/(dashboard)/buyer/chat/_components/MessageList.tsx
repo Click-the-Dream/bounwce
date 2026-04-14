@@ -1,4 +1,28 @@
+"use client";
+import { MESSAGES_DATA } from "@/app/_utils/dummy";
+import ChatMessage from "./ChatMessage";
+import { useChatUtils } from "@/app/context/ChatContext";
+import { MessageSquareDashed } from "lucide-react"; // Optional: for a nice icon
+
 const MessageList = () => {
+  const { selectedChat } = useChatUtils();
+
+  const messages = selectedChat ? MESSAGES_DATA[Number(selectedChat.id)] : [];
+
+  if (!selectedChat) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center bg-white p-6 text-center">
+        <div className="bg-[#F4F4F4] p-4 rounded-full mb-4">
+          <MessageSquareDashed className="size-8 text-[#9C9C9C]" />
+        </div>
+        <h3 className="text-[13px] font-semibold text-black">Your Messages</h3>
+        <p className="text-xs text-[#9C9C9C] max-w-[250px] mt-2">
+          Select a conversation from the sidebar to start gisting.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-white">
       <div className="text-center">
@@ -7,69 +31,13 @@ const MessageList = () => {
         </span>
       </div>
 
-      {/* Incoming */}
-      <div className="flex flex-col gap-1 items-start max-w-[70%]">
-        <div
-          className="bg-[#EFF3F4] text-[13px] text-black p-4 rounded-[10px] text-sm relative pb-6 pr-6"
-          style={{
-            boxShadow:
-              "0px 0px 1.5px 0px #00000040, 0px 0px 0px 0px #00000040 inset",
-          }}
-        >
-          Hi Victor, how are you doing? Trust you good?
-          <span className="absolute bottom-1.25 right-1.25 text-[10px] text-black">
-            08:09
-          </span>
+      {messages && messages.length > 0 ? (
+        messages.map((msg) => <ChatMessage key={msg.id} msg={msg} />)
+      ) : (
+        <div className="flex flex-col items-center justify-center h-full text-[#9C9C9C]">
+          <p className="text-sm italic">No messages here yet...</p>
         </div>
-      </div>
-
-      {/* Outgoing */}
-      <div className="flex flex-col gap-1 items-end ml-auto max-w-[70%]">
-        <div
-          className="bg-orange text-white p-4 rounded-[10px] text-[13px] relative pb-6 pr-6"
-          style={{
-            boxShadow:
-              "0px 0px 1.5px 0px #00000040, 0px 0px 0px 0px #00000040 inset",
-          }}
-        >
-          Hi, Zara, I am doing fine, what about you? Trust you good?
-          <span className="absolute bottom-1.25 right-1.25 text-[10px] text-white">
-            08:10
-          </span>
-        </div>
-      </div>
-
-      {/* Incoming repeated... */}
-      <div className="flex flex-col gap-1 items-start max-w-[70%]">
-        <div
-          className="bg-[#EFF3F4] text-[13px] text-black p-4 rounded-[10px] text-sm relative pb-6 pr-6"
-          style={{
-            boxShadow:
-              "0px 0px 1.5px 0px #00000040, 0px 0px 0px 0px #00000040 inset",
-          }}
-        >
-          Hi Victor, how are you doing? Trust you good?
-          <span className="absolute bottom-1.25 right-1.25 text-[10px] text-black">
-            08:09
-          </span>
-        </div>
-      </div>
-
-      {/* Outgoing repeated... */}
-      <div className="flex flex-col gap-1 items-end ml-auto max-w-[70%]">
-        <div
-          className="bg-orange text-white p-4 rounded-[10px] text-[13px] relative pb-6 pr-6"
-          style={{
-            boxShadow:
-              "0px 0px 1.5px 0px #00000040, 0px 0px 0px 0px #00000040 inset",
-          }}
-        >
-          Hi, Zara, I am doing fine, what about you? Trust you good?
-          <span className="absolute bottom-1.25 right-1.25 text-[10px] text-white">
-            08:10
-          </span>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

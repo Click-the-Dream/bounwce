@@ -23,7 +23,7 @@ const Navbar = ({ onMenuClick }: { onMenuClick: () => void }) => (
 
     {/* RIGHT SECTION */}
     <div className="flex items-center gap-3 text-black mx-4 mr-8 md:mr-4">
-      <Link href="/chat">
+      <Link href="/buyer/chat">
         <MessageCircleReply
           strokeWidth={1.5}
           className="shrink-0 size-5 cursor-pointer"

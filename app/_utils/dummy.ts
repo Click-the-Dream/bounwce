@@ -2,6 +2,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { GoPeople } from "react-icons/go";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { TbCurrencyNaira } from "react-icons/tb";
+import { Message } from "./types/buyer";
 
 export const UNIVERSITIES = [
   {
@@ -646,35 +647,149 @@ export const SEARCH_RESULTS = {
 export const CHATS = [
   {
     id: 1,
-    name: "Zara Okafor",
-    msg: "Hi Victor, how are you doing...",
+    name: "Chidi Okechukwu",
+    msg: "Oga, did you see the update on the repo?",
     time: "2m",
     active: true,
   },
   {
     id: 2,
-    name: "Zara Okafor",
-    msg: "Hi Victor, how are you doing...",
-    time: "2m",
+    name: "Amina Yusuf",
+    msg: "I just sent the invoice to your mail. Check it out.",
+    time: "15m",
   },
   {
     id: 3,
-    name: "Zara Hadid",
-    msg: "Hi Victor, how are you doing...",
-    time: "2m",
+    name: "Tunde Balogun",
+    msg: "Guy, light don come. Let's hop on the call now.",
+    time: "1h",
   },
   {
     id: 4,
-    name: "John Doe",
-    msg: "Hi Victor, how are you doing...",
-    time: "2m",
+    name: "Blessing Effiong",
+    msg: "The UI design is looking sharp! Great job.",
+    time: "3h",
   },
   {
     id: 5,
-    name: "Zara Okafor",
-    msg: "Hi Victor, how are you doing...",
-    time: "2m",
+    name: "Kelechi Nwosu",
+    msg: "Abeg, don't forget to push the latest changes.",
+    time: "5h",
     type: "initials",
-    initials: "JD",
+    initials: "KN",
   },
 ];
+
+export const MESSAGES_DATA: Record<number, Message[]> = {
+  1: [
+    // Chidi Okechukwu - Work/Dev focus
+    {
+      id: 1,
+      text: "How far, Habib? You don check that bug for the login page?",
+      timestamp: "09:15",
+      isSender: false,
+    },
+    {
+      id: 2,
+      text: "I dey on am. The API is returning a 500 error, debugging the controller now.",
+      timestamp: "09:18",
+      isSender: true,
+    },
+    {
+      id: 3,
+      text: "Omo, no wonder. Abeg, let me know once it's stable so I can test.",
+      timestamp: "09:20",
+      isSender: false,
+    },
+    {
+      id: 4,
+      text: "No wahala, I should be done in 30 mins. Send the Figma link again?",
+      timestamp: "09:22",
+      isSender: true,
+    },
+  ],
+  2: [
+    // Amina Yusuf - Administrative/Finance
+    {
+      id: 1,
+      text: "Good morning. I just sent the invoice to your mail. Check it out.",
+      timestamp: "10:05",
+      isSender: false,
+    },
+    {
+      id: 2,
+      text: "Received! Will go through it before the end of the day.",
+      timestamp: "10:12",
+      isSender: true,
+    },
+    {
+      id: 3,
+      text: "Please do, the finance team needs the approval by 4 PM.",
+      timestamp: "10:15",
+      isSender: false,
+    },
+  ],
+  3: [
+    // Tunde Balogun - Power/Hardware focus
+    {
+      id: 1,
+      text: "Guy, light don come. Let's hop on the call now.",
+      timestamp: "11:30",
+      isSender: false,
+    },
+    {
+      id: 2,
+      text: "Oshey! My inverter was already crying. Give me 2 mins.",
+      timestamp: "11:32",
+      isSender: true,
+    },
+    {
+      id: 3,
+      text: "Sharp. I'm already in the Google Meet.",
+      timestamp: "11:33",
+      isSender: false,
+    },
+  ],
+  4: [
+    // Blessing Effiong - Design/Feedback
+    {
+      id: 1,
+      text: "The UI design for the dashboard is looking sharp! Great job.",
+      timestamp: "13:45",
+      isSender: false,
+    },
+    {
+      id: 2,
+      text: "Thanks, Blessing. I used the new design system we talked about.",
+      timestamp: "13:50",
+      isSender: true,
+    },
+    {
+      id: 3,
+      text: "It shows. The spacing is much better now. Client go like this one.",
+      timestamp: "13:52",
+      isSender: false,
+    },
+  ],
+  5: [
+    // Kelechi Nwosu - Quick reminders
+    {
+      id: 1,
+      text: "Abeg, don't forget to push the latest changes to the repo.",
+      timestamp: "15:20",
+      isSender: false,
+    },
+    {
+      id: 2,
+      text: "Doing that right now. Just running the last test suite.",
+      timestamp: "15:25",
+      isSender: true,
+    },
+    {
+      id: 3,
+      text: "Correct guy. No let the CI/CD fail o! 😂",
+      timestamp: "15:26",
+      isSender: false,
+    },
+  ],
+};
