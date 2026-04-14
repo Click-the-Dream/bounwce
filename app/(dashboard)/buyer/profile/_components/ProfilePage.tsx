@@ -18,9 +18,9 @@ export default function ProfilePage() {
   };
 
   return (
-    <main className="w-full h-full mx-auto flex flex-col gap-2 md:gap-0 md:flex-row justify-center p-4 md:p-8 pt-40 md:pt-4.75 overflow-y-auto bg-white">
+    <main className="w-full relative h-full mx-auto flex flex-col gap-2 md:gap-0 md:flex-row justify-center p-4 md:p-8 pt-40 md:pt-4.75 overflow-y-auto bg-white">
       {/* Left Column */}
-      <div className="w-full md:max-w-76.25 relative top-0 mt-80 md:sticky md:top-0 md:mt-0">
+      <div className="w-full md:max-w-76.25 relative mt-5 md:mt-0 md:sticky md:top-0">
         <IdentityCard data={userData} />
       </div>
 

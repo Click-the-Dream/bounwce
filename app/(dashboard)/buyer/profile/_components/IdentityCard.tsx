@@ -16,6 +16,7 @@ const IdentityCard: React.FC<{ data: any }> = ({ data }) => (
         alt="Profile"
         width={60}
         height={61}
+        loading="eager"
         className="rounded-[20px] border-2 border-white bg-gray-100 object-cover"
         style={{
           boxShadow:
