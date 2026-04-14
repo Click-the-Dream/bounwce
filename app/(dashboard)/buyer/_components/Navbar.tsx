@@ -37,13 +37,15 @@ const Navbar = ({ onMenuClick }: { onMenuClick: () => void }) => (
         </span>
       </div>
 
-      <Image
-        src={userImg}
-        alt="Profile"
-        width={32}
-        height={32}
-        className="rounded-md"
-      />
+      <Link href="/buyer/profile" className="w-[32px] h-[32px]">
+        <Image
+          src={userImg}
+          alt="Profile"
+          width={32}
+          height={32}
+          className="rounded-md w-full h-full"
+        />
+      </Link>
     </div>
   </header>
 );
