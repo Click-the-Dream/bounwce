@@ -1,13 +1,18 @@
-"use client";
-import { MESSAGES_DATA } from "@/app/_utils/dummy";
-import ChatMessage from "./ChatMessage";
+import { useEffect, useRef } from "react";
 import { useChatUtils } from "@/app/context/ChatContext";
-import { MessageSquareDashed } from "lucide-react"; // Optional: for a nice icon
+import { MessageSquareDashed } from "lucide-react";
+import ChatMessage from "./ChatMessage";
+import ChatImageMessage from "./ChatImageMessage";
 
 const MessageList = () => {
-  const { selectedChat } = useChatUtils();
+  const { selectedChat, messages, typingUsers } = useChatUtils();
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
-  const messages = selectedChat ? MESSAGES_DATA[Number(selectedChat.id)] : [];
+  const chatMessages = selectedChat ? messages[Number(selectedChat.id)] : [];
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatMessages, typingUsers]);
 
   if (!selectedChat) {
     return (
@@ -16,7 +21,7 @@ const MessageList = () => {
           <MessageSquareDashed className="size-8 text-[#9C9C9C]" />
         </div>
         <h3 className="text-[13px] font-semibold text-black">Your Messages</h3>
-        <p className="text-xs text-[#9C9C9C] max-w-[250px] mt-2">
+        <p className="text-xs text-[#9C9C9C] max-w-62.5 mt-2">
           Select a conversation from the sidebar to start gisting.
         </p>
       </div>
@@ -24,20 +29,27 @@ const MessageList = () => {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-white">
+    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-white">
       <div className="text-center">
         <span className="text-[13px] text-black font-medium">
           April 12, 2026
         </span>
       </div>
 
-      {messages && messages.length > 0 ? (
-        messages.map((msg) => <ChatMessage key={msg.id} msg={msg} />)
-      ) : (
-        <div className="flex flex-col items-center justify-center h-full text-[#9C9C9C]">
-          <p className="text-sm italic">No messages here yet...</p>
-        </div>
+      {chatMessages?.map((msg: any) =>
+        msg.image ? (
+          <ChatImageMessage key={msg.id} msg={msg} />
+        ) : (
+          <ChatMessage key={msg.id} msg={msg} />
+        ),
       )}
+
+      {/* Typing indicator */}
+      {typingUsers[selectedChat.id] && (
+        <div className="text-sm text-gray-400 italic">typing...</div>
+      )}
+
+      <div ref={bottomRef} />
     </div>
   );
 };

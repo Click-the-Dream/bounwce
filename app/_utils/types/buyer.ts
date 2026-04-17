@@ -16,6 +16,7 @@ interface ProfileData {
 export interface Message {
   id: number;
   text: string;
+  image?: string;
   timestamp: string;
   isSender: boolean;
 }

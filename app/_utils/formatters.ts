@@ -149,3 +149,13 @@ export const getFirstMissingStep = (missingSections: string | string[]) => {
   }
   return { step: 2, tab: "store" }; // default
 };
+
+export const getMessageLayout = (isSender: boolean) => ({
+  container: isSender
+    ? "flex flex-col gap-1 items-end ml-auto max-w-[70%]"
+    : "flex flex-col gap-1 items-start max-w-[70%]",
+
+  bubble: isSender ? "bg-orange text-white" : "bg-[#EFF3F4] text-black",
+
+  time: isSender ? "text-white" : "text-black",
+});
