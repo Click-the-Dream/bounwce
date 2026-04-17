@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { useChatUtils } from "@/app/context/ChatContext";
 import { MessageSquareDashed } from "lucide-react";
@@ -7,12 +9,23 @@ import ImageViewer from "./ImageViewer";
 
 const MessageList = () => {
   const { selectedChat, messages, typingUsers } = useChatUtils();
+
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
 
   const chatMessages = selectedChat ? messages[Number(selectedChat.id)] : [];
-  const mediaMessages = chatMessages.filter((m: any) => m.image);
+
+  // ✅ FLATTEN IMAGES FOR VIEWER
+  const mediaImages =
+    chatMessages
+      ?.filter((m: any) => m.images?.length > 0)
+      .flatMap((m: any) =>
+        m.images.map((img: string) => ({
+          src: img,
+          messageId: m.id,
+        })),
+      ) || [];
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -41,13 +54,13 @@ const MessageList = () => {
       </div>
 
       {chatMessages?.map((msg: any) =>
-        msg.image ? (
+        msg.images?.length > 0 ? (
           <ChatImageMessage
             key={msg.id}
             msg={msg}
-            index={mediaMessages.findIndex((m: any) => m.id === msg.id)}
-            onOpen={(i: number) => {
-              setViewerIndex(i);
+            mediaImages={mediaImages}
+            onOpen={(index: number) => {
+              setViewerIndex(index);
               setViewerOpen(true);
             }}
           />
@@ -56,15 +69,16 @@ const MessageList = () => {
         ),
       )}
 
-      {/* Typing indicator */}
+      {/* Typing */}
       {typingUsers[selectedChat.id] && (
         <div className="text-sm text-gray-400 italic">typing...</div>
       )}
 
       <div ref={bottomRef} />
+
       {viewerOpen && (
         <ImageViewer
-          media={mediaMessages}
+          media={mediaImages}
           startIndex={viewerIndex}
           onClose={() => setViewerOpen(false)}
           user={selectedChat}

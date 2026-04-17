@@ -1,3 +1,5 @@
+"use client";
+
 import SafeImage from "@/app/_components/SafeImage";
 import Image from "next/image";
 import { useState } from "react";
@@ -9,9 +11,11 @@ const ImageViewer = ({ media, startIndex, onClose, user }: any) => {
 
   const current = media[index];
 
+  if (!current) return null; // 🛡 safety guard
+
   return (
     <div className="fixed inset-0 bg-white flex flex-col z-50">
-      {/* HEADER - Static height, not absolute */}
+      {/* HEADER */}
       <div className="h-16 w-full flex items-center justify-between px-6 border-b border-[#0000001a]">
         <div className="flex items-center gap-3">
           <div className="relative">
@@ -32,6 +36,7 @@ const ImageViewer = ({ media, startIndex, onClose, user }: any) => {
               </div>
             )}
           </div>
+
           <div className="flex flex-col">
             <span className="font-medium text-sm text-black leading-tight">
               {user?.name}
@@ -40,40 +45,36 @@ const ImageViewer = ({ media, startIndex, onClose, user }: any) => {
           </div>
         </div>
 
-        {/* HEADER ACTIONS */}
+        {/* ACTIONS */}
         <div className="flex items-center gap-5 text-black">
-          <button className="hover:text-black cursor-pointer transition-colors">
+          <button className="cursor-pointer">
             <FiZoomIn size={14} />
           </button>
-          <a
-            href={current.image}
-            download
-            className="hover:text-black cursor-pointer transition-colors"
-          >
+
+          <a href={current.src} download className="cursor-pointer">
             <FiDownload size={14} />
           </a>
-          <button
-            onClick={onClose}
-            className="hover:text-black cursor-pointer transition-colors"
-          >
+
+          <button onClick={onClose} className="cursor-pointer">
             <FiX size={14} />
           </button>
         </div>
       </div>
 
-      {/* VIEWPORT AREA */}
+      {/* VIEWPORT */}
       <div className="relative flex-1 flex items-center justify-center bg-[#F9F9F9] overflow-hidden">
-        {/* NAVIGATION BUTTONS */}
+        {/* LEFT */}
         <button
           onClick={() => setIndex((i: number) => Math.max(i - 1, 0))}
-          className="z-10 cursor-pointer absolute left-6 flex items-center justify-center text-white bg-orange hover:bg-orange/90 transition-all rounded-full w-11 h-11 text-3xl shadow-md"
+          className="absolute left-6 z-10 w-11 h-11 rounded-full bg-orange text-white flex items-center justify-center shadow-md"
         >
           <MdKeyboardArrowLeft />
         </button>
 
+        {/* IMAGE */}
         <div className="p-10 w-full h-full flex items-center justify-center">
           <Image
-            src={current.image}
+            src={current.src}
             alt="media"
             width={1200}
             height={800}
@@ -82,30 +83,31 @@ const ImageViewer = ({ media, startIndex, onClose, user }: any) => {
           />
         </div>
 
+        {/* RIGHT */}
         <button
           onClick={() =>
             setIndex((i: number) => Math.min(i + 1, media.length - 1))
           }
-          className="z-10 cursor-pointer absolute right-6 flex items-center justify-center text-white bg-orange hover:bg-orange/90 transition-all rounded-full w-11 h-11 text-3xl shadow-md"
+          className="absolute right-6 z-10 w-11 h-11 rounded-full bg-orange text-white flex items-center justify-center shadow-md"
         >
           <MdKeyboardArrowRight />
         </button>
       </div>
 
-      {/* THUMB STRIP */}
-      <div className="h-24 bg-white flex items-center justify-center gap-3 px-6 overflow-x-auto border-t border-[#0000000d]">
+      {/* THUMBNAILS */}
+      <div className="h-24 bg-white flex items-center gap-3 px-6 overflow-x-auto border-t border-[#0000000d]">
         {media.map((m: any, i: number) => (
           <div
-            key={m.id}
+            key={i} // ✅ FIXED
             onClick={() => setIndex(i)}
-            className={`relative min-w-14 h-14 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+            className={`min-w-14 h-14 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
               i === index
                 ? "border-orange scale-110 shadow-sm"
                 : "border-transparent opacity-50"
             }`}
           >
             <img
-              src={m.image}
+              src={m.src} // ✅ FIXED
               className="w-full h-full object-cover"
               alt="thumb"
             />

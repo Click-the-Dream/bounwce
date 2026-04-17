@@ -8,54 +8,52 @@ const SendMessage = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   const [message, setMessage] = useState("");
-  const [pendingImage, setPendingImage] = useState<string | null>(null);
+  const [pendingImages, setPendingImages] = useState<string[]>([]);
 
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   const { selectedChat, sendMessage } = useChatUtils();
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files) return;
 
-    const reader = new FileReader();
+    const readers = Array.from(files).map((file) => {
+      return new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+    });
 
-    reader.onload = () => {
-      setPendingImage(reader.result as string);
+    Promise.all(readers).then((images) => {
+      setPendingImages((prev) => [...prev, ...images]);
       setShowMenu(false);
-    };
+    });
 
-    reader.readAsDataURL(file);
+    // reset input so same file can be reselected
+    e.target.value = "";
   };
 
   const handleSend = () => {
     if (!selectedChat) return;
 
-    // IMAGE MESSAGE
-    if (pendingImage) {
-      sendMessage(Number(selectedChat.id), message.trim(), pendingImage);
+    if (pendingImages.length > 0 || message.trim()) {
+      sendMessage(
+        Number(selectedChat.id),
+        message.trim(),
+        pendingImages, // now array
+      );
 
-      setPendingImage(null);
+      setPendingImages([]);
       setMessage("");
-      return;
     }
-
-    // TEXT MESSAGE
-    if (!message.trim()) return;
-
-    sendMessage(Number(selectedChat.id), message);
-    setMessage("");
   };
 
   return (
     <div className="relative py-2 px-3 md:px-6 border-t border-b border-[#00000033] bg-white">
-      {pendingImage && (
-        <ImagePreview
-          pendingImage={pendingImage}
-          setPendingImage={setPendingImage}
-          setMessage={setMessage}
-          caption={message}
-        />
+      {pendingImages && (
+        <ImagePreview images={pendingImages} setImages={setPendingImages} />
       )}
 
       {showMenu && (
@@ -93,14 +91,14 @@ const SendMessage = () => {
 
         {/* INPUT */}
         <input
-          value={pendingImage ? message : message}
+          value={pendingImages ? message : message}
           onChange={(e) =>
-            pendingImage
+            pendingImages
               ? setMessage(e.target.value)
               : setMessage(e.target.value)
           }
           type="text"
-          placeholder={pendingImage ? "Add caption..." : "Message"}
+          placeholder={pendingImages ? "Add caption..." : "Message"}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className="flex-1 bg-transparent text-sm focus:outline-none"
@@ -109,7 +107,7 @@ const SendMessage = () => {
           }}
         />
 
-        {(isFocused || message || pendingImage) && (
+        {(isFocused || message || pendingImages) && (
           <button
             onClick={handleSend}
             className="w-7.5 h-7.5 flex items-center justify-center bg-orange text-white rounded-full"
@@ -123,6 +121,7 @@ const SendMessage = () => {
         ref={fileRef}
         type="file"
         accept="image/*"
+        multiple
         className="hidden"
         onChange={handleImageUpload}
       />

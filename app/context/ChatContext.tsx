@@ -14,13 +14,13 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   // typing state per chat
   const [typingUsers, setTypingUsers] = useState<Record<number, boolean>>({});
 
-  const sendMessage = (chatId: number, text?: string, image?: string) => {
-    if (!text?.trim() && !image) return;
+  const sendMessage = (chatId: number, text?: string, images?: string[]) => {
+    if (!text?.trim() && (!images || images.length === 0)) return;
 
     const newMessage = {
       id: Date.now(),
       text: text || "",
-      image: image || null,
+      images: images || [],
       timestamp: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -34,16 +34,16 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       [chatId]: [...(prev[chatId] || []), newMessage],
     }));
 
-    // 👇 STATUS FLOW LIVES HERE
-    setTimeout(() => {
+    // 👇 STATUS PIPELINE (SIMULATED)
+    queueMicrotask(() => {
       updateMessageStatus(chatId, newMessage.id, "delivered");
-    }, 800);
 
-    setTimeout(() => {
-      updateMessageStatus(chatId, newMessage.id, "read");
-    }, 2000);
+      setTimeout(() => {
+        updateMessageStatus(chatId, newMessage.id, "read");
+      }, 1500);
+    });
 
-    // fake reply logic
+    // fake reply typing
     setTypingUsers((prev) => ({ ...prev, [chatId]: true }));
 
     setTimeout(() => {
@@ -56,12 +56,13 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       const replyMessage = {
         id: Date.now() + 1,
         text: replies[Math.floor(Math.random() * replies.length)],
+        images: [],
         timestamp: new Date().toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
         }),
         isSender: false,
-        status: "delivered",
+        status: "delivered" as MessageStatus,
       };
 
       setMessages((prev: any) => ({
@@ -73,19 +74,6 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     }, 1500);
   };
 
-  const triggerTyping = (chatId: number) => {
-    setTypingUsers((prev) => ({
-      ...prev,
-      [chatId]: true,
-    }));
-
-    setTimeout(() => {
-      setTypingUsers((prev) => ({
-        ...prev,
-        [chatId]: false,
-      }));
-    }, 1000);
-  };
   const updateMessageStatus = (
     chatId: number,
     messageId: number,
@@ -98,7 +86,6 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       ),
     }));
   };
-
   return (
     <ChatContext.Provider
       value={{
