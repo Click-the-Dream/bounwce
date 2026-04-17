@@ -66,7 +66,7 @@ const ImageViewer = ({ media, startIndex, onClose, user }: any) => {
         {/* LEFT */}
         <button
           onClick={() => setIndex((i: number) => Math.max(i - 1, 0))}
-          className="absolute left-6 z-10 w-11 h-11 rounded-full bg-orange text-white flex items-center justify-center shadow-md"
+          className="cursor-pointer absolute left-6 z-10 w-11 h-11 rounded-full bg-orange text-white flex items-center justify-center shadow-md"
         >
           <MdKeyboardArrowLeft />
         </button>
@@ -88,7 +88,7 @@ const ImageViewer = ({ media, startIndex, onClose, user }: any) => {
           onClick={() =>
             setIndex((i: number) => Math.min(i + 1, media.length - 1))
           }
-          className="absolute right-6 z-10 w-11 h-11 rounded-full bg-orange text-white flex items-center justify-center shadow-md"
+          className="cursor-pointer absolute right-6 z-10 w-11 h-11 rounded-full bg-orange text-white flex items-center justify-center shadow-md"
         >
           <MdKeyboardArrowRight />
         </button>

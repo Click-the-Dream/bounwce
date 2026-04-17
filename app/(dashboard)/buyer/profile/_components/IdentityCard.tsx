@@ -7,6 +7,7 @@ import {
 import React from "react";
 import userImg from "../../../../assets/buyer/user.jpg";
 import Image from "next/image";
+import SwitchAccountCard from "./SwitchAccountCard";
 
 const IdentityCard: React.FC<{ data: any }> = ({ data }) => (
   <div className="bg-[#F7F7F7] p-3.75 w-full h-full">
@@ -60,7 +61,11 @@ const IdentityCard: React.FC<{ data: any }> = ({ data }) => (
       </span>
     </div>
 
-    <p className="text-[13px] text-black leading-4.5 w-[90%]">{data.bio}</p>
+    <p className="text-[13px] text-black leading-4.5 w-[90%] border-b-[0.53px] border-[#00000033] pb-2.75 mb-11.5">
+      {data.bio}
+    </p>
+
+    <SwitchAccountCard />
   </div>
 );
 
