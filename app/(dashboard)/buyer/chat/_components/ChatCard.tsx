@@ -10,7 +10,7 @@ const ChatCard = ({ chat }: any) => {
     <div
       onClick={() => router.push(`/buyer/chat/${chat.id}`)}
       key={chat?.id}
-      className={`flex items-center gap-3 pt-3.25 pb-4.75 px-1 cursor-pointer hover:bg-gray-50 border-b-[0.53px] border-[#00000033] h-15.75 ${chatId === chat.id ? "bg-gray-50" : ""}`}
+      className={`flex items-center gap-3 pt-3.25 pb-4.75 px-1 cursor-pointer hover:bg-gray-50 border-b-[0.53px] border-[#00000033] h-15.75 ${Number(chatId) === Number(chat.id) ? "bg-gray-100" : ""}`}
     >
       <div
         className="relative shrink-0 rounded-[10px]  border border-white"

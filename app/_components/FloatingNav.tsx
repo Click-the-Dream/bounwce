@@ -1,176 +1,138 @@
-import { useState, useEffect, useContext } from "react";
+"use client";
+
+import { useState, useRef, useContext, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Home, Settings, User, LayoutGrid } from "lucide-react";
+import { X, Home, Settings, User, LayoutGrid, Store } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
-import { Store } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const FloatingNav = () => {
   const { authDetails } = useContext(AuthContext);
-  const user = authDetails?.user && authDetails?.user?.role !== "vendor";
-  const [isOpen, setIsOpen] = useState(false);
-  const [direction, setDirection] = useState("up-left");
-
   const router = useRouter();
+  const user = authDetails?.user && authDetails?.user?.role !== "vendor";
+  const constraintsRef = useRef<HTMLDivElement | null>(null);
 
-  const navItems = [
-    { icon: <Home size={20} />, label: "Home", path: "/buyer" },
-    {
-      icon: <Store size={20} />,
-      label: "Marketplace",
-      path: "/marketplace",
-    },
-    {
-      icon: <Settings size={20} />,
-      label: "Settings",
-      path: "/buyer/settings",
-    },
-    { icon: <User size={20} />, label: "Profile", path: "/buyer/profile" },
-  ];
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
 
-  const DISTANCE = 110;
-
-  const handleNavigation = (path: string) => {
-    setIsOpen(false);
-    router.push(path);
-  };
+  const BUTTON_SIZE = 48;
+  const EDGE_THRESHOLD = 100; // 💡 Only snaps if within 100px of an edge
+  const PADDING = 20;
 
   useEffect(() => {
-    const updateDirection = () => {
-      const x = window.innerWidth - 80;
-      const y = window.innerHeight - 80;
-      const isRight = x > window.innerWidth / 2;
-      const isBottom = y > window.innerHeight / 2;
-
-      if (isRight && isBottom) setDirection("up-left");
-      else if (!isRight && isBottom) setDirection("up-right");
-      else if (isRight && !isBottom) setDirection("down-left");
-      else setDirection("down-right");
-    };
-
-    updateDirection();
-    window.addEventListener("resize", updateDirection);
-    return () => window.removeEventListener("resize", updateDirection);
+    setPos({
+      x: window.innerWidth - BUTTON_SIZE - PADDING,
+      y: window.innerHeight - BUTTON_SIZE - PADDING * 4,
+    });
   }, []);
-
-  const getAngleRange = () => {
-    switch (direction) {
-      case "up-left":
-        return [180, 270];
-      case "up-right":
-        return [270, 360];
-      case "down-left":
-        return [90, 180];
-      case "down-right":
-        return [0, 90];
-      default:
-        return [180, 270];
-    }
-  };
-
-  const [START, END] = getAngleRange();
-  const spread = END - START;
-  const step = navItems.length > 1 ? spread / (navItems.length - 1) : 0;
-
-  const getCoords = (i: number) => {
-    const angle = START + i * step;
-    const rad = (angle * Math.PI) / 180;
-    return {
-      angle,
-      x: Math.cos(rad) * DISTANCE,
-      y: Math.sin(rad) * DISTANCE,
-      scale: 0.9 + (i / navItems.length) * 0.2,
-    };
-  };
-
-  const getTooltipStyle = (angle: number) => {
-    if ((angle >= 180 && angle <= 270) || (angle >= 90 && angle < 180)) {
-      return "right-full mr-3 top-1/2 -translate-y-1/2";
-    }
-    return "left-full ml-3 top-1/2 -translate-y-1/2";
-  };
 
   if (!user) return null;
 
+  const navItems = [
+    { icon: <Home size={20} />, path: "/buyer" },
+    { icon: <Store size={20} />, path: "/marketplace" },
+    { icon: <Settings size={20} />, path: "/buyer/settings" },
+    { icon: <User size={20} />, path: "/buyer/profile" },
+  ];
+
+  /**
+   * 🍃 MINIMAL SNAP LOGIC
+   * Only sticks to the wall if the user drops it very close to one.
+   * Otherwise, it stays exactly where the finger let go.
+   */
+  const handleSnap = (currentX: number, currentY: number) => {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    let finalX = currentX;
+    let finalY = currentY;
+
+    // Snap X if close to sides
+    if (currentX < EDGE_THRESHOLD) finalX = PADDING;
+    else if (currentX > w - BUTTON_SIZE - EDGE_THRESHOLD)
+      finalX = w - BUTTON_SIZE - PADDING;
+
+    // Snap Y if close to top/bottom
+    if (currentY < EDGE_THRESHOLD) finalY = PADDING;
+    else if (currentY > h - BUTTON_SIZE - EDGE_THRESHOLD)
+      finalY = h - BUTTON_SIZE - PADDING;
+
+    return { x: finalX, y: finalY };
+  };
+
   return (
-    <>
-      {/* Overlay */}
+    <div
+      ref={constraintsRef}
+      className="fixed inset-0 z-50 pointer-events-none"
+    >
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            // Start as a small dot at the button's position
-            initial={{
-              clipPath: "circle(0% at calc(100% - 40px) calc(100% - 40px))",
-              opacity: 0,
-            }}
-            // Expand the circle to cover the whole screen
-            animate={{
-              clipPath: "circle(150% at calc(100% - 40px) calc(100% - 40px))",
-              opacity: 1,
-            }}
-            // Shrink back to the button on close
-            exit={{
-              clipPath: "circle(0% at calc(100% - 40px) calc(100% - 40px))",
-              opacity: 0,
-            }}
-            transition={{
-              duration: 0.6,
-              ease: [0.4, 0, 0.2, 1], // Custom cubic-bezier for a "sleek" feel
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black/40 backdrop-blur-md z-90 pointer-events-auto"
+            className="fixed inset-0 bg-black/10 backdrop-blur-[1.5px] z-40 pointer-events-auto"
           />
         )}
       </AnimatePresence>
 
-      <div className="fixed bottom-10 right-10 z-100 w-12 h-12">
-        {/* Menu Items */}
+      <motion.div
+        drag
+        dragConstraints={constraintsRef}
+        dragElastic={0.05} // Stiffer drag so it doesn't feel "mushy"
+        onDragStart={() => setIsDragging(true)}
+        onDragEnd={(_, info) => {
+          setTimeout(() => setIsDragging(false), 50);
+          const newPos = handleSnap(info.point.x, info.point.y);
+          setPos(newPos);
+        }}
+        animate={pos}
+        // ✨ Smoother, slower transition for a "premium" feel
+        transition={{ type: "spring", stiffness: 200, damping: 30, mass: 0.8 }}
+        className="absolute top-0 left-0 w-12 h-12 z-50 pointer-events-auto touch-none"
+      >
         <AnimatePresence>
           {isOpen && (
-            <div className="relative w-full h-full flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
               {navItems.map((item, i) => {
-                const { x, y, scale, angle } = getCoords(i);
+                // Adaptive menu expansion based on screen side
+                const isLeft = pos.x < window.innerWidth / 2;
+                const isTop = pos.y < window.innerHeight / 2;
+
+                const angleBase = isTop
+                  ? isLeft
+                    ? 45
+                    : 135
+                  : isLeft
+                    ? 315
+                    : 225;
+                const angle = (angleBase - 45 + i * 30) * (Math.PI / 180);
+                const radius = 85;
+
                 return (
                   <motion.div
                     key={i}
-                    style={{ zIndex: 100 + i }}
-                    initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
-                    animate={{ opacity: 1, x, y, scale }}
-                    exit={{ opacity: 0, x: 0, y: 0, scale: 0 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 220,
-                      damping: 18,
-                      delay: i * 0.05,
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{
+                      opacity: 1,
+                      x: Math.cos(angle) * radius,
+                      y: Math.sin(angle) * radius,
+                      scale: 1,
                     }}
+                    exit={{ opacity: 0, scale: 0, x: 0, y: 0 }}
                     className="absolute"
                   >
-                    <motion.button
-                      whileHover={{ scale: 1.2, y: -4 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => handleNavigation(item.path)} // 4. Attach click handler
-                      className="group relative w-12 h-12 flex items-center justify-center 
-                                            rounded-full bg-white dark:bg-neutral-800 
-                                            text-neutral-600 dark:text-neutral-300
-                                            border border-neutral-200 dark:border-neutral-700
-                                            shadow-lg transition-all duration-300
-                                            hover:bg-[#FF4B2B] hover:text-white"
+                    <button
+                      onClick={() => {
+                        setIsOpen(false);
+                        router.push(item.path);
+                      }}
+                      className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-neutral-800 shadow-lg border border-neutral-50"
                     >
                       {item.icon}
-
-                      {/* Tooltip */}
-                      <span
-                        className={`absolute ${getTooltipStyle(angle)}
-                                                px-2.5 py-1 text-[11px] rounded-md
-                                                bg-black/90 backdrop-blur-sm text-white
-                                                opacity-0 group-hover:opacity-100
-                                                transition-all duration-200
-                                                whitespace-nowrap shadow-xl
-                                                pointer-events-none`}
-                      >
-                        {item.label}
-                      </span>
-                    </motion.button>
+                    </button>
                   </motion.div>
                 );
               })}
@@ -178,25 +140,16 @@ const FloatingNav = () => {
           )}
         </AnimatePresence>
 
-        {/* Main FAB Toggle */}
         <motion.button
-          onClick={() => setIsOpen(!isOpen)}
-          animate={
-            isOpen ? { rotate: 135, scale: 0.9 } : { rotate: 0, scale: 1 }
-          }
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className={`absolute inset-0 flex items-center justify-center rounded-full text-white 
-                    ${isOpen ? "bg-neutral-900" : "bg-[#FF4B2B]"}`}
-          style={{
-            boxShadow: isOpen
-              ? "0px 8px 20px rgba(0,0,0,0.3)"
-              : "0px 12px 30px rgba(255,75,43,0.45)",
-          }}
+          onClick={() => !isDragging && setIsOpen(!isOpen)}
+          className={`w-full h-full flex items-center justify-center rounded-full text-white shadow-xl ${
+            isOpen ? "bg-neutral-800" : "bg-[#FF4B2B]"
+          }`}
         >
-          {isOpen ? <X size={20} /> : <LayoutGrid size={20} />}
+          {isOpen ? <X size={18} /> : <LayoutGrid size={18} />}
         </motion.button>
-      </div>
-    </>
+      </motion.div>
+    </div>
   );
 };
 

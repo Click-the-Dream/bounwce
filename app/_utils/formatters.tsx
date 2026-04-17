@@ -1,5 +1,6 @@
 import { Variants } from "framer-motion";
 import { onboardingTree } from "./fields";
+import { Check, CheckCheck } from "lucide-react";
 
 export const extractErrorMessage = (
   error:
@@ -159,3 +160,9 @@ export const getMessageLayout = (isSender: boolean) => ({
 
   time: isSender ? "text-white" : "text-black",
 });
+
+export const renderCheck = (status: string) => {
+  if (status === "sent") return <Check size={12} />;
+  if (status === "delivered") return <CheckCheck size={12} />;
+  if (status === "read") return <CheckCheck size={12} className="" />;
+};

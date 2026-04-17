@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 import { MESSAGES_DATA } from "@/app/_utils/dummy";
+import { MessageStatus } from "../_utils/types/buyer";
 
 export const ChatContext = createContext<any>({});
 
@@ -25,6 +26,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
         minute: "2-digit",
       }),
       isSender: true,
+      status: "sent" as MessageStatus,
     };
 
     setMessages((prev: any) => ({
@@ -32,6 +34,16 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       [chatId]: [...(prev[chatId] || []), newMessage],
     }));
 
+    // 👇 STATUS FLOW LIVES HERE
+    setTimeout(() => {
+      updateMessageStatus(chatId, newMessage.id, "delivered");
+    }, 800);
+
+    setTimeout(() => {
+      updateMessageStatus(chatId, newMessage.id, "read");
+    }, 2000);
+
+    // fake reply logic
     setTypingUsers((prev) => ({ ...prev, [chatId]: true }));
 
     setTimeout(() => {
@@ -49,6 +61,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
           minute: "2-digit",
         }),
         isSender: false,
+        status: "delivered",
       };
 
       setMessages((prev: any) => ({
@@ -73,6 +86,18 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       }));
     }, 1000);
   };
+  const updateMessageStatus = (
+    chatId: number,
+    messageId: number,
+    status: MessageStatus,
+  ) => {
+    setMessages((prev: any) => ({
+      ...prev,
+      [chatId]: prev[chatId].map((msg: any) =>
+        msg.id === messageId ? { ...msg, status } : msg,
+      ),
+    }));
+  };
 
   return (
     <ChatContext.Provider
@@ -84,7 +109,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
         messages,
         sendMessage,
         typingUsers,
-        triggerTyping,
+        updateMessageStatus,
       }}
     >
       {children}

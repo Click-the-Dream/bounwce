@@ -1,4 +1,4 @@
-import { getMessageLayout } from "@/app/_utils/formatters";
+import { getMessageLayout, renderCheck } from "@/app/_utils/formatters";
 
 const ChatMessage = ({ msg }: any) => {
   const styles = getMessageLayout(msg.isSender);
@@ -13,9 +13,14 @@ const ChatMessage = ({ msg }: any) => {
       >
         {msg?.text}
         <span
-          className={`absolute bottom-1.25 right-1.25 text-[10px] ${styles.time}`}
+          className={`absolute bottom-1.25 right-1.25 text-[10px] flex items-center gap-1 ${styles.time}`}
         >
           {msg?.timestamp}
+          {msg?.isSender && msg?.status && (
+            <span className="text-[10px] opacity-80">
+              {renderCheck(msg.status)}
+            </span>
+          )}
         </span>
       </div>
     </div>

@@ -13,10 +13,12 @@ interface ProfileData {
   tags: string[];
 }
 
+export type MessageStatus = "sent" | "delivered" | "read";
 export interface Message {
   id: number;
   text: string;
   image?: string;
   timestamp: string;
+  status: MessageStatus;
   isSender: boolean;
 }

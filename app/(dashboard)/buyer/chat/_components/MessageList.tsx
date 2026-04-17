@@ -1,14 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChatUtils } from "@/app/context/ChatContext";
 import { MessageSquareDashed } from "lucide-react";
 import ChatMessage from "./ChatMessage";
 import ChatImageMessage from "./ChatImageMessage";
+import ImageViewer from "./ImageViewer";
 
 const MessageList = () => {
   const { selectedChat, messages, typingUsers } = useChatUtils();
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [viewerIndex, setViewerIndex] = useState(0);
 
   const chatMessages = selectedChat ? messages[Number(selectedChat.id)] : [];
+  const mediaMessages = chatMessages.filter((m: any) => m.image);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -38,7 +42,15 @@ const MessageList = () => {
 
       {chatMessages?.map((msg: any) =>
         msg.image ? (
-          <ChatImageMessage key={msg.id} msg={msg} />
+          <ChatImageMessage
+            key={msg.id}
+            msg={msg}
+            index={mediaMessages.findIndex((m: any) => m.id === msg.id)}
+            onOpen={(i: number) => {
+              setViewerIndex(i);
+              setViewerOpen(true);
+            }}
+          />
         ) : (
           <ChatMessage key={msg.id} msg={msg} />
         ),
@@ -50,6 +62,14 @@ const MessageList = () => {
       )}
 
       <div ref={bottomRef} />
+      {viewerOpen && (
+        <ImageViewer
+          media={mediaMessages}
+          startIndex={viewerIndex}
+          onClose={() => setViewerOpen(false)}
+          user={selectedChat}
+        />
+      )}
     </div>
   );
 };
