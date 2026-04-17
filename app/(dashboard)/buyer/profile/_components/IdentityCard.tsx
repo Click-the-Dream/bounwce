@@ -18,7 +18,7 @@ const IdentityCard: React.FC<{ data: any }> = ({ data }) => (
         width={60}
         height={61}
         loading="eager"
-        className="rounded-[20px] border-2 border-white bg-gray-100 object-cover"
+        className="rounded-[20px] border-2 border-white bg-gray-100 object-cover w-15 h-15.25"
         style={{
           boxShadow:
             "0px 0px 4px 1px #00000040, 1px -6px 4px 3px #00000040 inset",

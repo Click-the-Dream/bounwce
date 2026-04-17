@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef } from "react";
-import { Play, Menu, X } from "lucide-react";
+import { Play } from "lucide-react";
 import navLogo from "../assets/nav-logo.png";
 import { useAuth } from "../context/AuthContext";
 import { useScroll, useMotionValueEvent } from "framer-motion";
@@ -10,31 +10,28 @@ import Link from "next/link";
 const Navbar = () => {
   const { authDetails } = useAuth();
   const user = authDetails?.user;
-  const [isOpen, setIsOpen] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
-  const navRef = useRef<HTMLDivElement>(null);
-  const navLinks: any = [
-    // { name: "About Us", href: "#" },
-    // { name: "Blog", href: "#" },
-    // { name: "Marketplace", href: "/marketplace" },
-  ];
 
+  const triggerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
 
-  // Monitor scroll position relative to navbar
   useMotionValueEvent(scrollY, "change", (latest) => {
-    if (navRef.current) {
-      const offsetTop = navRef.current.offsetTop;
-      setIsFixed(latest > offsetTop);
+    if (triggerRef.current) {
+      // Logic: If scrolled past the top of our placeholder
+      const triggerPoint = triggerRef.current.offsetTop;
+      setIsFixed(latest > triggerPoint);
     }
   });
 
   return (
     <>
+      <div ref={triggerRef} className="h-12.25 mt-4" />
+
       <div
-        ref={navRef}
         className={`w-full flex justify-center px-4 transition-all duration-300 ${
-          isFixed ? "fixed top-3 left-0 z-50 " : "relative mt-4"
+          isFixed
+            ? "fixed top-3 left-0 z-50 animate-in fade-in slide-in-from-top-2"
+            : "absolute top-4 left-0"
         }`}
       >
         <nav
@@ -48,24 +45,11 @@ const Navbar = () => {
           <div className="flex items-center gap-2 ml-2">
             <Image
               src={navLogo}
-              alt="bouwnce"
+              alt="logo"
               className="h-4 w-auto md:h-5"
               width={100}
               height={20}
             />
-          </div>
-
-          {/* Desktop Links */}
-          <div className="ml-auto mr-2 hidden md:flex items-center gap-6 text-gray-700 text-[13px] font-medium">
-            {navLinks.map((link: { name: string; href: string }) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="hover:text-black cursor-pointer transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
           </div>
 
           {/* Right Actions */}
@@ -79,46 +63,8 @@ const Navbar = () => {
                 <Play size={10} fill="#FFC501" />
               </Link>
             )}
-
-            {/* Mobile Toggle 
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden flex items-center justify-center w-8.5 h-8.5 rounded-lg border-2 border-black bg-white transition-all active:scale-90"
-            >
-              {isOpen ? (
-                <X size={18} strokeWidth={2.5} />
-              ) : (
-                <Menu size={18} strokeWidth={2.5} />
-              )}
-            </button>*/}
           </div>
         </nav>
-
-        {/* Mobile Dropdown */}
-        {isOpen && (
-          <div className="absolute top-15 left-4 right-4 bg-white border-2 border-black rounded-[15px] shadow-xl p-6 md:hidden z-50">
-            <ul className="flex flex-col gap-5">
-              {navLinks.map((link: { name: string; href: string }) => (
-                <li
-                  key={link.name}
-                  className="text-[13px] font-bold text-black border-b border-gray-100 pb-2"
-                >
-                  {link.name}
-                </li>
-              ))}
-              <li>
-                {!user && (
-                  <Link
-                    href="/waitlist"
-                    className="text-[13px] w-full h-11.25 flex justify-center items-center gap-2 bg-orange text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-                  >
-                    Join Us <Play size={12} fill="#FFC501" />
-                  </Link>
-                )}
-              </li>
-            </ul>
-          </div>
-        )}
       </div>
     </>
   );

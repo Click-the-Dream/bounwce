@@ -17,7 +17,7 @@ const EmptyCartState = () => {
         Looks like you haven't added anything to your cart yet.
       </p>
       <button
-        onClick={() => router.push("/buyer/marketplace")}
+        onClick={() => router.push("/marketplace")}
         className="bg-black text-white px-8 py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors"
       >
         Start Shopping
